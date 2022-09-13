@@ -1,0 +1,58 @@
+.partnerListItem {
+    background: $itemBgBlue;
+    width: 500px;
+    height: 300px;
+    list-style: none;
+    border: 1px solid $borderBlue;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 30px;
+    .logoAndInfos {
+        display: flex;
+        .logo {
+            width: 200px;
+            height: 195px;
+            background: $mainBlueBg;
+            border: 1px solid $borderBlue;
+            padding-top: 5px;
+            margin-right: 15px;
+        }
+        .partnerInfos {
+            color: $mainBlue;
+            width: 265px;
+            .id {
+                margin: none;
+            }
+            .name {
+                font-weight: 600;
+                margin: 10px 0;
+            }
+            .description {
+                margin: none;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+            }
+        }
+    }
+    .actionBtns {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        a {
+            text-decoration: none;
+            color: white;
+            background: $mainBlue;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            svg {
+                margin-right: 15px;
+            }
+        }
+    }
+}

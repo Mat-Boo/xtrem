@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PartnerRepository::class)]
 class Partner
@@ -14,22 +15,28 @@ class Partner
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['partner:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['partner:read'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['partner:read'])]
     private ?string $logo = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['partner:read'])]
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Groups(['partner:read'])]
     private ?bool $isActive = null;
 
     #[ORM\OneToOne(inversedBy: 'partner', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['partner:read'])]
     private ?User $contact = null;
 
     #[ORM\OneToMany(mappedBy: 'partner', targetEntity: Club::class)]
