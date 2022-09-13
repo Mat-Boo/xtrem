@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;600&display=swap');
+
+$mainFont: 'Montserrat', sans-serif;
+
+$mainBlue: #112D4E;
+$borderBlue: #3F72AE;
+$itemBgBlue: #BECEE1;
+$mainBlueBg: #EDF1F4;
+$switchOffBg: #ECACAC;
+
+html, #root {
+    background-color: $mainBlueBg;
+    font-family: $mainFont;
+}

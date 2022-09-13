@@ -1,0 +1,13 @@
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background: $mainBlue;
+    padding: 5px 0;
+    .copyright {
+        text-align: center;
+        color: white;
+    }
+}

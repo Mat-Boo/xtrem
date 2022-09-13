@@ -1,0 +1,156 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: $mainBlue;
+    color: white;
+    padding: 10px 30px;
+    box-shadow: 0 0 5px $mainBlue;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    z-index: 3;
+    height: 85px;
+    .logoNav {
+        width: 85px;
+    }
+    .miniMenuBtn, .closeMiniMenu {
+        cursor: pointer;
+    }
+    .menu {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        left: -100vw;
+        top: 85px;
+        background: $mainBlueBg;
+        color: $mainBlue;
+        width: 100vw;
+        height: calc(100vh - 85px);
+        list-style: none;
+        padding: 0;
+        .menuItem {
+            width: 90vw;
+            display: flex;
+            justify-content: center;
+            border-bottom: 1px solid $mainBlue;
+            padding: 20px;
+            &:hover {
+                background: $itemBgBlue;
+            }
+            &:hover a {
+                color: white;
+            }
+            a {
+                text-decoration: none;
+                color: $mainBlue;
+                width: 100%;
+                text-align: center;
+            }
+        }
+    }
+    .accountBox {
+        position: absolute;
+        top: 300px;
+        left: -100vw;
+        width: 200px;
+        transform: translateX(-50%);
+        .accountBtnAndList {
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            .accountBtn {
+                background: $mainBlue;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 10px;
+                width: 100%;
+                cursor: pointer;
+                span {
+                    margin: 0 10px;
+                }
+            }
+            &:hover .accountList {
+                display: flex;
+            }
+            .accountList {
+                list-style: none;
+                display: none;
+                flex-direction: column;
+                align-items: center;
+                margin: 0;
+                padding: 0;
+                background: $itemBgBlue;
+                width: 100%;
+                color: $mainBlue;
+                border: 1px solid $mainBlue;
+                .accountListItem {
+                    width: 100%;
+                    padding: 10px 0;
+                    text-align: center;
+                    cursor: pointer;
+                    &:hover {
+                        background: #EDF1F4;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    .navbar {
+        .miniMenuBtn {
+            display: none;
+        }
+        .closeMiniMenu {
+            display: none;
+        }            
+        .menu {
+            justify-content: center;
+            position: static;
+            flex-direction: row;
+            background: $mainBlue;
+            width: auto;
+            height: auto;
+            margin: 0;
+            .menuItem {
+                display: block;
+                width: auto;
+                padding: 15px;
+                margin: 0 20px;
+                a {
+                    color: white;
+
+                }
+                &:hover {
+                    background: $mainBlue;
+                    border-bottom: 1px solid white;
+                    opacity: 0.8;
+                }
+            }
+        }
+        .accountBox {
+            position: static;
+            background: $mainBlue;
+            width: 145px;
+            transform: translateX(0);
+            .accountBtnAndList {
+                position: relative;
+                .accountBtn {
+                    margin: 0 15px;
+                    color: white;
+                }
+                .accountList {
+                    position: absolute;
+                    top: 50px;
+                }
+            }
+        }
+        
+    }
+}
