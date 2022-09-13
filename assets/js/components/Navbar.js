@@ -39,6 +39,11 @@ export default function Navbar() {
             }
             <ul ref={menuRef} className='menu'>
                 <li onClick={(e) => hideMiniMenu(e)} className='menuItem'>
+                    <NavLink to='/accueil'>
+                                ACCUEIL
+                    </NavLink>
+                </li>
+                <li onClick={(e) => hideMiniMenu(e)} className='menuItem'>
                     <NavLink to='/partenaires'>
                                 PARTENAIRES
                     </NavLink>
