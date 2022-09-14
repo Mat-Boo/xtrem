@@ -1,0 +1,35 @@
+.button {
+    a {
+        color: white;
+        background: $mainBlue;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        .contentSvg {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            svg {
+                margin-right: 0;
+            }
+        }
+        span {
+            display: none;
+        }
+    }
+}
+
+@media screen and (min-width: 400px) {
+    .button {
+        a{
+            .contentSvg {
+                svg {
+                    margin-right: 15px;
+                }
+            }
+            span {
+                display: inline;
+            }
+        }
+    }
+}

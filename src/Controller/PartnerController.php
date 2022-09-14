@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class PartnerController extends AbstractController
@@ -18,16 +19,7 @@ class PartnerController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-
-    /* #[Route('/partner', name: 'app_partner')]
-    public function index(): Response
-    {
-        return $this->render('partner/index.html.twig', [
-            'controller_name' => 'PartnerController',
-        ]);
-    } */
-
-    #[Route('/api/partners', name: 'partners')]
+    #[Route('/api/partners', name: 'partners', methods: ['GET'])]
     public function getPartners(SerializerInterface $serializer): Response
     {
         $partners = $this->entityManager->getRepository(Partner::class)->findAll();
@@ -38,4 +30,26 @@ class PartnerController extends AbstractController
         
         return $response;
     }
+
+    #[Route('/api/partner/{id}/edit', name: 'partner_edit', methods: ['PUT'])]
+    public function editPartner(Request $request, $id)
+    {
+        $content = json_decode($request->getContent());
+        
+        $partner = $this->entityManager->getRepository(Partner::class)->findOneById($id);
+
+        $partner->setIsActive($content->isActive);
+        $this->entityManager->flush();
+    }
+
+    /* #[Route('/api/partner/create', name: 'partner_create', methods: ['POST'])]
+    public function createPartner(Request $request)
+    {
+        $content = json_decode($request->getContent());
+        
+        $partner = new Partner;
+
+        $partner->setIsActive($content->isActive);
+        $this->entityManager->flush();
+    } */
 }

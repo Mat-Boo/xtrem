@@ -6,7 +6,8 @@ import Home from './pages/Home';
 import Navbar from './components/Navbar';
 import Users from './pages/Users';
 import Footer from './components/Footer';
-import Partners from './pages/Partners';
+import Partners from './pages/Partners/Partners';
+import AddPartner from './pages/Partners/AddPartner';
 import Permissions from './pages/Permissions';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -18,6 +19,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 <Route path="/users" element={<Users />} />
                 <Route path="/accueil" element={<Home />} />
                 <Route path="/partenaires" element={<Partners />} />
+                <Route path="/partenaires/ajouter" element={<AddPartner />} />
                 <Route path="/permissions" element={<Permissions />} />
             </Routes>
             <Footer />

@@ -1,0 +1,39 @@
+.opacityBox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: $mainBlue;
+    opacity: 0.6;
+    z-index: 5;
+}
+.modalConfirm {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 95%;
+    max-width: 300px;
+    border: 1px solid $borderBlue;
+    background: $itemBgBlue;
+    color: $mainBlue;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 99;
+    h6 {
+        background: $mainBlue;
+        color: white;
+        padding: 5px;
+    }
+    p {
+        padding: 10px;
+    }
+    .actionBtns {
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
