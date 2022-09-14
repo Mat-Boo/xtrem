@@ -1,0 +1,72 @@
+.addPartner {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    form {
+        .logo {
+            #logo {
+                width: 0.1px;
+                height: 0.1px;
+                opacity: 0;
+                overflow: hidden;
+                position: absolute;
+                z-index: -1;
+            }
+            label {
+                color: white;
+                background-color: $mainBlue;
+                display: flex;
+                align-items: center;
+                padding: 10px 20px;
+                cursor: pointer;
+                svg {
+                    margin-right: 20px;
+                }
+            }
+        }
+        .actionBtns {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+    }
+}
+
+@media screen and (min-width: 800px) {
+    .addPartner {
+        h1 {
+            align-self: flex-start;
+        }
+        padding: 20px 50px;
+        form {
+            #idNameLogo {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                width: 100%;
+                #idName {
+                    
+                }
+                .logo {
+                    justify-content: flex-end;
+                    margin: 0 0 20px 0;
+
+                    #logo {
+                        max-width: 500px;
+                    }
+                }
+            }
+            
+            fieldset {
+                .contactGroup {
+                    display: flex;
+                    justify-content: space-between;
+                    .formItem {
+                        margin: 20px 20px;
+                    }
+                }
+            }
+        }
+    }
+}

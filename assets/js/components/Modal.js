@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from './Button';
 
-export default function Modal({ title, message, clickBtn, id }) {
+export default function Modal({ title, message, clickBtn}) {
 
     return (
         <>
@@ -18,7 +18,6 @@ export default function Modal({ title, message, clickBtn, id }) {
                         btnTitle='Annuler'
                         btnUrl=''
                         clickBtn={clickBtn}
-                        id={id}
                     />
                     <Button
                         type='confirm'
@@ -28,7 +27,6 @@ export default function Modal({ title, message, clickBtn, id }) {
                         btnTitle='Confirmer'
                         btnUrl=''
                         clickBtn={clickBtn}
-                        id={id}
                     />
                 </div>
             </div>

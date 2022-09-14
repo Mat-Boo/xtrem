@@ -13,9 +13,30 @@ $switchOffBg: #ECACAC;
     margin: 0;
 }
 
-html, #root {
+html {
     background-color: $mainBlueBg;
     font-family: $mainFont;
+}
+
+#root {
+    background-color: $mainBlueBg;
+    font-family: $mainFont;
+    color: $mainBlue;
+    min-height: calc(100vh - 85px);
+    position: relative;
+    .header {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 auto;
+        margin-bottom: 40px;
+        border-bottom: 1px solid $mainBlue;
+        padding-bottom: 5px;
+        width: 100%;
+        max-width: 1500px;
+        text-align: center;
+    }
     h1 {
         font-size: 30px;
         color: $mainBlue;
@@ -25,6 +46,110 @@ html, #root {
         &:hover {
             color: white;
             opacity: 0.8;
+        }
+    }
+    form {
+        width: 95%;
+        max-width: 1340px;
+        .formItem {
+            display: flex;
+            flex-direction: column;
+            margin: 20px 0;
+        }
+        label {
+            margin: 0;
+        }
+        input, textarea {
+            border: 1px solid #3F72AE;
+            font-size: 18px;
+            padding: 5px 10px;         
+        }
+        input {
+            max-width: 300px;
+            width: 100%;
+        }
+        fieldset {
+            border: solid 1px $borderBlue;
+            padding: 5px 25px;
+            background: $itemBgBlue;
+            legend {
+                font-size: 25px;
+                background: $mainBlue;
+                padding: 0 20px;
+                color: white;
+                width: auto;
+                text-align: center;
+            }
+        }
+        .validateFormBtn {
+            color: white;
+            background: $mainBlue;
+            padding: 10px;
+            border: none;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            &:hover {
+                color: white;
+                opacity: 0.8;
+            }
+            svg {
+                margin-right: 0;
+            }
+            span {
+                display: none;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 400px) {
+#root {
+    form {
+        .validateFormBtn {
+            svg {
+                margin-right: 15px;
+            }
+            span {
+                display: inline;
+            }
+        }
+    }
+}
+}
+
+@media screen and (min-width: 800px) {
+    #root {
+        .header {
+            flex-direction: row;
+        }
+        form {
+            .formItem {
+                flex-direction: row;
+                align-items: center;
+                justify-content: end;
+                width: 100%;
+                margin: 20px;
+                label {
+                    margin-right: 10px;
+                    justify-self: center;
+                }       
+            }
+            .description {
+                flex-direction: column;
+                margin: 20px 0;
+                label {
+                    align-self: start;
+                }
+                textarea {
+                    width: 100%;
+                }
+            }
+            fieldset {
+                legend {
+                    text-align: start;
+                }
+            }
         }
     }
 }

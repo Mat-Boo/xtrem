@@ -1,0 +1,15 @@
+.partners {
+    padding: 20px;
+    .partnersList {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+@media screen and (min-width: 800px) {
+    .partners {
+        padding: 20px 50px;
+    }
+}

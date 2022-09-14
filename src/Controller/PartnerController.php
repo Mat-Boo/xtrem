@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Partner;
+use App\Form\PartnerType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use Egulias\EmailValidator\Parser\PartParser;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -52,4 +54,25 @@ class PartnerController extends AbstractController
         $partner->setIsActive($content->isActive);
         $this->entityManager->flush();
     } */
+
+/*     #[Route('/partenaires/ajouter', name: 'add_partner')]
+    public function add(Request $request): Response
+    {
+        $partner = new Partner;
+
+        $formPartner = $this->createForm(PartnerType::class, $partner);
+        $formPartner->handleRequest($request);
+        if ($formPartner->isSubmitted() && $formPartner->isValid()) {
+            $partner = $formPartner->getData();
+        }
+
+        $this->entityManager->persist($partner);
+        $this->entityManager->flush();
+
+        return $this->render('default/index.html.twig', [
+            'formPartner' => $formPartner->createView()
+        ]);
+    } */
+
+
 }
