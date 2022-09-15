@@ -4,19 +4,18 @@ import { BrowserRouter as Router, Route, Routes,} from 'react-router-dom';
 import '../styles/app.scss';
 import Home from './pages/Home';
 import Navbar from './components/Navbar';
-import Users from './pages/Users';
 import Footer from './components/Footer';
 import Partners from './pages/Partners/Partners';
 import AddPartner from './pages/Partners/AddPartner';
 import Permissions from './pages/Permissions';
+import Login from './pages/Login';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <>
         <Router>
             <Navbar /> 
             <Routes>
-                {/* <Route path="/" element={<Login />} /> */}
-                <Route path="/users" element={<Users />} />
+                <Route path="/" element={<Login />} />
                 <Route path="/accueil" element={<Home />} />
                 <Route path="/partenaires" element={<Partners />} />
                 <Route path="/partenaires/ajouter" element={<AddPartner />} />

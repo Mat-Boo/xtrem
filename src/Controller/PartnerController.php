@@ -3,12 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Partner;
-use App\Form\PartnerType;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
-use Egulias\EmailValidator\Parser\PartParser;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -34,7 +33,7 @@ class PartnerController extends AbstractController
     }
 
     #[Route('/api/partner/{id}/edit', name: 'partner_edit', methods: ['PUT'])]
-    public function editPartner(Request $request, $id)
+    public function editPartner(Request $request, $id, SerializerInterface $serializer)
     {
         $content = json_decode($request->getContent());
         
@@ -42,37 +41,50 @@ class PartnerController extends AbstractController
 
         $partner->setIsActive($content->isActive);
         $this->entityManager->flush();
+
+        $json = $serializer->serialize($partner, 'json', ['groups' => 'partner:read']);
+        $response = new Response($json, 200, [
+            'Content-Type' => 'application/json'
+        ]);
+        
+        return $response;
     }
 
-    /* #[Route('/api/partner/create', name: 'partner_create', methods: ['POST'])]
-    public function createPartner(Request $request)
+    #[Route('/api/partner/create', name: 'partner_create', methods: ['POST'])]
+    public function createPartner(Request $request, SerializerInterface $serializer): Response
     {
         $content = json_decode($request->getContent());
-        
-        $partner = new Partner;
 
-        $partner->setIsActive($content->isActive);
+        $user = new User;
+        $user->setFirstname($content->formValues->firstname);
+        $user->setLastname($content->formValues->lastname);
+        $user->setPhone($content->formValues->phone);
+        $user->setEmail($content->formValues->email);
+        $user->setPassword($content->formValues->password);
+        $user->setRoles(['ROLE_PARTNER']);
+
+        $this->entityManager->persist($user);
         $this->entityManager->flush();
-    } */
 
-/*     #[Route('/partenaires/ajouter', name: 'add_partner')]
-    public function add(Request $request): Response
-    {
         $partner = new Partner;
-
-        $formPartner = $this->createForm(PartnerType::class, $partner);
-        $formPartner->handleRequest($request);
-        if ($formPartner->isSubmitted() && $formPartner->isValid()) {
-            $partner = $formPartner->getData();
-        }
+        $partner->setName($content->formValues->name);
+        $partner->setLogo($content->formValues->logo);
+        $partner->setDescription($content->formValues->description);
+        $partner->setIsActive(true);
+        $partner->setContact($user);
 
         $this->entityManager->persist($partner);
         $this->entityManager->flush();
+        
+        $user->setPartner($partner);
+        $this->entityManager->flush();
 
-        return $this->render('default/index.html.twig', [
-            'formPartner' => $formPartner->createView()
+        $json = $serializer->serialize($partner, 'json', ['groups' => 'partner:read']);
+        $response = new Response($json, 200, [
+            'Content-Type' => 'application/json'
         ]);
-    } */
-
+        
+        return $response;
+    }
 
 }

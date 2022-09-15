@@ -1,28 +1,31 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import Button from '../../components/Button';
+import axios from 'axios';
 
 export default function AddPartner() {
 
+    // Add name of file under the input file when file is uploading
     const [filename, setFilename] = useState();
-
     const renameInputFile = (e) => {
         setFilename(e.target.value.split( '\\' ).pop());
     }
 
-    const formRef = useRef();
-
-    const clickBtn = (type) => {
-        if (type === 'validate') {
-            console.log(formRef.current)
-        }
-    }
-
+    // Valid Form and send values to api
     const validForm = (e) => {
         e.preventDefault();
-        e.target.forEach((itemForm) => {
-            console.log(itemForm)
+        let formValues = {};
+        for (let item of e.target) {
+            if (item.name !== '') {
+                formValues[item.name] = item.value;
+            }
+        }
+        axios.post('http://127.0.0.1:8000/api/partner/create', {formValues})
+        .then(response => {
+            console.log(response);
         })
-        console.dir(e.target[0].value)
+        .catch(error => {
+            console.log(error);
+        });
     }
 
     return (
@@ -30,7 +33,7 @@ export default function AddPartner() {
             <div className='header'>
                 <h1>Nouveau partenaire</h1>
             </div>
-            <form ref={formRef} onSubmit={(e) => validForm(e)}>
+            <form onSubmit={(e) => validForm(e)}>
                 <div id='idNameLogo'>
                     <div id='idName'>
                         <div className='formItem'>
@@ -103,10 +106,10 @@ export default function AddPartner() {
                         btnUrl='/partenaires'
                     />
                     <button type='submit' className='validateFormBtn'>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-check-lg" viewBox="0 0 16 16">
-                                <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
-                            </svg>
-                            <span>Valider</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-check-lg" viewBox="0 0 16 16">
+                            <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
+                        </svg>
+                        <span>Valider</span>
                     </button>
                 </div>
             </form>

@@ -1,0 +1,36 @@
+.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .logo {
+        margin: 50px 0;
+        width: 300px;
+    }
+    #loginForm {
+        border: 1px solid $borderBlue;
+        background: $itemBgBlue;
+        padding: 30px 50px 50px 50px;
+        width: 95%;
+        max-width: 500px;
+        .formItem {
+            align-items: start;
+            margin: 20px 0;
+            input {
+                max-width: 100%;
+            }
+        }
+        #validateFormBtn {
+            align-self: center;
+        }
+    }
+}
+
+@media screen and (min-width: 800px) {
+    .login {
+        #loginForm {
+            .formItem {
+                flex-direction: column;
+            }
+        }
+    }
+}

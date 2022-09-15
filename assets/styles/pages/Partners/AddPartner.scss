@@ -57,7 +57,9 @@
                     }
                 }
             }
-            
+            .formItem {
+                justify-content: end;
+            }
             fieldset {
                 .contactGroup {
                     display: flex;
