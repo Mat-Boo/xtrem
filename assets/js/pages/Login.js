@@ -1,8 +1,15 @@
 import React from 'react';
 import logo from '../../img/logo_horizontal.png';
 import axios from 'axios';
+import { useDispatch } from 'react-redux'
+import { updateAuth } from '../redux/redux';
 
 export default function Login() {
+    
+    const dispatch = useDispatch();
+    const stockInStore = (data) => {
+        dispatch(updateAuth(data))
+    }
 
     // Valid Form and send values to api
     const validForm = (e) => {
@@ -13,14 +20,23 @@ export default function Login() {
                 formValues[item.name] = item.value;
             }
         }
-        console.log(formValues);
-        axios.post('http://127.0.0.1:8000/login', {formValues})
+        axios.post('http://127.0.0.1:8000/api/login', {
+            "username": formValues.email,
+            "password": formValues.password
+        })
         .then(response => {
             console.log(response);
+            /* window.location = "/accueil"; */
+            stockInStore(response.data)
         })
         .catch(error => {
             console.log(error);
+            
         });
+        
+        console.log(formValues);
+
+
     }
 
     return (

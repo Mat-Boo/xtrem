@@ -1,8 +1,13 @@
 import React, { useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import WhiteLogo from '../../img/logo-white.png';
+import { useSelector } from 'react-redux';
 
 export default function Navbar() {
+
+    const reduxAuth = useSelector((state) => state.auth);
+
+    console.log(reduxAuth);
 
     const [miniMenu, setMiniMenu] = useState(false);
     const menuRef = useRef();

@@ -9,19 +9,23 @@ import Partners from './pages/Partners/Partners';
 import AddPartner from './pages/Partners/AddPartner';
 import Permissions from './pages/Permissions';
 import Login from './pages/Login';
+import { Provider } from 'react-redux';
+import { store } from './redux/redux';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <>
         <Router>
-            <Navbar /> 
-            <Routes>
-                <Route path="/" element={<Login />} />
-                <Route path="/accueil" element={<Home />} />
-                <Route path="/partenaires" element={<Partners />} />
-                <Route path="/partenaires/ajouter" element={<AddPartner />} />
-                <Route path="/permissions" element={<Permissions />} />
-            </Routes>
-            <Footer />
+            <Provider store={store}>
+                <Navbar /> 
+                <Routes>
+                    <Route path="/" element={<Login />} />
+                    <Route path="/accueil" element={<Home />} />
+                    <Route path="/partenaires" element={<Partners />} />
+                    <Route path="/partenaires/ajouter" element={<AddPartner />} />
+                    <Route path="/permissions" element={<Permissions />} />
+                </Routes>
+                <Footer />
+            </Provider>
         </Router>
     </>
 
