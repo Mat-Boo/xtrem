@@ -36,12 +36,9 @@ export default function Login() {
             navigate('/accueil');
         })
         .catch(error => {
-            console.log(error)
             setErrorMessage('Veuillez vérifier votre email et/ou votre mot de passe.')
         });
     }
-
-    console.log(errorMessage);
 
     return (
         <div className='login'>
