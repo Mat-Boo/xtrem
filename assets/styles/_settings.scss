@@ -51,6 +51,8 @@ html {
     form {
         width: 95%;
         max-width: 1340px;
+        display: flex;
+        flex-direction: column;
         .formItem {
             display: flex;
             flex-direction: column;

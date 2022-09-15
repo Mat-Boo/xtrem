@@ -1,0 +1,9 @@
+.alertMessage {
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    svg {
+        margin-right: 10px;
+        min-width: 24px;
+    }
+}

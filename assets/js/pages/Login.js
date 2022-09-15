@@ -3,6 +3,9 @@ import logo from '../../img/logo_horizontal.png';
 import axios from 'axios';
 import { useDispatch } from 'react-redux'
 import { updateAuth } from '../redux/redux';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import AlertMessage from '../components/AlertMessage';
 
 export default function Login() {
     
@@ -10,6 +13,10 @@ export default function Login() {
     const stockInStore = (data) => {
         dispatch(updateAuth(data))
     }
+
+    const navigate = useNavigate();
+
+    const [errorMessage, setErrorMessage] = useState('');
 
     // Valid Form and send values to api
     const validForm = (e) => {
@@ -25,23 +32,25 @@ export default function Login() {
             "password": formValues.password
         })
         .then(response => {
-            console.log(response);
-            /* window.location = "/accueil"; */
-            stockInStore(response.data)
+            stockInStore(response.data);
+            navigate('/accueil');
         })
         .catch(error => {
-            console.log(error);
-            
+            console.log(error)
+            setErrorMessage('Veuillez vérifier votre email et/ou votre mot de passe.')
         });
-        
-        console.log(formValues);
-
-
     }
+
+    console.log(errorMessage);
 
     return (
         <div className='login'>
             <img src={logo} alt="logo" className='logo'/>
+            {
+                errorMessage !== '' ?
+                <AlertMessage type='error' message={errorMessage} /> :
+                ''
+            }
             <form id='loginForm' onSubmit={(e) => validForm(e)}>
                 <div className='formItem'>
                     <label htmlFor="email">Email</label>
