@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import PartnerCard from '../../components/PartnerCard';
 import Button from '../../components/Button';

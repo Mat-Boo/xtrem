@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Button from '../../components/Button';
 import axios from 'axios';
+import { useRef } from 'react';
 
 export default function AddPartner() {
 
@@ -10,8 +11,11 @@ export default function AddPartner() {
         setFilename(e.target.value.split( '\\' ).pop());
     }
 
+    const inputFileRef = useRef();
+
     // Valid Form and send values to api
     const validForm = (e) => {
+        console.log(inputFileRef)
         e.preventDefault();
         let formValues = {};
         for (let item of e.target) {
@@ -47,7 +51,7 @@ export default function AddPartner() {
                     </div>
                     <div>
                         <div className='formItem logo'>
-                            <input type="file" id='logo' name='logo' onChange={(e) => renameInputFile(e)}/>
+                            <input ref={inputFileRef} type="file" directory="/resources" id='logo' name='logo' onChange={(e) => renameInputFile(e)}/>
                             <label htmlFor="logo">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-upload" viewBox="0 0 16 16">
                                     <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>

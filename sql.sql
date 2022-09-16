@@ -1,0 +1,12 @@
+insert into Permission (name) values ("Gérer le planning équipe");
+insert into Permission (name) values ("Gérer l'inscription cliente");
+insert into Permission (name) values ("Gérer les badges client");
+insert into Permission (name) values ("Vendre des boissons");
+insert into Permission (name) values ("Vendre des snacks");
+insert into Permission (name) values ("Vendre des équipements");
+insert into Permission (name) values ("Maintenance du matériel");
+insert into Permission (name) values ("Modules de formation");
+insert into Permission (name) values ("Visioconférence");
+insert into Permission (name) values ("Reporting");
+insert into Permission (name) values ("Gestion de l'affichage");
+insert into Permission (name) values ("Envoyer la newsletter");

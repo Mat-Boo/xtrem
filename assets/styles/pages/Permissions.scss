@@ -1,0 +1,20 @@
+.permissions {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .permissionsList {
+        width: 100%;
+        max-width: 1700px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+@media screen and (min-width: 800px) {
+    .permissions {
+        padding: 20px 50px;
+    }
+}

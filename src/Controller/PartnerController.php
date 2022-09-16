@@ -66,6 +66,11 @@ class PartnerController extends AbstractController
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
+        $logo = $content->formValues->logo;
+        dd($logo);
+        /* $newCvName = md5(uniqid()) . '.pdf'; */
+        $logo->move($this->getParameter('files_directory'), $logo); //file_directory paramétré dans le fichier config/services.yaml
+
         $partner = new Partner;
         $partner->setName($content->formValues->name);
         $partner->setLogo($content->formValues->logo);
