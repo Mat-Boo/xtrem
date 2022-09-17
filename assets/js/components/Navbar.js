@@ -13,8 +13,6 @@ export default function Navbar() {
         dispatch(updateAuth(data))
     }
 
-    console.log(user);
-
     const navigate = useNavigate();
 
     const [miniMenu, setMiniMenu] = useState(false);

@@ -40,11 +40,14 @@
         }
         padding: 20px 50px;
         form {
-            #nameLogo {
+            #idNameLogo {
                 display: flex;
                 justify-content: space-between;
-                align-items: center;
+                align-items: flex-start;
                 width: 100%;
+                #idName {
+                    
+                }
                 .logo {
                     justify-content: flex-end;
                     margin: 0 0 20px 0;
@@ -55,7 +58,7 @@
                 }
             }
             .formItem {
-                
+                justify-content: end;
             }
             fieldset {
                 .contactGroup {

@@ -2,10 +2,18 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import PartnerCard from '../../components/PartnerCard';
 import Button from '../../components/Button';
+import AlertMessage from '../../components/AlertMessage';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateMessage } from '../../redux/redux';
 
 export default function Partners() {
 
     const [partners, setPartners] = useState([]);
+    const message = useSelector((state) => state.message);
+    const dispatchMessage = useDispatch();
+    const stockInStore = (data) => {
+        dispatchMessage(updateMessage(data))
+    }
 
     useEffect(() => {
       axios.get('http://127.0.0.1:8000/api/partners')
@@ -13,7 +21,14 @@ export default function Partners() {
         setPartners(res.data);
       })
     
-    }, [])
+    }, [message])
+
+    if (message) {
+        scroll(0,0);
+        setTimeout(() => {
+            stockInStore(null);
+        }, 4000);
+    }
 
     return (
         <div className='partners'>
@@ -28,6 +43,10 @@ export default function Partners() {
                     btnUrl='/partenaires/ajouter'
                 />
             </div>
+            {
+                message && 
+                    <AlertMessage type={message.type} message={message.content}/>
+            }
             <ul className='partnersList'>
                 {
                     partners.map((partner) => (

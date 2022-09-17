@@ -1,9 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Button from '../../components/Button';
 import axios from 'axios';
-import { useRef } from 'react';
+import { useDispatch } from 'react-redux'
+import { updateMessage } from '../../redux/redux';
+import { useNavigate } from 'react-router-dom';
+import AlertMessage from '../../components/AlertMessage';
 
 export default function AddPartner() {
+
+    const navigate = useNavigate();
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const dispatchMessage = useDispatch();
+    const stockInStore = (data) => {
+        dispatchMessage(updateMessage(data))
+    }
 
     // Add name of file under the input file when file is uploading
     const [filename, setFilename] = useState();
@@ -25,10 +36,11 @@ export default function AddPartner() {
         }
         axios.post('http://127.0.0.1:8000/api/partner/create', {formValues})
         .then(response => {
-            console.log(response);
+            stockInStore({type: 'success', content: 'Le nouveau partenaire a été créé avec succès.'})
+            navigate('/partenaires');
         })
         .catch(error => {
-            console.log(error);
+            setErrorMessage('L\'ajout du partenaire n\'a pu aboutir, merci de réessayer.')
         });
     }
 
@@ -37,17 +49,16 @@ export default function AddPartner() {
             <div className='header'>
                 <h1>Nouveau partenaire</h1>
             </div>
+            {
+                errorMessage !== '' ?
+                <AlertMessage type='error' message={errorMessage} /> :
+                ''
+            }
             <form onSubmit={(e) => validForm(e)}>
-                <div id='idNameLogo'>
-                    <div id='idName'>
-                        <div className='formItem'>
-                            <label htmlFor="id">Id</label>
-                            <input type="text" id='id' name='id' />
-                        </div>
-                        <div className='formItem'>
-                            <label htmlFor="name">Nom</label>
-                            <input type="text" id='name' name='name' />
-                        </div>
+                <div id='nameLogo'>
+                    <div className='formItem'>
+                        <label htmlFor="name">Nom</label>
+                        <input type="text" id='name' name='name' />
                     </div>
                     <div>
                         <div className='formItem logo'>
@@ -102,7 +113,7 @@ export default function AddPartner() {
                 </fieldset>
                 <div className='actionBtns'>
                     <Button 
-                        type='cancel'
+                        type='back'
                         btnSvg='<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
                             <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
                             </svg>'

@@ -4,6 +4,9 @@ import Button from '../components/Button';
 import SwitchToggle from './SwitchToggle';
 import Modal from '../components/Modal';
 import axios from 'axios';
+import { useDispatch } from 'react-redux'
+import { updateMessage } from '../redux/redux';
+import { useNavigate } from 'react-router-dom';
 
 export default function PartnerCard({ id, logo, name, description, isActive }) {
 
@@ -19,6 +22,11 @@ export default function PartnerCard({ id, logo, name, description, isActive }) {
     )
 
     const [partnerState, setPartnerState] = useState(isActive); 
+
+    const dispatchMessage = useDispatch();
+    const stockInStore = (data) => {
+        dispatchMessage(updateMessage(data))
+    }
 
     const clickSwitch = (name) => {
         document.body.style.overflow= 'hidden';
@@ -49,10 +57,18 @@ export default function PartnerCard({ id, logo, name, description, isActive }) {
                 isActive: !partnerState
             })
             .then(response => {
-                console.log(response);
+                if (!partnerState) {
+                    stockInStore({type: 'success', content: 'Le partenaire ' + id + ' - ' + name + ' a bien été activé.'})
+                } else {
+                    stockInStore({type: 'success', content: 'Le partenaire ' + id + ' - ' + name + ' a bien été désactivé.'})
+                }
             })
             .catch(error => {
-                console.log(error);
+                if (!partnerState) {
+                    stockInStore({type: 'error', content: 'Le partenaire ' + id + ' - ' + name + ' n\'a pus être activé.'})
+                } else {
+                    stockInStore({type: 'error', content: 'Le partenaire ' + id + ' - ' + name + ' n\'a pu être désactivé.'})
+                }
             });
         }
     }

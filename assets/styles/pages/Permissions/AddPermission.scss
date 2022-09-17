@@ -1,0 +1,22 @@
+.addPermission {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    form {
+        .actionBtns {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+    }
+}
+
+@media screen and (min-width: 800px) {
+    .addPermission {
+        padding: 20px 50px;
+        h1 {
+            align-self: flex-start;
+        }
+    }
+}

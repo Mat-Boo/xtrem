@@ -1,0 +1,25 @@
+.editPermission {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    form {
+        .formItem {
+            margin: 0;
+        }
+        .actionBtns {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+    }
+}
+    
+@media screen and (min-width: 800px) {
+    .editPermission {
+        padding: 20px 50px;
+        h1 {
+            align-self: flex-start;
+        }
+    }
+}

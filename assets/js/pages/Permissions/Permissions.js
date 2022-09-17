@@ -1,19 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import PermissionCard from '../components/PermissionCard';
-import Button from '../components/Button';
+import PermissionCard from '../../components/PermissionCard';
+import Button from '../../components/Button';
+import AlertMessage from '../../components/AlertMessage';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateMessage } from '../../redux/redux';
 
 export default function Permissions() {
 
     const [permissions, setPermissions] = useState([]);
+    const message = useSelector((state) => state.message);
+    const dispatchMessage = useDispatch();
+    const stockInStore = (data) => {
+        dispatchMessage(updateMessage(data))
+    }
 
     useEffect(() => {
       axios.get('http://127.0.0.1:8000/api/permissions')
       .then((res) => {
         setPermissions(res.data);
       })
-    
-    }, [])
+    }, [message])
+
+
+    if (message) {
+        scroll(0,0);
+        setTimeout(() => {
+            stockInStore(null);
+        }, 4000);
+    }
+
 
     return (
         <div className='permissions'>
@@ -28,6 +44,10 @@ export default function Permissions() {
                     btnUrl='/permissions/ajouter'
                 />
             </div>
+            {
+                message && 
+                    <AlertMessage type={message.type} message={message.content}/>
+            }
             <ul className='permissionsList'>
                 {
                     permissions.map((permission) => (

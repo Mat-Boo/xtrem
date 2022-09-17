@@ -1,7 +1,8 @@
 .permissionListItem {
     background: $itemBgBlue;
     width: 100%;
-    max-width: 500px;
+    max-width: 510px;
+    min-height: 202px;
     list-style: none;
     border: 1px solid $borderBlue;
     padding: 10px;
@@ -32,11 +33,52 @@
     }
     .actionBtns {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end;
         align-items: center;
+        margin-top: 20px;   
         .button {
-            
+            margin: 0 0 0 5px;
+        }    
+    }
+
+}
+
+@media screen and (min-width: 400px) {
+    .permissionListItem {
+        .actionBtns {
+            .button {
+                a{
+                    .contentSvg {
+                        svg {
+                            margin-right: 0;
+                        }
+                    }
+                    span {
+                        display: none;
+                    }
+                }
+            }
         }
-        
+    }
+}
+
+@media screen and (min-width: 500px) {
+    .permissionListItem {
+        .actionBtns {
+            justify-content: center;
+            .button {
+                margin: 0 10px 0 10px;
+                a{
+                    .contentSvg {
+                        svg {
+                            margin-right: 15px;
+                        }
+                    }
+                    span {
+                        display: inline;
+                    }
+                }
+            }
+        }
     }
 }
