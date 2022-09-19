@@ -48,6 +48,9 @@ html {
             opacity: 0.8;
         }
     }
+    ul {
+        list-style: none;
+    }
     form {
         width: 95%;
         max-width: 1340px;
@@ -89,6 +92,7 @@ html {
             border: solid 1px $borderBlue;
             padding: 5px 25px;
             background: $itemBgBlue;
+            margin-bottom: 20px;
             legend {
                 font-size: 25px;
                 background: $mainBlue;
@@ -97,6 +101,9 @@ html {
                 width: auto;
                 text-align: center;
             }
+        }
+        .actionBtns {
+            margin: 0;
         }
         .validateFormBtn {
             color: white;
@@ -147,16 +154,6 @@ html {
                     justify-self: center;
                 }       
             }
-            /* .description {
-                flex-direction: column;
-                margin: 20px 0;
-                label {
-                    align-self: start;
-                }
-                textarea {
-                    width: 100%;
-                }
-            } */
             fieldset {
                 legend {
                     text-align: start;

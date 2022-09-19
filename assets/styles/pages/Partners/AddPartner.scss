@@ -45,11 +45,16 @@
                     width: 100%;
                 }
             }
+            .permissionsList {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
+            }
         }
         .actionBtns {
             display: flex;
             justify-content: space-between;
-            margin-top: 30px;
         }
     }
 }

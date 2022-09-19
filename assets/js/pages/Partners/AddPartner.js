@@ -1,10 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Button from '../../components/Button';
 import axios from 'axios';
 import { useDispatch } from 'react-redux'
 import { updateMessage } from '../../redux/redux';
 import { useNavigate } from 'react-router-dom';
 import AlertMessage from '../../components/AlertMessage';
+import SwitchPermission from '../../components/SwitchPermission';
 
 export default function AddPartner() {
 
@@ -21,6 +22,16 @@ export default function AddPartner() {
     const handleLogoFile = (e) => {
         setLogoFile(e.target.files[0])
     }
+
+    const [permissions, setPermissions] = useState([]);
+    useEffect(() => {
+        axios.get('http://127.0.0.1:8000/api/permissions')
+        .then((res) => {
+          setPermissions(res.data);
+        })
+      }, [])
+
+      console.log(permissions)
 
     //Validate Form and send to api
     const validForm = (e) => {
@@ -159,6 +170,22 @@ export default function AddPartner() {
                         }
                         </div>
                     </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Permissions</legend>
+                    <ul className='permissionsList'>
+                        {
+                            permissions.map((permission) => (
+                                <SwitchPermission
+                                    key={permission.id}
+                                    isActive='false'
+                                    id={permission.id}
+                                    name={permission.name}
+                                    clickSwitch=''
+                                    styleSwitch={{id: permission.id, background: '#ECACAC', justifyContent: 'flex-start'}}/>
+                            ))
+                        }
+                    </ul>
                 </fieldset>
                 <div className='actionBtns'>
                     <Button 
