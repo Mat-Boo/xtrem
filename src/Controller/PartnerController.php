@@ -44,7 +44,7 @@ class PartnerController extends AbstractController
         //Récupération des données issues du formulaire de modification d'un partenaire
         $content = json_decode($request->getContent());
         
-        //Recherche du partneaire concerné par la modification en fonction de l'id
+        //Recherche du partenaire concerné par la modification en fonction de l'id
         $partner = $this->entityManager->getRepository(Partner::class)->findOneById($id);
 
         //Mise à jour du partenaire
@@ -86,7 +86,7 @@ class PartnerController extends AbstractController
             $errors['email'] = 'L\'email renseigné est déjà présent en base de données';
         } 
         if (empty($errors)) {
-            //création de la nouvelle instance User
+            //Création de la nouvelle instance User
             $user = new User;
             $user->setFirstname(ucfirst(strtolower($content['firstname'])));
             $user->setLastname(ucfirst(strtolower($content['lastname'])));
@@ -126,13 +126,12 @@ class PartnerController extends AbstractController
     
             //Création de la réponse pour renvoyer le json contenant les infos du nouveau partenaire
             $json = $serializer->serialize($partner, 'json', ['groups' => 'partner:read']);
-            
             $response = new Response($json, 200, [
                 'Content-Type' => 'application/json'
             ]);
             
         } else {
-            //Création de la réponse pour renvoyer le json contenant les erreurs liées au remplissage du formulaire de création d'une partenaire
+            //Création de la réponse pour renvoyer le json contenant les erreurs liées au remplissage du formulaire de création d'un partenaire
             $errorsJson = $serializer->serialize($errors, 'json');
             $response = new Response($errorsJson, 500, [
                 'Content-Type' => 'application/json'

@@ -11,6 +11,7 @@ export default function AddPermission() {
     const [permission, setPermission] = useState([]);
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState('');
+    const [errors, setErrors] = useState({});
 
     const dispatchMessage = useDispatch();
     const stockInStore = (data) => {
@@ -36,19 +37,22 @@ export default function AddPermission() {
     // Valid Form and send values to api
     const validForm = (e) => {
         e.preventDefault();
-        let formValues = {};
+        const formData = new FormData();
         for (let item of e.target) {
             if (item.name !== '') {
-                formValues[item.name] = item.value;
+                formData.append(item.name, item.value);
             }
         }
-        axios.put('http://127.0.0.1:8000/api/permissions/' + id + '/edit', {formValues})
+        axios.post('http://127.0.0.1:8000/api/permissions/' + id + '/edit', formData, {
+            'content-type': 'multipart/form-data',
+          })
         .then(response => {
             stockInStore({type: 'success', content: 'La permission ' + permission.id + ' - ' + permission.name + ' a été modifié   e avec succès.'})
             navigate('/permissions');
         })
         .catch(error => {
-            setErrorMessage('La modification de la permission n\'a pu aboutir, merci de réessayer.')
+            setErrorMessage('La modification de la permission n\'a pu aboutir, veuillez corriger les erreurs.')
+            setErrors(error.response.data);
         });
     }
 

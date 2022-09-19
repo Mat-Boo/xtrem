@@ -30,8 +30,6 @@ if (message) {
         }, 4000);
     }
     
-    console.log(partners);
-    
     return (
         <div className='partners'>
             <div className='header'>

@@ -20,19 +20,21 @@ export default function AddPermission() {
     // Valid Form and send values to api
     const validForm = (e) => {
         e.preventDefault();
-        let formValues = {};
+        const formData = new FormData();
         for (let item of e.target) {
             if (item.name !== '') {
-                formValues[item.name] = item.value;
+                formData.append(item.name, item.value);
             }
         }
-        axios.post('http://127.0.0.1:8000/api/permissions/create', {formValues})
+        axios.post('http://127.0.0.1:8000/api/permissions/create', formData, {
+            'content-type': 'multipart/form-data',
+          })
         .then(response => {
             stockInStore({type: 'success', content: 'La nouvelle permission a été créée avec succès.'})
             navigate('/permissions');
         })
         .catch(error => {
-            setErrorMessage('L\'ajout de la permission n\'a pu aboutir, merci de réessayer.')
+            setErrorMessage('L\'ajout de la permission n\'a pu aboutir, veuillez corriger les erreurs.')
             setErrors(error.response.data);
         });
     }
