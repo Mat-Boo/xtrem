@@ -56,7 +56,19 @@ html {
         .formItem {
             display: flex;
             flex-direction: column;
-            margin: 20px 0;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 300px;
+            .errorItem {
+                font-size: 0.7em;
+                font-weight: 600;
+                font-style: italic;
+                color: #7D1D1D;
+                background: #ECACAC;
+                padding: 2px;
+                width: auto;
+            }
         }
         label {
             margin: 0;
@@ -69,6 +81,9 @@ html {
         input {
             max-width: 300px;
             width: 100%;
+        }
+        .description {
+            max-width: 100%;
         }
         fieldset {
             border: solid 1px $borderBlue;
@@ -127,14 +142,12 @@ html {
         }
         form {
             .formItem {
-                flex-direction: row;
-                align-items: center;
                 label {
                     margin-right: 10px;
                     justify-self: center;
                 }       
             }
-            .description {
+            /* .description {
                 flex-direction: column;
                 margin: 20px 0;
                 label {
@@ -143,7 +156,7 @@ html {
                 textarea {
                     width: 100%;
                 }
-            }
+            } */
             fieldset {
                 legend {
                     text-align: start;

@@ -22,6 +22,9 @@
         .partnerInfos {
             margin: 20px 0;
             color: $mainBlue;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             .id {
                 margin: 0;
             }

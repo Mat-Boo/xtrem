@@ -77,11 +77,13 @@ export default function PartnerCard({ id, logo, name, description, isActive }) {
         <>
             <li className='partnerListItem'>    
                 <div className='logoAndInfos'>
-                    <img src={'/resources/img/' + logo} alt='partner-logo' className='logo'/>
+                    <img src={'/uploads/' + logo} alt='partner-logo' className='logo'/>
                     <div className='partnerInfos'>
-                        <p className='id'>{id}</p>
-                        <p className='name'>{name}</p>
-                        <p className='description'>{description}</p>
+                        <div>
+                            <p className='id'>{id}</p>
+                            <p className='name'>{name}</p>
+                            <p className='description'>{description}</p>
+                        </div>
                         <SwitchToggle isActive={isActive} id={id} name={name} clickSwitch={clickSwitch} styleSwitch={styleSwitch}/>
                     </div>
                 </div>

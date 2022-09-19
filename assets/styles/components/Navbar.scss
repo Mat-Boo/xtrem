@@ -91,12 +91,12 @@
                 margin: 0;
                 padding: 0;
                 background: $itemBgBlue;
-                width: 100%;
+                width: 120%;
                 color: $mainBlue;
                 border: 1px solid $mainBlue;
                 .accountListItem {
                     width: 100%;
-                    padding: 10px 0;
+                    padding: 10px;
                     text-align: center;
                     cursor: pointer;
                     &:hover {

@@ -19,17 +19,19 @@ export default function Partners() {
       axios.get('http://127.0.0.1:8000/api/partners')
       .then((res) => {
         setPartners(res.data);
-      })
+    })
     
-    }, [message])
+}, [message])
 
-    if (message) {
+if (message) {
         scroll(0,0);
         setTimeout(() => {
             stockInStore(null);
         }, 4000);
     }
-
+    
+    console.log(partners);
+    
     return (
         <div className='partners'>
             <div className='header'>
@@ -50,6 +52,7 @@ export default function Partners() {
             <ul className='partnersList'>
                 {
                     partners.map((partner) => (
+                        
                         <PartnerCard 
                             key={partner.id}
                             id={partner.id}
