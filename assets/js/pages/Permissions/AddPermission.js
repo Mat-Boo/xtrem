@@ -10,6 +10,7 @@ export default function AddPermission() {
 
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState('');
+    const [errors, setErrors] = useState({});
 
     const dispatchMessage = useDispatch();
     const stockInStore = (data) => {
@@ -32,6 +33,7 @@ export default function AddPermission() {
         })
         .catch(error => {
             setErrorMessage('L\'ajout de la permission n\'a pu aboutir, merci de réessayer.')
+            setErrors(error.response.data);
         });
     }
 
@@ -48,11 +50,21 @@ export default function AddPermission() {
             <form onSubmit={(e) => validForm(e)}>
                 <div className='formItem'>
                     <label htmlFor="name">Nom</label>
-                    <input type="text" id='name' name='name' />
+                    <input type="text" id='name' name='name' style={{border: errors && errors.name !== undefined ? '1px solid #ECACAC' : ''}}/>
+                    {
+                        errors && errors.name !== undefined ?
+                        <p className='errorItem'>{errors.name}</p> :
+                        ''
+                    }
                 </div>
                 <div className='formItem description'>
                     <label htmlFor="description">Description</label>
-                    <textarea name="description" id="description" cols="30" rows="5"></textarea>
+                    <textarea name="description" id="description" cols="30" rows="5" style={{border: errors && errors.description !== undefined ? '1px solid #ECACAC' : ''}}></textarea>
+                    {
+                        errors && errors.description !== undefined ?
+                        <p className='errorItem'>{errors.description}</p> :
+                        ''
+                    }
                 </div>
                 <div className='actionBtns'>
                     <Button 

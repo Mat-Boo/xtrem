@@ -65,11 +65,21 @@ export default function AddPermission() {
             <form onSubmit={(e) => validForm(e)}>
                 <div className='formItem'>
                     <label htmlFor="name">Nom</label>
-                    <input type="text" id='name' name='name' value={permission.name} onChange={handleChange}/>
+                    <input type="text" id='name' name='name' value={permission.name} onChange={handleChange} style={{border: errors && errors.name !== undefined ? '1px solid #ECACAC' : ''}}/>
+                    {
+                        errors && errors.name !== undefined ?
+                        <p className='errorItem'>{errors.name}</p> :
+                        ''
+                    }
                 </div>
                 <div className='formItem description'>
                     <label htmlFor="description">Description</label>
-                    <textarea name="description" id="description" cols="30" rows="5" value={permission.description} onChange={handleChange}></textarea>
+                    <textarea name="description" id="description" cols="30" rows="5" value={permission.description} onChange={handleChange} style={{border: errors && errors.description !== undefined ? '1px solid #ECACAC' : ''}}></textarea>
+                    {
+                        errors && errors.description !== undefined ?
+                        <p className='errorItem'>{errors.description}</p> :
+                        ''
+                    }
                 </div>
                 <div className='actionBtns'>
                     <Button 

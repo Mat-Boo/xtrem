@@ -2,6 +2,8 @@
 
 namespace App\Class;
 
+use App\Entity\User;
+
 class ErrorsValidation
 {
     private $formData;
@@ -51,6 +53,9 @@ class ErrorsValidation
                     break;
                 case 'email':
                     if ($valueItem === '') {
+                        $errors['email'] = 'L\'email est obligatoire';
+                    } else {
+                        $search_email =$this->entityManager->getRepository(User::class)->findOneByEmail($content['email']);
                         $errors['email'] = 'L\'email est obligatoire';
                     } else if (!preg_match('/[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}/im', $valueItem)) {
                         $errors['email'] = 'L\'email doit respecter le format d\'un email';
