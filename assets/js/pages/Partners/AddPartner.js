@@ -22,6 +22,7 @@ export default function AddPartner() {
         setLogoFile(e.target.files[0])
     }
 
+    //Validate Form and send to api
     const validForm = (e) => {
         e.preventDefault();
         const formData = new FormData();
