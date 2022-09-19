@@ -80,28 +80,28 @@ class PartnerController extends AbstractController
         //Application de la fonction de contrôle des champs renseignés dans le formulaire de création d'un partenaire
         $errorsValidation  = new ErrorsValidation($content);
         $errors = $errorsValidation->formItemControl();
-
+        
+        //Vérification de l'email pour voir si il n'existe pas en base de donnée
+        $search_email = $this->entityManager->getRepository(User::class)->findOneByEmail($content['email']);
+        if ($search_email) {
+            $errors['email'] = 'L\'email renseigné est déjà présent en base de données';
+        } 
         if (empty($errors)) {
             //création de la nouvelle instance User
             $user = new User;
-            //Vérification de l'email pour voir si il n'existe pas en base de donnée
-            $search_email =$this->entityManager->getRepository(User::class)->findOneByEmail($content['email']);
-
-                if (!$search_email) {
-                    $user->setFirstname(ucfirst(strtolower($content['firstname'])));
-                    $user->setLastname(ucfirst(strtolower($content['lastname'])));
-                    $user->setPhone($content['phone']);
-                    $user->setEmail($content['email']);
-                    $user->setRoles(['ROLE_PARTNER']);
+            $user->setFirstname(ucfirst(strtolower($content['firstname'])));
+            $user->setLastname(ucfirst(strtolower($content['lastname'])));
+            $user->setPhone($content['phone']);
+            $user->setEmail($content['email']);
+            $user->setRoles(['ROLE_PARTNER']);
+    
+            //Hashage du mot de passe                
+            $password = $hasher->hashPassword($user, $content['password']);
+            $user->setPassword($password);
             
-                    //Hashage du mot de passe                
-                    $password = $hasher->hashPassword($user, $content['password']);
-                    $user->setPassword($password);
-                    
-                    //Mise à jour de la base de donnée avec le nouvel utilisateur
-                    $this->entityManager->persist($user);
-                    $this->entityManager->flush();
-                }
+            //Mise à jour de la base de donnée avec le nouvel utilisateur
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
     
             //Copie du logo du partenaire dans le dossier uploads (avec renommage du fichier par avec le nom du partenaire sluggé)
             $logo = $content['logoFile'];
@@ -139,7 +139,6 @@ class PartnerController extends AbstractController
                 'Content-Type' => 'application/json'
             ]);
         }
-
         
         return $response;
     }
