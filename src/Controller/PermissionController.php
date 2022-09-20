@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Class\ErrorsValidation;
+use App\Entity\PartnerPermission;
 use App\Entity\Permission;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -43,7 +44,7 @@ class PermissionController extends AbstractController
         $permission = $this->entityManager->getRepository(Permission::class)->findOneById($id);
 
         //Création de la réponse pour renvoyer le json contenant les infos de la permission trouvée
-        $json = $serializer->serialize($permission, 'json');
+        $json = $serializer->serialize($permission, 'json', ['groups' => 'permission:read']);
         $response = new Response($json, 200, [
             'Content-Type' => 'application/json'
         ]);
@@ -80,7 +81,7 @@ class PermissionController extends AbstractController
             ]);
         } else {
             //Création de la réponse pour renvoyer le json contenant les erreurs liées au remplissage du formulaire de création d'une permission
-            $errorsJson = $serializer->serialize($errors, 'json');
+            $errorsJson = $serializer->serialize($errors, 'json', ['groups' => 'permission:read']);
             $response = new Response($errorsJson, 500, [
                 'Content-Type' => 'application/json'
             ]);
@@ -111,7 +112,7 @@ class PermissionController extends AbstractController
             $this->entityManager->flush();
 
             //Création de la réponse pour renvoyer le json contenant les infos de la permission modifiée
-            $json = $serializer->serialize($permission, 'json');
+            $json = $serializer->serialize($permission, 'json', ['groups' => 'permission:read']);
             $response = new Response($json, 200, [
                 'Content-Type' => 'application/json'
             ]);
@@ -128,6 +129,16 @@ class PermissionController extends AbstractController
     #[Route('/api/permissions/{id}/delete', name: 'permission_delete', methods: ['PUT'])]
     public function deletePermission(SerializerInterface $serializer, $id): Response
     {
+
+        //Recherche des relations PartnerPermission dont la permission est concernée par la suppression
+        $partnersPermissions = $this->entityManager->getRepository(PartnerPermission::class)->findByPermission($id);
+
+        //Mise à jour de la base de donnée en supprimant les relations Partenaire et Permission
+        foreach($partnersPermissions as $partnerPermission) {
+            $this->entityManager->remove($partnerPermission);
+        }
+        $this->entityManager->flush();
+
         //Recherche de la permission concernée par la suppression en fonction de l'id
         $permission = $this->entityManager->getRepository(Permission::class)->findOneById($id);
 
@@ -136,7 +147,7 @@ class PermissionController extends AbstractController
         $this->entityManager->flush();
 
         //Création de la réponse pour renvoyer le json contenant les infos de la permissions supprimée
-        $json = $serializer->serialize($permission, 'json');
+        $json = $serializer->serialize($permission, 'json', ['groups' => 'permission:read']);
         $response = new Response($json, 200, [
             'Content-Type' => 'application/json'
         ]);
