@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PermissionRepository::class)]
 class Permission
@@ -14,20 +15,24 @@ class Permission
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['permission:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['permission:read'])]
     private ?string $name = null;
 
-    #[ORM\OneToOne(mappedBy: 'permission', cascade: ['persist', 'remove'])]
-    private ?PartnerPermission $partnerPermission = null;
-
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['permission:read'])]
     private ?string $description = null;
+
+    #[ORM\OneToMany(mappedBy: 'Permission', targetEntity: PartnerPermission::class)]
+    private Collection $partnerPermissions;
 
     public function __construct()
     {
         $this->partners = new ArrayCollection();
+        $this->partnerPermissions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -47,23 +52,6 @@ class Permission
         return $this;
     }
 
-    public function getPartnerPermission(): ?PartnerPermission
-    {
-        return $this->partnerPermission;
-    }
-
-    public function setPartnerPermission(PartnerPermission $partnerPermission): self
-    {
-        // set the owning side of the relation if necessary
-        if ($partnerPermission->getPermission() !== $this) {
-            $partnerPermission->setPermission($this);
-        }
-
-        $this->partnerPermission = $partnerPermission;
-
-        return $this;
-    }
-
     public function getDescription(): ?string
     {
         return $this->description;
@@ -72,6 +60,36 @@ class Permission
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PartnerPermission>
+     */
+    public function getPartnerPermissions(): Collection
+    {
+        return $this->partnerPermissions;
+    }
+
+    public function addPartnerPermission(PartnerPermission $partnerPermission): self
+    {
+        if (!$this->partnerPermissions->contains($partnerPermission)) {
+            $this->partnerPermissions->add($partnerPermission);
+            $partnerPermission->setPermission($this);
+        }
+
+        return $this;
+    }
+
+    public function removePartnerPermission(PartnerPermission $partnerPermission): self
+    {
+        if ($this->partnerPermissions->removeElement($partnerPermission)) {
+            // set the owning side to null (unless already changed)
+            if ($partnerPermission->getPermission() === $this) {
+                $partnerPermission->setPermission(null);
+            }
+        }
 
         return $this;
     }

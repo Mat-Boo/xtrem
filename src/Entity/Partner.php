@@ -42,13 +42,14 @@ class Partner
     #[ORM\OneToMany(mappedBy: 'partner', targetEntity: Club::class)]
     private Collection $clubs;
 
-    #[ORM\OneToOne(mappedBy: 'partner', cascade: ['persist', 'remove'])]
-    private ?PartnerPermission $partnerPermission = null;
+    #[ORM\OneToMany(mappedBy: 'Partner', targetEntity: PartnerPermission::class)]
+    private Collection $partnerPermissions;
 
     public function __construct()
     {
         $this->clubs = new ArrayCollection();
         $this->permissions = new ArrayCollection();
+        $this->partnerPermissions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -146,19 +147,32 @@ class Partner
         return $this;
     }
 
-    public function getPartnerPermission(): ?PartnerPermission
+    /**
+     * @return Collection<int, PartnerPermission>
+     */
+    public function getPartnerPermissions(): Collection
     {
-        return $this->partnerPermission;
+        return $this->partnerPermissions;
     }
 
-    public function setPartnerPermission(PartnerPermission $partnerPermission): self
+    public function addPartnerPermission(PartnerPermission $partnerPermission): self
     {
-        // set the owning side of the relation if necessary
-        if ($partnerPermission->getPartner() !== $this) {
+        if (!$this->partnerPermissions->contains($partnerPermission)) {
+            $this->partnerPermissions->add($partnerPermission);
             $partnerPermission->setPartner($this);
         }
 
-        $this->partnerPermission = $partnerPermission;
+        return $this;
+    }
+
+    public function removePartnerPermission(PartnerPermission $partnerPermission): self
+    {
+        if ($this->partnerPermissions->removeElement($partnerPermission)) {
+            // set the owning side to null (unless already changed)
+            if ($partnerPermission->getPartner() === $this) {
+                $partnerPermission->setPartner(null);
+            }
+        }
 
         return $this;
     }

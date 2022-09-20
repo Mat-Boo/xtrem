@@ -1,11 +1,22 @@
-import React from 'react';
-import SwitchToggle from './SwitchToggle';
+import React, { useRef } from 'react';
+import ToggleSwitch from './ToggleSwitch';
 
-export default function SwitchPermission({ isActive, id, name, clickSwitch, styleSwitch }) {
+export default function SwitchPermission({ id, type, name }) {
+
+    const toggleSwitchRef = useRef();
+    
+
+    const handleClick = () => {
+        console.log(toggleSwitchRef);
+        toggleSwitchRef.current.firstChild.click();
+    }
+
     return (
         <li className='switchPermission'>
-            <SwitchToggle isActive={isActive} id={id} name={name} clickSwitch={clickSwitch} styleSwitch={styleSwitch}/>
-            <span>{name}</span>
+            <div ref={toggleSwitchRef}>
+                <ToggleSwitch id={id} type={type}/>
+            </div>
+            <span onClick={handleClick}>{name}</span>
         </li>
     )
 }

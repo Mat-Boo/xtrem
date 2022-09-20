@@ -28,7 +28,7 @@ class PermissionController extends AbstractController
         $permissions = $this->entityManager->getRepository(Permission::class)->findAll();
 
         //Création de la réponse pour renvoyer le json contenant toutes les permissions
-        $json = $serializer->serialize($permissions, 'json');
+        $json = $serializer->serialize($permissions, 'json', ['groups' => 'permission:read']);
         $response = new Response($json, 200, [
             'Content-Type' => 'application/json'
         ]);

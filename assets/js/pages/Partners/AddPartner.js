@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../../components/Button';
 import axios from 'axios';
 import { useDispatch } from 'react-redux'
@@ -24,14 +24,18 @@ export default function AddPartner() {
     }
 
     const [permissions, setPermissions] = useState([]);
+    const [partnerPermissions, setPartnerPermissions]  = useState([]);
     useEffect(() => {
         axios.get('http://127.0.0.1:8000/api/permissions')
         .then((res) => {
           setPermissions(res.data);
-        })
-      }, [])
 
-      console.log(permissions)
+        })
+      }, [errorMessage])
+
+    if (errorMessage) {
+        scroll(0,0);
+    }
 
     //Validate Form and send to api
     const validForm = (e) => {
@@ -41,8 +45,10 @@ export default function AddPartner() {
             if (item.name === 'logo' && logoFile) {
                 formData.append('logoFile', logoFile);
                 formData.append('logoFileName', logoFile.name);
-            } else if (item.name !== '') {
-                formData.append(item.name, item.value);
+            } else if (item.name === 'permission') {
+                formData.append('permissions[' + item.id + ']', item.checked ? 1 : 0);
+            } else if (item.id !== '') {
+                formData.append(item.id, item.value);
             }
         }
         axios.post('http://127.0.0.1:8000/api/partner/create', formData, {
@@ -56,8 +62,10 @@ export default function AddPartner() {
         .catch(error => {
             setErrorMessage('L\'ajout du partenaire n\'a pu aboutir, veuillez corriger les erreurs.');
             setErrors(error.response.data);
+            scroll(0,0);
         });
     }
+
     return (
         <div className='addPartner'>
             <div className='header'>
@@ -178,11 +186,10 @@ export default function AddPartner() {
                             permissions.map((permission) => (
                                 <SwitchPermission
                                     key={permission.id}
-                                    isActive='false'
                                     id={permission.id}
+                                    type='permission'
                                     name={permission.name}
-                                    clickSwitch=''
-                                    styleSwitch={{id: permission.id, background: '#ECACAC', justifyContent: 'flex-start'}}/>
+                                />
                             ))
                         }
                     </ul>

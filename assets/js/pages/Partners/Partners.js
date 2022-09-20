@@ -19,11 +19,11 @@ export default function Partners() {
       axios.get('http://127.0.0.1:8000/api/partners')
       .then((res) => {
         setPartners(res.data);
-    })
+        })
     
-}, [message])
+    }, [message])
 
-if (message) {
+    if (message) {
         scroll(0,0);
         setTimeout(() => {
             stockInStore(null);

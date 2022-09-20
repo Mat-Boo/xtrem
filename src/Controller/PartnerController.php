@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Class\ErrorsValidation;
 use App\Entity\Partner;
+use App\Entity\PartnerPermission;
+use App\Entity\Permission;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -75,6 +77,9 @@ class PartnerController extends AbstractController
         $content['email'] = $request->get('email');
         $content['password'] = $request->get('password');
         $content['passwordConfirm'] = $request->get('passwordConfirm');
+        $content['permissions'] = $request->get('permissions');
+
+        /* dd($request->get('permissions')); */
 
         //Application de la fonction de contrôle des champs renseignés dans le formulaire de création d'un partenaire
         $errorsValidation  = new ErrorsValidation($content);
@@ -120,8 +125,27 @@ class PartnerController extends AbstractController
             $this->entityManager->persist($partner);
             $this->entityManager->flush();
             
-            //Mise à jour de la base de l'utilisateur nouvellement créé en lui rattachant le nouveau partenaire créé
+            //Mise à jour de de l'utilisateur nouvellement créé en lui rattachant le nouveau partenaire créé
             $user->setPartner($partner);
+            $this->entityManager->flush();
+
+            //Récupération de tous les partenaires en base de données
+            $permissions = $this->entityManager->getRepository(Permission::class)->findAll();
+
+            //Création des nouvelles instances PartnerPermission
+            foreach($content['permissions'] as $idPermission => $statePermission) {
+                $partnerPermission = new PartnerPermission;
+                $partnerPermission->setPartner($partner);
+                foreach($permissions as $permission) {
+                    if ($idPermission === $permission->getId()) {
+                        $partnerPermission->setPermission($permission);
+                    }
+                }
+                $partnerPermission->setIsActive($statePermission);
+                $this->entityManager->persist($partnerPermission);
+            }
+
+            //Mise à jour de la base de donnée avec les permissions associées au nouveau partenaire
             $this->entityManager->flush();
     
             //Création de la réponse pour renvoyer le json contenant les infos du nouveau partenaire
