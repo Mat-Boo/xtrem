@@ -1,36 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import slugify from 'react-slugify';
 import Button from '../components/Button';
-import SwitchToggle from './SwitchToggle';
 import Modal from '../components/Modal';
 import axios from 'axios';
 import { useDispatch } from 'react-redux'
 import { updateMessage } from '../redux/redux';
-import { useNavigate } from 'react-router-dom';
+import ToggleSwitch from './ToggleSwitch';
 
 export default function PartnerCard({ id, logo, name, description, isActive }) {
 
     const [displayModal, setDisplayModal] = useState(false);
     const [modalTitle, setModalTitle] = useState();
     const [modalMessage, setModalMessage] = useState();
-    const [styleSwitch, setStyleSwitch] = useState(
-        {
-            id: '',
-            background: '',
-            justifyContent: ''
-        }
-    )
 
-    const [partnerState, setPartnerState] = useState(isActive); 
+    const [partnerState, setPartnerState] = useState(isActive);    
 
     const dispatchMessage = useDispatch();
     const stockInStore = (data) => {
         dispatchMessage(updateMessage(data))
     }
 
-    const clickSwitch = (name) => {
-        document.body.style.overflow= 'hidden';
-        setDisplayModal(true);
+    const [clickedSwitch, setClickedSwitch] = useState();
+
+    const displayModalFct = () => {
+        if (document.body.style.overflow === 'hidden') {
+            document.body.style.overflow= 'auto';
+        } else if (document.body.style.overflow= 'auto') {
+            document.body.style.overflow= 'hidden';
+        }
+        setDisplayModal(!displayModal);
+    }
+
+    const clickSwitch = (e, name) => {
+        e.preventDefault();
+        setClickedSwitch(e.target.parentNode.id);
+        displayModalFct();
         if (partnerState) {
             setModalTitle('Désactivation du partenaire ' + name);
             setModalMessage('Voulez-vous vraiment désactiver le partenaire ' + name + ' ? Ce partenaire ainsi que ses clubs ne pourront plus accéder à leur interface.');
@@ -42,16 +46,14 @@ export default function PartnerCard({ id, logo, name, description, isActive }) {
 
     const answerModal = (type) => {
         if (type === 'cancel') {
-            setDisplayModal(false);
-            document.body.style.overflow= 'auto';
+            displayModalFct();
         } else if (type === 'confirm') {
-            setDisplayModal(false);
-            document.body.style.overflow= 'auto';
-            if (partnerState) {
-                setStyleSwitch({id: id, background: '#ECACAC', justifyContent: 'flex-start'});
-            } else {
-                setStyleSwitch({id: id, background: '#3F72AE', justifyContent: 'flex-end'});
-            }
+            displayModalFct();
+            document.querySelectorAll('.toggleSwitch').forEach((toggleSwitch) => {
+                if (toggleSwitch.id === clickedSwitch) {
+                    toggleSwitch.firstChild.click();
+                }
+            })
             setPartnerState(!partnerState);
             axios.put('http://127.0.0.1:8000/api/partner/' + id + '/edit', {
                 isActive: !partnerState
@@ -84,7 +86,11 @@ export default function PartnerCard({ id, logo, name, description, isActive }) {
                             <p className='name'>{name}</p>
                             <p className='description'>{description}</p>
                         </div>
-                        <SwitchToggle isActive={isActive} id={id} name={name} clickSwitch={clickSwitch} styleSwitch={styleSwitch}/>
+                        <ToggleSwitch
+                            id={id} type='partner'
+                            name={name}
+                            clickSwitch={clickSwitch}
+                            checked={isActive}/>
                     </div>
                 </div>
                 <div className='actionBtns'>

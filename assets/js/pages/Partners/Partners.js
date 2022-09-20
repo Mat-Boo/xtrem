@@ -5,6 +5,7 @@ import Button from '../../components/Button';
 import AlertMessage from '../../components/AlertMessage';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateMessage } from '../../redux/redux';
+import Filters from '../../components/Filters';
 
 export default function Partners() {
 
@@ -47,6 +48,7 @@ export default function Partners() {
                 message && 
                     <AlertMessage type={message.type} message={message.content}/>
             }
+            <Filters />
             <ul className='partnersList'>
                 {
                     partners.map((partner) => (

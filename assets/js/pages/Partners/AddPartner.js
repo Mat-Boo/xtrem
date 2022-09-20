@@ -189,6 +189,7 @@ export default function AddPartner() {
                                     id={permission.id}
                                     type='permission'
                                     name={permission.name}
+                                    checked={false}
                                 />
                             ))
                         }
