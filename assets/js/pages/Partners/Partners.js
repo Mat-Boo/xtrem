@@ -16,13 +16,28 @@ export default function Partners() {
         dispatchMessage(updateMessage(data))
     }
 
-    useEffect(() => {
-      axios.get('http://127.0.0.1:8000/api/partners')
-      .then((res) => {
-        setPartners(res.data);
-        })
+    const [lengthes, setLengthes] = useState({
+        all: 0,
+        actives: 0,
+        inactives: 0
+    });
     
+    useEffect(() => {
+        axios.get('http://127.0.0.1:8000/api/partners')
+        .then((res) => {
+            setPartners(res.data);
+            setLengthes({all: 0, actives: 0, inactives: 0});
+            res.data.forEach((partner) => {
+                if (partner.isActive) {
+                    setLengthes(lengthes => ({...lengthes, actives: lengthes.actives + 1}));
+                } else {
+                    setLengthes(lengthes => ({...lengthes, inactives: lengthes.inactives + 1}));
+                }
+            })
+            setLengthes(lengthes => ({...lengthes, all: res.data.length}));
+        })
     }, [message])
+
 
     if (message) {
         scroll(0,0);
@@ -30,6 +45,16 @@ export default function Partners() {
             stockInStore(null);
         }, 4000);
     }
+
+
+    const searchFct = (search) => {
+        console.log(search);
+    }
+
+    const stateFct = (state) => {
+
+    }
+
     
     return (
         <div className='partners'>
@@ -48,11 +73,12 @@ export default function Partners() {
                 message && 
                     <AlertMessage type={message.type} message={message.content}/>
             }
-            <Filters />
+            <Filters all={lengthes.all} actives={lengthes.actives} inactives={lengthes.inactives} searchFct={searchFct} stateFct={stateFct}/>
             <ul className='partnersList'>
                 {
-                    partners.map((partner) => (
-                        
+                    partners
+                        .filter((partner) => partner.name)
+                        .map((partner) => (
                         <PartnerCard 
                             key={partner.id}
                             id={partner.id}

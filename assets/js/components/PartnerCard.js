@@ -23,12 +23,12 @@ export default function PartnerCard({ id, logo, name, description, isActive }) {
     const [clickedSwitch, setClickedSwitch] = useState();
 
     const displayModalFct = () => {
-        if (document.body.style.overflow === 'hidden') {
+        setDisplayModal(!displayModal);
+        if (displayModal) {
             document.body.style.overflow= 'auto';
-        } else if (document.body.style.overflow= 'auto') {
+        } else {
             document.body.style.overflow= 'hidden';
         }
-        setDisplayModal(!displayModal);
     }
 
     const clickSwitch = (e, name) => {
