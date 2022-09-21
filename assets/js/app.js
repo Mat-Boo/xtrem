@@ -15,6 +15,7 @@ import AddPermission from './pages/Permissions/AddPermission';
 import ViewPermission from './pages/Permissions/ViewPermission';
 import EditPermission from './pages/Permissions/EditPermission';
 import ViewPartner from './pages/Partners/ViewPartner';
+import Modal from './components/Modal';
 
 /* const user = useSelector((state) => state.auth); */
 
@@ -23,6 +24,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Router>
             <Provider store={store}>
                 <Navbar /> 
+                <Modal />
                 <Routes>
                     <Route path="/" element={<Login />} />
                     <Route path="/accueil" element={<Home />} />

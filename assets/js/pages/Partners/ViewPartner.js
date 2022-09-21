@@ -7,20 +7,15 @@ import SwitchPermission from '../../components/SwitchPermission';
 import AlertMessage from '../../components/AlertMessage';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateMessage } from '../../redux/redux';
-import Modal from '../../components/Modal';
 
 export default function ViewPartner() {
 
     const [partner, setPartner] = useState([]);
     const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0))
     const message = useSelector((state) => state.message);
-    const [displayModal, setDisplayModal] = useState(false);
-    const [modalTitle, setModalTitle] = useState();
-    const [modalMessage, setModalMessage] = useState();
-    const [partnerState, setPartnerState] = useState();   
 
     const dispatchMessage = useDispatch();
-    const stockInStore = (data) => {
+    const stockMessageInStore = (data) => {
         dispatchMessage(updateMessage(data))
     }
     
@@ -28,72 +23,14 @@ export default function ViewPartner() {
       axios.get('http://127.0.0.1:8000/api/partner/' + id)
       .then((res) => {
         setPartner(res.data);
-        setPartnerState(res.data.isActive);
       })
     }, [])
-
-    console.log(partnerState);
 
     if (message) {
         scroll(0,0);
         setTimeout(() => {
-            stockInStore(null);
+            stockMessageInStore(null);
         }, 4000);
-    }
-
-    const [clickedSwitch, setClickedSwitch] = useState();
-
-    const displayModalFct = () => {
-        setDisplayModal(!displayModal);
-        if (displayModal) {
-            document.body.style.overflow= 'auto';
-        } else {
-            document.body.style.overflow= 'hidden';
-        }
-    }
-
-    const clickSwitch = (e, name) => {
-        e.preventDefault();
-        setClickedSwitch(e.target.parentNode.id);
-        displayModalFct();
-        if (partnerState) {
-            setModalTitle('Désactivation du partenaire ' + name);
-            setModalMessage('Voulez-vous vraiment désactiver le partenaire ' + name + ' ? Ce partenaire ainsi que ses clubs ne pourront plus accéder à leur interface.');
-        } else {
-            setModalTitle('Activation du partenaire ' + name);
-            setModalMessage('Voulez-vous vraiment activer le partenaire ' + name + ' ? Ce partenaire pourra accéder à son interface.');
-        }
-    }
-
-    const answerModal = (type) => {
-        if (type === 'cancel') {
-            displayModalFct();
-        } else if (type === 'confirm') {
-            displayModalFct();
-            document.querySelectorAll('.toggleSwitch').forEach((toggleSwitch) => {
-                if (toggleSwitch.id === clickedSwitch) {
-                    toggleSwitch.firstChild.click();
-                }
-            })
-            setPartnerState(!partnerState);
-            axios.put('http://127.0.0.1:8000/api/partner/' + id + '/edit', {
-                isActive: !partnerState
-            })
-            .then(response => {
-                if (!partnerState) {
-                    stockInStore({type: 'success', content: 'Le partenaire ' + id + ' - ' + name + ' a bien été activé.'})
-                } else {
-                    stockInStore({type: 'success', content: 'Le partenaire ' + id + ' - ' + name + ' a bien été désactivé.'})
-                }
-            })
-            .catch(error => {
-                if (!partnerState) {
-                    stockInStore({type: 'error', content: 'Le partenaire ' + id + ' - ' + name + ' n\'a pus être activé.'})
-                } else {
-                    stockInStore({type: 'error', content: 'Le partenaire ' + id + ' - ' + name + ' n\'a pu être désactivé.'})
-                }
-            });
-        }
     }
 
     const deleteBtn = () => {
@@ -133,7 +70,6 @@ export default function ViewPartner() {
                                     id={partner.id}
                                     type='partner'
                                     name={partner.name}
-                                    clickSwitch={clickSwitch}
                                     checked={partner.isActive}/>
                             </div>
                         </div>
@@ -217,16 +153,7 @@ export default function ViewPartner() {
                     </form>
                 </>
             }
-            {
-                displayModal &&
-                <>
-                    <Modal 
-                        title={modalTitle}
-                        message={modalMessage}
-                        clickBtn={answerModal}
-                    />
-                </>
-            }
+            
         </div>
     )
 }
