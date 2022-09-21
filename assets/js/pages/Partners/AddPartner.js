@@ -180,7 +180,7 @@ export default function AddPartner() {
                     </div>
                 </fieldset>
                 <fieldset>
-                    <legend>Permissions</legend>
+                    <legend>Permissions Globales</legend>
                     <ul className='permissionsList'>
                         {
                             permissions.map((permission) => (

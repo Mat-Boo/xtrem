@@ -38,7 +38,7 @@ class PermissionController extends AbstractController
     }
 
     #[Route('/api/permissions/{id}', name: 'permission', methods: ['GET'])]
-    public function getPermission(Request $request, SerializerInterface $serializer, $id): Response
+    public function getPermission(SerializerInterface $serializer, $id): Response
     {
         //Recherche d'une permission en fonction de l'id
         $permission = $this->entityManager->getRepository(Permission::class)->findOneById($id);

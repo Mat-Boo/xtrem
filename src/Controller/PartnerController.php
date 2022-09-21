@@ -40,6 +40,21 @@ class PartnerController extends AbstractController
         return $response;
     }
 
+    #[Route('/api/partner/{id}', name: 'partner', methods: ['GET'])]
+    public function getPartner(Request $request, SerializerInterface $serializer, $id): Response
+    {
+        //Recherche d'un partenaire en fonction de l'id
+        $partner = $this->entityManager->getRepository(Partner::class)->findOneById($id);
+
+        //Création de la réponse pour renvoyer le json contenant les infos du partenaire trouvé
+        $json = $serializer->serialize($partner, 'json', ['groups' => 'partner:read']);
+        $response = new Response($json, 200, [
+            'Content-Type' => 'application/json'
+        ]);
+        
+        return $response;
+    }
+
     #[Route('/api/partner/{id}/edit', name: 'partner_edit', methods: ['PUT'])]
     public function editPartner(Request $request, $id, SerializerInterface $serializer)
     {
