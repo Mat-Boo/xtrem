@@ -94,8 +94,6 @@ class PartnerController extends AbstractController
         $content['passwordConfirm'] = $request->get('passwordConfirm');
         $content['permissions'] = $request->get('permissions');
 
-        /* dd($request->get('permissions')); */
-
         //Application de la fonction de contrôle des champs renseignés dans le formulaire de création d'un partenaire
         $errorsValidation  = new ErrorsValidation($content);
         $errors = $errorsValidation->formItemControl();
@@ -117,10 +115,6 @@ class PartnerController extends AbstractController
             //Hashage du mot de passe                
             $password = $hasher->hashPassword($user, $content['password']);
             $user->setPassword($password);
-            
-            //Mise à jour de la base de donnée avec le nouvel utilisateur
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
     
             //Copie du logo du partenaire dans le dossier uploads (avec renommage du fichier par avec le nom du partenaire sluggé)
             $logo = $content['logoFile'];
@@ -135,14 +129,10 @@ class PartnerController extends AbstractController
             $partner->setDescription(ucfirst(strtolower($content['description'])));
             $partner->setIsActive(true);
             $partner->setContact($user);
-    
-            //Mise à jour de la base de donnée avec le nouveau partenaire
-            $this->entityManager->persist($partner);
-            $this->entityManager->flush();
             
-            //Mise à jour de de l'utilisateur nouvellement créé en lui rattachant le nouveau partenaire créé
+            //Mise à jour de l'utilisateur nouvellement créé en lui rattachant le nouveau partenaire créé
             $user->setPartner($partner);
-            $this->entityManager->flush();
+            $this->entityManager->persist($user);
 
             //Récupération de tous les partenaires en base de données
             $permissions = $this->entityManager->getRepository(Permission::class)->findAll();
@@ -157,10 +147,14 @@ class PartnerController extends AbstractController
                     }
                 }
                 $partnerPermission->setIsActive($statePermission);
-                $this->entityManager->persist($partnerPermission);
-            }
 
-            //Mise à jour de la base de donnée avec les permissions associées au nouveau partenaire
+                //Ajout des permissions associées au partenaire
+                $partner->addPartnerPermission($partnerPermission);
+
+                $this->entityManager->persist($partnerPermission);
+                $this->entityManager->persist($partner);
+            }
+            //Mise à jour de la base de donnée avec le nouvel utilisateur, le nouveau partenaire et les permissions associées au nouveau partenaire
             $this->entityManager->flush();
     
             //Création de la réponse pour renvoyer le json contenant les infos du nouveau partenaire

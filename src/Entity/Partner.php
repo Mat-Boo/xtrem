@@ -39,9 +39,11 @@ class Partner
     #[Groups(['partner:read'])]
     private ?User $contact = null;
 
+    #[Groups(['partner:read'])]
     #[ORM\OneToMany(mappedBy: 'partner', targetEntity: Club::class)]
     private Collection $clubs;
 
+    #[Groups(['partner:read'])]
     #[ORM\OneToMany(mappedBy: 'Partner', targetEntity: PartnerPermission::class)]
     private Collection $partnerPermissions;
 

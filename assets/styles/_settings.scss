@@ -18,6 +18,7 @@ html {
     font-family: $mainFont;
 }
 
+
 #root {
     background-color: $mainBlueBg;
     font-family: $mainFont;
@@ -45,6 +46,14 @@ html {
         text-decoration: none;
         &:hover {
             color: white;
+            opacity: 0.8;
+        }
+    }
+    .telCom, .emailCom {
+        text-decoration: none;
+        color: $mainBlue;
+        &:hover {
+            color: $mainBlue;
             opacity: 0.8;
         }
     }

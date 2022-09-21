@@ -12,7 +12,6 @@ export default function PartnerCard({ id, logo, name, description, isActive }) {
     const [displayModal, setDisplayModal] = useState(false);
     const [modalTitle, setModalTitle] = useState();
     const [modalMessage, setModalMessage] = useState();
-
     const [partnerState, setPartnerState] = useState(isActive);    
 
     const dispatchMessage = useDispatch();

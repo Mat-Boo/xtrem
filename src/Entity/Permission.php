@@ -15,15 +15,15 @@ class Permission
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['permission:read'])]
+    #[Groups(['permission:read', 'partner:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['permission:read'])]
+    #[Groups(['permission:read', 'partner:read'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['permission:read'])]
+    #[Groups(['permission:read', 'partner:read'])]
     private ?string $description = null;
 
     #[ORM\OneToMany(mappedBy: 'Permission', targetEntity: PartnerPermission::class)]

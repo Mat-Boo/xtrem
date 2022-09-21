@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PartnerPermissionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PartnerPermissionRepository::class)]
 class PartnerPermission
@@ -11,9 +12,11 @@ class PartnerPermission
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['partner:read'])]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['partner:read'])]
     private ?bool $isActive = null;
 
     #[ORM\ManyToOne(inversedBy: 'partnerPermissions')]
@@ -22,6 +25,7 @@ class PartnerPermission
 
     #[ORM\ManyToOne(inversedBy: 'partnerPermissions')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['partner:read'])]
     private ?Permission $Permission = null;
 
     public function getId(): ?int
