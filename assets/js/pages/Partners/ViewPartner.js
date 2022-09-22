@@ -78,7 +78,7 @@ export default function ViewPartner() {
                                     idToggle={partner.id}
                                     nameToggle={partner.name}
                                     typeToggle='partner'
-                                    checked={partner.isActive}/>
+                                    isActive={partner.isActive}/>
                             </div>
                         </div>
                         <hr />
@@ -160,7 +160,6 @@ export default function ViewPartner() {
                                             </div>
                                             <span className='permissionName' /* onClick={handleClickPermissionName} */>{partnerPermission.Permission.name}</span>
                                         </li>
-
                                     ))
                                 }
                             </ul>

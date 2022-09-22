@@ -1,12 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Button from '../../components/Button';
 import axios from 'axios';
 import { useDispatch } from 'react-redux'
 import { updateMessage } from '../../redux/redux';
 import { useNavigate } from 'react-router-dom';
 import AlertMessage from '../../components/AlertMessage';
+import ToggleSwitch from '../../components/ToggleSwitch';
 
 export default function AddPartner() {
+
+    const toggleSwitchRef = useRef();
+    // Fonction permettant de cliquer sur le nom associé au toggle de la permission et ainsi l'activer ou le désactiver
+    /* const handleClickPermissionName = () => {
+
+        toggleSwitchRef.current.firstChild.click();
+    } */
 
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState('');
@@ -23,12 +31,10 @@ export default function AddPartner() {
     }
 
     const [permissions, setPermissions] = useState([]);
-    const [partnerPermissions, setPartnerPermissions]  = useState([]);
     useEffect(() => {
         axios.get('http://127.0.0.1:8000/api/permissions')
         .then((res) => {
           setPermissions(res.data);
-
         })
       }, [errorMessage])
 
@@ -181,17 +187,23 @@ export default function AddPartner() {
                 <fieldset>
                     <legend>Permissions Globales</legend>
                     <ul className='permissionsList'>
-                        {/* {
+                        {
                             permissions.map((permission) => (
-                                <SwitchPermission
-                                    key={permission.id}
-                                    id={permission.id}
-                                    type='permission'
-                                    name={permission.name}
-                                    checked={false}
-                                />
+                                <li  key={permission.id} className='switchPermission'>
+                                    <div ref={toggleSwitchRef}>
+                                        <ToggleSwitch
+                                            idPartner=''
+                                            idClub=''
+                                            idToggle={permission.id}
+                                            nameToggle={permission.name}
+                                            typeToggle='permission'
+                                            isActive={false}
+                                        />
+                                    </div>
+                                    <span className='permissionName' /* onClick={handleClickPermissionName} */>{permission.name}</span>
+                                </li>
                             ))
-                        } */}
+                        }
                     </ul>
                 </fieldset>
                 <div className='actionBtns'>
