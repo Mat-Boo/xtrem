@@ -15,7 +15,9 @@ import AddPermission from './pages/Permissions/AddPermission';
 import ViewPermission from './pages/Permissions/ViewPermission';
 import EditPermission from './pages/Permissions/EditPermission';
 import ViewPartner from './pages/Partners/ViewPartner';
+import EditPartner from './pages/Partners/EditPartner';
 import Modal from './components/Modal';
+import AlertMessage from './components/AlertMessage';
 
 /* const user = useSelector((state) => state.auth); */
 
@@ -23,8 +25,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <>
         <Router>
             <Provider store={store}>
-                <Navbar /> 
+                <Navbar />
                 <Modal />
+                <AlertMessage />
                 <Routes>
                     <Route path="/" element={<Login />} />
                     <Route path="/accueil" element={<Home />} />
@@ -34,6 +37,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                             <Route path="/partenaires" element={<Partners />} />
                             <Route path="/partenaires/ajouter" element={<AddPartner />} />
                             <Route path="/partenaires/:idSlug" element={<ViewPartner />} />
+                            <Route path="/partenaires/:idSlug/modifier" element={<EditPartner />} />
                             <Route path="/permissions" element={<Permissions />} />
                             <Route path="/permissions/ajouter" element={<AddPermission />} />
                             <Route path="/permissions/:idSlug" element={<ViewPermission />} />

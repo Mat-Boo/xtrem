@@ -14,17 +14,17 @@ const authSlice = createSlice({
 export const {updateAuth} = authSlice.actions;
 
 // Slice to stock message for success and error
-const messageSlice = createSlice({
-    name: 'message',
+const alertMessageSlice = createSlice({
+    name: 'alertMessage',
     initialState: '',
     reducers: {
-        updateMessage: (state, action) => {
+        updateAlertMessage: (state, action) => {
             state = action.payload
             return state
         }
     }
 })
-export const {updateMessage} = messageSlice.actions;
+export const {updateAlertMessage} = alertMessageSlice.actions;
 
 // Slice to stock infos for modal
 const modalSlice = createSlice({
@@ -39,18 +39,31 @@ const modalSlice = createSlice({
 })
 export const {updateModal} = modalSlice.actions;
 
-// Slice to stock anwser of modal
-const answerModalSlice = createSlice({
-    name: 'answerModal',
+// Slice to stock anwser of modal for change of state
+const answerModalForChangeStateSlice = createSlice({
+    name: 'answerModalForChangeState',
     initialState: '',
     reducers: {
-        updateAnswerModal: (state, action) => {
+        updateAnswerModalForChangeState: (state, action) => {
             state = action.payload
             return state
         }
     }
 })
-export const {updateAnswerModal} = answerModalSlice.actions;
+export const {updateAnswerModalForChangeState} = answerModalForChangeStateSlice.actions;
+
+// Slice to stock anwser of modal for delete
+const answerModalForDeleteSlice = createSlice({
+    name: 'answerModalForDelete',
+    initialState: '',
+    reducers: {
+        updateAnswerModalForDelete: (state, action) => {
+            state = action.payload
+            return state
+        }
+    }
+})
+export const {updateAnswerModalForDelete} = answerModalForDeleteSlice.actions;
 
 // Slice to stock type of button
 const typeButtonSlice = createSlice({
@@ -68,9 +81,10 @@ export const {updateTypeButton} = typeButtonSlice.actions;
 export const store = configureStore({
     reducer: {
         auth: authSlice.reducer,
-        message: messageSlice.reducer,
+        alertMessage: alertMessageSlice.reducer,
         modal: modalSlice.reducer,
-        answerModal: answerModalSlice.reducer,
+        answerModalForChangeState: answerModalForChangeStateSlice.reducer,
+        answerModalForDelete: answerModalForDeleteSlice.reducer,
         typeButton: typeButtonSlice.reducer
     }
 })

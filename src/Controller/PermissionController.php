@@ -37,7 +37,7 @@ class PermissionController extends AbstractController
         return $response;
     }
 
-    #[Route('/api/permissions/{id}', name: 'permission', methods: ['GET'])]
+    #[Route('/api/permission/{id}', name: 'permission', methods: ['GET'])]
     public function getPermission(SerializerInterface $serializer, $id): Response
     {
         //Recherche d'une permission en fonction de l'id
@@ -52,7 +52,7 @@ class PermissionController extends AbstractController
         return $response;
     }
 
-    #[Route('/api/permissions/create', name: 'permission_create', methods: ['POST'])]
+    #[Route('/api/permission/create', name: 'permission_create', methods: ['POST'])]
     public function createPermission(Request $request, SerializerInterface $serializer): Response
     {
         //Récupération des données issues du formulaire de création d'une permission
@@ -90,7 +90,7 @@ class PermissionController extends AbstractController
         return $response;
     }
 
-    #[Route('/api/permissions/{id}/edit', name: 'permission_edit', methods: ['POST'])]
+    #[Route('/api/permission/{id}/edit', name: 'permission_edit', methods: ['POST'])]
     public function editPermission(Request $request, SerializerInterface $serializer, $id): Response
     {
         //Récupération des données issues du formulaire de création d'une permission
@@ -126,10 +126,9 @@ class PermissionController extends AbstractController
         return $response;
     }
 
-    #[Route('/api/permissions/{id}/delete', name: 'permission_delete', methods: ['PUT'])]
+    #[Route('/api/permission/{id}/delete', name: 'permission_delete', methods: ['PUT'])]
     public function deletePermission(SerializerInterface $serializer, $id): Response
     {
-
         //Recherche des relations PartnerPermission dont la permission est concernée par la suppression
         $partnersPermissions = $this->entityManager->getRepository(PartnerPermission::class)->findByPermission($id);
 

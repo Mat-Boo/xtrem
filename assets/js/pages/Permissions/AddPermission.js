@@ -2,19 +2,17 @@ import React, { useState } from 'react';
 import Button from '../../components/Button';
 import axios from 'axios';
 import { useDispatch } from 'react-redux'
-import { updateMessage } from '../../redux/redux';
+import { updateAlertMessage } from '../../redux/redux';
 import { useNavigate } from 'react-router-dom';
-import AlertMessage from '../../components/AlertMessage';
 
 export default function AddPermission() {
 
     const navigate = useNavigate();
-    const [errorMessage, setErrorMessage] = useState('');
     const [errors, setErrors] = useState({});
 
-    const dispatchMessage = useDispatch();
-    const stockInStore = (data) => {
-        dispatchMessage(updateMessage(data))
+    const dispatchAlertMessage = useDispatch();
+    const stockAlertMessageInStore = (data) => {
+        dispatchAlertMessage(updateAlertMessage(data))
     }
 
     // Valid Form and send values to api
@@ -26,15 +24,15 @@ export default function AddPermission() {
                 formData.append(item.name, item.value);
             }
         }
-        axios.post('http://127.0.0.1:8000/api/permissions/create', formData, {
+        axios.post('http://127.0.0.1:8000/api/permission/create', formData, {
             'content-type': 'multipart/form-data',
           })
         .then(response => {
-            stockInStore({type: 'success', content: 'La nouvelle permission a été créée avec succès.'})
+            stockAlertMessageInStore({type: 'success', content: 'La nouvelle permission a été créée avec succès.'})
             navigate('/permissions');
         })
         .catch(error => {
-            setErrorMessage('L\'ajout de la permission n\'a pu aboutir, veuillez corriger les erreurs.')
+            stockAlertMessageInStore({type: 'error', content: 'L\'ajout de la permission n\'a pu aboutir, veuillez corriger les erreurs.'})
             setErrors(error.response.data);
         });
     }
@@ -44,11 +42,6 @@ export default function AddPermission() {
             <div className='header'>
                 <h1>Nouvelle permission</h1>
             </div>
-            {
-                errorMessage !== '' ?
-                <AlertMessage type='error' message={errorMessage} /> :
-                ''
-            }
             <form onSubmit={(e) => validForm(e)}>
                 <div className='formItem'>
                     <label htmlFor="name">Nom</label>
@@ -70,7 +63,7 @@ export default function AddPermission() {
                 </div>
                 <div className='actionBtns'>
                     <Button 
-                        type='back'
+                        typeBtn='back'
                         btnSvg='<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
                             <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
                             </svg>'

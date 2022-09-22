@@ -1,7 +1,7 @@
 .permissionListItem {
     background: $itemBgBlue;
     width: 100%;
-    max-width: 510px;
+    max-width: 500px;
     min-height: 202px;
     list-style: none;
     border: 1px solid $borderBlue;
@@ -9,7 +9,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin: 20px;
+    margin: 20px 10px;
     .permissionInfos {
         display: flex;
         flex-direction: column;
@@ -45,6 +45,7 @@
 
 @media screen and (min-width: 400px) {
     .permissionListItem {
+        margin: 20px;
         .actionBtns {
             .button {
                 a{
