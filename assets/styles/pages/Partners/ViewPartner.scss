@@ -91,6 +91,21 @@
                 flex-wrap: wrap;
                 justify-content: center;
                 align-items: center;
+                .switchPermission {
+                    display: flex;
+                    align-items: center;
+                    margin: 20px;
+                    width: 100%;
+                    max-width: 300px;
+                    div {
+                        width: 60px;
+                        height: 30px;
+                    }
+                    .permissionName {
+                        margin-left: 20px;
+                        cursor: pointer;
+                    }
+                }
             }
         }
     }

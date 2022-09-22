@@ -15,10 +15,12 @@ export default function PartnerCard({ id, logo, name, description, isActive }) {
                         <p className='description'>{description}</p>
                     </div>
                     <ToggleSwitch
-                        id={id}
-                        type='partner'
-                        name={name}
-                        checked={isActive}/>
+                        idPartner={id}
+                        idClub=''
+                        idToggle={id}
+                        nameToggle={name}
+                        typeToggle='partner'
+                        isActive={isActive}/>
                 </div>
             </div>
             <div className='actionBtns'>

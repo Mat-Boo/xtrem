@@ -55,21 +55,21 @@ class PartnerController extends AbstractController
         return $response;
     }
 
-    #[Route('/api/partner/{id}/edit', name: 'partner_edit', methods: ['PUT'])]
+    #[Route('/api/partner/{id}/edit', name: 'partner_edit', methods: ['POST'])]
     public function editPartner(Request $request, $id, SerializerInterface $serializer)
     {
         //Récupération des données issues du formulaire de modification d'un partenaire
-        $content = json_decode($request->getContent());
+        $content['isActive'] = $request->get('isActive');
         
         //Recherche du partenaire concerné par la modification en fonction de l'id
         $partner = $this->entityManager->getRepository(Partner::class)->findOneById($id);
 
         //Mise à jour du partenaire
-        $partner->setIsActive($content->isActive);
+        $partner->setIsActive($content['isActive']);
         $this->entityManager->flush();
 
         //Création de la réponse pour renvoyer le json contenant les infos du partenaire modifié
-        $json = $serializer->serialize($partner, 'json', ['groups' => 'partner:read']);
+        $json = $serializer->serialize($partner, 'json', ['groups' => 'partner:edit']);
         $response = new Response($json, 200, [
             'Content-Type' => 'application/json'
         ]);

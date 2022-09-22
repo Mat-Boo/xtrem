@@ -12,7 +12,7 @@ class PartnerPermission
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['partner:read'])]
+    #[Groups(['partner:read', 'partnerPermission:edit'])]
     private ?int $id = null;
 
     #[ORM\Column]
@@ -21,6 +21,7 @@ class PartnerPermission
 
     #[ORM\ManyToOne(inversedBy: 'partnerPermissions')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['partnerPermission:edit'])]
     private ?Partner $Partner = null;
 
     #[ORM\ManyToOne(inversedBy: 'partnerPermissions')]

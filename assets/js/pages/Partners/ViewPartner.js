@@ -1,14 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Button from '../../components/Button';
 import ToggleSwitch from '../../components/ToggleSwitch';
 import axios from 'axios';
-import SwitchPermission from '../../components/SwitchPermission';
 import AlertMessage from '../../components/AlertMessage';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateMessage } from '../../redux/redux';
 
 export default function ViewPartner() {
+
+    const toggleSwitchRef = useRef();
+    // Fonction permettant de cliquer sur le nom associé au toggle de la permission et ainsi l'activer ou le désactiver
+    /* const handleClickPermissionName = () => {
+
+        toggleSwitchRef.current.firstChild.click();
+    } */
 
     const [partner, setPartner] = useState([]);
     const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0))
@@ -67,9 +73,11 @@ export default function ViewPartner() {
                                     <p className='description'>{partner.description}</p>
                                 </div>
                                 <ToggleSwitch
-                                    id={partner.id}
-                                    type='partner'
-                                    name={partner.name}
+                                    idPartner={partner.id}
+                                    idClub=''
+                                    idToggle={partner.id}
+                                    nameToggle={partner.name}
+                                    typeToggle='partner'
                                     checked={partner.isActive}/>
                             </div>
                         </div>
@@ -139,13 +147,20 @@ export default function ViewPartner() {
                             <ul className='permissionsList'>
                                 {
                                     partner.partnerPermissions.map((partnerPermission) => (
-                                        <SwitchPermission
-                                            key={partnerPermission.Permission.id}
-                                            id={partnerPermission.Permission.id}
-                                            type='permission'
-                                            name={partnerPermission.Permission.name}
-                                            checked={partnerPermission.isActive}
-                                        />
+                                        <li  key={partnerPermission.Permission.id} className='switchPermission'>
+                                            <div ref={toggleSwitchRef}>
+                                                <ToggleSwitch
+                                                    idPartner={partner.id}
+                                                    idClub=''
+                                                    idToggle={partnerPermission.Permission.id}
+                                                    nameToggle={partnerPermission.Permission.name}
+                                                    typeToggle='permission'
+                                                    isActive={partnerPermission.isActive}
+                                                />
+                                            </div>
+                                            <span className='permissionName' /* onClick={handleClickPermissionName} */>{partnerPermission.Permission.name}</span>
+                                        </li>
+
                                     ))
                                 }
                             </ul>

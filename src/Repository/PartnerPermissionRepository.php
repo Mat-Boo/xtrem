@@ -49,6 +49,20 @@ class PartnerPermissionRepository extends ServiceEntityRepository
         ;
     }
 
+    // Requête pour trouver la relation partenaire-permission en fonction de l'id du partenaire et de l'id de la permission
+    Public function findOneByIdPartnerAndIdPermission($idPartner, $idPermission): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.Partner = :idPartner')
+            ->setParameter('idPartner', $idPartner)
+            ->andWhere('p.Permission = :idPermission')
+            ->setParameter('idPermission', $idPermission)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    
+
 //    /**
 //     * @return PartnerPermission[] Returns an array of PartnerPermission objects
 //     */

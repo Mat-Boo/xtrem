@@ -31,7 +31,7 @@ export default function Modal() {
         } else {
             setDisplayModal(false);
             document.body.style.overflow= 'auto';
-        }    
+        } 
     }, [modalInfos])
     
     switch(typeButtonClicked) {
@@ -40,7 +40,7 @@ export default function Modal() {
             stockTypeButtonInStore('');
         break;
         case 'confirm':
-            stockAnswerModalInStore({id: modalInfos.id, name: modalInfos.name, typeButton: 'confirm'});
+            stockAnswerModalInStore({idPartner: modalInfos.idPartner, idClub: modalInfos.idClub, idToggle: modalInfos.idToggle, nameToggle: modalInfos.nameToggle, typeToggle: modalInfos.typeToggle, typeButton: 'confirm'});
             stockModalInfosInStore('');
             stockTypeButtonInStore('');
         break;

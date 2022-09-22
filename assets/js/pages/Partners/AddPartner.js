@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux'
 import { updateMessage } from '../../redux/redux';
 import { useNavigate } from 'react-router-dom';
 import AlertMessage from '../../components/AlertMessage';
-import SwitchPermission from '../../components/SwitchPermission';
 
 export default function AddPartner() {
 
@@ -182,7 +181,7 @@ export default function AddPartner() {
                 <fieldset>
                     <legend>Permissions Globales</legend>
                     <ul className='permissionsList'>
-                        {
+                        {/* {
                             permissions.map((permission) => (
                                 <SwitchPermission
                                     key={permission.id}
@@ -192,7 +191,7 @@ export default function AddPartner() {
                                     checked={false}
                                 />
                             ))
-                        }
+                        } */}
                     </ul>
                 </fieldset>
                 <div className='actionBtns'>
