@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PermissionCard from '../../components/PermissionCard';
 import Button from '../../components/Button';
+import { useSelector } from 'react-redux';
 
 export default function Permissions() {
 
+    const alertMessage = useSelector((state) => state.alertMessage);
     const [permissions, setPermissions] = useState([]);
 
     useEffect(() => {
@@ -12,7 +14,7 @@ export default function Permissions() {
       .then((res) => {
         setPermissions(res.data);
       })
-    }, [])
+    }, [alertMessage])
 
     return (
         <>

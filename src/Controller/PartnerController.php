@@ -56,20 +56,82 @@ class PartnerController extends AbstractController
     }
 
     #[Route('/api/partner/{id}/edit', name: 'partner_edit', methods: ['POST'])]
-    public function editPartner(Request $request, $id, SerializerInterface $serializer)
+    public function editPartner(Request $request, $id, SerializerInterface $serializer, SluggerInterface $slugger)
     {
-        //Récupération des données issues du formulaire de modification d'un partenaire
+        //Récupération des données issues du formulaire de création d'un partenaire
+        $content = [];
+        $content['name'] = $request->get('name');
+        if (!$request->get('displayedLogo')) {
+            if ($request->files->get('logoFile') !== null) {
+                $content['logoFile'] = $request->files->get('logoFile');
+                $content['logoFileName'] = $request->get('logoFileName');
+            } else if ($request->files->get('logo') === null) {
+                $content['logoFile'] = null;
+            }
+        }
+        $content['description'] = $request->get('description');
+        $content['firstname'] = $request->get('firstname');
+        $content['lastname'] = $request->get('lastname');
+        $content['phone'] = $request->get('phone');
+        $content['email'] = $request->get('email');
         $content['isActive'] = $request->get('isActive');
         
         //Recherche du partenaire concerné par la modification en fonction de l'id
         $partner = $this->entityManager->getRepository(Partner::class)->findOneById($id);
-
-        //Mise à jour du partenaire
-        $partner->setIsActive($content['isActive']);
+        
+        if ($content['isActive'] !== null) {          
+            //Mise à jour du statut du partenaire
+            $partner->setIsActive($content['isActive']);
+        } else {
+            //Application de la fonction de contrôle des champs renseignés dans le formulaire de création d'un partenaire
+            $errorsValidation  = new ErrorsValidation($content);
+            $errors = $errorsValidation->formItemControl();
+            
+            //Recherche de l'utilisateur lié au partenaire
+            $user = $this->entityManager->getRepository(User::class)->findOneById($partner->getContact()->getId());
+            
+            //Recherche de l'utilisateur par l'email renseigné dans le formulaire pour vérifier si il n'existe pas en base de donnée
+            $search_email = $this->entityManager->getRepository(User::class)->findOneByEmail($content['email']);
+            if ($search_email && $search_email->getEmail() !== $user->getEmail()) {
+                $errors['email'] = 'L\'email renseigné est déjà présent en base de données';
+            }
+            if (empty($errors)) {
+                //Modification du contact du partenaire en vérifiant si le champs concerné a été modifié
+                $content['firstname'] !== $user->getFirstname() ? $user->setFirstname(ucfirst(strtolower($content['firstname']))) : null;
+                $content['lastname'] !== $user->getLastname() ? $user->setLastname(ucfirst(strtolower($content['lastname']))) : null;
+                $content['phone'] !== $user->getPhone() ? $user->setPhone($content['phone']) : null;
+                $content['email'] !== $user->getEmail() ? $user->setEmail($content['email']) : null;
+                //Mise à jour de l'utilisateur modifié et du partenaire modifié
+                $this->entityManager->persist($user);
+                
+                //Modification du partenaire en vérifiant si le champs concerné a été modifié
+                $content['name'] !== $partner->getName() ? $partner->setName(ucfirst(strtolower($content['name']))) : null;
+                $content['description'] !== $partner->getDescription() ? $partner->setDescription(ucfirst(strtolower($content['description']))) : null;
+                //Copie du logo du partenaire dans le dossier uploads (avec renommage du fichier par avec le nom du partenaire sluggé) si modifié
+                if (isset($content['logoFile'])) {
+                    $logo = $content['logoFile'];
+                    $slugLogoName = $slugger->slug($content['name']);
+                    $newLogoName = strtolower($slugLogoName . '.' . $logo->guessExtension());
+                    $logo->move($this->getParameter('files_directory'), $newLogoName); //file_directory paramétré dans le fichier config/services.yaml
+                    $partner->setLogo($newLogoName);
+                }
+            } else {
+                //Création de la réponse pour renvoyer le json contenant les erreurs liées au remplissage du formulaire de création d'un partenaire
+                $errorsJson = $serializer->serialize($errors, 'json');
+                $response = new Response($errorsJson, 500, [
+                    'Content-Type' => 'application/json'
+                ]);
+                
+                return $response;
+            }
+        }
+        //Mise à jour du partenaire modifié
+        $this->entityManager->persist($partner);
+        //Mise à jour de la base de donnée avec les modification du partenaire et/ou de l'utilisateur
         $this->entityManager->flush();
 
         //Création de la réponse pour renvoyer le json contenant les infos du partenaire modifié
-        $json = $serializer->serialize($partner, 'json', ['groups' => 'partner:edit']);
+        $json = $serializer->serialize($partner, 'json', ['groups' => 'partner:read']);
         $response = new Response($json, 200, [
             'Content-Type' => 'application/json'
         ]);
@@ -134,7 +196,7 @@ class PartnerController extends AbstractController
             $user->setPartner($partner);
             $this->entityManager->persist($user);
 
-            //Récupération de tous les partenaires en base de données
+            //Récupération de toutes les permissions en base de données
             $permissions = $this->entityManager->getRepository(Permission::class)->findAll();
 
             //Création des nouvelles instances PartnerPermission

@@ -19,8 +19,23 @@ class PartnerPermissionController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
+    #[Route('/api/partner-permission/{idPartner}/{idPermission}', name: 'partner-permission', methods: ['GET'])]
+    public function getPartnerPermission(Request $request, SerializerInterface $serializer, $idPartner, $idPermission): Response
+    {
+        //Recherche d'une relation partenaire-permissions en fonction de l'id du partenaire et de l'id de la permission
+        $partnerPermission = $this->entityManager->getRepository(PartnerPermission::class)->findOneByIdPartnerAndIdPermission($idPartner, $idPermission);
+
+        //Création de la réponse pour renvoyer le json contenant les infos du partenaire trouvé
+        $json = $serializer->serialize($partnerPermission, 'json', ['groups' => 'partnerPermission:edit']);
+        $response = new Response($json, 200, [
+            'Content-Type' => 'application/json'
+        ]);
+        
+        return $response;
+    }
+
     #[Route('/api/partner-permission/{idPartner}/{idPermission}/edit', name: 'partner-permission_edit', methods: ['POST'])]
-    public function getPartner(Request $request, SerializerInterface $serializer, $idPartner, $idPermission): Response
+    public function editPartnerPermission(Request $request, SerializerInterface $serializer, $idPartner, $idPermission): Response
     {
         //Récupération des données issues du formulaire de modification d'un partenaire
         $content['isActive'] = $request->get('isActive');
