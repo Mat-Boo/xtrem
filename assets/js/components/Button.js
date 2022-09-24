@@ -1,11 +1,13 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAnswerModalForDelete, updateAlertMessage, updateModal, updateTypeButton } from '../redux/redux';
 import axios from 'axios';
 
 export default function Button({ idItem, nameItem, typeItem, typeBtn, btnSvg, btnTitle, btnUrl }) {
+
+    const navigate = useNavigate();
 
     const typeButtonClicked = useSelector((state) => state.typeButton);
     const dispatchTypeButton = useDispatch();
@@ -73,13 +75,14 @@ export default function Button({ idItem, nameItem, typeItem, typeBtn, btnSvg, bt
                 axios.post('http://127.0.0.1:8000/api/partner/' + answerModal.idItem + '/delete')
                 .then(response => {
                     stockAlertMessageInStore({type: 'success', content: 'Le partenaire ' + answerModal.idItem + ' - ' + answerModal.nameItem + ' a bien été supprimé.'})
+                    navigate('/partenaires');
                 })
                 .catch(error => {
                     stockAlertMessageInStore({type: 'error', content: 'La suppression du partenaire ' + answerModal.idItem + ' - ' + answerModal.nameItem + ' n\'a pu aboutir, merci de réessayer.'})
                 });
                 break;
             case 'permission':
-                axios.put('http://127.0.0.1:8000/api/permission/' + answerModal.idItem + '/delete')
+                axios.post('http://127.0.0.1:8000/api/permission/' + answerModal.idItem + '/delete')
                 .then(response => {
                     stockAlertMessageInStore({type: 'success', content: 'La permission ' + answerModal.idItem + ' - ' + answerModal.nameItem + ' a bien été supprimée.'})
                 })

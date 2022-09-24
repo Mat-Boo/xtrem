@@ -232,6 +232,33 @@ class PartnerController extends AbstractController
                 'Content-Type' => 'application/json'
             ]);
         }
+        return $response;
+    }
+
+    #[Route('/api/partner/{id}/delete', name: 'partner_delete', methods: ['POST'])]
+    public function deletePartner(SerializerInterface $serializer, $id): Response
+    {
+        //Recherche des relations PartnerPermission dont le partenaire est concernée par la suppression
+        $partnersPermissions = $this->entityManager->getRepository(PartnerPermission::class)->findByPartner($id);
+
+        //Mise à jour de la base de donnée en supprimant les relations Partenaire et Permission
+        foreach($partnersPermissions as $partnerPermission) {
+            $this->entityManager->remove($partnerPermission);
+        }
+
+        //Recherche du partenaire concerné par la suppression en fonction de l'id
+        $partner = $this->entityManager->getRepository(Partner::class)->findOneById($id);
+
+        //Mise à jour de la base de donnée en supprimant le partenaire
+        $this->entityManager->remove($partner);
+
+        $this->entityManager->flush();
+
+        //Création de la réponse pour renvoyer le json contenant les infos du partenaire supprimé
+        $json = $serializer->serialize($partner, 'json', ['groups' => 'partner:read']);
+        $response = new Response($json, 200, [
+            'Content-Type' => 'application/json'
+        ]);
         
         return $response;
     }

@@ -126,7 +126,7 @@ class PermissionController extends AbstractController
         return $response;
     }
 
-    #[Route('/api/permission/{id}/delete', name: 'permission_delete', methods: ['PUT'])]
+    #[Route('/api/permission/{id}/delete', name: 'permission_delete', methods: ['POST'])]
     public function deletePermission(SerializerInterface $serializer, $id): Response
     {
         //Recherche des relations PartnerPermission dont la permission est concernée par la suppression
@@ -136,7 +136,6 @@ class PermissionController extends AbstractController
         foreach($partnersPermissions as $partnerPermission) {
             $this->entityManager->remove($partnerPermission);
         }
-        $this->entityManager->flush();
 
         //Recherche de la permission concernée par la suppression en fonction de l'id
         $permission = $this->entityManager->getRepository(Permission::class)->findOneById($id);
