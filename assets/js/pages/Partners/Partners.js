@@ -3,6 +3,7 @@ import axios from 'axios';
 import PartnerCard from '../../components/PartnerCard';
 import Button from '../../components/Button';
 import Filters from '../../components/Filters';
+import { useSelector } from 'react-redux';
 
 export default function Partners() {
 
@@ -13,6 +14,8 @@ export default function Partners() {
         actives: 0,
         inactives: 0
     });
+
+    const filter = useSelector((state) => state.filter);
     
     useEffect(() => {
         axios.get('http://127.0.0.1:8000/api/partners')
@@ -30,16 +33,6 @@ export default function Partners() {
         })
     }, [])
 
-    
-    const searchFct = (search) => {
-        console.log(search);
-    }
-
-    const stateFct = (state) => {
-
-    }
-
-    
     return (
         <>
             {
@@ -56,21 +49,28 @@ export default function Partners() {
                                 btnUrl='/partenaires/ajouter'
                             />
                         </div>
-                        <Filters all={lengthes.all} actives={lengthes.actives} inactives={lengthes.inactives} searchFct={searchFct} stateFct={stateFct}/>
+                        <Filters all={lengthes.all} actives={lengthes.actives} inactives={lengthes.inactives} displayStates={true} />
                         <ul className='partnersList'>
                             {
                                 partners
-                                    .filter((partner) => partner.name)
+                                    .filter((partner) => (
+                                        (filter.state === 'all' ?
+                                            partner.isActive === true || partner.isActive === false :
+                                            partner.isActive === filter.state)
+                                        && (partner.id.toString().includes(filter.search.toString()) || 
+                                        partner.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
+                                        partner.description.toLowerCase().includes(filter.search.toString().toLowerCase()))
+                                    ))
                                     .map((partner) => (
-                                    <PartnerCard 
-                                        key={partner.id}
-                                        id={partner.id}
-                                        logo={partner.logo}
-                                        name={partner.name}
-                                        description={partner.description}
-                                        isActive={partner.isActive}
-                                    />
-                                ))
+                                        <PartnerCard 
+                                            key={partner.id}
+                                            id={partner.id}
+                                            logo={partner.logo}
+                                            name={partner.name}
+                                            description={partner.description}
+                                            isActive={partner.isActive}
+                                        />
+                                    ))
                             }
                         </ul>
                     </div>

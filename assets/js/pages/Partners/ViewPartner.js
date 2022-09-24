@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import Button from '../../components/Button';
 import ToggleSwitch from '../../components/ToggleSwitch';
 import axios from 'axios';
+import abdos from '../../../img/svgBg/abdos.svg';
+import haltere from '../../../img/svgBg/haltere.svg';
 
 export default function ViewPartner() {
 
@@ -141,7 +143,9 @@ export default function ViewPartner() {
                                     }
                                 </ul>
                             </fieldset>
-                        </form>                        
+                        </form>
+                        {/* <img src={haltere} alt="haltere" className='haltere'/> */}
+                        <img src={abdos} alt="abdos" className='abdos'/>                  
                     </div>
             }
         </>

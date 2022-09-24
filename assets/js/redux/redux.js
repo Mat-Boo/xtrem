@@ -78,6 +78,19 @@ const typeButtonSlice = createSlice({
 })
 export const {updateTypeButton} = typeButtonSlice.actions;
 
+// Slice to stock filter's choices
+const filterSlice = createSlice({
+    name: 'filter',
+    initialState: {search: '', state: 'all'},
+    reducers: {
+        updateFilter: (state, action) => {
+            state = action.payload
+            return state
+        }
+    }
+})
+export const {updateFilter} = filterSlice.actions;
+
 export const store = configureStore({
     reducer: {
         auth: authSlice.reducer,
@@ -85,6 +98,7 @@ export const store = configureStore({
         modal: modalSlice.reducer,
         answerModalForChangeState: answerModalForChangeStateSlice.reducer,
         answerModalForDelete: answerModalForDeleteSlice.reducer,
-        typeButton: typeButtonSlice.reducer
+        typeButton: typeButtonSlice.reducer,
+        filter: filterSlice.reducer
     }
 })
