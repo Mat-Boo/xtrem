@@ -19,6 +19,8 @@ import EditPartner from './pages/Partners/EditPartner';
 import Modal from './components/Modal';
 import AlertMessage from './components/AlertMessage';
 import ManageClubs from './pages/Partners/ManageClubs';
+import AddClub from './pages/Clubs/AddClub';
+import EditClub from './pages/Clubs/EditClub';
 
 /* const user = useSelector((state) => state.auth); */
 
@@ -40,6 +42,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                             <Route path="/partenaires/:idSlug" element={<ViewPartner />} />
                             <Route path="/partenaires/:idSlug/modifier" element={<EditPartner />} />
                             <Route path="/partenaires/:idSlug/clubs" element={<ManageClubs />} />
+                            <Route path="/partenaires/:idSlug/clubs/ajouter" element={<AddClub />} />
+                            <Route path="/partenaires/:idSlug/clubs/:idSlugClub/modifier" element={<EditClub />} />
                             <Route path="/permissions" element={<Permissions />} />
                             <Route path="/permissions/ajouter" element={<AddPermission />} />
                             <Route path="/permissions/:idSlug" element={<ViewPermission />} />

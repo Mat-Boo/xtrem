@@ -16,7 +16,7 @@ export default function ViewPartner() {
     } */
 
     const [partner, setPartner] = useState([]);
-    const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0))
+    const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0));
     
     useEffect(() => {
         axios.get('http://127.0.0.1:8000/api/partner/' + id)
@@ -61,7 +61,6 @@ export default function ViewPartner() {
                             <hr />
                             <div className='partnerContact'>
                                 <p className='name'>
-
                                     {partner.contact.firstname + ' ' + partner.contact.lastname}
                                 </p>
                                 <p className='phone'>
