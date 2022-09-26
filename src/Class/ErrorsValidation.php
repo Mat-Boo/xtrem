@@ -106,6 +106,27 @@ class ErrorsValidation
                         $errors['description'] = 'La description doit comporter au minimum 3 caractères';
                     }
                     break;
+                case 'address':
+                    if ($valueItem === '') {
+                        $errors['address'] = 'L\'adresse est obligatoire';
+                    } else if (strlen($valueItem) < 3) {
+                        $errors['address'] = 'L\'adresse doit comporter au minimum 3 caractères';
+                    }
+                    break;
+                case 'zipcode':
+                    if ($valueItem === '') {
+                        $errors['zipcode'] = 'Le code postal est obligatoire';
+                    } else if (strlen($valueItem) !== 5 || !(int)$valueItem) {
+                        $errors['zipcode'] = 'Le code postal doit comporter 5 chiffres';
+                    }
+                    break;
+                case 'city':
+                    if ($valueItem === '') {
+                        $errors['city'] = 'La ville est obligatoire';
+                    } else if (!preg_match('/^[A-Za-z\é\è\ê\-]+$/', $valueItem)) {
+                        $errors['city'] = 'La ville ne doit pas comporter de caractères spéciaux';
+                    }
+                    break;
             }
         }
 

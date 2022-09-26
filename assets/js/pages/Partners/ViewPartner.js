@@ -5,6 +5,7 @@ import ToggleSwitch from '../../components/ToggleSwitch';
 import axios from 'axios';
 import abdos from '../../../img/svgBg/abdos.svg';
 import haltere from '../../../img/svgBg/haltere.svg';
+import rameur from '../../../img/svgBg/rameur.svg';
 
 export default function ViewPartner() {
 
@@ -144,7 +145,8 @@ export default function ViewPartner() {
                             </fieldset>
                         </form>
                         {/* <img src={haltere} alt="haltere" className='haltere'/> */}
-                        <img src={abdos} alt="abdos" className='abdos'/>                  
+                        {/* <img src={abdos} alt="abdos" className='abdos'/> */}
+                        <img src={rameur} alt="rameur" className='rameur'/>              
                     </div>
             }
         </>

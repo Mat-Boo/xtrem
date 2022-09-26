@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Class\ErrorsValidation;
+use App\Entity\Club;
+use App\Entity\ClubPermission;
 use App\Entity\Partner;
 use App\Entity\PartnerPermission;
 use App\Entity\Permission;
@@ -107,7 +109,7 @@ class PartnerController extends AbstractController
                 //Modification du partenaire en vérifiant si le champs concerné a été modifié
                 $content['name'] !== $partner->getName() ? $partner->setName(ucfirst(strtolower($content['name']))) : null;
                 $content['description'] !== $partner->getDescription() ? $partner->setDescription(ucfirst(strtolower($content['description']))) : null;
-                //Copie du logo du partenaire dans le dossier uploads (avec renommage du fichier par avec le nom du partenaire sluggé) si modifié
+                //Copie du logo du partenaire dans le dossier uploads (avec renommage du fichier avec le nom du partenaire sluggé) si modifié
                 if (isset($content['logoFile'])) {
                     $logo = $content['logoFile'];
                     $slugLogoName = $slugger->slug($content['name']);
@@ -178,10 +180,10 @@ class PartnerController extends AbstractController
             $password = $hasher->hashPassword($user, $content['password']);
             $user->setPassword($password);
     
-            //Copie du logo du partenaire dans le dossier uploads (avec renommage du fichier par avec le nom du partenaire sluggé)
+            //Copie du logo du partenaire dans le dossier uploads (avec renommage du fichier avec le nom du partenaire sluggé)
             $logo = $content['logoFile'];
             $slugLogoName = $slugger->slug($content['name']);
-            $newLogoName = strtolower($slugLogoName . '.' . $logo->guessExtension());
+            $newLogoName = strtolower('partner_' + $slugLogoName . '.' . $logo->guessExtension());
             $logo->move($this->getParameter('files_directory'), $newLogoName); //file_directory paramétré dans le fichier config/services.yaml
     
             //Création de la nouvelle instance Partner
@@ -260,6 +262,115 @@ class PartnerController extends AbstractController
             'Content-Type' => 'application/json'
         ]);
         
+        return $response;
+    }
+
+    //**************************************************//
+    //Manage Clubs
+
+    #[Route('/api/partner/{id}/clubs/create', name: 'partner_club_create', methods: ['POST'])]
+    public function createClub(Request $request, SerializerInterface $serializer, UserPasswordHasherInterface $hasher, SluggerInterface $slugger, $id): Response
+    {
+        //Récupération des données issues du formulaire de création d'un partenaire
+        $content = [];
+        $content['name'] = $request->get('name');
+        $content['logoFile'] = $request->files->get('logoFile');
+        $content['logoFileName'] = $request->get('logoFileName');
+        $content['address'] = $request->get('address');
+        $content['zipcode'] = $request->get('zipcode');
+        $content['city'] = $request->get('city');
+        $content['firstname'] = $request->get('firstname');
+        $content['lastname'] = $request->get('lastname');
+        $content['phone'] = $request->get('phone');
+        $content['email'] = $request->get('email');
+        $content['password'] = $request->get('password');
+        $content['passwordConfirm'] = $request->get('passwordConfirm');
+        $content['permissions'] = $request->get('permissions');
+
+        //Application de la fonction de contrôle des champs renseignés dans le formulaire de création d'un club
+        $errorsValidation  = new ErrorsValidation($content);
+        $errors = $errorsValidation->formItemControl();
+        
+        //Vérification de l'email pour voir si il n'existe pas en base de donnée
+        $search_email = $this->entityManager->getRepository(User::class)->findOneByEmail($content['email']);
+        if ($search_email) {
+            $errors['email'] = 'L\'email renseigné est déjà présent en base de données';
+        } 
+        if (empty($errors)) {
+            //Création de la nouvelle instance User
+            $user = new User;
+            $user->setFirstname(ucfirst(strtolower($content['firstname'])));
+            $user->setLastname(ucfirst(strtolower($content['lastname'])));
+            $user->setPhone($content['phone']);
+            $user->setEmail($content['email']);
+            $user->setRoles(['ROLE_CLUB']);
+    
+            //Hashage du mot de passe                
+            $password = $hasher->hashPassword($user, $content['password']);
+            $user->setPassword($password);
+    
+            //Copie du logo du club dans le dossier uploads (avec renommage du fichier avec le nom du club sluggé)
+            $logo = $content['logoFile'];
+            $slugLogoName = $slugger->slug($content['name']);
+            $newLogoName = strtolower($slugLogoName . '.' . $logo->guessExtension());
+            $logo->move($this->getParameter('files_directory'), $newLogoName); //file_directory paramétré dans le fichier config/services.yaml
+    
+            //Création de la nouvelle instance Club
+            $club = new Club;
+            $club->setName(ucfirst(strtolower($content['name'])));
+            $club->setPicture($newLogoName);
+            $club->setAddress(ucfirst(strtolower($content['address'])));
+            $club->setZipCode($content['zipcode']);
+            $club->setCity($content['city']);
+            $club->setIsActive(true);
+            $club->setManager($user);
+            
+            //Mise à jour de l'utilisateur nouvellement créé en lui rattachant le nouveau club créé
+            $user->setClub($club);
+            $this->entityManager->persist($user);
+
+            //Recherche du partenaire dont dépend le club
+            $partner = $this->entityManager->getRepository(Partner::class)->findOneById($id);
+            //Mise à jour du partenaire dont dépend le club en lui rattachant le nouveau club créé
+            $partner->addClub($club);
+            $this->entityManager->persist($partner);            
+
+            //Récupération de toutes les permissions du partenaire dont dépend le club
+            $partnerPermissions = $this->entityManager->getRepository(PartnerPermission::class)->findByPartner($id);
+            
+            //Création des nouvelles instances ClubPermission
+            foreach($content['permissions'] as $idPermission => $statePermission) {
+                $clubPermission = new ClubPermission;
+                $clubPermission->setClub($club);
+                foreach($partnerPermissions as $partnerPermission) {
+                    if ($idPermission === $partnerPermission->getPermission()->getId()) {
+                        $clubPermission->setPartnerPermissions($partnerPermission);
+                    }
+                }
+                $clubPermission->setIsActive($statePermission);
+
+                //Ajout des permissions associées au club
+                $club->addClubPermission($clubPermission);
+                $this->entityManager->persist($club);
+                $this->entityManager->persist($clubPermission);
+                
+            }
+            //Mise à jour de la base de donnée avec le nouvel utilisateur, le nouveau club et les permissions associées au nouveau club
+            $this->entityManager->flush();
+    
+            //Création de la réponse pour renvoyer le json contenant les infos du nouveau partenaire
+            $json = $serializer->serialize($partner, 'json', ['groups' => 'club:read']);
+            $response = new Response($json, 200, [
+                'Content-Type' => 'application/json'
+            ]);
+            
+        } else {
+            //Création de la réponse pour renvoyer le json contenant les erreurs liées au remplissage du formulaire de création d'un partenaire
+            $errorsJson = $serializer->serialize($errors, 'json');
+            $response = new Response($errorsJson, 500, [
+                'Content-Type' => 'application/json'
+            ]);
+        }
         return $response;
     }
 

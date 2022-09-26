@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PartnerPermissionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -28,6 +30,14 @@ class PartnerPermission
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['partner:read'])]
     private ?Permission $Permission = null;
+
+    #[ORM\OneToMany(mappedBy: 'PartnerPermissions', targetEntity: ClubPermission::class)]
+    private Collection $clubPermissions;
+
+    public function __construct()
+    {
+        $this->clubPermissions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -67,6 +77,35 @@ class PartnerPermission
     {
         $this->Permission = $Permission;
 
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ClubPermission>
+     */
+    public function getClubPermissions(): Collection
+    {
+        return $this->clubPermissions;
+    }
+
+    public function addClubPermission(ClubPermission $clubPermission): self
+    {
+        if (!$this->clubPermissions->contains($clubPermission)) {
+            $this->clubPermissions->add($clubPermission);
+            $clubPermission->setPartnerPermissions($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClubPermission(ClubPermission $clubPermission): self
+    {
+        if ($this->clubPermissions->removeElement($clubPermission)) {
+            // set the owning side to null (unless already changed)
+            if ($clubPermission->getPartnerPermissions() === $this) {
+                $clubPermission->setPartnerPermissions(null);
+            }
+        }
         return $this;
     }
 }
