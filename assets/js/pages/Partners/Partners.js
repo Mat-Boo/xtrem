@@ -21,7 +21,6 @@ export default function Partners() {
         axios.get('http://127.0.0.1:8000/api/partners')
         .then((res) => {
             setPartners(res.data);
-            setLengthes({all: 0, actives: 0, inactives: 0});
             res.data.forEach((partner) => {
                 if (partner.isActive) {
                     setLengthes(lengthes => ({...lengthes, actives: lengthes.actives + 1}));

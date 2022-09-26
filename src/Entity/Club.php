@@ -15,36 +15,36 @@ class Club
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['club:read'])]
+    #[Groups(['club:read', 'partner:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['club:read'])]
+    #[Groups(['club:read', 'partner:read'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['club:read'])]
+    #[Groups(['club:read', 'partner:read'])]
     private ?string $picture = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['club:read'])]
+    #[Groups(['club:read', 'partner:read'])]
     private ?string $address = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['club:read'])]
+    #[Groups(['club:read', 'partner:read'])]
     private ?string $zip_code = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['club:read'])]
+    #[Groups(['club:read', 'partner:read'])]
     private ?string $city = null;
 
     #[ORM\Column]
-    #[Groups(['club:read'])]
+    #[Groups(['club:read', 'partner:read'])]
     private ?bool $isActive = null;
 
     #[ORM\OneToOne(inversedBy: 'club', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['club:read'])]
+    #[Groups(['club:read', 'partner:read'])]
     private ?User $manager = null;
 
     #[ORM\ManyToOne(inversedBy: 'clubs')]
@@ -53,7 +53,7 @@ class Club
     private ?Partner $partner = null;
 
     #[ORM\OneToMany(mappedBy: 'Club', targetEntity: ClubPermission::class)]
-    #[Groups(['club:read'])]
+    #[Groups(['club:read', 'partner:read'])]
     private Collection $clubPermissions;
 
     public function __construct()

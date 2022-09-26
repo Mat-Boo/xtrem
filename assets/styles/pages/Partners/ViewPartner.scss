@@ -135,6 +135,14 @@
         right: 0;
         margin: 0 50px;
     }
+    .traction {
+        width: 250px;
+        filter: invert(11%) sepia(99%) saturate(1005%) hue-rotate(188deg) brightness(93%) contrast(92%);
+        position: absolute;
+        top: 85px;
+        left: 100px;
+        margin: 0 50px;
+    }
 }
 
 @media screen and (min-width: 564px) {

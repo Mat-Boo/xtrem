@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ClubPermissionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ClubPermissionRepository::class)]
 class ClubPermission
@@ -11,13 +12,16 @@ class ClubPermission
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['club:read', 'partner:read'])]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['club:read', 'partner:read'])]
     private ?bool $isActive = null;
 
     #[ORM\ManyToOne(inversedBy: 'clubPermissions')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['club:read', 'partner:read'])]
     private ?PartnerPermission $PartnerPermissions = null;
 
     #[ORM\ManyToOne(inversedBy: 'clubPermissions')]

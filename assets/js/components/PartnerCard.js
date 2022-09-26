@@ -5,7 +5,7 @@ import ToggleSwitch from './ToggleSwitch';
 
 export default function PartnerCard({ id, logo, name, description, isActive }) {
     return (
-        <li className='partnerListItem'>    
+        <li className='partnerCard'>    
             <div className='logoAndInfos'>
                 <img src={'/uploads/' + logo} alt='partner-logo' className='logo'/>
                 <div className='partnerInfos'>

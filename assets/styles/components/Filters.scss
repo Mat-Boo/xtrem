@@ -3,11 +3,13 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    margin-bottom: 15px;
+    margin: 30px 0;
     #filterForm {
         align-items: center;
+        width: 100%;
         #searchBox {
             position: relative;
+            margin: 0 0 20px 0;
             .searchSvg {
                 position: absolute;
                 top: 50%;
@@ -21,7 +23,9 @@
         .stateBox {
             display: flex;
             justify-content: center;
-            width: 300px;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 300px;
             .formItem {
                 cursor: pointer;
                 flex-direction: row;
@@ -29,7 +33,7 @@
                 justify-content: center;
                 background: $itemBgBlue;
                 border: 1px solid $borderBlue;
-                margin-left: -1px;
+                margin: -1px 0 0 -1px;
                 width: 100px;
                 height: 40px;
                 font-size: 0.9em;
@@ -58,9 +62,13 @@
 
 @media screen and (min-width: 800px) {
     .filters {
+        margin-bottom: 30px;
         #filterForm {
             flex-direction: row;
             justify-content: space-between;
+            #searchBox {
+                margin: 0;
+            }
         }
     }
 }

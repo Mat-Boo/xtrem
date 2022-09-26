@@ -6,6 +6,7 @@ import axios from 'axios';
 import abdos from '../../../img/svgBg/abdos.svg';
 import haltere from '../../../img/svgBg/haltere.svg';
 import rameur from '../../../img/svgBg/rameur.svg';
+import traction from '../../../img/svgBg/traction.svg';
 
 export default function ViewPartner() {
 
@@ -38,7 +39,7 @@ export default function ViewPartner() {
                                     <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
                                     </svg>'
                                 btnTitle='Retour'
-                                btnUrl='/partenaires'
+                                btnUrl={-1}
                             />
                         </div>
                         <div className='partner'>
@@ -144,9 +145,10 @@ export default function ViewPartner() {
                                 </ul>
                             </fieldset>
                         </form>
-                        {/* <img src={haltere} alt="haltere" className='haltere'/> */}
+                        <img src={haltere} alt="haltere" className='haltere'/>
                         {/* <img src={abdos} alt="abdos" className='abdos'/> */}
-                        <img src={rameur} alt="rameur" className='rameur'/>              
+                        <img src={traction} alt="traction" className='traction'/>       
+                       {/*  <img src={rameur} alt="rameur" className='rameur'/>   */}            
                     </div>
             }
         </>

@@ -1,4 +1,4 @@
-.partnerListItem {
+.partnerCard {
     background: $itemBgBlue;
     width: 100%;
     max-width: 500px;
@@ -63,7 +63,7 @@
 }
 
 @media screen and (min-width: 500px) {
-    .partnerListItem {
+    .partnerCard {
         margin: 20px;
         height: 280px;
         .logoAndInfos {
