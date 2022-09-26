@@ -18,11 +18,11 @@ export default function ViewPartner() {
     const [partner, setPartner] = useState([]);
     const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0))
     
-     useEffect(() => {
-      axios.get('http://127.0.0.1:8000/api/partner/' + id)
-      .then((res) => {
-        setPartner(res.data);
-      })
+    useEffect(() => {
+        axios.get('http://127.0.0.1:8000/api/partner/' + id)
+        .then((res) => {
+            setPartner(res.data);
+        })
     }, [])
 
     return (

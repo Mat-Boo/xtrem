@@ -3,11 +3,13 @@ import axios from 'axios';
 import PermissionCard from '../../components/PermissionCard';
 import Button from '../../components/Button';
 import { useSelector } from 'react-redux';
+import Filters from '../../components/Filters';
 
 export default function Permissions() {
 
     const alertMessage = useSelector((state) => state.alertMessage);
     const [permissions, setPermissions] = useState([]);
+    const filter = useSelector((state) => state.filter);
 
     useEffect(() => {
       axios.get('http://127.0.0.1:8000/api/permissions')
@@ -32,16 +34,23 @@ export default function Permissions() {
                                 btnUrl='/permissions/ajouter'
                             />
                         </div>
+                        <Filters displayStates={false} />
                         <ul className='permissionsList'>
                             {
-                                permissions.map((permission) => (
-                                    <PermissionCard 
-                                        key={permission.id}
-                                        id={permission.id}
-                                        name={permission.name}
-                                        description={permission.description}
-                                    />
-                                ))
+                                permissions
+                                    .filter((permission) => (
+                                        permission.id.toString().includes(filter.search.toString()) || 
+                                        permission.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
+                                        permission.description.toLowerCase().includes(filter.search.toString().toLowerCase())
+                                    ))
+                                    .map((permission) => (
+                                        <PermissionCard 
+                                            key={permission.id}
+                                            id={permission.id}
+                                            name={permission.name}
+                                            description={permission.description}
+                                        />
+                                    ))
                             }
                         </ul>
                     </div>
