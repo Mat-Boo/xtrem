@@ -57,8 +57,9 @@ export default function AddClub() {
             'content-type': 'multipart/form-data',
           })
         .then(response => {
+            console.log(response.data)
             stockAlertMessageInStore({type: 'success', content: 'Le nouveau club ' + response.data.name + ' a été créé avec succès.'})
-            navigate(-1);
+            /* navigate(-1); */
         })
         .catch(error => {
             stockAlertMessageInStore({type: 'error', content: 'L\'ajout du club n\'a pu aboutir, veuillez corriger les erreurs.'});

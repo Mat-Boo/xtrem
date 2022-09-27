@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Class\ErrorsValidation;
+use App\Entity\ClubPermission;
+use App\Entity\Partner;
 use App\Entity\PartnerPermission;
 use App\Entity\Permission;
 use Doctrine\ORM\EntityManagerInterface;
@@ -72,6 +74,20 @@ class PermissionController extends AbstractController
     
             //Mise à jour de la base de donnée avec la nouvelle permission
             $this->entityManager->persist($permission);
+
+            //Impact sur les partenaires
+            //recherche de tous les partenaires
+            $partners = $this->entityManager->getRepository(Partner::class)->findAll();
+
+            //Ajout de la nouvelle permission à tous les partenaires mais non active
+            foreach($partners as $partner) {
+                $partnerPermission = new PartnerPermission;
+                $partnerPermission->setPartner($partner);
+                $partnerPermission->setPermission($permission);
+                $partnerPermission->setIsActive(false);
+                $this->entityManager->persist(($partnerPermission));
+            }
+
             $this->entityManager->flush();
     
             //Création de la réponse pour renvoyer le json contenant les infos de la nouvelle permission
@@ -132,8 +148,14 @@ class PermissionController extends AbstractController
         //Recherche des relations PartnerPermission dont la permission est concernée par la suppression
         $partnersPermissions = $this->entityManager->getRepository(PartnerPermission::class)->findByPermission($id);
 
+        
         //Mise à jour de la base de donnée en supprimant les relations Partenaire et Permission
         foreach($partnersPermissions as $partnerPermission) {
+            //Recherche de toutes les relations clubs-permissions contenant la permission modifiée du partenaire concerné
+            $clubsPermissions = $this->entityManager->getRepository(ClubPermission::class)->findByPartnerPermission($partnerPermission);
+            foreach($clubsPermissions as $clubPermission) {
+                $this->entityManager->remove($clubPermission);
+            }
             $this->entityManager->remove($partnerPermission);
         }
 
@@ -142,6 +164,7 @@ class PermissionController extends AbstractController
 
         //Mise à jour de la base de donnée en supprimant la permission
         $this->entityManager->remove($permission);
+
         $this->entityManager->flush();
 
         //Création de la réponse pour renvoyer le json contenant les infos de la permissions supprimée
