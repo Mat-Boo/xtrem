@@ -10,7 +10,7 @@ export default function MyAccount() {
     return (
         <>
             {
-                /* permission.name && */
+                user &&
                     <div className='myAccount'>
                         <div className='header'>
                             <h1>Mes informations personnelles</h1>
@@ -18,21 +18,24 @@ export default function MyAccount() {
                         <div className='userInfosAndBtns'>
                             <div className='userInfos'>
                                 <div className='firstnameItem infoItem'>
-                                    <span>Prénom</span>
+                                    <span>Prénom : </span>
                                     <span className='firstname valueItem'>{user.firstname}</span>
                                 </div>
                                 <div className='lastnameItem infoItem'>
-                                    <span>Nom</span>
+                                    <span>Nom : </span>
                                     <span className='lastname valueItem'>{user.lastname}</span>
                                 </div>
                                 <div className='emailItem infoItem'>
-                                    <span>Email</span>
+                                    <span>Email : </span>
                                     <span className='email valueItem'>{user.email}</span>
                                 </div>
-                                <div className='phoneItem infoItem'>
-                                    <span>Téléphone</span>
-                                    <span className='phone valueItem'>{user.phone}</span>
-                                </div>
+                                {
+                                    !user.roles.includes('ROLE_TECHNICAL') &&
+                                        <div className='phoneItem infoItem'>
+                                            <span>Téléphone : </span>
+                                            <span className='phone valueItem'>{user.phone}</span>
+                                        </div>
+                                }
                             </div>
                             <div className="actionBtns">
                                 <Button
