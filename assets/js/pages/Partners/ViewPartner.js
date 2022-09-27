@@ -41,6 +41,7 @@ export default function ViewPartner() {
                                 btnTitle='Retour'
                                 btnUrl={-1}
                             />
+                            <h1>Informations</h1>
                         </div>
                         <div className='partner'>
                             <div className='logoAndInfos'>

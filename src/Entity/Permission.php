@@ -23,7 +23,7 @@ class Permission
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['permission:read', 'partner:read'])]
+    #[Groups(['permission:read'])]
     private ?string $description = null;
 
     #[ORM\OneToMany(mappedBy: 'Permission', targetEntity: PartnerPermission::class)]

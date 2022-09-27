@@ -94,6 +94,15 @@
                 width: 120%;
                 color: $mainBlue;
                 border: 1px solid $mainBlue;
+                a {
+                    text-decoration: none;
+                    color: $mainBlue;
+                    width: 100%;
+                    text-align: center;
+                    &:hover .accountListItem {
+                        color: $mainBlue;
+                    }
+                }
                 .accountListItem {
                     width: 100%;
                     padding: 10px;
@@ -101,6 +110,7 @@
                     cursor: pointer;
                     &:hover {
                         background: #EDF1F4;
+                        opacity: 0.8;
                     }
                 }
             }

@@ -1,0 +1,20 @@
+.pagination {
+    .pageBtn {
+        width: 40px;
+        height: 40px;
+        margin-left: -1px;
+        border: 1px solid $borderBlue;
+        background: $itemBgBlue;
+        color: $mainBlue;
+        cursor: pointer;
+    }
+    .activePage {
+        width: 40px;
+        height: 40px;
+        margin-left: -1px;
+        border: 1px solid $borderBlue;
+        background: $mainBlue;
+        color: $mainBlueBg;
+        cursor: pointer;
+    }
+}

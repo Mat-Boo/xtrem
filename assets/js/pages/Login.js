@@ -31,7 +31,6 @@ export default function Login() {
             "password": formValues.password
         })
         .then(response => {
-            console.log(response.data)
             stockInStore(response.data);
             navigate('/accueil');
         })

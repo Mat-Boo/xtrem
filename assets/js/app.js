@@ -21,6 +21,9 @@ import AlertMessage from './components/AlertMessage';
 import ManageClubs from './pages/Partners/ManageClubs';
 import AddClub from './pages/Clubs/AddClub';
 import EditClub from './pages/Clubs/EditClub';
+import MyAccount from './pages/MyAccount/MyAccount';
+import EditAccount from './pages/MyAccount/EditAccount';
+import ModifyPassword from './pages/MyAccount/ModifyPassword';
 
 /* const user = useSelector((state) => state.auth); */
 
@@ -48,6 +51,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                             <Route path="/permissions/ajouter" element={<AddPermission />} />
                             <Route path="/permissions/:idSlug" element={<ViewPermission />} />
                             <Route path="/permissions/:idSlug/modifier" element={<EditPermission />} />
+                            <Route path="/mon-compte/" element={<MyAccount />} />
+                            <Route path="/mon-compte/modifier-mes-informations" element={<EditAccount />} />
+                            <Route path="/mon-compte/modifier-mon-mot-de-passe" element={<ModifyPassword />} />
                   {/*       </>
                     } */}
                 </Routes>

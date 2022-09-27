@@ -1,26 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import PartnerCard from '../../components/PartnerCard';
 import Button from '../../components/Button';
 import Filters from '../../components/Filters';
 import { useSelector } from 'react-redux';
+import Pagination from '../../components/Pagination';
 
 export default function Partners() {
 
+    const alertMessage = useSelector((state) => state.alertMessage);
     const [partners, setPartners] = useState([]);
-
-    const [lengthes, setLengthes] = useState({
-        all: 0,
-        actives: 0,
-        inactives: 0
-    });
+    const [lengthes, setLengthes] = useState();
 
     const filter = useSelector((state) => state.filter);
+
+    const [filteredPartners, setFilteredPartners] = useState();
     
     useEffect(() => {
         axios.get('http://127.0.0.1:8000/api/partners')
         .then((res) => {
             setPartners(res.data);
+            setFilteredPartners(res.data);
+            setLengthes({
+                all: 0,
+                actives: 0,
+                inactives: 0
+            })
             res.data.forEach((partner) => {
                 if (partner.isActive) {
                     setLengthes(lengthes => ({...lengthes, actives: lengthes.actives + 1}));
@@ -30,7 +35,38 @@ export default function Partners() {
             })
             setLengthes(lengthes => ({...lengthes, all: res.data.length}));
         })
-    }, [])
+    }, [alertMessage])
+
+    //Pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(6);
+    const lastItemIndex = currentPage * itemsPerPage;
+    const firstItemIndex = lastItemIndex - itemsPerPage;
+    
+/*     const filterPartners = () => {
+        setFilteredPartners(partners.filter((partner) => (
+            (filter.state === 'all' ?
+            partner.isActive === true || partner.isActive === false :
+            partner.isActive === filter.state)
+            && (partner.id.toString().includes(filter.search.toString()) || 
+            partner.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
+            partner.description.toLowerCase().includes(filter.search.toString().toLowerCase()))
+            )));
+    } */
+
+    const filterPartners = useMemo(() => {
+        partners.filter((partner) => (
+            (filter.state === 'all' ?
+            partner.isActive === true || partner.isActive === false :
+            partner.isActive === filter.state)
+            && (partner.id.toString().includes(filter.search.toString()) || 
+            partner.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
+            partner.description.toLowerCase().includes(filter.search.toString().toLowerCase()))
+            ));
+    })
+        
+    const currentItems = partners.slice(firstItemIndex, lastItemIndex);
+    console.log(filterPartners);
 
     return (
         <>
@@ -48,18 +84,19 @@ export default function Partners() {
                                 btnUrl='/partenaires/ajouter'
                             />
                         </div>
+                        
                         <Filters all={lengthes.all} actives={lengthes.actives} inactives={lengthes.inactives} displayStates={true} />
                         <ul className='partnersList'>
                             {
-                                partners
-                                    .filter((partner) => (
+                                currentItems
+                                    /* .filter((partner) => (
                                         (filter.state === 'all' ?
                                             partner.isActive === true || partner.isActive === false :
                                             partner.isActive === filter.state)
                                         && (partner.id.toString().includes(filter.search.toString()) || 
                                         partner.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
                                         partner.description.toLowerCase().includes(filter.search.toString().toLowerCase()))
-                                    ))
+                                    )) */
                                     .map((partner) => (
                                         <PartnerCard 
                                             key={partner.id}
@@ -72,6 +109,7 @@ export default function Partners() {
                                     ))
                             }
                         </ul>
+                        <Pagination totalItems={partners.length} itemsPerPage={itemsPerPage} setCurrentPage={setCurrentPage} currentPage={currentPage}/>
                     </div>
             }
         </>

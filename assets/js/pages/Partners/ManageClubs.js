@@ -13,17 +13,18 @@ export default function ManageClubs() {
     const alertMessage = useSelector((state) => state.alertMessage);
     const [partner, setPartner] = useState([]);
     const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0));
-    const [lengthes, setLengthes] = useState({
-        all: 0,
-        actives: 0,
-        inactives: 0
-    });
+    const [lengthes, setLengthes] = useState();
     const filter = useSelector((state) => state.filter);
 
     useEffect(() => {
         axios.get('http://127.0.0.1:8000/api/partner/' + id)
         .then((res) => {
             setPartner(res.data);
+            setLengthes({
+                all: 0,
+                actives: 0,
+                inactives: 0
+            })
             res.data.clubs.forEach((club) => {
                 if (club.isActive) {
                     setLengthes(lengthes => ({...lengthes, actives: lengthes.actives + 1}));
@@ -49,6 +50,7 @@ export default function ManageClubs() {
                             btnTitle='Retour'
                             btnUrl={-1}
                         />
+                        <h1>Gestion des clubs</h1>
                     </div>
                     <div className='partner'>
                         <div className='logoAndInfos'>

@@ -15,15 +15,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['partner:read', 'club:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Groups(['partner:read', 'club:read'])]
+    #[Groups(['user:read', 'partner:read', 'club:read'])]
     private ?string $email = null;
 
     #[ORM\Column]
-    #[Groups(['partner:read', 'club:read'])]
+    #[Groups(['user:read'])]
     private array $roles = [];
 
     /**
@@ -33,15 +32,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['partner:read', 'club:read'])]
+    #[Groups(['user:read', 'partner:read', 'club:read'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['partner:read', 'club:read'])]
+    #[Groups(['user:read', 'partner:read', 'club:read'])]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 15, nullable: true)]
-    #[Groups(['partner:read', 'club:read'])]
+    #[Groups(['user:read', 'partner:read', 'club:read'])]
     private ?string $phone = null;
 
     #[ORM\OneToOne(mappedBy: 'contact', cascade: ['persist', 'remove'])]
