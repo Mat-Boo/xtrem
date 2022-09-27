@@ -34,7 +34,7 @@ class PartnerController extends AbstractController
         $partners = $this->entityManager->getRepository(Partner::class)->findAll();
 
         //Création de la réponse pour renvoyer le json contenant tous les partenaires
-        $json = $serializer->serialize($partners, 'json', ['groups' => 'partner:read']);
+        $json = $serializer->serialize($partners, 'json', ['groups' => 'partners:read']);
         $response = new Response($json, 200, [
             'Content-Type' => 'application/json'
         ]);

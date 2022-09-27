@@ -15,23 +15,23 @@ class Partner
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['partner:read', 'partner:edit'])]
+    #[Groups(['partners:read', 'partner:read', 'partner:edit'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['partner:read', 'partner:edit', 'partnerPermission:edit'])]
+    #[Groups(['partners:read', 'partner:read', 'partner:edit', 'partnerPermission:edit'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['partner:read'])]
+    #[Groups(['partners:read', 'partner:read'])]
     private ?string $logo = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['partner:read'])]
+    #[Groups(['partners:read', 'partner:read'])]
     private ?string $description = null;
 
     #[ORM\Column]
-    #[Groups(['partner:read'])]
+    #[Groups(['partners:read', 'partner:read'])]
     private ?bool $isActive = null;
 
     #[ORM\OneToOne(inversedBy: 'partner', cascade: ['persist', 'remove'])]
