@@ -4,7 +4,6 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux'
 import { updateAlertMessage } from '../../redux/redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import ToggleSwitch from '../../components/ToggleSwitch';
 
 export default function EditPartner() {
 
@@ -52,7 +51,7 @@ export default function EditPartner() {
             });
         }
     }
-    console.log(partner);
+
     const changeLogo = () => {
         setDisplayLogo(false);
     }

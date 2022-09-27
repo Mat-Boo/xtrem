@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\ClubPermission;
+use App\Entity\Partner;
 use App\Entity\PartnerPermission;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,7 +22,7 @@ class PartnerPermissionController extends AbstractController
     }
 
     #[Route('/api/partner-permission/{idPartner}/{idPermission}', name: 'partner-permission', methods: ['GET'])]
-    public function getPartnerPermission(Request $request, SerializerInterface $serializer, $idPartner, $idPermission): Response
+    public function getPartnerPermission(SerializerInterface $serializer, $idPartner, $idPermission): Response
     {
         //Recherche d'une relation partenaire-permissions en fonction de l'id du partenaire et de l'id de la permission
         $partnerPermission = $this->entityManager->getRepository(PartnerPermission::class)->findOneByIdPartnerAndIdPermission($idPartner, $idPermission);
@@ -45,6 +47,27 @@ class PartnerPermissionController extends AbstractController
 
         //Mise à jour de la relation partenaire-permission
         $partnerPermission[0]->setIsActive($content['isActive']);
+
+        //Impact sur les clubs
+        //Recherche de toutes les relations clubs-permissions contenant la permission modifiée du partenaire concerné
+        $clubsPermissions = $this->entityManager->getRepository(ClubPermission::class)->findByPartnerPermission($partnerPermission);
+
+        $partner = $this->entityManager->getRepository(Partner::class)->findOneById($idPartner);
+
+        if ($clubsPermissions) {
+            foreach($clubsPermissions as $clubPermission) {
+                $this->entityManager->remove($clubPermission);
+            }
+        } else {
+            foreach($partner->getClubs() as $club) {
+                $clubPermission = new ClubPermission;
+                $clubPermission->setClub($club);
+                $clubPermission->setPartnerPermissions($partnerPermission[0]);
+                $clubPermission->setIsActive(false);
+                $this->entityManager->persist($clubPermission);
+            }
+        }
+
         $this->entityManager->flush();
 
         //Création de la réponse pour renvoyer le json contenant les infos du partenaire trouvé

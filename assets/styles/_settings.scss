@@ -103,7 +103,7 @@ html {
             background-color: $itemBgBlue;
             margin: 20px 0;
             legend {
-                font-size: 25px;
+                font-size: 20px;
                 background: $mainBlue;
                 padding: 0 20px;
                 color: white;
@@ -147,6 +147,11 @@ html {
                 display: inline;
             }
         }
+        fieldset {
+            legend {
+                font-size: 25px;
+            }
+        }
     }
 }
 }
@@ -162,11 +167,6 @@ html {
                     margin-right: 10px;
                     justify-self: center;
                 }       
-            }
-            fieldset {
-                legend {
-                    text-align: start;
-                }
             }
         }
     }

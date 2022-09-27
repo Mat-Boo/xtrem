@@ -53,7 +53,7 @@ export default function AddClub() {
                 formData.append(item.id, item.value);
             }
         }
-        axios.post('http://127.0.0.1:8000/api/partner/' + id + '/clubs/create', formData, {
+        axios.post('http://127.0.0.1:8000/api/partner/' + id + '/club/create', formData, {
             'content-type': 'multipart/form-data',
           })
         .then(response => {
@@ -215,7 +215,7 @@ export default function AddClub() {
                                                             idToggle={permission.Permission.id}
                                                             nameToggle={permission.Permission.name}
                                                             typeToggle='permission'
-                                                            isActive={permission.isActive}
+                                                            isActive={false}
                                                         />
                                                     </div>
                                                     <span className='permissionName' /* onClick={handleClickPermissionName} */>{permission.Permission.name}</span>

@@ -90,7 +90,7 @@ export default function Button({ idItem, nameItem, typeItem, typeBtn, btnSvg, bt
                     stockAlertMessageInStore({type: 'error', content: 'La suppression de la permission ' + answerModal.idItem + ' - ' + answerModal.nameItem + ' n\'a pu aboutir, merci de réessayer.'})
                 });
                 break;
-            /* case 'club':
+            case 'club':
                 axios.post('http://127.0.0.1:8000/api/club/' + answerModal.idItem + '/delete')
                 .then(response => {
                     stockAlertMessageInStore({type: 'success', content: 'Le club ' + answerModal.idItem + ' - ' + answerModal.nameItem + ' a bien été supprimé.'})
@@ -98,7 +98,7 @@ export default function Button({ idItem, nameItem, typeItem, typeBtn, btnSvg, bt
                 .catch(error => {
                     stockAlertMessageInStore({type: 'error', content: 'La suppression du club ' + answerModal.idItem + ' - ' + answerModal.nameItem + ' n\'a pu aboutir, merci de réessayer.'})
                 });
-                break; */
+                break;
         }
         stockAnswerModalForDeleteInStore('');
     }   

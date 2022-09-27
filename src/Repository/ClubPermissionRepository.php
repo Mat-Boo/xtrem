@@ -39,6 +39,40 @@ class ClubPermissionRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByClub($idClub): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.Club = :idClub')
+            ->setParameter('idClub', $idClub)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    // Requête pour trouver les relations club-permission en fonction de l'id du partenaire et de l'id de la permission
+    Public function findByPartnerPermission($idPartnerPermission): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.PartnerPermissions = :idPartnerPermission')
+            ->setParameter('idPartnerPermission', $idPartnerPermission)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    // Requête pour trouver les relations club-permission en fonction de l'id du club et de l'id de la ralation partenaire-permission
+    Public function findByClubAndPartnerPermission($idClub, $idPartnerPermission): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.Club = :idClub')
+            ->setParameter('idClub', $idClub)
+            ->andWhere('p.PartnerPermissions = :idPartnerPermission')
+            ->setParameter('idPartnerPermission', $idPartnerPermission)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return ClubPermission[] Returns an array of ClubPermission objects
 //     */

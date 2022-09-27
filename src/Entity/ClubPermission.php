@@ -12,20 +12,21 @@ class ClubPermission
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['club:read', 'partner:read'])]
+    #[Groups(['club:read', 'partner:read', 'clubPermission:edit'])]
     private ?int $id = null;
 
     #[ORM\Column]
-    #[Groups(['club:read', 'partner:read'])]
+    #[Groups(['club:read', 'partner:read', 'clubPermission:edit'])]
     private ?bool $isActive = null;
 
     #[ORM\ManyToOne(inversedBy: 'clubPermissions')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['club:read', 'partner:read'])]
+    #[Groups(['club:read', 'partner:read', 'clubPermission:edit'])]
     private ?PartnerPermission $PartnerPermissions = null;
 
     #[ORM\ManyToOne(inversedBy: 'clubPermissions')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['clubPermission:edit'])]
     private ?Club $Club = null;
 
     public function getId(): ?int

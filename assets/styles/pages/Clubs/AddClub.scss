@@ -48,6 +48,9 @@
                     width: 100%;
                 }
             }
+            #addressBox {
+                padding: 0 20px;
+            }
             .permissionsList {
                 display: flex;
                 flex-wrap: wrap;
@@ -73,6 +76,19 @@
         .actionBtns {
             display: flex;
             justify-content: space-between;
+        }
+    }
+}
+
+
+@media screen and (min-width: 380px) {
+    .addClub {
+        form {
+            fieldset {
+                #addressBox {
+                    padding: 0;
+                }
+            }
         }
     }
 }
@@ -109,15 +125,13 @@
                     padding: 0 30px;
                     width: 100%;
                     max-width: 720px;
-                    
-
                 }
             }
         }
     }
 }
 
-@media screen and (min-width: 871px) {
+@media screen and (min-width: 778px) {
     .addClub {
         form {
             fieldset {
@@ -131,7 +145,7 @@
     }
 }
 
-@media screen and (min-width: 1229px) {
+@media screen and (min-width: 1260px) {
     .addClub {
         form {
             fieldset {

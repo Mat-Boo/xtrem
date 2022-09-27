@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { updateFilter } from '../redux/redux';
 
@@ -15,6 +15,10 @@ export default function Filters({ all, actives, inactives, displayStates }) {
         dispatchFilter(updateFilter(data))
     }
     
+    useEffect(() => {
+
+    }, [all, actives, inactives])
+
     const handleChange = (e) => {
         switch (e.target.id) {
             case 'search':

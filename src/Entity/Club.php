@@ -15,11 +15,11 @@ class Club
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['club:read', 'partner:read'])]
+    #[Groups(['club:read', 'partner:read', 'clubPermission:edit'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['club:read', 'partner:read'])]
+    #[Groups(['club:read', 'partner:read', 'clubPermission:edit'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
@@ -32,7 +32,7 @@ class Club
 
     #[ORM\Column(length: 50)]
     #[Groups(['club:read', 'partner:read'])]
-    private ?string $zip_code = null;
+    private ?string $zipcode = null;
 
     #[ORM\Column(length: 50)]
     #[Groups(['club:read', 'partner:read'])]
@@ -102,14 +102,14 @@ class Club
         return $this;
     }
 
-    public function getZipCode(): ?string
+    public function getZipcode(): ?string
     {
-        return $this->zip_code;
+        return $this->zipcode;
     }
 
-    public function setZipCode(string $zip_code): self
+    public function setZipcode(string $zipcode): self
     {
-        $this->zip_code = $zip_code;
+        $this->zipcode = $zipcode;
 
         return $this;
     }

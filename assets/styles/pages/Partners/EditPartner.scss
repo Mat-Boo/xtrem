@@ -72,27 +72,6 @@
                     width: 100%;
                 }
             }
-            .permissionsList {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-                align-items: center;
-                .switchPermission {
-                    display: flex;
-                    align-items: center;
-                    margin: 20px;
-                    width: 100%;
-                    max-width: 300px;
-                    div {
-                        width: 60px;
-                        height: 30px;
-                    }
-                    .permissionName {
-                        margin-left: 20px;
-                        cursor: pointer;
-                    }
-                }
-            }
         }
         .actionBtns {
             display: flex;
@@ -131,32 +110,6 @@
                     .formItem {
                         margin: 20px 30px;
                     }
-                }
-            }
-        }
-    }
-}
-
-@media screen and (min-width: 778px) {
-    .editPartner {
-        form {
-            fieldset {
-                .permissionsList {
-                    justify-content: flex-start;
-                    margin: 0 auto;
-                    max-width: 680px;
-                }
-            }
-        }
-    }
-}
-
-@media screen and (min-width: 1260px) {
-    .editPartner {
-        form {
-            fieldset {
-                .permissionsList {
-                    max-width: 1020px;
                 }
             }
         }

@@ -10,6 +10,7 @@ import ClubCard from '../../components/ClubCard';
 
 export default function ManageClubs() {
 
+    const alertMessage = useSelector((state) => state.alertMessage);
     const [partner, setPartner] = useState([]);
     const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0));
     const [lengthes, setLengthes] = useState({
@@ -32,7 +33,7 @@ export default function ManageClubs() {
             })
             setLengthes(lengthes => ({...lengthes, all: res.data.clubs.length}));
         })
-    }, [])
+    }, [alertMessage])
 
     return (
         <>
@@ -99,7 +100,9 @@ export default function ManageClubs() {
                                                 club.isActive === filter.state)
                                             && (club.id.toString().includes(filter.search.toString()) || 
                                             club.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
-                                            club.address.toLowerCase().includes(filter.search.toString().toLowerCase()))
+                                            club.address.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                            club.zipcode.includes(filter.search.toString()) ||
+                                            club.city.toLowerCase().includes(filter.search.toString().toLowerCase()))
                                         ))
                                         .map((club) => (
                                             <ClubCard
@@ -110,7 +113,7 @@ export default function ManageClubs() {
                                                 logo={club.picture}
                                                 isActive={club.isActive}
                                                 address={club.address}
-                                                zipcode={club.zip_code}
+                                                zipcode={club.zipcode}
                                                 city={club.city}
                                                 firstname={club.manager.firstname}
                                                 lastname={club.manager.lastname}

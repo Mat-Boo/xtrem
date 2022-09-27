@@ -15,11 +15,11 @@ class Permission
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['permission:read', 'partner:read'])]
+    #[Groups(['permission:read', 'partner:read', 'clubPermission:edit'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['permission:read', 'partner:read'])]
+    #[Groups(['permission:read', 'partner:read', 'clubPermission:edit'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]

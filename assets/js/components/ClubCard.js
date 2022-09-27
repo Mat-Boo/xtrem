@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import Button from './Button';
 import ToggleSwitch from './ToggleSwitch';
+import slugify from 'react-slugify';
 
 export default function ClubCard({ partner, id, name, logo, isActive, address, zipcode, city, firstname, lastname, phone, email, permissions }) {
     const toggleSwitchRef = useRef();
@@ -16,27 +17,25 @@ export default function ClubCard({ partner, id, name, logo, isActive, address, z
     const chevronDownRef = useRef();
     const legendRef = useRef();
     const [displayedPermissions, setDisplayedPermissions] = useState(false);
-    console.log(permissionsFieldsetRef);
     const displayPermissions = () => {
         if (!displayedPermissions) {
             setDisplayedPermissions(true);
-            legendRef.current.style.textAlign = 'start';
+            permissionsFieldsetRef.current.style.transition = 'background-color 500ms ease-in, max-height 1500ms ease-in';
             permissionsFieldsetRef.current.style.backgroundColor = '#BECEE1';
             permissionsFieldsetRef.current.style.border = '1px solid #3F72AE';
-            permissionsFieldsetRef.current.style.maxHeight = '500px';
+            permissionsFieldsetRef.current.style.maxHeight = '5000px';
             chevronDownRef.current.style.transform = 'rotate(-180deg)';
             setTimeout(() => {
-                permissionsFieldsetRef.current.style.maxHeight = permissionsFieldsetRef.current.clientHeight + 'px';
+                permissionsFieldsetRef.current.style.maxHeight = (permissionsFieldsetRef.current.clientHeight + 4)  + 'px';
             }, 500);
         } else {
             setDisplayedPermissions(false);
-            legendRef.current.style.textAlign = 'center';
+            permissionsFieldsetRef.current.style.transition = 'background-color 500ms ease-in, max-height 500ms ease-in';
             permissionsFieldsetRef.current.style.background = 'none';
             permissionsFieldsetRef.current.style.maxHeight = 0;
             chevronDownRef.current.style.transform = 'rotate(0)';
             setTimeout(() => {
                 permissionsFieldsetRef.current.style.border = 'none';
-                
             }, 400);
         }
     }
@@ -51,14 +50,8 @@ export default function ClubCard({ partner, id, name, logo, isActive, address, z
                             <p className='id'>{id}</p>
                             <p className='name'>{name}</p>
                             <div className="addressInfos">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-geo-alt" viewBox="0 0 16 16">
-                                    <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z"/>
-                                    <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                                </svg>
-                                <div>
-                                    <p className='address'>{address}</p>
-                                    <p className='zipAndCity'>{zipcode} <b>{city.toUpperCase()}</b></p>
-                                </div>
+                                <p className='address'>{address}</p>
+                                <p className='zipAndCity'>{zipcode} <b>{city.toUpperCase()}</b></p>
                             </div>
                         </div>
                         <ToggleSwitch
@@ -94,7 +87,7 @@ export default function ClubCard({ partner, id, name, logo, isActive, address, z
                             <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
                             </svg>'
                         btnTitle='Modifier'
-                        btnUrl='modifier'
+                        btnUrl={id + '-' + slugify(name) + '/modifier'}
                     />
                     <Button
                         typeBtn='modifyPassword'
@@ -136,7 +129,7 @@ export default function ClubCard({ partner, id, name, logo, isActive, address, z
                                             <ToggleSwitch
                                                 idPartner={partner.id}
                                                 idClub={id}
-                                                idToggle={permission.PartnerPermissions.Permission.id}
+                                                idToggle={permission.PartnerPermissions.id}
                                                 nameToggle={permission.PartnerPermissions.Permission.name}
                                                 typeToggle='permission'
                                                 isActive={permission.isActive}

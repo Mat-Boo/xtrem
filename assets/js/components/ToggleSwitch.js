@@ -135,49 +135,47 @@ export default function ToggleSwitch({ idPartner, idClub, nameToggle, idToggle, 
                 });
                 break;
             case 'permission':
-                if (answerModal.idPartner !== '') {
+                if (answerModal.idPartner !== '' && answerModal.idClub === '') {
                     axios.post('http://127.0.0.1:8000/api/partner-permission/' + answerModal.idPartner + '/' + answerModal.idToggle + '/edit', formData, {
                         'content-type': 'multipart/form-data',
                     })
                     .then(response => {
                         setStateSwitch(!stateSwitch);
                         if (!stateSwitch) {
-                            stockAlertMessageInStore({type: 'success', content: 'La permission ' + answerModal.idToggle + ' - ' + answerModal.nameToggle + ' a bien été activée pour le partenaire '  + answerModal.idPartner + ' - ' + response.data[0].Partner.name + '.'})
+                            stockAlertMessageInStore({type: 'success', content: 'La permission ' + answerModal.nameToggle + ' a bien été activée pour le partenaire '  + answerModal.idPartner + ' - ' + response.data[0].Partner.name + '.'})
                         } else {
-                            stockAlertMessageInStore({type: 'success', content: 'La permission ' + answerModal.idToggle + ' - ' + answerModal.nameToggle + ' a bien été désactivée pour le partenaire '  + answerModal.idPartner + ' - ' + response.data[0].Partner.name + '.'})
+                            stockAlertMessageInStore({type: 'success', content: 'La permission ' + answerModal.nameToggle + ' a bien été désactivée pour le partenaire '  + answerModal.idPartner + ' - ' + response.data[0].Partner.name + '.'})
                         }
                     })
                     .catch(error => {
-                        console.log(error)
                         if (!stateSwitch) {
-                            stockAlertMessageInStore({type: 'error', content: 'La permission ' + answerModal.idToggle + ' - ' + answerModal.nameToggle + ' n\'a pu être activée.'})
+                            stockAlertMessageInStore({type: 'error', content: 'La permission ' + answerModal.nameToggle + ' n\'a pu être activée.'})
                         } else {
-                            stockAlertMessageInStore({type: 'error', content: 'La permission ' + answerModal.idToggle + ' - ' + answerModal.nameToggle + ' n\'a pu être désactivée.'})
+                            stockAlertMessageInStore({type: 'error', content: 'La permission ' + answerModal.nameToggle + ' n\'a pu être désactivée.'})
                         }
                     });
-                } /* else if (answerModal.idClub !== '') {
+                } else if (answerModal.idClub !== '') {
                     axios.post('http://127.0.0.1:8000/api/club-permission/' + answerModal.idClub + '/' + answerModal.idToggle + '/edit', formData, {
                         'content-type': 'multipart/form-data',
                     })
                     .then(response => {
                         setStateSwitch(!stateSwitch);
                         if (!stateSwitch) {
-                            stockAlertMessageInStore({type: 'success', content: 'La permission ' + answerModal.idToggle + ' - ' + answerModal.nameToggle + ' a bien été activée pour le club '  + answerModal.idClub + ' - ' + response.data[0].Club.name + '.'})
+                            stockAlertMessageInStore({type: 'success', content: 'La permission ' + response.data[0].PartnerPermissions.Permission.name + ' a bien été activée pour le club '  + response.data[0].Club.id + ' - ' + response.data[0].Club.name + '.'})
                         } else {
-                            stockAlertMessageInStore({type: 'success', content: 'La permission ' + answerModal.idToggle + ' - ' + answerModal.nameToggle + ' a bien été désactivée pour le club '  + answerModal.idClub + ' - ' + response.data[0].Club.name + '.'})
+                            stockAlertMessageInStore({type: 'success', content: 'La permission ' + response.data[0].PartnerPermissions.Permission.name + ' a bien été désactivée pour le club '  + response.data[0].Club.id + ' - ' + response.data[0].Club.name + '.'})
                         }
                     })
                     .catch(error => {
-                        console.log(error)
                         if (!stateSwitch) {
-                            stockAlertMessageInStore({type: 'error', content: 'La permission ' + answerModal.idToggle + ' - ' + answerModal.nameToggle + ' n\'a pu être activée.'})
+                            stockAlertMessageInStore({type: 'error', content: 'La permission ' + answerModal.nameToggle + ' n\'a pu être activée.'})
                         } else {
-                            stockAlertMessageInStore({type: 'error', content: 'La permission ' + answerModal.idToggle + ' - ' + answerModal.nameToggle + ' n\'a pu être désactivée.'})
+                            stockAlertMessageInStore({type: 'error', content: 'La permission ' + answerModal.nameToggle + ' n\'a pu être désactivée.'})
                         }
                     });
-                } */
+                }
                 break;
-            /* case 'club':
+            case 'club':
                 axios.post('http://127.0.0.1:8000/api/club/' + answerModal.idToggle + '/edit', formData, {
                     'content-type': 'multipart/form-data',
                 })
@@ -196,7 +194,7 @@ export default function ToggleSwitch({ idPartner, idClub, nameToggle, idToggle, 
                         stockAlertMessageInStore({type: 'error', content: 'Le club ' + answerModal.idToggle + ' - ' + answerModal.nameToggle + ' n\'a pu être désactivé.'})
                     }
                 });
-                break; */
+                break;
         }
         stockAnswerModalForChangeStateInStore('');
     }   

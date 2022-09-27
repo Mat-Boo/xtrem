@@ -28,7 +28,7 @@ class PartnerPermission
 
     #[ORM\ManyToOne(inversedBy: 'partnerPermissions')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['partner:read'])]
+    #[Groups(['partner:read', 'clubPermission:edit'])]
     private ?Permission $Permission = null;
 
     #[ORM\OneToMany(mappedBy: 'PartnerPermissions', targetEntity: ClubPermission::class)]

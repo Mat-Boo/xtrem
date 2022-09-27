@@ -11,12 +11,14 @@
         position: relative;
         .logoAndInfos {
             display: flex;
+            flex-direction: column;
             width: 100%;
             .logo {
                 border: 1px solid $borderBlue;
                 width: 300px;
                 max-width: 60%;
-                margin-right: 15px;
+                margin: 0 0 15px 0;
+                align-self: center;
             }
             .clubInfos {
                 display: flex;
@@ -27,15 +29,14 @@
                 }
                 .name {
                     font-weight: 600;
+                    margin-bottom: 10px;
                 }
                 .addressInfos {
-                    display: flex;
-                    align-items: center;
-                    svg {
-                        margin-right: 10px;
-                    }
-                    .address, .zipAndCity {
+                    .address {
                         margin: 0;
+                    }
+                    .zipAndCity {
+                        margin-bottom: 10px;
                     }
                 }
             }
@@ -83,13 +84,14 @@
             background: none;
             max-height: 0;
             overflow: hidden;
-            transition: background-color 500ms ease-in, max-height 500ms ease-in;
             legend {
                 display: flex;
                 align-items: center;
                 transition: width 500ms ease-in;
+                cursor: pointer;
                 .chevron-down {
                     margin-left: 15px;
+                    min-width: 24px;
                     transition: transform 500ms;
                 }
             }
@@ -112,6 +114,20 @@
                         margin-left: 20px;
                         cursor: pointer;
                     }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 500px) {
+    .clubCard {
+        .clubInfosAndManagerAndBtns {
+            .logoAndInfos {
+                flex-direction: row;
+                .logo {
+                    margin: 0 15px 0 0;
+                    align-self: flex-start;
                 }
             }
         }
@@ -166,9 +182,9 @@
 @media screen and (min-width: 823px) {
     .clubCard {
         form {
-            fieldset {
+            #permissionsFieldset {
                 .permissionsList {
-                    justify-content: flex-start;
+                    justify-content: start;
                     margin: 0 auto;
                     max-width: 680px;
                 }
@@ -180,7 +196,7 @@
 @media screen and (min-width: 1260px) {
     .clubCard {
         form {
-            fieldset {
+            #permissionsFieldset {
                 .permissionsList {
                     max-width: 1020px;
                 }
