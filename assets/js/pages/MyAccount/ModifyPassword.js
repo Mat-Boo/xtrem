@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Button from '../../components/Button';
-import axios from 'axios';
+import Axios from '../../_services/caller_service';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateAlertMessage } from '../../redux/redux';
@@ -24,7 +24,7 @@ export default function ModifyPassword() {
                 formData.append(item.name, item.value);
             }
         }
-        axios.post('http://127.0.0.1:8000/api/connected-user/modify-password', formData, {
+        Axios.post('/api/connected-user/modify-password', formData, {
             'content-type': 'multipart/form-data',
           })
         .then(response => {

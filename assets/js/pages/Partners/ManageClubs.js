@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Button from '../../components/Button';
 import ToggleSwitch from '../../components/ToggleSwitch';
-import axios from 'axios';
+import Axios from '../../_services/caller_service';
 import slugify from 'react-slugify';
 import Filters from '../../components/Filters';
 import { useSelector } from 'react-redux';
@@ -17,7 +17,7 @@ export default function ManageClubs() {
     const filter = useSelector((state) => state.filter);
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:8000/api/partner/' + id)
+        Axios.get('/api/partner/' + id)
         .then((res) => {
             setPartner(res.data);
             setLengthes({

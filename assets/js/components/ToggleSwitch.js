@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAnswerModalForChangeState, updateAlertMessage, updateModal } from '../redux/redux';
-import axios from 'axios';
+import Axios from '../_services/caller_service';
 
 export default function ToggleSwitch({ idPartner, idClub, nameToggle, idToggle, typeToggle, isActive }) {
 
@@ -115,7 +115,7 @@ export default function ToggleSwitch({ idPartner, idClub, nameToggle, idToggle, 
         formData.append('isActive', !stateSwitch ? 1 : 0);
         switch (answerModal.typeToggle) {
             case 'partner':
-                axios.post('http://127.0.0.1:8000/api/partner/' + answerModal.idToggle + '/edit', formData, {
+                Axios.post('/api/partner/' + answerModal.idToggle + '/edit', formData, {
                     'content-type': 'multipart/form-data',
                 })
                 .then(response => {
@@ -136,7 +136,7 @@ export default function ToggleSwitch({ idPartner, idClub, nameToggle, idToggle, 
                 break;
             case 'permission':
                 if (answerModal.idPartner !== '' && answerModal.idClub === '') {
-                    axios.post('http://127.0.0.1:8000/api/partner-permission/' + answerModal.idPartner + '/' + answerModal.idToggle + '/edit', formData, {
+                    Axios.post('/api/partner-permission/' + answerModal.idPartner + '/' + answerModal.idToggle + '/edit', formData, {
                         'content-type': 'multipart/form-data',
                     })
                     .then(response => {
@@ -155,7 +155,7 @@ export default function ToggleSwitch({ idPartner, idClub, nameToggle, idToggle, 
                         }
                     });
                 } else if (answerModal.idClub !== '') {
-                    axios.post('http://127.0.0.1:8000/api/club-permission/' + answerModal.idClub + '/' + answerModal.idToggle + '/edit', formData, {
+                    Axios.post('/api/club-permission/' + answerModal.idClub + '/' + answerModal.idToggle + '/edit', formData, {
                         'content-type': 'multipart/form-data',
                     })
                     .then(response => {
@@ -176,7 +176,7 @@ export default function ToggleSwitch({ idPartner, idClub, nameToggle, idToggle, 
                 }
                 break;
             case 'club':
-                axios.post('http://127.0.0.1:8000/api/club/' + answerModal.idToggle + '/edit', formData, {
+                Axios.post('/api/club/' + answerModal.idToggle + '/edit', formData, {
                     'content-type': 'multipart/form-data',
                 })
                 .then(response => {

@@ -1,9 +1,9 @@
 import React from 'react';
-import { Navigate, NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAnswerModalForDelete, updateAlertMessage, updateModal, updateTypeButton } from '../redux/redux';
-import axios from 'axios';
+import Axios from '../_services/caller_service';
 
 export default function Button({ idItem, nameItem, typeItem, typeBtn, btnSvg, btnTitle, btnUrl }) {
 
@@ -72,7 +72,7 @@ export default function Button({ idItem, nameItem, typeItem, typeBtn, btnSvg, bt
     if (idItem === answerModal.idItem && answerModal.typeButton === 'confirm') {
         switch (answerModal.typeItem) {
             case 'partner':
-                axios.post('http://127.0.0.1:8000/api/partner/' + answerModal.idItem + '/delete')
+                Axios.post('/api/partner/' + answerModal.idItem + '/delete')
                 .then(response => {
                     stockAlertMessageInStore({type: 'success', content: 'Le partenaire ' + answerModal.idItem + ' - ' + answerModal.nameItem + ' a bien été supprimé.'})
                     navigate('/partenaires');
@@ -82,7 +82,7 @@ export default function Button({ idItem, nameItem, typeItem, typeBtn, btnSvg, bt
                 });
                 break;
             case 'permission':
-                axios.post('http://127.0.0.1:8000/api/permission/' + answerModal.idItem + '/delete')
+                Axios.post('/api/permission/' + answerModal.idItem + '/delete')
                 .then(response => {
                     stockAlertMessageInStore({type: 'success', content: 'La permission ' + answerModal.idItem + ' - ' + answerModal.nameItem + ' a bien été supprimée.'})
                 })
@@ -91,7 +91,7 @@ export default function Button({ idItem, nameItem, typeItem, typeBtn, btnSvg, bt
                 });
                 break;
             case 'club':
-                axios.post('http://127.0.0.1:8000/api/club/' + answerModal.idItem + '/delete')
+                Axios.post('/api/club/' + answerModal.idItem + '/delete')
                 .then(response => {
                     stockAlertMessageInStore({type: 'success', content: 'Le club ' + answerModal.idItem + ' - ' + answerModal.nameItem + ' a bien été supprimé.'})
                 })

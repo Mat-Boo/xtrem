@@ -3,14 +3,14 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import WhiteLogo from '../../img/logo-white.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAlertMessage/* , updateAuth */ } from '../redux/redux';
-import axios from 'axios';
+import Axios from '../_services/caller_service';
 
 export default function Navbar() {
 
-    /* const dispatch = useDispatch();
-    const stockInStore = (data) => {
+    const dispatch = useDispatch();
+    const stockAuthInStore = (data) => {
         dispatch(updateAuth(data))
-    } */
+    }
 
     const alertMessage = useSelector((state) => state.alertMessage);
     const dispatchAlertMessage = useDispatch();
@@ -27,7 +27,7 @@ export default function Navbar() {
     const [user, setUser] = useState();
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:8000/api/connected-user')
+        Axios.get('/api/connected-user')
         .then((res) => {
             setUser(res.data);
         })
@@ -52,8 +52,10 @@ export default function Navbar() {
 
     const disconnect = () => {
         hideMiniMenu()
-        axios.post('http://127.0.0.1:8000/api/logout')
+        Axios.post('/api/logout')
             .then(response => {
+                localStorage.removeItem('token');
+                stockAuthInStore({isConnected: false})
                 stockAlertMessageInStore({type: 'success', content: 'Vous avez été déconnecté avec succès'});
                 navigate('/');
             })

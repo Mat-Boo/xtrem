@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import axios from 'axios';
+import Axios from '../../_services/caller_service';
 import PartnerCard from '../../components/PartnerCard';
 import Button from '../../components/Button';
 import Filters from '../../components/Filters';
@@ -17,7 +17,7 @@ export default function Partners() {
     const [filteredPartners, setFilteredPartners] = useState();
     
     useEffect(() => {
-        axios.get('http://127.0.0.1:8000/api/partners')
+        Axios.get('/api/partners')
         .then((res) => {
             setPartners(res.data);
             setFilteredPartners(res.data);

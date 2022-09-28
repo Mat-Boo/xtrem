@@ -16,7 +16,7 @@ export default function AlertMessage() {
     useEffect(() => {
         if (alertMessage) {
             setDisplayAlertMessage(true);
-            /* scroll(0,0); */
+            scroll(0,0);
             setTimeout(() => {
                 stockAlertMessageInStore(null);
                 setDisplayAlertMessage(false);

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Button from '../../components/Button';
 import ToggleSwitch from '../../components/ToggleSwitch';
-import axios from 'axios';
+import Axios from '../../_services/caller_service';
 import abdos from '../../../img/svgBg/abdos.svg';
 import haltere from '../../../img/svgBg/haltere.svg';
 import rameur from '../../../img/svgBg/rameur.svg';
@@ -21,7 +21,7 @@ export default function ViewPartner() {
     const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0));
     
     useEffect(() => {
-        axios.get('http://127.0.0.1:8000/api/partner/' + id)
+        Axios.get('/api/partner/' + id)
         .then((res) => {
             setPartner(res.data);
         })

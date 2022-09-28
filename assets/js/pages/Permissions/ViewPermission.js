@@ -1,6 +1,6 @@
 import React, { useState, useEffect }  from 'react';
 import Button from '../../components/Button';
-import axios from 'axios';
+import Axios from '../../_services/caller_service';
 import { useParams } from 'react-router-dom';
 
 export default function ViewPermission() {
@@ -10,7 +10,7 @@ export default function ViewPermission() {
     const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0))
     
      useEffect(() => {
-      axios.get('http://127.0.0.1:8000/api/permission/' + id)
+      Axios.get('/api/permission/' + id)
       .then((res) => {
         setPermission(res.data);
       })

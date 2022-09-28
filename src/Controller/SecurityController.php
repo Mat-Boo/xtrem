@@ -25,7 +25,8 @@ class SecurityController extends AbstractController
     public function login(): Response
     {
         $user = $this->getUser();
-        $partner = null;
+        dd($user);
+        /* $partner = null;
         if ($user->getPartner() !== null) {
             $partner = [
                 'id' => $user->getPartner()->getId(),
@@ -33,16 +34,16 @@ class SecurityController extends AbstractController
                 'logo' => $user->getPartner()->getLogo(),
                 'description' => $user->getPartner()->getDescription(),
             ];
-        }
-        return $this->json([
+        } */
+/*         return $this->json([
             'email' => $user->getEmail(),
             'firstname' => $user->getFirstname(),
             'lastname' => $user->getLastname(),
-            'phone' => $user->getPhone(),
-            'partner' => $partner,
-            'club' => $user->getClub(),
-            'roles' => $user->getRoles()
-        ]);
+            'phone' => $user->getPhone(), */
+/*             'partner' => $partner,
+            'club' => $user->getClub(), */ 
+          /*   'roles' => $user->getRoles()
+        ]); */
     }
 
     #[Route(path: '/api/connected-user', name: 'api_connected_user', methods: ['GET'])]

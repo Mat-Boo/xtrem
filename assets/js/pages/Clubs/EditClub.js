@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Button from '../../components/Button';
-import axios from 'axios';
+import Axios from '../../_services/caller_service';
 import { useDispatch } from 'react-redux'
 import { updateAlertMessage } from '../../redux/redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import slugify from 'react-slugify';
 
 export default function EditClub() {
 
@@ -33,7 +32,7 @@ export default function EditClub() {
     }
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:8000/api/club/' + id)
+        Axios.get('/api/club/' + id)
         .then((res) => {
             setClub(res.data);
         })
@@ -73,7 +72,7 @@ export default function EditClub() {
             formData.append('displayedLogo', displayLogo)
         }
         
-        axios.post('http://127.0.0.1:8000/api/club/' + id + '/edit', formData, {
+        Axios.post('/api/club/' + id + '/edit', formData, {
             'content-type': 'multipart/form-data',
           })
         .then(response => {

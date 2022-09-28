@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import logo from '../../img/logo_horizontal.png';
-import axios from 'axios';
+import Axios from '../_services/caller_service';
 import { useDispatch } from 'react-redux'
-import { updateAlertMessage/* , updateAuth */ } from '../redux/redux';
+import { updateAlertMessage, updateAuth } from '../redux/redux';
 import { useNavigate } from 'react-router-dom';
-import AlertMessage from '../components/AlertMessage';
 
 export default function Login() {
     
-    /* const dispatch = useDispatch();
-    const stockInStore = (data) => {
+    const dispatch = useDispatch();
+    const stockAuthInStore = (data) => {
         dispatch(updateAuth(data))
-    } */
+    }
 
     const dispatchAlertMessage = useDispatch();
     const stockAlertMessageInStore = (data) => {
@@ -31,16 +30,19 @@ export default function Login() {
                 formValues[item.name] = item.value;
             }
         }
-        axios.post('http://127.0.0.1:8000/api/login', {
+        Axios.post('/api/login', {
             "username": formValues.email,
             "password": formValues.password
         })
         .then(response => {
             console.log(response.data)
+            localStorage.setItem('token', response.data.token);
+            stockAuthInStore({'isConnected': true, })
             stockAlertMessageInStore({type: 'success', content: 'Bienvenue ' + response.data.firstname});
             navigate('/accueil');
         })
         .catch(error => {
+            console.log(error);
             stockAlertMessageInStore({type: 'error', content: 'Veuillez vérifier votre email et/ou votre mot de passe.'});
         });
     }

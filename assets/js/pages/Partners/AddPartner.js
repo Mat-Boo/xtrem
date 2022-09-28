@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Button from '../../components/Button';
-import axios from 'axios';
+import Axios from '../../_services/caller_service';
 import { useDispatch } from 'react-redux'
 import { updateAlertMessage } from '../../redux/redux';
 import { useNavigate } from 'react-router-dom';
@@ -30,7 +30,7 @@ export default function AddPartner() {
 
     const [permissions, setPermissions] = useState([]);
     useEffect(() => {
-        axios.get('http://127.0.0.1:8000/api/permissions')
+        Axios.get('/api/permissions')
         .then((res) => {
           setPermissions(res.data);
         })
@@ -50,7 +50,7 @@ export default function AddPartner() {
                 formData.append(item.id, item.value);
             }
         }
-        axios.post('http://127.0.0.1:8000/api/partner/create', formData, {
+        Axios.post('/api/partner/create', formData, {
             'content-type': 'multipart/form-data',
           })
         .then(response => {

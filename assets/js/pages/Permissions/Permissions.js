@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import Axios from '../../_services/caller_service';
 import PermissionCard from '../../components/PermissionCard';
 import Button from '../../components/Button';
 import { useSelector } from 'react-redux';
@@ -12,7 +12,7 @@ export default function Permissions() {
     const filter = useSelector((state) => state.filter);
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:8000/api/permissions')
+        Axios.get('/api/permissions')
         .then((res) => {
             setPermissions(res.data);
         })

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Button from '../../components/Button';
-import axios from 'axios';
+import Axios from '../../_services/caller_service';
 
 export default function MyAccount() {
 
@@ -9,7 +9,7 @@ export default function MyAccount() {
     const [user, setUser] = useState();
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:8000/api/connected-user')
+        Axios.get('/api/connected-user')
         .then((res) => {
             setUser(res.data);
         })
