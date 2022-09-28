@@ -60,6 +60,11 @@ class ErrorsValidation
                         $errors['email'] = 'L\'email doit comporter au maximum 255 caractères';
                     }
                     break;
+                case 'actualPassword':
+                    if ($valueItem === '') {
+                        $errors['actualPassword'] = 'Le mot de passe actuel est obligatoire';
+                    }
+                    break;
                 case 'password':
                     if ($valueItem === '') {
                         $errors['password'] = 'Le mot de passe est obligatoire';

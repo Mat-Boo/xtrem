@@ -12,10 +12,10 @@ export default function Permissions() {
     const filter = useSelector((state) => state.filter);
 
     useEffect(() => {
-      axios.get('http://127.0.0.1:8000/api/permissions')
-      .then((res) => {
-        setPermissions(res.data);
-      })
+        axios.get('http://127.0.0.1:8000/api/permissions')
+        .then((res) => {
+            setPermissions(res.data);
+        })
     }, [alertMessage])
 
     return (

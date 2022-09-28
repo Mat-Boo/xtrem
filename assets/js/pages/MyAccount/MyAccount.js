@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Button from '../../components/Button';
+import axios from 'axios';
 
 export default function MyAccount() {
 
-    const user = useSelector((state) => state.auth);
-    console.log(user)
+    const alertMessage = useSelector((state) => state.alertMessage);
+    const [user, setUser] = useState();
+
+    useEffect(() => {
+        axios.get('http://127.0.0.1:8000/api/connected-user')
+        .then((res) => {
+            setUser(res.data);
+        })
+    }, [alertMessage])
 
     return (
         <>

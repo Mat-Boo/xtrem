@@ -11,6 +11,7 @@
         max-width: 1340px;
         .userInfos {
             background: $itemBgBlue;
+            border: 1px solid $borderBlue;
             padding: 20px;
             .infoItem {
                 display: flex;
@@ -53,7 +54,6 @@
             .actionBtns {
                 justify-content: start;
                 .button {
-                    margin-right: 30px;
                     width: 276px;
                 }
             }
@@ -66,9 +66,7 @@
         .userInfosAndBtns {
             .actionBtns {
                 flex-direction: row;
-                .button {
-                    margin: 0 30px 0 0;
-                }
+                justify-content: space-between;
             }
         }
     }

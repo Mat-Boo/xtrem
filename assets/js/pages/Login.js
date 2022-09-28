@@ -2,15 +2,20 @@ import React, { useState } from 'react';
 import logo from '../../img/logo_horizontal.png';
 import axios from 'axios';
 import { useDispatch } from 'react-redux'
-import { updateAuth } from '../redux/redux';
+import { updateAlertMessage/* , updateAuth */ } from '../redux/redux';
 import { useNavigate } from 'react-router-dom';
 import AlertMessage from '../components/AlertMessage';
 
 export default function Login() {
     
-    const dispatch = useDispatch();
+    /* const dispatch = useDispatch();
     const stockInStore = (data) => {
         dispatch(updateAuth(data))
+    } */
+
+    const dispatchAlertMessage = useDispatch();
+    const stockAlertMessageInStore = (data) => {
+        dispatchAlertMessage(updateAlertMessage(data))
     }
 
     const navigate = useNavigate();
@@ -31,22 +36,18 @@ export default function Login() {
             "password": formValues.password
         })
         .then(response => {
-            stockInStore(response.data);
+            console.log(response.data)
+            stockAlertMessageInStore({type: 'success', content: 'Bienvenue ' + response.data.firstname});
             navigate('/accueil');
         })
         .catch(error => {
-            setErrorMessage('Veuillez vérifier votre email et/ou votre mot de passe.')
+            stockAlertMessageInStore({type: 'error', content: 'Veuillez vérifier votre email et/ou votre mot de passe.'});
         });
     }
 
     return (
         <div className='login'>
             <img src={logo} alt="logo" className='logo'/>
-            {
-                errorMessage !== '' ?
-                <AlertMessage type='error' message={errorMessage} /> :
-                ''
-            }
             <form id='loginForm' onSubmit={(e) => validForm(e)}>
                 <div className='formItem'>
                     <label htmlFor="email">Email</label>
