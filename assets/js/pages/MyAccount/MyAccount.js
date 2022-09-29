@@ -9,7 +9,7 @@ export default function MyAccount() {
     const [user, setUser] = useState();
 
     useEffect(() => {
-        Axios.get('/api/connected-user')
+        Axios.get('/api/user')
         .then((res) => {
             setUser(res.data);
         })

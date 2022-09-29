@@ -18,7 +18,7 @@ export default function EditAccount() {
     const [user, setUser] = useState();
 
     useEffect(() => {
-        Axios.get('/api/connected-user')
+        Axios.get('/api/user')
         .then((res) => {
             setUser(res.data);
         })
@@ -40,7 +40,7 @@ export default function EditAccount() {
                 formData.append(item.name, item.value);
             }
         }
-        Axios.post('/api/connected-user/edit', formData, {
+        Axios.post('/api/user/edit', formData, {
             'content-type': 'multipart/form-data',
           })
         .then(response => {

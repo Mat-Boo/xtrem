@@ -4,6 +4,9 @@ import Axios from '../_services/caller_service';
 import { useDispatch } from 'react-redux'
 import { updateAlertMessage, updateAuth } from '../redux/redux';
 import { useNavigate } from 'react-router-dom';
+import jwt from 'jwt-decode';
+import { useEffect } from 'react';
+import { userServices } from '../_services/user_services';
 
 export default function Login() {
     
@@ -19,7 +22,11 @@ export default function Login() {
 
     const navigate = useNavigate();
 
-    const [errorMessage, setErrorMessage] = useState('');
+    useEffect(() => {
+        if(localStorage.getItem('token')) {
+            navigate('/accueil');
+        }
+    }, [])
 
     // Valid Form and send values to api
     const validForm = (e) => {
@@ -35,10 +42,9 @@ export default function Login() {
             "password": formValues.password
         })
         .then(response => {
-            console.log(response.data)
-            localStorage.setItem('token', response.data.token);
-            stockAuthInStore({'isConnected': true, })
-            stockAlertMessageInStore({type: 'success', content: 'Bienvenue ' + response.data.firstname});
+            userServices.saveToken(response.data.token);
+            stockAuthInStore({'token': response.data.token})
+            stockAlertMessageInStore({type: 'success', content: 'Bienvenue ' + jwt(response.data.token).firstname});
             navigate('/accueil');
         })
         .catch(error => {

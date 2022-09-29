@@ -24,7 +24,7 @@ export default function ModifyPassword() {
                 formData.append(item.name, item.value);
             }
         }
-        Axios.post('/api/connected-user/modify-password', formData, {
+        Axios.post('/api/user/modify-password', formData, {
             'content-type': 'multipart/form-data',
           })
         .then(response => {

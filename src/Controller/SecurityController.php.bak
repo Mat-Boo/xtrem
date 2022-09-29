@@ -22,10 +22,10 @@ class SecurityController extends AbstractController
     }
 
     #[Route(path: '/api/login', name: 'api_login', methods: ['POST'])]
-    public function login(): Response
+    public function login(): void
     {
         $user = $this->getUser();
-        dd($user);
+        
         /* $partner = null;
         if ($user->getPartner() !== null) {
             $partner = [
@@ -42,7 +42,7 @@ class SecurityController extends AbstractController
             'phone' => $user->getPhone(), */
 /*             'partner' => $partner,
             'club' => $user->getClub(), */ 
-          /*   'roles' => $user->getRoles()
+/*             'roles' => $user->getRoles()
         ]); */
     }
 

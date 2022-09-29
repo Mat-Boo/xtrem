@@ -2,15 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import WhiteLogo from '../../img/logo-white.png';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateAlertMessage/* , updateAuth */ } from '../redux/redux';
-import Axios from '../_services/caller_service';
+import { updateAlertMessage } from '../redux/redux';
+import { userServices } from '../_services/user_services';
 
 export default function Navbar() {
-
-    const dispatch = useDispatch();
-    const stockAuthInStore = (data) => {
-        dispatch(updateAuth(data))
-    }
 
     const alertMessage = useSelector((state) => state.alertMessage);
     const dispatchAlertMessage = useDispatch();
@@ -27,10 +22,9 @@ export default function Navbar() {
     const [user, setUser] = useState();
 
     useEffect(() => {
-        Axios.get('/api/connected-user')
-        .then((res) => {
-            setUser(res.data);
-        })
+        if (userServices.isConnected()) {
+            setUser(userServices.getUser());
+        }
     }, [alertMessage])
 
     const displayMiniMenu = () => {
@@ -52,17 +46,9 @@ export default function Navbar() {
 
     const disconnect = () => {
         hideMiniMenu()
-        Axios.post('/api/logout')
-            .then(response => {
-                localStorage.removeItem('token');
-                stockAuthInStore({isConnected: false})
-                stockAlertMessageInStore({type: 'success', content: 'Vous avez été déconnecté avec succès'});
-                navigate('/');
-            })
-            .catch(error => {
-                stockAlertMessageInStore({type: 'error', content: 'Votre déconnexion a échouée, veuillez réessayer.'});
-            });
-
+        userServices.logout()
+        stockAlertMessageInStore({type: 'success', content: 'Vous avez été déconnecté avec succès'});
+        navigate('/');
     }
 
     return (

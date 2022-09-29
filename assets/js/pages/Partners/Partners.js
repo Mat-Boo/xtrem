@@ -11,7 +11,7 @@ export default function Partners() {
     const alertMessage = useSelector((state) => state.alertMessage);
     const [partners, setPartners] = useState([]);
     const [lengthes, setLengthes] = useState();
-
+    const auth = useSelector((state) => state.auth);
     const filter = useSelector((state) => state.filter);
 
     const [filteredPartners, setFilteredPartners] = useState();
@@ -35,6 +35,9 @@ export default function Partners() {
             })
             setLengthes(lengthes => ({...lengthes, all: res.data.length}));
         })
+        .catch(error => {
+            console.log(error);
+        });
     }, [alertMessage])
 
     //Pagination
@@ -66,7 +69,7 @@ export default function Partners() {
     })
         
     const currentItems = partners.slice(firstItemIndex, lastItemIndex);
-    console.log(filterPartners);
+    /* console.log(filterPartners); */
 
     return (
         <>
