@@ -19,7 +19,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface/* , JWTU
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Groups(['user:read', 'partner:read', 'club:read'])]
+    #[Groups(['user:read', 'partner:read', 'club:read', 'userPartner:read'])]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -33,18 +33,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface/* , JWTU
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['user:read', 'partner:read', 'club:read'])]
+    #[Groups(['user:read', 'partner:read', 'club:read', 'userPartner:read'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['user:read', 'partner:read', 'club:read'])]
+    #[Groups(['user:read', 'partner:read', 'club:read', 'userPartner:read'])]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 15, nullable: true)]
-    #[Groups(['user:read', 'partner:read', 'club:read'])]
+    #[Groups(['user:read', 'partner:read', 'club:read', 'userPartner:read'])]
     private ?string $phone = null;
 
     #[ORM\OneToOne(mappedBy: 'contact', cascade: ['persist', 'remove'])]
+    #[Groups(['userPartner:read'])]
     private ?Partner $partner = null;
 
     #[ORM\OneToOne(mappedBy: 'manager', cascade: ['persist', 'remove'])]

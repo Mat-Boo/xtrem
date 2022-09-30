@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateAnswerModalForChangeState, updateAlertMessage, updateModal } from '../redux/redux';
 import Axios from '../_services/caller_service';
 
-export default function ToggleSwitch({ idPartner, idClub, nameToggle, idToggle, typeToggle, isActive }) {
+export default function ToggleSwitch({ idPartner, idClub, nameToggle, idToggle, typeToggle, isActive, roles }) {
 
     const [stateSwitch, setStateSwitch] = useState(isActive);
 
@@ -200,8 +200,8 @@ export default function ToggleSwitch({ idPartner, idClub, nameToggle, idToggle, 
     }   
 
     return (
-        <label id={idToggle} className='toggleSwitch' onClick={(e) => clickSwitch(e, idPartner, idClub, idToggle, nameToggle)}>
-            <input type="checkbox" id={idToggle} name={typeToggle} onChange={e => handleChange(e)} checked={stateSwitch}/>
+        <label id={idToggle} className='toggleSwitch' onClick={roles.includes('ROLE_TECHNICAL') ? (e) => clickSwitch(e, idPartner, idClub, idToggle, nameToggle) : null} style={!roles.includes('ROLE_TECHNICAL') ? {opacity: 0.5, cursor: 'auto'} : null}>
+            <input type="checkbox" id={idToggle} name={typeToggle} onChange={e => handleChange(e)} checked={stateSwitch} disabled={!roles.includes('ROLE_TECHNICAL') ? true : false}/>
             <span></span>
         </label>
     )

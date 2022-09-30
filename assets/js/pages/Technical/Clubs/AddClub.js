@@ -6,6 +6,7 @@ import { updateAlertMessage } from '../../../redux/redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import ToggleSwitch from '../../../components/ToggleSwitch';
 import slugify from 'react-slugify';
+import { userServices } from '../../../_services/user_services';
 
 export default function AddClub() {
 
@@ -217,6 +218,7 @@ export default function AddClub() {
                                                             nameToggle={permission.Permission.name}
                                                             typeToggle='permission'
                                                             isActive={false}
+                                                            roles={userServices.getUser().roles}
                                                         />
                                                     </div>
                                                     <span className='permissionName' /* onClick={handleClickPermissionName} */>{permission.Permission.name}</span>

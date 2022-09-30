@@ -14,7 +14,7 @@ class PartnerPermission
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['partner:read', 'partnerPermission:edit'])]
+    #[Groups(['partner:read', 'partnerPermission:edit', 'userPartner:read'])]
     private ?int $id = null;
 
     #[ORM\Column]
@@ -28,7 +28,7 @@ class PartnerPermission
 
     #[ORM\ManyToOne(inversedBy: 'partnerPermissions')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['partner:read', 'clubPermission:edit'])]
+    #[Groups(['partner:read', 'clubPermission:edit', 'userPartner:read'])]
     private ?Permission $Permission = null;
 
     #[ORM\OneToMany(mappedBy: 'PartnerPermissions', targetEntity: ClubPermission::class)]

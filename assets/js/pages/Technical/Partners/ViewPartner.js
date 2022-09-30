@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import Button from '../../../components/Button';
 import ToggleSwitch from '../../../components/ToggleSwitch';
 import Axios from '../../../_services/caller_service';
+import { userServices } from '../../../_services/user_services';
 import abdos from '../../../../img/svgBg/abdos.svg';
 import haltere from '../../../../img/svgBg/haltere.svg';
 import rameur from '../../../../img/svgBg/rameur.svg';
@@ -34,7 +35,7 @@ export default function ViewPartner() {
                     <div className='viewPartner'>
                         <div className='header'>
                             <Button 
-                                type='back'
+                                typeBtn='back'
                                 btnSvg='<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-chevron-left" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
                                     </svg>'
@@ -58,7 +59,8 @@ export default function ViewPartner() {
                                         idToggle={partner.id}
                                         nameToggle={partner.name}
                                         typeToggle='partner'
-                                        isActive={partner.isActive}/>
+                                        isActive={partner.isActive}
+                                        roles={userServices.getUser().roles}/>
                                 </div>
                             </div>
                             <hr />
@@ -137,6 +139,7 @@ export default function ViewPartner() {
                                                         nameToggle={partnerPermission.Permission.name}
                                                         typeToggle='permission'
                                                         isActive={partnerPermission.isActive}
+                                                        roles={userServices.getUser().roles}
                                                     />
                                                 </div>
                                                 <span className='permissionName' /* onClick={handleClickPermissionName} */>{partnerPermission.Permission.name}</span>
@@ -146,9 +149,9 @@ export default function ViewPartner() {
                                 </ul>
                             </fieldset>
                         </form>
-                        <img src={haltere} alt="haltere" className='haltere'/>
+                        {/* <img src={haltere} alt="haltere" className='haltere'/> */}
                         {/* <img src={abdos} alt="abdos" className='abdos'/> */}
-                        <img src={traction} alt="traction" className='traction'/>       
+                        {/* <img src={traction} alt="traction" className='traction'/>    */}    
                        {/*  <img src={rameur} alt="rameur" className='rameur'/>   */}            
                     </div>
             }

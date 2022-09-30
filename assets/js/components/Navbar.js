@@ -92,7 +92,7 @@ export default function Navbar() {
                             user.roles.includes('ROLE_PARTNER') &&
                             <>
                                 <li onClick={(e) => hideMiniMenu(e)} className='menuItem'>
-                                    <NavLink to='/clubs'>
+                                    <NavLink to='/mes-clubs'>
                                         MES CLUBS
                                     </NavLink>
                                 </li>
@@ -102,7 +102,7 @@ export default function Navbar() {
                             user.roles.includes('ROLE_CLUB') &&
                             <>
                                 <li onClick={(e) => hideMiniMenu(e)} className='menuItem'>
-                                    <NavLink to='/club'>
+                                    <NavLink to='/mon-club'>
                                         MON CLUB
                                     </NavLink>
                                 </li>

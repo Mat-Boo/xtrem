@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import { updateAlertMessage } from '../../../redux/redux';
 import { useNavigate } from 'react-router-dom';
 import ToggleSwitch from '../../../components/ToggleSwitch';
+import { userServices } from '../../../_services/user_services';
 
 export default function AddPartner() {
 
@@ -188,6 +189,7 @@ export default function AddPartner() {
                                                         nameToggle={permission.name}
                                                         typeToggle='permission'
                                                         isActive={false}
+                                                        roles={userServices.getUser().roles}
                                                     />
                                                 </div>
                                                 <span className='permissionName' /* onClick={handleClickPermissionName} */>{permission.name}</span>

@@ -5,6 +5,7 @@ import Button from '../../../components/Button';
 import Filters from '../../../components/Filters';
 import { useSelector } from 'react-redux';
 import Pagination from '../../../components/Pagination';
+import { userServices } from '../../../_services/user_services';
 
 export default function Partners() {
 
@@ -108,6 +109,7 @@ export default function Partners() {
                                             name={partner.name}
                                             description={partner.description}
                                             isActive={partner.isActive}
+                                            roles={userServices.getUser().roles}
                                         />
                                     ))
                             }

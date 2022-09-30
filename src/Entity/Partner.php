@@ -15,19 +15,19 @@ class Partner
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['partners:read', 'partner:read', 'partner:edit'])]
+    #[Groups(['partners:read', 'partner:read', 'partner:edit', 'userPartner:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['partners:read', 'partner:read', 'partner:edit', 'partnerPermission:edit'])]
+    #[Groups(['partners:read', 'partner:read', 'partner:edit', 'partnerPermission:edit', 'userPartner:read'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['partners:read', 'partner:read'])]
+    #[Groups(['partners:read', 'partner:read', 'userPartner:read'])]
     private ?string $logo = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['partners:read', 'partner:read'])]
+    #[Groups(['partners:read', 'partner:read', 'userPartner:read'])]
     private ?string $description = null;
 
     #[ORM\Column]
@@ -39,7 +39,7 @@ class Partner
     #[Groups(['partner:read'])]
     private ?User $contact = null;
 
-    #[Groups(['partner:read'])]
+    #[Groups(['partner:read', 'userPartner:read'])]
     #[ORM\OneToMany(mappedBy: 'partner', targetEntity: Club::class)]
     private Collection $clubs;
 
