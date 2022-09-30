@@ -15,19 +15,19 @@ class Partner
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['partners:read', 'partner:read', 'partner:edit', 'userPartner:read'])]
+    #[Groups(['partners:read', 'partner:read', 'partner:edit', 'userPartner:read', 'userClub:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['partners:read', 'partner:read', 'partner:edit', 'partnerPermission:edit', 'userPartner:read'])]
+    #[Groups(['partners:read', 'partner:read', 'partner:edit', 'partnerPermission:edit', 'userPartner:read', 'userClub:read'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['partners:read', 'partner:read', 'userPartner:read'])]
+    #[Groups(['partners:read', 'partner:read', 'userPartner:read', 'userClub:read'])]
     private ?string $logo = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['partners:read', 'partner:read', 'userPartner:read'])]
+    #[Groups(['partners:read', 'partner:read', 'userPartner:read', 'userClub:read'])]
     private ?string $description = null;
 
     #[ORM\Column]
@@ -36,7 +36,7 @@ class Partner
 
     #[ORM\OneToOne(inversedBy: 'partner', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['partner:read'])]
+    #[Groups(['partner:read', 'userClub:read'])]
     private ?User $contact = null;
 
     #[Groups(['partner:read', 'userPartner:read'])]

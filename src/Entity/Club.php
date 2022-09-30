@@ -15,27 +15,27 @@ class Club
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['club:read', 'partner:read', 'clubPermission:edit', 'userPartner:read'])]
+    #[Groups(['club:read', 'partner:read', 'clubPermission:edit', 'userPartner:read', 'userClub:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['club:read', 'partner:read', 'clubPermission:edit', 'userPartner:read'])]
+    #[Groups(['club:read', 'partner:read', 'clubPermission:edit', 'userPartner:read', 'userClub:read'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['club:read', 'partner:read', 'userPartner:read'])]
+    #[Groups(['club:read', 'partner:read', 'userPartner:read', 'userClub:read'])]
     private ?string $picture = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['club:read', 'partner:read', 'userPartner:read'])]
+    #[Groups(['club:read', 'partner:read', 'userPartner:read', 'userClub:read'])]
     private ?string $address = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['club:read', 'partner:read', 'userPartner:read'])]
+    #[Groups(['club:read', 'partner:read', 'userPartner:read', 'userClub:read'])]
     private ?string $zipcode = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['club:read', 'partner:read', 'userPartner:read'])]
+    #[Groups(['club:read', 'partner:read', 'userPartner:read', 'userClub:read'])]
     private ?string $city = null;
 
     #[ORM\Column]
@@ -49,11 +49,11 @@ class Club
 
     #[ORM\ManyToOne(inversedBy: 'clubs')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['club:read'])]
+    #[Groups(['club:read', 'userClub:read'])]
     private ?Partner $partner = null;
 
     #[ORM\OneToMany(mappedBy: 'Club', targetEntity: ClubPermission::class)]
-    #[Groups(['club:read', 'partner:read', 'userPartner:read'])]
+    #[Groups(['club:read', 'partner:read', 'userPartner:read', 'userClub:read'])]
     private Collection $clubPermissions;
 
     public function __construct()

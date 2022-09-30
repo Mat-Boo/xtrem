@@ -26,6 +26,7 @@ import EditAccount from './pages/MyAccount/EditAccount';
 import ModifyPassword from './pages/MyAccount/ModifyPassword';
 import PrivateRoutes from './PrivateRoutes';
 import MyClubs from './pages/Partner/MyClubs';
+import MyClub from './pages/Club/MyClub';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <>
@@ -53,6 +54,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                         <Route path="/mon-compte/modifier-mes-informations" element={<EditAccount />} />
                         <Route path="/mon-compte/modifier-mon-mot-de-passe" element={<ModifyPassword />} />
                         <Route path="/mes-clubs/" element={<MyClubs />} />
+                        <Route path="/mon-club/" element={<MyClub />} />
                     </Route>
                 </Routes>
                 <Footer />
