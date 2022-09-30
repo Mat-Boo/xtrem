@@ -137,17 +137,23 @@
             .menuItem {
                 display: block;
                 width: auto;
-                padding: 15px;
+                background: $mainBlue;
                 margin: 0 10px;
-                a {
-                    color: white;
-
-                }
                 &:hover {
                     background: $mainBlue;
-                    border-bottom: 1px solid white;
-                    opacity: 0.8;
                 }
+                a {
+                    color: white;
+                    padding: 15px;
+                    &:hover {
+                        background: $mainBlue;
+                        border-bottom: 1px solid white;
+                        opacity: 0.8;
+                    }
+                }
+            }
+            .active {
+                border-bottom: 1px solid white;
             }
         }
         .accountBox {

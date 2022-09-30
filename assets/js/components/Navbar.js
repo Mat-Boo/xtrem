@@ -25,7 +25,7 @@ export default function Navbar() {
         if (userServices.isConnected()) {
             setUser(userServices.getUser());
         }
-    }, [alertMessage])
+    }, [userServices.isConnected()])
 
     const displayMiniMenu = () => {
         setMiniMenu(true)
@@ -47,6 +47,7 @@ export default function Navbar() {
     const disconnect = () => {
         hideMiniMenu()
         userServices.logout()
+        setUser(null);
         stockAlertMessageInStore({type: 'success', content: 'Vous avez été déconnecté avec succès'});
         navigate('/');
     }

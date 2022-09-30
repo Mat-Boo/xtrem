@@ -97,14 +97,23 @@ export default function ManageClubs() {
                                 {
                                     partner.clubs
                                         .filter((club) => (
-                                            (filter.state === 'all' ?
+                                            (
+                                                filter.state === 'all' ?
                                                 club.isActive === true || club.isActive === false :
-                                                club.isActive === filter.state)
-                                            && (club.id.toString().includes(filter.search.toString()) || 
-                                            club.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
-                                            club.address.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
-                                            club.zipcode.includes(filter.search.toString()) ||
-                                            club.city.toLowerCase().includes(filter.search.toString().toLowerCase()))
+                                                club.isActive === filter.state
+                                            )
+                                            && 
+                                            (
+                                                club.id.toString().includes(filter.search.toString()) || 
+                                                club.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
+                                                club.address.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                                club.zipcode.includes(filter.search.toString()) ||
+                                                club.city.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                                club.manager.firstname.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                                club.manager.lastname.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                                club.manager.phone.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                                club.manager.email.toLowerCase().includes(filter.search.toString().toLowerCase())
+                                            )
                                         ))
                                         .map((club) => (
                                             <ClubCard

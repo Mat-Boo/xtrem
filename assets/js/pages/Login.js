@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import logo from '../../img/logo_horizontal.png';
 import Axios from '../_services/caller_service';
 import { useDispatch } from 'react-redux'
-import { updateAlertMessage, updateAuth } from '../redux/redux';
+import { updateAlertMessage } from '../redux/redux';
 import { useNavigate } from 'react-router-dom';
 import jwt from 'jwt-decode';
 import { useEffect } from 'react';
@@ -10,20 +10,15 @@ import { userServices } from '../_services/user_services';
 
 export default function Login() {
     
-    const dispatch = useDispatch();
-    const stockAuthInStore = (data) => {
-        dispatch(updateAuth(data))
-    }
+    const navigate = useNavigate();
 
     const dispatchAlertMessage = useDispatch();
     const stockAlertMessageInStore = (data) => {
         dispatchAlertMessage(updateAlertMessage(data))
     }
 
-    const navigate = useNavigate();
-
     useEffect(() => {
-        if(localStorage.getItem('token')) {
+        if(userServices.isConnected()) {
             navigate('/accueil');
         }
     }, [])
@@ -43,12 +38,10 @@ export default function Login() {
         })
         .then(response => {
             userServices.saveToken(response.data.token);
-            stockAuthInStore({'token': response.data.token})
             stockAlertMessageInStore({type: 'success', content: 'Bienvenue ' + jwt(response.data.token).firstname});
             navigate('/accueil');
         })
         .catch(error => {
-            console.log(error);
             stockAlertMessageInStore({type: 'error', content: 'Veuillez vérifier votre email et/ou votre mot de passe.'});
         });
     }

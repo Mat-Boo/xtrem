@@ -2,9 +2,6 @@ import React from 'react';
 import { userServices } from '../_services/user_services';
 
 export default function Home() {   
-    
-
-    
     return (
         <div className='home'>
             {
