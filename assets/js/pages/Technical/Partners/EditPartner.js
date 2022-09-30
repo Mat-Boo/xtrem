@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Button from '../../components/Button';
-import Axios from '../../_services/caller_service';
+import Button from '../../../components/Button';
+import Axios from '../../../_services/caller_service';
 import { useDispatch } from 'react-redux'
-import { updateAlertMessage } from '../../redux/redux';
+import { updateAlertMessage } from '../../../redux/redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export default function EditPartner() {

@@ -1,9 +1,9 @@
 import React, { useState, useEffect }  from 'react';
-import Button from '../../components/Button';
-import Axios from '../../_services/caller_service';
+import Button from '../../../components/Button';
+import Axios from '../../../_services/caller_service';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { updateAlertMessage } from '../../redux/redux';
+import { updateAlertMessage } from '../../../redux/redux';
 
 export default function AddPermission() {
 

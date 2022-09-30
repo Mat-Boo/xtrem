@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Button from '../../components/Button';
-import Axios from '../../_services/caller_service';
+import Button from '../../../components/Button';
+import Axios from '../../../_services/caller_service';
 import { useDispatch } from 'react-redux'
-import { updateAlertMessage } from '../../redux/redux';
-import { useNavigate, useParams } from 'react-router-dom';
-import ToggleSwitch from '../../components/ToggleSwitch';
-import slugify from 'react-slugify';
+import { updateAlertMessage } from '../../../redux/redux';
+import { useNavigate } from 'react-router-dom';
+import ToggleSwitch from '../../../components/ToggleSwitch';
 
-export default function AddClub() {
+export default function AddPartner() {
 
     const toggleSwitchRef = useRef();
     // Fonction permettant de cliquer sur le nom associé au toggle de la permission et ainsi l'activer ou le désactiver
@@ -15,9 +14,6 @@ export default function AddClub() {
 
         toggleSwitchRef.current.firstChild.click();
     } */
-
-    const [partner, setPartner] = useState([]);
-    const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0));
 
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
@@ -32,12 +28,13 @@ export default function AddClub() {
         setLogoFile(e.target.files[0])
     }
 
+    const [permissions, setPermissions] = useState([]);
     useEffect(() => {
-        Axios.get('/api/partner/' + id)
+        Axios.get('/api/permissions')
         .then((res) => {
-            setPartner(res.data);
+          setPermissions(res.data);
         })
-    }, [])
+      }, [])
 
     //Validate Form and send to api
     const validForm = (e) => {
@@ -53,16 +50,15 @@ export default function AddClub() {
                 formData.append(item.id, item.value);
             }
         }
-        Axios.post('/api/partner/' + id + '/club/create', formData, {
+        Axios.post('/api/partner/create', formData, {
             'content-type': 'multipart/form-data',
           })
         .then(response => {
-            console.log(response.data)
-            stockAlertMessageInStore({type: 'success', content: 'Le nouveau club ' + response.data.name + ' a été créé avec succès.'})
-            navigate(-1);
+            stockAlertMessageInStore({type: 'success', content: 'Le nouveau partenaire ' + response.data.name + ' a été créé avec succès.'})
+            navigate('/partenaires');
         })
         .catch(error => {
-            stockAlertMessageInStore({type: 'error', content: 'L\'ajout du club n\'a pu aboutir, veuillez corriger les erreurs.'});
+            stockAlertMessageInStore({type: 'error', content: 'L\'ajout du partenaire n\'a pu aboutir, veuillez corriger les erreurs.'});
             setErrors(error.response.data);
         });
     }
@@ -70,10 +66,10 @@ export default function AddClub() {
     return (
         <>
             {
-                partner.partnerPermissions &&
-                    <div className='addClub'>
+                permissions[0] &&
+                    <div className='addPartner'>
                         <div className='header'>
-                            <h1>Nouveau club</h1>
+                            <h1>Nouveau partenaire</h1>
                         </div>
                         <form noValidate onSubmit={(e) => validForm(e)}>
                             <div id='nameLogo'>
@@ -95,7 +91,7 @@ export default function AddClub() {
                                                 <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
                                                 <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
                                             </svg>
-                                            Ajouter une photo
+                                            Ajouter un logo
                                         </label>
                                         {
                                             errors && errors.logo !== undefined ?
@@ -106,40 +102,17 @@ export default function AddClub() {
                                     <p>{logoFile ? logoFile.name : ''}</p>
                                 </div>
                             </div>
-                            <fieldset>
-                                <legend>Adresse</legend>
-                                <div className='formItem' id='addressBox'>
-                                    <label htmlFor="address">Adresse</label>
-                                    <textarea name="address" id="address" cols="30" rows="3" style={{border: errors && errors.address !== undefined ? '1px solid #ECACAC' : ''}}></textarea>
+                            <div className='formItem description'>
+                                <label htmlFor="description">Description</label>
+                                <textarea name="description" id="description" cols="30" rows="5" style={{border: errors && errors.description !== undefined ? '1px solid #ECACAC' : ''}}></textarea>
                                 {
-                                    errors && errors.address !== undefined ?
-                                    <p className='errorItem'>{errors.address}</p> :
+                                    errors && errors.description !== undefined ?
+                                    <p className='errorItem'>{errors.description}</p> :
                                     ''
                                 }
-                                </div>
-                                <div className='addressGroup'>
-                                    <div className='formItem'>
-                                        <label htmlFor="zipcode">Code Postal</label>
-                                        <input type="text" id='zipcode' name='zipcode' style={{border: errors && errors.zipcode !== undefined ? '1px solid #ECACAC' : ''}}/>
-                                    {
-                                        errors && errors.zipcode !== undefined ?
-                                        <p className='errorItem'>{errors.zipcode}</p> :
-                                        ''
-                                    }
-                                    </div>
-                                    <div className='formItem'>
-                                        <label htmlFor="city">Ville</label>
-                                        <input type="text" id='city' name='city' title="" style={{border: errors && errors.city !== undefined ? '1px solid #ECACAC' : ''}}/>
-                                    {
-                                        errors && errors.city !== undefined ?
-                                        <p className='errorItem'>{errors.city}</p> :
-                                        ''
-                                    }
-                                    </div>
-                                </div>
-                            </fieldset>
+                            </div>
                             <fieldset>
-                                <legend>Manager</legend>
+                                <legend>Contact</legend>
                                 <div className='contactGroup'>
                                     <div className='formItem'>
                                         <label htmlFor="firstname">Prénom</label>
@@ -202,25 +175,23 @@ export default function AddClub() {
                                 </div>
                             </fieldset>
                             <fieldset>
-                                <legend>Permissions</legend>
+                                <legend>Permissions Globales</legend>
                                 <ul className='permissionsList'>
                                     {
-                                        partner.partnerPermissions
-                                            .filter((permission) => permission.isActive === true)
-                                            .map((permission) => (
-                                                <li  key={permission.id} className='switchPermission'>
-                                                    <div ref={toggleSwitchRef}>
-                                                        <ToggleSwitch
-                                                            idPartner=''
-                                                            idClub=''
-                                                            idToggle={permission.Permission.id}
-                                                            nameToggle={permission.Permission.name}
-                                                            typeToggle='permission'
-                                                            isActive={false}
-                                                        />
-                                                    </div>
-                                                    <span className='permissionName' /* onClick={handleClickPermissionName} */>{permission.Permission.name}</span>
-                                                </li>
+                                        permissions.map((permission) => (
+                                            <li  key={permission.id} className='switchPermission'>
+                                                <div ref={toggleSwitchRef}>
+                                                    <ToggleSwitch
+                                                        idPartner=''
+                                                        idClub=''
+                                                        idToggle={permission.id}
+                                                        nameToggle={permission.name}
+                                                        typeToggle='permission'
+                                                        isActive={false}
+                                                    />
+                                                </div>
+                                                <span className='permissionName' /* onClick={handleClickPermissionName} */>{permission.name}</span>
+                                            </li>
                                         ))
                                     }
                                 </ul>
@@ -232,7 +203,7 @@ export default function AddClub() {
                                         <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
                                         </svg>'
                                     btnTitle='Annuler'
-                                    btnUrl={'/partenaires/' + partner.id + '-' + slugify(partner.name) + '/clubs'}
+                                    btnUrl='/partenaires'
                                 />
                                 <button type='submit' className='validateFormBtn'>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-check-lg" viewBox="0 0 16 16">

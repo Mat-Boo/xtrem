@@ -1,6 +1,6 @@
 import React, { useState, useEffect }  from 'react';
-import Button from '../../components/Button';
-import Axios from '../../_services/caller_service';
+import Button from '../../../components/Button';
+import Axios from '../../../_services/caller_service';
 import { useParams } from 'react-router-dom';
 
 export default function ViewPermission() {

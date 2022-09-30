@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Button from '../../components/Button';
-import ToggleSwitch from '../../components/ToggleSwitch';
-import Axios from '../../_services/caller_service';
-import abdos from '../../../img/svgBg/abdos.svg';
-import haltere from '../../../img/svgBg/haltere.svg';
-import rameur from '../../../img/svgBg/rameur.svg';
-import traction from '../../../img/svgBg/traction.svg';
+import Button from '../../../components/Button';
+import ToggleSwitch from '../../../components/ToggleSwitch';
+import Axios from '../../../_services/caller_service';
+import abdos from '../../../../img/svgBg/abdos.svg';
+import haltere from '../../../../img/svgBg/haltere.svg';
+import rameur from '../../../../img/svgBg/rameur.svg';
+import traction from '../../../../img/svgBg/traction.svg';
 
 export default function ViewPartner() {
 

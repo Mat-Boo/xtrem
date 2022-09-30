@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Axios from '../../_services/caller_service';
-import PermissionCard from '../../components/PermissionCard';
-import Button from '../../components/Button';
+import Axios from '../../../_services/caller_service';
+import PermissionCard from '../../../components/PermissionCard';
+import Button from '../../../components/Button';
 import { useSelector } from 'react-redux';
-import Filters from '../../components/Filters';
+import Filters from '../../../components/Filters';
 
 export default function Permissions() {
 

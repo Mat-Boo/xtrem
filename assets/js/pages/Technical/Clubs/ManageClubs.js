@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Button from '../../components/Button';
-import ToggleSwitch from '../../components/ToggleSwitch';
-import Axios from '../../_services/caller_service';
+import Button from '../../../components/Button';
+import ToggleSwitch from '../../../components/ToggleSwitch';
+import Axios from '../../../_services/caller_service';
 import slugify from 'react-slugify';
-import Filters from '../../components/Filters';
+import Filters from '../../../components/Filters';
 import { useSelector } from 'react-redux';
-import ClubCard from '../../components/ClubCard';
+import ClubCard from '../../../components/ClubCard';
 
 export default function ManageClubs() {
 
