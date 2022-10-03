@@ -8,6 +8,8 @@ import Filters from '../../../components/Filters';
 import { useSelector } from 'react-redux';
 import ClubCard from '../../../components/ClubCard';
 import { userServices } from '../../../_services/user_services';
+import { paginationParams } from '../../../_services/paginationParams';
+import Pagination from '../../../components/Pagination';
 
 export default function ManageClubs() {
 
@@ -16,6 +18,11 @@ export default function ManageClubs() {
     const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0));
     const [lengthes, setLengthes] = useState();
     const filter = useSelector((state) => state.filter);
+
+    //Pagination
+    const [currentPage, setCurrentPage] = useState();
+    const lastItemIndex = currentPage * paginationParams.clubsPerPage;
+    const firstItemIndex = lastItemIndex - paginationParams.clubsPerPage;
 
     useEffect(() => {
         Axios.get('/api/partner/' + id)
@@ -35,7 +42,8 @@ export default function ManageClubs() {
             })
             setLengthes(lengthes => ({...lengthes, all: res.data.clubs.length}));
         })
-    }, [alertMessage])
+        setCurrentPage(1);
+    }, [alertMessage, filter])
 
     return (
         <>
@@ -95,49 +103,100 @@ export default function ManageClubs() {
                     {
                         partner.clubs.length === 0 ?
                             <p className='messageNoClub'>Ce partenaire ne possède aucun club.</p> :
-                            <ul className='clubsList'>
+                            <div className='clubsListAndPagination'>
+                                <ul className='clubsList'>
+                                    {
+                                        partner.clubs
+                                            .filter((club) => (
+                                                (
+                                                    filter.state === 'all' ?
+                                                    club.isActive === true || club.isActive === false :
+                                                    club.isActive === filter.state
+                                                )
+                                                && 
+                                                (
+                                                    club.id.toString().includes(filter.search.toString()) || 
+                                                    club.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
+                                                    club.address.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                                    club.zipcode.includes(filter.search.toString()) ||
+                                                    club.city.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                                    club.manager.firstname.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                                    club.manager.lastname.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                                    club.manager.phone.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                                    club.manager.email.toLowerCase().includes(filter.search.toString().toLowerCase())
+                                                )
+                                            ))
+                                            .map((club) => (
+                                                <ClubCard
+                                                    key={club.id}
+                                                    partner={partner}
+                                                    id={club.id}
+                                                    name={club.name}
+                                                    logo={club.picture}
+                                                    isActive={club.isActive}
+                                                    address={club.address}
+                                                    zipcode={club.zipcode}
+                                                    city={club.city}
+                                                    firstname={club.manager.firstname}
+                                                    lastname={club.manager.lastname}
+                                                    phone={club.manager.phone}
+                                                    email={club.manager.email}
+                                                    permissions={club.clubPermissions}
+                                                    roles={userServices.getUser().roles}
+                                                />
+                                            ))
+                                            .slice(firstItemIndex, lastItemIndex)
+                                    }
+                                </ul>
                                 {
                                     partner.clubs
-                                        .filter((club) => (
-                                            (
-                                                filter.state === 'all' ?
-                                                club.isActive === true || club.isActive === false :
-                                                club.isActive === filter.state
-                                            )
-                                            && 
-                                            (
-                                                club.id.toString().includes(filter.search.toString()) || 
-                                                club.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
-                                                club.address.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
-                                                club.zipcode.includes(filter.search.toString()) ||
-                                                club.city.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
-                                                club.manager.firstname.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
-                                                club.manager.lastname.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
-                                                club.manager.phone.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
-                                                club.manager.email.toLowerCase().includes(filter.search.toString().toLowerCase())
-                                            )
-                                        ))
-                                        .map((club) => (
-                                            <ClubCard
-                                                key={club.id}
-                                                partner={partner}
-                                                id={club.id}
-                                                name={club.name}
-                                                logo={club.picture}
-                                                isActive={club.isActive}
-                                                address={club.address}
-                                                zipcode={club.zipcode}
-                                                city={club.city}
-                                                firstname={club.manager.firstname}
-                                                lastname={club.manager.lastname}
-                                                phone={club.manager.phone}
-                                                email={club.manager.email}
-                                                permissions={club.clubPermissions}
-                                                roles={userServices.getUser().roles}
-                                            />
-                                        ))
+                                    .filter((club) => (
+                                        (
+                                            filter.state === 'all' ?
+                                            club.isActive === true || club.isActive === false :
+                                            club.isActive === filter.state
+                                        )
+                                        && 
+                                        (
+                                            club.id.toString().includes(filter.search.toString()) || 
+                                            club.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
+                                            club.address.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                            club.zipcode.includes(filter.search.toString()) ||
+                                            club.city.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                            club.manager.firstname.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                            club.manager.lastname.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                            club.manager.phone.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                            club.manager.email.toLowerCase().includes(filter.search.toString().toLowerCase())
+                                        )
+                                    )).length > paginationParams.clubsPerPage ?
+                                    <Pagination
+                                        totalItems={
+                                            partner.clubs
+                                                .filter((club) => (
+                                                    (
+                                                        filter.state === 'all' ?
+                                                        club.isActive === true || club.isActive === false :
+                                                        club.isActive === filter.state
+                                                    )
+                                                    && 
+                                                    (
+                                                        club.id.toString().includes(filter.search.toString()) || 
+                                                        club.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
+                                                        club.address.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                                        club.zipcode.includes(filter.search.toString()) ||
+                                                        club.city.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                                        club.manager.firstname.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                                        club.manager.lastname.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                                        club.manager.phone.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                                        club.manager.email.toLowerCase().includes(filter.search.toString().toLowerCase())
+                                                    )
+                                                )).length
+                                            }
+                                        itemsPerPage={paginationParams.clubsPerPage}
+                                        setCurrentPage={setCurrentPage}
+                                        currentPage={currentPage}/> : null
                                 }
-                            </ul>
+                            </div>
                     }
                 </div>
             }

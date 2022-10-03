@@ -58,12 +58,20 @@
     .messageNoClub {
         margin: 30px 0;
     }
-    .clubsList {
-        width: 100%;
-        max-width: 1700px;
+    .clubsListAndPagination {
         display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
+        flex-direction: column;
+        justify-content: space-between;
         align-items: center;
+
+        .clubsList {
+
+            width: 100%;
+            max-width: 1700px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
     }
 }
