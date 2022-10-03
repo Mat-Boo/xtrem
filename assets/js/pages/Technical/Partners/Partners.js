@@ -11,22 +11,28 @@ export default function Partners() {
 
     const alertMessage = useSelector((state) => state.alertMessage);
     const [partners, setPartners] = useState([]);
-    const [lengthes, setLengthes] = useState();
-    const auth = useSelector((state) => state.auth);
+    const [lengthes, setLengthes] = useState({
+        all: 0,
+        actives: 0,
+        inactives: 0
+    });
     const filter = useSelector((state) => state.filter);
-
-    const [filteredPartners, setFilteredPartners] = useState();
     
+    //Pagination
+    const [currentPage, setCurrentPage] = useState();
+    const [itemsPerPage, setItemsPerPage] = useState(6);
+    const lastItemIndex = currentPage * itemsPerPage;
+    const firstItemIndex = lastItemIndex - itemsPerPage;
+
     useEffect(() => {
         Axios.get('/api/partners')
         .then((res) => {
             setPartners(res.data);
-            setFilteredPartners(res.data);
             setLengthes({
                 all: 0,
                 actives: 0,
                 inactives: 0
-            })
+            });
             res.data.forEach((partner) => {
                 if (partner.isActive) {
                     setLengthes(lengthes => ({...lengthes, actives: lengthes.actives + 1}));
@@ -39,43 +45,13 @@ export default function Partners() {
         .catch(error => {
             console.log(error);
         });
-    }, [alertMessage])
-
-    //Pagination
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(6);
-    const lastItemIndex = currentPage * itemsPerPage;
-    const firstItemIndex = lastItemIndex - itemsPerPage;
+        setCurrentPage(1);
+    }, [alertMessage, filter])
     
-/*     const filterPartners = () => {
-        setFilteredPartners(partners.filter((partner) => (
-            (filter.state === 'all' ?
-            partner.isActive === true || partner.isActive === false :
-            partner.isActive === filter.state)
-            && (partner.id.toString().includes(filter.search.toString()) || 
-            partner.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
-            partner.description.toLowerCase().includes(filter.search.toString().toLowerCase()))
-            )));
-    } */
-
-    const filterPartners = useMemo(() => {
-        partners.filter((partner) => (
-            (filter.state === 'all' ?
-            partner.isActive === true || partner.isActive === false :
-            partner.isActive === filter.state)
-            && (partner.id.toString().includes(filter.search.toString()) || 
-            partner.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
-            partner.description.toLowerCase().includes(filter.search.toString().toLowerCase()))
-            ));
-    })
-        
-    const currentItems = partners.slice(firstItemIndex, lastItemIndex);
-    /* console.log(filterPartners); */
-
     return (
         <>
             {
-                partners[0] &&
+                partners &&
                     <div className='partners'>
                         <div className='header'>
                             <h1>Partenaires</h1>
@@ -88,33 +64,61 @@ export default function Partners() {
                                 btnUrl='/partenaires/ajouter'
                             />
                         </div>
-                        
                         <Filters all={lengthes.all} actives={lengthes.actives} inactives={lengthes.inactives} displayStates={true} />
-                        <ul className='partnersList'>
+                        <div className='partnersListAndPagination'>
+                            <ul className='partnersList'>
+                                {
+                                    partners
+                                        .filter((partner) => (
+                                            (filter.state === 'all' ?
+                                                partner.isActive === true || partner.isActive === false :
+                                                partner.isActive === filter.state)
+                                            && (partner.id.toString().includes(filter.search.toString()) || 
+                                            partner.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
+                                            partner.description.toLowerCase().includes(filter.search.toString().toLowerCase()))
+                                        ))
+                                        .map((partner) => (
+                                            <PartnerCard 
+                                                key={partner.id}
+                                                id={partner.id}
+                                                logo={partner.logo}
+                                                name={partner.name}
+                                                description={partner.description}
+                                                isActive={partner.isActive}
+                                                roles={userServices.getUser().roles}
+                                                nbClubs={partner.clubs.length}
+                                            />
+                                        ))
+                                        .slice(firstItemIndex, lastItemIndex)
+                                }
+                            </ul>
                             {
-                                currentItems
-                                    /* .filter((partner) => (
-                                        (filter.state === 'all' ?
-                                            partner.isActive === true || partner.isActive === false :
-                                            partner.isActive === filter.state)
-                                        && (partner.id.toString().includes(filter.search.toString()) || 
-                                        partner.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
-                                        partner.description.toLowerCase().includes(filter.search.toString().toLowerCase()))
-                                    )) */
-                                    .map((partner) => (
-                                        <PartnerCard 
-                                            key={partner.id}
-                                            id={partner.id}
-                                            logo={partner.logo}
-                                            name={partner.name}
-                                            description={partner.description}
-                                            isActive={partner.isActive}
-                                            roles={userServices.getUser().roles}
-                                        />
-                                    ))
+                                partners
+                                .filter((partner) => (
+                                    (filter.state === 'all' ?
+                                        partner.isActive === true || partner.isActive === false :
+                                        partner.isActive === filter.state)
+                                    && (partner.id.toString().includes(filter.search.toString()) || 
+                                    partner.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
+                                    partner.description.toLowerCase().includes(filter.search.toString().toLowerCase()))
+                                )).length > itemsPerPage ?
+                                <Pagination 
+                                    totalItems={
+                                        partners
+                                            .filter((partner) => (
+                                                (filter.state === 'all' ?
+                                                    partner.isActive === true || partner.isActive === false :
+                                                    partner.isActive === filter.state)
+                                                && (partner.id.toString().includes(filter.search.toString()) || 
+                                                partner.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
+                                                partner.description.toLowerCase().includes(filter.search.toString().toLowerCase()))
+                                            )).length
+                                        }
+                                    itemsPerPage={itemsPerPage}
+                                    setCurrentPage={setCurrentPage}
+                                    currentPage={currentPage}/> : null
                             }
-                        </ul>
-                        <Pagination totalItems={partners.length} itemsPerPage={itemsPerPage} setCurrentPage={setCurrentPage} currentPage={currentPage}/>
+                        </div>
                     </div>
             }
         </>

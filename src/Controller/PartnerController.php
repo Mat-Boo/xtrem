@@ -99,7 +99,7 @@ class PartnerController extends AbstractController
             //Copie du logo du partenaire dans le dossier uploads (avec renommage du fichier avec le nom du partenaire sluggé)
             $logo = $content['logoFile'];
             $slugLogoName = $slugger->slug($content['name']);
-            $newLogoName = strtolower('partner_' + $slugLogoName . '.' . $logo->guessExtension());
+            $newLogoName = strtolower($slugLogoName . '.' . $logo->guessExtension());
             $logo->move($this->getParameter('files_directory'), $newLogoName); //file_directory paramétré dans le fichier config/services.yaml
     
             //Création de la nouvelle instance Partner

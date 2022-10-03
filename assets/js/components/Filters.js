@@ -14,10 +14,6 @@ export default function Filters({ all, actives, inactives, displayStates }) {
     const stockFilterInStore = (data) => {
         dispatchFilter(updateFilter(data))
     }
-    
-    useEffect(() => {
-
-    }, [all, actives, inactives])
 
     const handleChange = (e) => {
         switch (e.target.id) {

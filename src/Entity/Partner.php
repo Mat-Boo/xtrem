@@ -39,7 +39,7 @@ class Partner
     #[Groups(['partner:read', 'userClub:read'])]
     private ?User $contact = null;
 
-    #[Groups(['partner:read', 'userPartner:read'])]
+    #[Groups(['partners:read', 'partner:read', 'userPartner:read'])]
     #[ORM\OneToMany(mappedBy: 'partner', targetEntity: Club::class)]
     private Collection $clubs;
 

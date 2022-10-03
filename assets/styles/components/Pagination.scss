@@ -1,20 +1,72 @@
 .pagination {
-    .pageBtn {
-        width: 40px;
-        height: 40px;
-        margin-left: -1px;
-        border: 1px solid $borderBlue;
-        background: $itemBgBlue;
-        color: $mainBlue;
-        cursor: pointer;
-    }
-    .activePage {
-        width: 40px;
-        height: 40px;
-        margin-left: -1px;
-        border: 1px solid $borderBlue;
-        background: $mainBlue;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .navPage {
+        max-height: 44px;
         color: $mainBlueBg;
+        background: $mainBlue;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        user-select: none;
         cursor: pointer;
+        .previousSvg {
+            margin-right: 0;
+        }
+        .nextSvg {
+            margin-left: 0;
+        }
+        span {
+            display: none;
+        }
+        &:hover {
+            opacity: 0.6;
+        }
+    }
+    .pageBtns {
+        margin: 0 20px;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        .pageBtn {
+            width: 44px;
+            height: 44px;
+            margin-left: -1px;
+            border: 1px solid $borderBlue;
+            background: $itemBgBlue;
+            color: $mainBlue;
+            cursor: pointer;
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+        .activePage {
+            width: 44px;
+            height: 44px;
+            margin-left: -1px;
+            border: 1px solid $borderBlue;
+            background: $mainBlue;
+            color: $mainBlueBg;
+            cursor: pointer;
+        }
+    }
+}
+
+@media screen and (min-width: 600px) {
+    .pagination {
+        .navPage {
+            .previousSvg {
+                margin-right: 10px;
+            }
+            .nextSvg {
+                margin-left: 10px
+            }
+            span {
+                display: inline;
+            }
+        }
     }
 }
