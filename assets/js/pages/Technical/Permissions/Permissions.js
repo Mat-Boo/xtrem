@@ -4,6 +4,8 @@ import PermissionCard from '../../../components/PermissionCard';
 import Button from '../../../components/Button';
 import { useSelector } from 'react-redux';
 import Filters from '../../../components/Filters';
+import Pagination from '../../../components/Pagination';
+import { paginationParams } from '../../../_services/paginationParams';
 
 export default function Permissions() {
 
@@ -11,12 +13,18 @@ export default function Permissions() {
     const [permissions, setPermissions] = useState([]);
     const filter = useSelector((state) => state.filter);
 
+    //Pagination
+    const [currentPage, setCurrentPage] = useState();
+    const lastItemIndex = currentPage * paginationParams.permissionsPerPage;
+    const firstItemIndex = lastItemIndex - paginationParams.permissionsPerPage;
+
     useEffect(() => {
         Axios.get('/api/permissions')
         .then((res) => {
             setPermissions(res.data);
         })
-    }, [alertMessage])
+        setCurrentPage(1);
+    }, [alertMessage, filter])
 
     return (
         <>
@@ -35,24 +43,47 @@ export default function Permissions() {
                             />
                         </div>
                         <Filters displayStates={false} />
-                        <ul className='permissionsList'>
+                        <div className='permissionsListAndPagination'>
+                            <ul className='permissionsList'>
+                                {
+                                    permissions
+                                        .filter((permission) => (
+                                            permission.id.toString().includes(filter.search.toString()) || 
+                                            permission.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
+                                            permission.description.toLowerCase().includes(filter.search.toString().toLowerCase())
+                                        ))
+                                        .map((permission) => (
+                                            <PermissionCard 
+                                                key={permission.id}
+                                                id={permission.id}
+                                                name={permission.name}
+                                                description={permission.description}
+                                            />
+                                        ))
+                                        .slice(firstItemIndex, lastItemIndex)
+                                }
+                            </ul>
                             {
                                 permissions
-                                    .filter((permission) => (
-                                        permission.id.toString().includes(filter.search.toString()) || 
-                                        permission.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
-                                        permission.description.toLowerCase().includes(filter.search.toString().toLowerCase())
-                                    ))
-                                    .map((permission) => (
-                                        <PermissionCard 
-                                            key={permission.id}
-                                            id={permission.id}
-                                            name={permission.name}
-                                            description={permission.description}
-                                        />
-                                    ))
+                                .filter((permission) => (
+                                    permission.id.toString().includes(filter.search.toString()) || 
+                                    permission.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
+                                    permission.description.toLowerCase().includes(filter.search.toString().toLowerCase())
+                                )).length > paginationParams.permissionsPerPage ?
+                                <Pagination
+                                    totalItems={
+                                        permissions
+                                            .filter((permission) => (
+                                                permission.id.toString().includes(filter.search.toString()) || 
+                                                permission.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
+                                                permission.description.toLowerCase().includes(filter.search.toString().toLowerCase())
+                                            )).length
+                                        }
+                                    itemsPerPage={paginationParams.permissionsPerPage}
+                                    setCurrentPage={setCurrentPage}
+                                    currentPage={currentPage}/> : null
                             }
-                        </ul>
+                        </div>
                     </div>
             }
         </>

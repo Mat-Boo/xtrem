@@ -6,6 +6,7 @@ import Filters from '../../../components/Filters';
 import { useSelector } from 'react-redux';
 import Pagination from '../../../components/Pagination';
 import { userServices } from '../../../_services/user_services';
+import { paginationParams } from '../../../_services/paginationParams';
 
 export default function Partners() {
 
@@ -20,9 +21,8 @@ export default function Partners() {
     
     //Pagination
     const [currentPage, setCurrentPage] = useState();
-    const [itemsPerPage, setItemsPerPage] = useState(6);
-    const lastItemIndex = currentPage * itemsPerPage;
-    const firstItemIndex = lastItemIndex - itemsPerPage;
+    const lastItemIndex = currentPage * paginationParams.partnersPerPage;
+    const firstItemIndex = lastItemIndex - paginationParams.partnersPerPage;
 
     useEffect(() => {
         Axios.get('/api/partners')
@@ -101,7 +101,7 @@ export default function Partners() {
                                     && (partner.id.toString().includes(filter.search.toString()) || 
                                     partner.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
                                     partner.description.toLowerCase().includes(filter.search.toString().toLowerCase()))
-                                )).length > itemsPerPage ?
+                                )).length > paginationParams.partnersPerPage ?
                                 <Pagination 
                                     totalItems={
                                         partners
@@ -114,7 +114,7 @@ export default function Partners() {
                                                 partner.description.toLowerCase().includes(filter.search.toString().toLowerCase()))
                                             )).length
                                         }
-                                    itemsPerPage={itemsPerPage}
+                                    itemsPerPage={paginationParams.partnersPerPage}
                                     setCurrentPage={setCurrentPage}
                                     currentPage={currentPage}/> : null
                             }
