@@ -28,7 +28,8 @@ export default function AddPermission() {
             'content-type': 'multipart/form-data',
           })
         .then(response => {
-            stockAlertMessageInStore({type: 'success', content: 'La nouvelle permission a été créée avec succès.'})
+            console.log(response)
+            stockAlertMessageInStore({type: 'success', content: 'La nouvelle permission ' + response.data.name + ' a été créée avec succès.'})
             navigate('/permissions');
         })
         .catch(error => {

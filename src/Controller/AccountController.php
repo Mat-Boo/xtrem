@@ -87,7 +87,7 @@ class AccountController extends AbstractController
     #[Route(path: '/api/user/modify-password', name: 'api_user_modify_password', methods: ['POST'])]
     public function modifyPassword(Request $request, SerializerInterface $serializer, UserPasswordHasherInterface $hasher): Response
     {
-        //Récupération des données issues du formulaire de création d'une permission
+        //Récupération des données issues du formulaire de modification de mot de passe
         $content = [];
         $content['actualPassword'] = $request->get('actualPassword');
         $content['password'] = $request->get('password');

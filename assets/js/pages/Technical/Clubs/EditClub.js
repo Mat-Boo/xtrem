@@ -76,7 +76,8 @@ export default function EditClub() {
             'content-type': 'multipart/form-data',
           })
         .then(response => {
-            stockAlertMessageInStore({type: 'success', content: 'Le club ' + club.id + ' - ' + club.name + ' a été modifié avec succès.'})
+            console.log(response)
+            stockAlertMessageInStore({type: 'success', content: 'Le club ' + response.data.name + ' a été modifié avec succès.'})
             navigate(-1);
         })
         .catch(error => {

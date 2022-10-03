@@ -265,4 +265,39 @@ class PartnerController extends AbstractController
         return $response;
     }
 
+    #[Route(path: '/api/partner/{id}/reset-password', name: 'api_partner_reset_password', methods: ['POST'])]
+    public function modifyPassword(Request $request, SerializerInterface $serializer, UserPasswordHasherInterface $hasher, $id): Response
+    {
+        //Récupération des données issues du formulaire de réinitialisation de mot de passe
+        $content = [];
+        $content['password'] = $request->get('password');
+        $content['passwordConfirm'] = $request->get('passwordConfirm');
+        
+        //Application de la fonction de contrôle des champs renseignés dans le formulaire de modification du mot de passe de l'utilisateur
+        $errorsValidation  = new ErrorsValidation($content);
+        $errors = $errorsValidation->formItemControl();
+
+        //Recherche du partenaire concerné par la réinitialisation du mot de passe en fonction de l'id
+        $partner = $this->entityManager->getRepository(Partner::class)->findOneById($id);
+    
+        if (empty($errors)) {
+            //Mise à jour du mot de passe du contact du partenaire après hashage
+            $password = $hasher->hashPassword($partner->getContact(), $content['password']);
+            $partner->getContact()->setPassword($password);
+            $this->entityManager->flush();
+
+            //Création de la réponse pour renvoyer le json contenant les infos du partenaire dont le mot de passe du contact a été modifié
+            $json = $serializer->serialize($partner, 'json', ['groups' => 'partner:read']);
+            $response = new Response($json, 200, [
+                'Content-Type' => 'application/json'
+            ]);
+       } else {
+            //Création de la réponse pour renvoyer le json contenant les erreurs liées au remplissage du formulaire de modification du mot de passe de l'utilisateur
+            $errorsJson = $serializer->serialize($errors, 'json');
+            $response = new Response($errorsJson, 500, [
+                'Content-Type' => 'application/json'
+            ]);
+       }
+       return $response;
+    }
 }

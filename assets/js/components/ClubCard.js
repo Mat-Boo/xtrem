@@ -98,7 +98,7 @@ export default function ClubCard({ partner, id, name, logo, isActive, address, z
                                     <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
                                     </svg>'
                                 btnTitle='Réinitialiser mot de passe'
-                                btnUrl='reinitialiser-mot-de-passe'
+                                btnUrl={id + '-' + slugify(name) + '/reinitialiser-mot-de-passe'}
                             />
                             <Button
                                 idItem={id}

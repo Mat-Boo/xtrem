@@ -27,6 +27,8 @@ import ModifyPassword from './pages/MyAccount/ModifyPassword';
 import PrivateRoutes from './PrivateRoutes';
 import MyClubs from './pages/Partner/MyClubs';
 import MyClub from './pages/Club/MyClub';
+import ResetPasswordPartner from './pages/Technical/Partners/ResetPassword';
+import ResetPasswordClub from './pages/Technical/Clubs/ResetPassword';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <>
@@ -43,9 +45,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                         <Route path="/partenaires/ajouter" element={<AddPartner />} />
                         <Route path="/partenaires/:idSlug" element={<ViewPartner />} />
                         <Route path="/partenaires/:idSlug/modifier" element={<EditPartner />} />
+                        <Route path="/partenaires/:idSlug/reinitialiser-mot-de-passe" element={<ResetPasswordPartner />} />
                         <Route path="/partenaires/:idSlug/clubs" element={<ManageClubs />} />
                         <Route path="/partenaires/:idSlug/clubs/ajouter" element={<AddClub />} />
                         <Route path="/partenaires/:idSlug/clubs/:idSlugClub/modifier" element={<EditClub />} />
+                        <Route path="/partenaires/:idSlug/clubs/:idSlugClub/reinitialiser-mot-de-passe" element={<ResetPasswordClub />} />
                         <Route path="/permissions" element={<Permissions />} />
                         <Route path="/permissions/ajouter" element={<AddPermission />} />
                         <Route path="/permissions/:idSlug" element={<ViewPermission />} />
