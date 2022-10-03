@@ -42,9 +42,6 @@ export default function Partners() {
             })
             setLengthes(lengthes => ({...lengthes, all: res.data.length}));
         })
-        .catch(error => {
-            console.log(error);
-        });
         setCurrentPage(1);
     }, [alertMessage, filter])
     
