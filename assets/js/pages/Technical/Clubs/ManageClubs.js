@@ -15,7 +15,11 @@ export default function ManageClubs() {
 
     const [partner, setPartner] = useState([]);
     const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0));
-    const [lengthes, setLengthes] = useState();
+    const [lengthes, setLengthes] = useState({
+        all: 0,
+        actives: 0,
+        inactives: 0
+    });
     const filter = useSelector((state) => state.filter);
 
     //Pagination
@@ -29,11 +33,11 @@ export default function ManageClubs() {
         Axios.get('/api/partner/' + id)
         .then((res) => {
             setPartner(res.data);
-            /* setLengthes({
+            setLengthes({
                 all: 0,
                 actives: 0,
                 inactives: 0
-            }) */
+            })
             res.data.clubs.forEach((club) => {
                 if (club.isActive) {
                     setLengthes(lengthes => ({...lengthes, actives: lengthes.actives + 1}));

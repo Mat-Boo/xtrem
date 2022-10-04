@@ -37,12 +37,17 @@ export default function Login() {
             "password": formValues.password
         })
         .then(response => {
+            console.log(response)
             userServices.saveToken(response.data.token);
             stockAlertMessageInStore({type: 'info', content: 'Bienvenue <b>' + jwt(response.data.token).firstname}) + '</b>';
             navigate('/accueil');
         })
         .catch(error => {
-            stockAlertMessageInStore({type: 'error', content: 'Veuillez vérifier votre email et/ou votre mot de passe.'});
+            if (error.response.data.message === 'Invalid credentials.') {
+                stockAlertMessageInStore({type: 'error', content: 'Veuillez vérifier votre email et/ou votre mot de passe.'});
+            } else {
+                stockAlertMessageInStore({type: 'error', content: 'Compte inactif, vous serez informé par email lorsque vous pourrez vous connecter.'});
+            }
         });
     }
 

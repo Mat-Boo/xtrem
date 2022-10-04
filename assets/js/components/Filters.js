@@ -10,7 +10,6 @@ export default function Filters({ all, actives, inactives, displayStates }) {
     const [stateInactives, setStateInactives] = useState(false);
     const [search, setSearch] = useState('');
     const filter = useSelector((state) => state.filter);
-    const stateItem = useSelector((state) => state.stateItem);
     const [lengthes, setLengthes] = useState({
         all: all,
         actives: actives,
@@ -21,7 +20,8 @@ export default function Filters({ all, actives, inactives, displayStates }) {
     const stockFilterInStore = (data) => {
         dispatchFilter(updateFilter(data))
     }
-
+    
+    const stateItem = useSelector((state) => state.stateItem);
     const dispatchStateItem = useDispatch();
     const stockStateItemInStore = (data) => {
         dispatchStateItem(updateStateItem(data))
@@ -35,11 +35,11 @@ export default function Filters({ all, actives, inactives, displayStates }) {
 
     useEffect(() => {
         if (axiosAnswer === 'success') {
-            if (stateItem === true) {
+            if (stateItem.state === true) {
                 setLengthes(lengthes => ({...lengthes, actives: lengthes.actives + 1}))
                 setLengthes(lengthes => ({...lengthes, inactives: lengthes.inactives - 1}));
                 stockStateItemInStore('');
-            } else if (stateItem === false) {
+            } else if (stateItem.state === false) {
                 setLengthes(lengthes => ({...lengthes, inactives: lengthes.inactives + 1}));
                 setLengthes(lengthes => ({...lengthes, actives: lengthes.actives - 1}));
                 stockStateItemInStore('')

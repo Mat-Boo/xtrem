@@ -151,7 +151,7 @@ export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub,
     if (idToggle === answerModal.idToggle && answerModal.typeButton === 'confirm') {
         const formData = new FormData();
         formData.append('isActive', !stateSwitch ? 1 : 0);
-        stockStateItemInStore(!stateSwitch);
+        stockStateItemInStore({type: answerModal.typeToggle, state: !stateSwitch});
         switch (answerModal.typeToggle) {
             case 'partner':
                 Axios.post('/api/partner/' + answerModal.idToggle + '/edit', formData, {
