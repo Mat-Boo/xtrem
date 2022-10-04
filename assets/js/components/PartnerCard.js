@@ -22,7 +22,9 @@ export default function PartnerCard({ id, logo, name, description, isActive, rol
                         nameToggle={name}
                         typeToggle='partner'
                         isActive={isActive}
-                        roles={roles}/>
+                        roles={roles}
+                        isEnabled={true}
+                    />
                 </div>
             </div>
             <div className='actionBtns'>
@@ -33,6 +35,7 @@ export default function PartnerCard({ id, logo, name, description, isActive, rol
                         </svg>'
                     btnTitle={'Gérer les clubs (' + nbClubs + ')'}
                     btnUrl={id + '-' + slugify(name) + '/clubs'}
+                    isActive={true}
                 />
                 <Button
                     typeBtn='details'
@@ -42,6 +45,7 @@ export default function PartnerCard({ id, logo, name, description, isActive, rol
                         </svg>'
                     btnTitle='Détails'
                     btnUrl={id + '-' + slugify(name)}
+                    isActive={true}
                 />
             </div>
         </li>

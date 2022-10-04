@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAnswerModalForChangeState, updateAlertMessage, updateModal } from '../redux/redux';
 import Axios from '../_services/caller_service';
 
-export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub, nameToggle, idToggle, typeToggle, isActive, roles }) {
+export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub, nameToggle, idToggle, typeToggle, isActive, roles, isEnabled }) {
 
     const [stateSwitch, setStateSwitch] = useState(isActive);
 
@@ -17,6 +18,7 @@ export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub,
     }
     
     const clickSwitch = (e, idPartner, idClub, idToggle, nameToggle) => {
+        console.log(isEnabled)
         if (idPartner !== '' || idClub !== '') {
             e.preventDefault();
             switch (typeToggle) {
@@ -225,10 +227,10 @@ export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub,
         }
         stockAnswerModalForChangeStateInStore('');
     }   
-
+    
     return (
-        <label id={idToggle} className='toggleSwitch' onClick={roles.includes('ROLE_TECHNICAL') ? (e) => clickSwitch(e, idPartner, idClub, idToggle, nameToggle) : null} style={!roles.includes('ROLE_TECHNICAL') ? {opacity: 0.5, cursor: 'auto'} : null}>
-            <input type="checkbox" id={idToggle} name={typeToggle} onChange={e => handleChange(e)} checked={stateSwitch} disabled={!roles.includes('ROLE_TECHNICAL') ? true : false}/>
+        <label id={idToggle} className='toggleSwitch' onClick={roles.includes('ROLE_TECHNICAL') && isEnabled ? (e) => clickSwitch(e, idPartner, idClub, idToggle, nameToggle) : null} style={!roles.includes('ROLE_TECHNICAL') || !isEnabled ? {opacity: 0.5, cursor: 'not-allowed'} : null}>
+            <input type="checkbox" id={idToggle} name={typeToggle} onChange={e => handleChange(e)} checked={stateSwitch} disabled={!roles.includes('ROLE_TECHNICAL') || !isEnabled ? true : false}/>
             <span></span>
         </label>
     )

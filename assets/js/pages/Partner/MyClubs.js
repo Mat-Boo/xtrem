@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Button from '../../components/Button';
 import Axios from '../../_services/caller_service';
 import Filters from '../../components/Filters';
 import { useSelector } from 'react-redux';
@@ -18,7 +17,6 @@ export default function MyClubs() {
         if (userServices.isConnected()) {
             Axios.get('/api/userPartner/' + userServices.getUser().username)
             .then((res) => {
-                console.log(res)
                 setUser(res.data);
                 setLengthes({
                     all: 0,

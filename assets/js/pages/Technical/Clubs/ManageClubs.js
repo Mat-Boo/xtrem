@@ -43,7 +43,7 @@ export default function ManageClubs() {
             setLengthes(lengthes => ({...lengthes, all: res.data.clubs.length}));
         })
         setCurrentPage(1);
-    }, [alertMessage, filter])
+    }, [filter, alertMessage])
 
     return (
         <>
@@ -58,6 +58,7 @@ export default function ManageClubs() {
                                 </svg>'
                             btnTitle='Retour'
                             btnUrl={-1}
+                            isActive={true}
                         />
                         <h1>Gestion des clubs</h1>
                     </div>
@@ -76,7 +77,9 @@ export default function ManageClubs() {
                                     nameToggle={partner.name}
                                     typeToggle='partner'
                                     isActive={partner.isActive}
-                                    roles={userServices.getUser().roles}/>
+                                    roles={userServices.getUser().roles}
+                                    isEnabled={true}
+                                />
                                 <Button
                                     typeBtn='details'
                                     btnSvg='<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="detailsSvg" viewBox="0 0 16 16">
@@ -85,11 +88,16 @@ export default function ManageClubs() {
                                         </svg>'
                                     btnTitle='Détails'
                                     btnUrl={'/partenaires/' + partner.id + '-' + slugify(partner.name)}
+                                    isActive={true}
                                 />
                             </div>
                         </div>
                     </div>
                     <Filters all={lengthes.all} actives={lengthes.actives} inactives={lengthes.inactives} displayStates={true} />
+                    {
+                        !partner.isActive &&
+                            <p className='messageActivatePartner'>Le partenaire doit être activé pour pouvoir gérer ses clubs.</p>
+                    }
                     <div className='addBtnBox'>
                         <Button
                             typeBtn='add'
@@ -98,56 +106,82 @@ export default function ManageClubs() {
                                 </svg>'
                             btnTitle='Ajouter'
                             btnUrl='ajouter'
+                            isActive={partner.isActive}
                         />
                     </div>
                     {
                         partner.clubs.length === 0 ?
                             <p className='messageNoClub'>Ce partenaire ne possède aucun club.</p> :
                             <div className='clubsListAndPagination'>
-                                <ul className='clubsList'>
-                                    {
-                                        partner.clubs
-                                            .filter((club) => (
-                                                (
-                                                    filter.state === 'all' ?
-                                                    club.isActive === true || club.isActive === false :
-                                                    club.isActive === filter.state
-                                                )
-                                                && 
-                                                (
-                                                    club.id.toString().includes(filter.search.toString()) || 
-                                                    club.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
-                                                    club.address.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
-                                                    club.zipcode.includes(filter.search.toString()) ||
-                                                    club.city.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
-                                                    club.manager.firstname.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
-                                                    club.manager.lastname.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
-                                                    club.manager.phone.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
-                                                    club.manager.email.toLowerCase().includes(filter.search.toString().toLowerCase())
-                                                )
-                                            ))
-                                            .map((club) => (
-                                                <ClubCard
-                                                    key={club.id}
-                                                    partner={partner}
-                                                    id={club.id}
-                                                    name={club.name}
-                                                    logo={club.picture}
-                                                    isActive={club.isActive}
-                                                    address={club.address}
-                                                    zipcode={club.zipcode}
-                                                    city={club.city}
-                                                    firstname={club.manager.firstname}
-                                                    lastname={club.manager.lastname}
-                                                    phone={club.manager.phone}
-                                                    email={club.manager.email}
-                                                    permissions={club.clubPermissions}
-                                                    roles={userServices.getUser().roles}
-                                                />
-                                            ))
-                                            .slice(firstItemIndex, lastItemIndex)
-                                    }
-                                </ul>
+                                {
+                                    partner.clubs
+                                    .filter((club) => (
+                                        (
+                                            filter.state === 'all' ?
+                                            club.isActive === true || club.isActive === false :
+                                            club.isActive === filter.state
+                                        )
+                                        && 
+                                        (
+                                            club.id.toString().includes(filter.search.toString()) || 
+                                            club.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
+                                            club.address.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                            club.zipcode.includes(filter.search.toString()) ||
+                                            club.city.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                            club.manager.firstname.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                            club.manager.lastname.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                            club.manager.phone.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                            club.manager.email.toLowerCase().includes(filter.search.toString().toLowerCase())
+                                        )
+                                    )).length === 0 ?
+                                    <p className='messageNoClub'>Aucun club ne correspond à votre recherche.</p> :
+                                    <ul className='clubsList'
+                                        style={{opacity: !partner.isActive  ? 0.5 : ''}}>
+                                        {
+                                            partner.clubs
+                                                .filter((club) => (
+                                                    (
+                                                        filter.state === 'all' ?
+                                                        club.isActive === true || club.isActive === false :
+                                                        club.isActive === filter.state
+                                                    )
+                                                    && 
+                                                    (
+                                                        club.id.toString().includes(filter.search.toString()) || 
+                                                        club.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
+                                                        club.address.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                                        club.zipcode.includes(filter.search.toString()) ||
+                                                        club.city.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                                        club.manager.firstname.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                                        club.manager.lastname.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                                        club.manager.phone.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                                        club.manager.email.toLowerCase().includes(filter.search.toString().toLowerCase())
+                                                    )
+                                                ))
+                                                .map((club) => (
+                                                    <ClubCard
+                                                        key={club.id}
+                                                        partner={partner}
+                                                        id={club.id}
+                                                        name={club.name}
+                                                        logo={club.picture}
+                                                        isActive={club.isActive}
+                                                        address={club.address}
+                                                        zipcode={club.zipcode}
+                                                        city={club.city}
+                                                        firstname={club.manager.firstname}
+                                                        lastname={club.manager.lastname}
+                                                        phone={club.manager.phone}
+                                                        email={club.manager.email}
+                                                        permissions={club.clubPermissions}
+                                                        roles={userServices.getUser().roles}
+                                                        partnerState={partner.isActive}
+                                                    />
+                                                ))
+                                                .slice(firstItemIndex, lastItemIndex)
+                                        }
+                                    </ul>
+                                }
                                 {
                                     partner.clubs
                                     .filter((club) => (

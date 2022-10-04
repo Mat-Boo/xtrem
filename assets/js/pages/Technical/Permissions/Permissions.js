@@ -40,50 +40,64 @@ export default function Permissions() {
                                     </svg>'
                                 btnTitle='Ajouter'
                                 btnUrl='/permissions/ajouter'
+                                isActive={true}
                             />
                         </div>
                         <Filters displayStates={false} />
-                        <div className='permissionsListAndPagination'>
-                            <ul className='permissionsList'>
-                                {
-                                    permissions
+                        {
+                            permissions.length === 0 ?
+                                <p className='messageNoPermission'>Il n'existe aucune permission.</p> :
+                                <div className='permissionsListAndPagination'>
+                                    {
+                                        permissions
                                         .filter((permission) => (
                                             permission.id.toString().includes(filter.search.toString()) || 
                                             permission.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
                                             permission.description.toLowerCase().includes(filter.search.toString().toLowerCase())
-                                        ))
-                                        .map((permission) => (
-                                            <PermissionCard 
-                                                key={permission.id}
-                                                id={permission.id}
-                                                name={permission.name}
-                                                description={permission.description}
-                                            />
-                                        ))
-                                        .slice(firstItemIndex, lastItemIndex)
-                                }
-                            </ul>
-                            {
-                                permissions
-                                .filter((permission) => (
-                                    permission.id.toString().includes(filter.search.toString()) || 
-                                    permission.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
-                                    permission.description.toLowerCase().includes(filter.search.toString().toLowerCase())
-                                )).length > paginationParams.permissionsPerPage ?
-                                <Pagination
-                                    totalItems={
+                                        )).length === 0 ?
+                                        <p className='messageNoPermission'>Aucune permission ne correspond à votre recherche.</p> :
+                                        <ul className='permissionsList'>
+                                            {
+                                                permissions
+                                                    .filter((permission) => (
+                                                        permission.id.toString().includes(filter.search.toString()) || 
+                                                        permission.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
+                                                        permission.description.toLowerCase().includes(filter.search.toString().toLowerCase())
+                                                    ))
+                                                    .map((permission) => (
+                                                        <PermissionCard 
+                                                            key={permission.id}
+                                                            id={permission.id}
+                                                            name={permission.name}
+                                                            description={permission.description}
+                                                        />
+                                                    ))
+                                                    .slice(firstItemIndex, lastItemIndex)
+                                            }
+                                        </ul>
+                                    }
+                                    {
                                         permissions
-                                            .filter((permission) => (
-                                                permission.id.toString().includes(filter.search.toString()) || 
-                                                permission.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
-                                                permission.description.toLowerCase().includes(filter.search.toString().toLowerCase())
-                                            )).length
-                                        }
-                                    itemsPerPage={paginationParams.permissionsPerPage}
-                                    setCurrentPage={setCurrentPage}
-                                    currentPage={currentPage}/> : null
-                            }
-                        </div>
+                                        .filter((permission) => (
+                                            permission.id.toString().includes(filter.search.toString()) || 
+                                            permission.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
+                                            permission.description.toLowerCase().includes(filter.search.toString().toLowerCase())
+                                        )).length > paginationParams.permissionsPerPage ?
+                                        <Pagination
+                                            totalItems={
+                                                permissions
+                                                    .filter((permission) => (
+                                                        permission.id.toString().includes(filter.search.toString()) || 
+                                                        permission.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
+                                                        permission.description.toLowerCase().includes(filter.search.toString().toLowerCase())
+                                                    )).length
+                                                }
+                                            itemsPerPage={paginationParams.permissionsPerPage}
+                                            setCurrentPage={setCurrentPage}
+                                            currentPage={currentPage}/> : null
+                                    }
+                                </div>
+                        }  
                     </div>
             }
         </>

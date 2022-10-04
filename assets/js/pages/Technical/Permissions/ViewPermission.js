@@ -38,6 +38,7 @@ export default function ViewPermission() {
                                         </svg>'
                                     btnTitle='Retour'
                                     btnUrl='/permissions'
+                                    isActive={true}
                                 />
                             </div>
                         </div>

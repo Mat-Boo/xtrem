@@ -53,6 +53,7 @@ export default function MyAccount() {
                                         </svg>'
                                     btnTitle='Modifier mes informations'
                                     btnUrl='modifier-mes-informations'
+                                    isActive={true}
                                 />
                                 <Button
                                     typeBtn='modifyPassword'
@@ -62,6 +63,7 @@ export default function MyAccount() {
                                         </svg>'
                                     btnTitle='Modifier mon mot de passe'
                                     btnUrl='modifier-mon-mot-de-passe'
+                                    isActive={true}
                                 />
                             </div>
                         </div>

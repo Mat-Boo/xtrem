@@ -10,7 +10,6 @@ import { paginationParams } from '../../../_services/paginationParams';
 
 export default function Partners() {
 
-    const alertMessage = useSelector((state) => state.alertMessage);
     const [partners, setPartners] = useState([]);
     const [lengthes, setLengthes] = useState({
         all: 0,
@@ -43,12 +42,12 @@ export default function Partners() {
             setLengthes(lengthes => ({...lengthes, all: res.data.length}));
         })
         setCurrentPage(1);
-    }, [alertMessage, filter])
+    }, [filter])
     
     return (
         <>
             {
-                partners &&
+                partners[0] &&
                     <div className='partners'>
                         <div className='header'>
                             <h1>Partenaires</h1>
@@ -59,13 +58,16 @@ export default function Partners() {
                                     </svg>'
                                 btnTitle='Ajouter'
                                 btnUrl='/partenaires/ajouter'
+                                isActive={true}
                             />
                         </div>
                         <Filters all={lengthes.all} actives={lengthes.actives} inactives={lengthes.inactives} displayStates={true} />
-                        <div className='partnersListAndPagination'>
-                            <ul className='partnersList'>
-                                {
-                                    partners
+                        {
+                            partners.length === 0 ?
+                                <p className='messageNoPartner'>Il n'existe aucun partenaire.</p> :
+                                <div className='partnersListAndPagination'>
+                                    {
+                                        partners
                                         .filter((partner) => (
                                             (filter.state === 'all' ?
                                                 partner.isActive === true || partner.isActive === false :
@@ -73,49 +75,63 @@ export default function Partners() {
                                             && (partner.id.toString().includes(filter.search.toString()) || 
                                             partner.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
                                             partner.description.toLowerCase().includes(filter.search.toString().toLowerCase()))
-                                        ))
-                                        .map((partner) => (
-                                            <PartnerCard 
-                                                key={partner.id}
-                                                id={partner.id}
-                                                logo={partner.logo}
-                                                name={partner.name}
-                                                description={partner.description}
-                                                isActive={partner.isActive}
-                                                roles={userServices.getUser().roles}
-                                                nbClubs={partner.clubs.length}
-                                            />
-                                        ))
-                                        .slice(firstItemIndex, lastItemIndex)
-                                }
-                            </ul>
-                            {
-                                partners
-                                .filter((partner) => (
-                                    (filter.state === 'all' ?
-                                        partner.isActive === true || partner.isActive === false :
-                                        partner.isActive === filter.state)
-                                    && (partner.id.toString().includes(filter.search.toString()) || 
-                                    partner.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
-                                    partner.description.toLowerCase().includes(filter.search.toString().toLowerCase()))
-                                )).length > paginationParams.partnersPerPage ?
-                                <Pagination 
-                                    totalItems={
+                                        )).length === 0 ?
+                                        <p className='messageNoPartner'>Aucun partenaire ne correspond à votre recherche.</p> :
+                                        <ul className='partnersList'>
+                                            {
+                                                partners
+                                                    .filter((partner) => (
+                                                        (filter.state === 'all' ?
+                                                            partner.isActive === true || partner.isActive === false :
+                                                            partner.isActive === filter.state)
+                                                        && (partner.id.toString().includes(filter.search.toString()) || 
+                                                        partner.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
+                                                        partner.description.toLowerCase().includes(filter.search.toString().toLowerCase()))
+                                                    ))
+                                                    .map((partner) => (
+                                                        <PartnerCard 
+                                                            key={partner.id}
+                                                            id={partner.id}
+                                                            logo={partner.logo}
+                                                            name={partner.name}
+                                                            description={partner.description}
+                                                            isActive={partner.isActive}
+                                                            roles={userServices.getUser().roles}
+                                                            nbClubs={partner.clubs.length}
+                                                        />
+                                                    ))
+                                                    .slice(firstItemIndex, lastItemIndex)
+                                            }
+                                        </ul>
+                                    }
+                                    {
                                         partners
-                                            .filter((partner) => (
-                                                (filter.state === 'all' ?
-                                                    partner.isActive === true || partner.isActive === false :
-                                                    partner.isActive === filter.state)
-                                                && (partner.id.toString().includes(filter.search.toString()) || 
-                                                partner.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
-                                                partner.description.toLowerCase().includes(filter.search.toString().toLowerCase()))
-                                            )).length
-                                        }
-                                    itemsPerPage={paginationParams.partnersPerPage}
-                                    setCurrentPage={setCurrentPage}
-                                    currentPage={currentPage}/> : null
-                            }
-                        </div>
+                                        .filter((partner) => (
+                                            (filter.state === 'all' ?
+                                                partner.isActive === true || partner.isActive === false :
+                                                partner.isActive === filter.state)
+                                            && (partner.id.toString().includes(filter.search.toString()) || 
+                                            partner.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
+                                            partner.description.toLowerCase().includes(filter.search.toString().toLowerCase()))
+                                        )).length > paginationParams.partnersPerPage ?
+                                        <Pagination 
+                                            totalItems={
+                                                partners
+                                                    .filter((partner) => (
+                                                        (filter.state === 'all' ?
+                                                            partner.isActive === true || partner.isActive === false :
+                                                            partner.isActive === filter.state)
+                                                        && (partner.id.toString().includes(filter.search.toString()) || 
+                                                        partner.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
+                                                        partner.description.toLowerCase().includes(filter.search.toString().toLowerCase()))
+                                                    )).length
+                                                }
+                                            itemsPerPage={paginationParams.partnersPerPage}
+                                            setCurrentPage={setCurrentPage}
+                                            currentPage={currentPage}/> : null
+                                    }
+                                </div>
+                        }
                     </div>
             }
         </>

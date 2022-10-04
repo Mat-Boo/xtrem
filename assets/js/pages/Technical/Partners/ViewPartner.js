@@ -41,6 +41,7 @@ export default function ViewPartner() {
                                     </svg>'
                                 btnTitle='Retour'
                                 btnUrl={-1}
+                                isActive={true}
                             />
                             <h1>Informations</h1>
                         </div>
@@ -59,7 +60,9 @@ export default function ViewPartner() {
                                         nameToggle={partner.name}
                                         typeToggle='partner'
                                         isActive={partner.isActive}
-                                        roles={userServices.getUser().roles}/>
+                                        roles={userServices.getUser().roles}
+                                        isEnabled={true}
+                                    />
                                 </div>
                             </div>
                             <hr />
@@ -89,6 +92,7 @@ export default function ViewPartner() {
                                         </svg>'
                                     btnTitle={'Gérer les clubs (' + partner.clubs.length + ')'}
                                     btnUrl='clubs'
+                                    isActive={true}
                                 />
                                 <div className='actionBtns2'>
                                     <Button
@@ -98,6 +102,7 @@ export default function ViewPartner() {
                                             </svg>'
                                         btnTitle='Modifier'
                                         btnUrl='modifier'
+                                        isActive={true}
                                     />
                                     <Button
                                         typeBtn='modifyPassword'
@@ -107,6 +112,7 @@ export default function ViewPartner() {
                                             </svg>'
                                         btnTitle='Réinitialiser mot de passe'
                                         btnUrl='reinitialiser-mot-de-passe'
+                                        isActive={true}
                                     />
                                     <Button
                                         idItem={partner.id}
@@ -119,6 +125,7 @@ export default function ViewPartner() {
                                             </svg>'
                                         btnTitle='Supprimer'
                                         btnUrl=''
+                                        isActive={true}
                                     />
                                 </div>
                             </div>
@@ -139,6 +146,7 @@ export default function ViewPartner() {
                                                         typeToggle='permission'
                                                         isActive={partnerPermission.isActive}
                                                         roles={userServices.getUser().roles}
+                                                        isEnabled={true}
                                                     />
                                                 </div>
                                                 <span className='permissionName' /* onClick={handleClickPermissionName} */>{partnerPermission.Permission.name}</span>

@@ -87,6 +87,7 @@ export default function resetPassword() {
                                 </svg>'
                             btnTitle='Annuler'
                             btnUrl={'/partenaires/' + club.partner.id + '-' + slugify(club.partner.name) + '/clubs/'}
+                            isActive={true}
                         />
                         <button type='submit' className='validateFormBtn'>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-check-lg" viewBox="0 0 16 16">

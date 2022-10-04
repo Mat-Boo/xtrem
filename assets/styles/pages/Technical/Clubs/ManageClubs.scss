@@ -49,6 +49,13 @@
             }
         }
     }
+    .messageActivatePartner {
+        background: $switchOffBg;
+        color: #7D1D1D;
+        padding: 10px 20px;
+        margin: 0 0 20px 0;
+        text-align: center;
+    }
     .addBtnBox {
         width: 100%;
         max-width: 1340px;
@@ -65,7 +72,6 @@
         align-items: center;
         width: 100%;
         .clubsList {
-
             width: 100%;
             max-width: 1700px;
             display: flex;

@@ -7,6 +7,9 @@
     max-width: 1720px;
     margin: 0 auto;
     min-height: 793px;
+    .messageNoPermission {
+        margin: 30px 0;
+    }
     .permissionsListAndPagination {
         min-height: 564px;
         width: 100%;

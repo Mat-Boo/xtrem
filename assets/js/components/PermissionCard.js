@@ -21,6 +21,7 @@ export default function PermissionCard({ id, name, description }) {
                             </svg>'
                         btnTitle='Détails'
                         btnUrl={id + '-' + slugify(name)}
+                        isActive={true}
                     />
                     <div className="btnCenter">
                         <Button
@@ -30,6 +31,7 @@ export default function PermissionCard({ id, name, description }) {
                                 </svg>'
                             btnTitle='Modifier'
                             btnUrl={id + '-' + slugify(name) + '/modifier'}
+                            isActive={true}
                         />
                     </div>
                     <Button
@@ -43,6 +45,7 @@ export default function PermissionCard({ id, name, description }) {
                             </svg>'
                         btnTitle='Supprimer'
                         btnUrl=''
+                        isActive={true}
                     />
                 </div>
             </li>

@@ -49,6 +49,14 @@ html {
             opacity: 0.8;
         }
     }
+    .desactivedLink {
+        text-decoration: none;
+        cursor: not-allowed;
+        &:hover {
+            color: white;
+            opacity: 1;
+        }
+    }
     .telCom, .emailCom {
         text-decoration: none;
         color: $mainBlue;

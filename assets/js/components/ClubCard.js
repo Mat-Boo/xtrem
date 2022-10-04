@@ -2,15 +2,16 @@ import React, { useRef, useState } from 'react';
 import Button from './Button';
 import ToggleSwitch from './ToggleSwitch';
 import slugify from 'react-slugify';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
-export default function ClubCard({ partner, id, name, logo, isActive, address, zipcode, city, firstname, lastname, phone, email, permissions, roles }) {
+export default function ClubCard({ partner, id, name, logo, isActive, address, zipcode, city, firstname, lastname, phone, email, permissions, roles, partnerState }) {
     const toggleSwitchRef = useRef();
     // Fonction permettant de cliquer sur le nom associé au toggle de la permission et ainsi l'activer ou le désactiver
     /* const handleClickPermissionName = () => {
 
         toggleSwitchRef.current.firstChild.click();
     } */
-
 
 
     const permissionsFieldsetRef = useRef();
@@ -59,7 +60,9 @@ export default function ClubCard({ partner, id, name, logo, isActive, address, z
                             nameToggle={name}
                             typeToggle='club'
                             isActive={isActive}
-                            roles={roles}/>
+                            roles={roles}
+                            isEnabled={partnerState}
+                        />
                     </div>
                 </div>
                 <hr />
@@ -89,6 +92,7 @@ export default function ClubCard({ partner, id, name, logo, isActive, address, z
                                     </svg>'
                                 btnTitle='Modifier'
                                 btnUrl={id + '-' + slugify(name) + '/modifier'}
+                                isActive={partnerState}
                             />
                             <Button
                                 typeBtn='modifyPassword'
@@ -98,6 +102,7 @@ export default function ClubCard({ partner, id, name, logo, isActive, address, z
                                     </svg>'
                                 btnTitle='Réinitialiser mot de passe'
                                 btnUrl={id + '-' + slugify(name) + '/reinitialiser-mot-de-passe'}
+                                isActive={partnerState}
                             />
                             <Button
                                 idItem={id}
@@ -110,6 +115,7 @@ export default function ClubCard({ partner, id, name, logo, isActive, address, z
                                     </svg>'
                                 btnTitle='Supprimer'
                                 btnUrl=''
+                                isActive={partnerState}
                             />
                         </div>
                 }
@@ -137,6 +143,7 @@ export default function ClubCard({ partner, id, name, logo, isActive, address, z
                                                 typeToggle='permission'
                                                 isActive={permission.isActive}
                                                 roles={roles}
+                                                isEnabled={partnerState}
                                             />
                                         </div>
                                         <span className='permissionName' /* onClick={handleClickPermissionName} */>{permission.PartnerPermissions.Permission.name}</span>
