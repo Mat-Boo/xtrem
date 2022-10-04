@@ -45,7 +45,7 @@ export default function AddPermission() {
             'content-type': 'multipart/form-data',
           })
         .then(response => {
-            stockAlertMessageInStore({type: 'success', content: 'La permission ' + response.data.name + ' a été modifiée avec succès.'})
+            stockAlertMessageInStore({type: 'success', content: 'La permission <b>' + response.data.name + '</b> a été modifiée avec succès.'})
             navigate('/permissions');
         })
         .catch(error => {

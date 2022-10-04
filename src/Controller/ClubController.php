@@ -77,6 +77,7 @@ class ClubController extends AbstractController
             $user->setLastname(ucfirst(strtolower($content['lastname'])));
             $user->setPhone($content['phone']);
             $user->setEmail($content['email']);
+            $user->setIsActive(1);
             $user->setRoles(['ROLE_CLUB']);
     
             //Hashage du mot de passe                
@@ -177,6 +178,8 @@ class ClubController extends AbstractController
         if ($content['isActive'] !== null) {          
             //Mise à jour du statut du club
             $club->setIsActive($content['isActive']);
+            //Mise à jour du statut du manager du club pour l'autoriser ou l'empêcher de se connecter
+            $club->getManager()->setIsActive($content['isActive']);
         } else {
             //Application de la fonction de contrôle des champs renseignés dans le formulaire de création d'un club
             $errorsValidation  = new ErrorsValidation($content);

@@ -77,7 +77,7 @@ export default function EditClub() {
           })
         .then(response => {
             console.log(response)
-            stockAlertMessageInStore({type: 'success', content: 'Le club ' + response.data.name + ' a été modifié avec succès.'})
+            stockAlertMessageInStore({type: 'success', content: 'Le club <b>' + response.data.name + '</b> a été modifié avec succès.'})
             navigate(-1);
         })
         .catch(error => {

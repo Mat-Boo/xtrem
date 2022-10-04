@@ -38,7 +38,7 @@ export default function Login() {
         })
         .then(response => {
             userServices.saveToken(response.data.token);
-            stockAlertMessageInStore({type: 'info', content: 'Bienvenue ' + jwt(response.data.token).firstname});
+            stockAlertMessageInStore({type: 'info', content: 'Bienvenue <b>' + jwt(response.data.token).firstname}) + '</b>';
             navigate('/accueil');
         })
         .catch(error => {

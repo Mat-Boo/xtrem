@@ -55,7 +55,7 @@ export default function AddPartner() {
             'content-type': 'multipart/form-data',
           })
         .then(response => {
-            stockAlertMessageInStore({type: 'success', content: 'Le nouveau partenaire ' + response.data.name + ' a été créé avec succès.'})
+            stockAlertMessageInStore({type: 'success', content: 'Le nouveau partenaire <b>' + response.data.name + '</b> a été créé avec succès.'})
             navigate('/partenaires');
         })
         .catch(error => {

@@ -29,7 +29,7 @@ export default function AddPermission() {
           })
         .then(response => {
             console.log(response)
-            stockAlertMessageInStore({type: 'success', content: 'La nouvelle permission ' + response.data.name + ' a été créée avec succès.'})
+            stockAlertMessageInStore({type: 'success', content: 'La nouvelle permission <b>' + response.data.name + '</b> a été créée avec succès.'})
             navigate('/permissions');
         })
         .catch(error => {

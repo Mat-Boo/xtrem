@@ -6,11 +6,6 @@
     width: 95%;
     max-width: 1720px;
     margin: 0 auto;
-    .header {
-        .button {
-            align-self: flex-start;
-        }
-    }
     .partner {
         display: flex;
         flex-direction: column;
@@ -62,6 +57,12 @@
 
 @media screen and (min-width: 800px) {
     .myClubs {
+        .header {
+            h1 {
+                width: 100%;
+                text-align: end;
+            }
+        }
         .partner {
             flex-direction: row;
             .logo {

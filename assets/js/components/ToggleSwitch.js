@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateAnswerModalForChangeState, updateAlertMessage, updateModal } from '../redux/redux';
 import Axios from '../_services/caller_service';
 
-export default function ToggleSwitch({ idPartner, idClub, nameToggle, idToggle, typeToggle, isActive, roles }) {
+export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub, nameToggle, idToggle, typeToggle, isActive, roles }) {
 
     const [stateSwitch, setStateSwitch] = useState(isActive);
 
@@ -29,8 +29,8 @@ export default function ToggleSwitch({ idPartner, idClub, nameToggle, idToggle, 
                             nameToggle: nameToggle,
                             typeToggle: typeToggle,
                             action: 'changeState',
-                            title: 'Désactivation du partenaire ' + nameToggle,
-                            message: 'Voulez-vous vraiment désactiver le partenaire ' + nameToggle + ' ? Ce partenaire ainsi que ses clubs ne pourront plus accéder à leur interface.'
+                            title: 'Désactivation du partenaire <b>' + nameToggle + '</b>',
+                            message: 'Voulez-vous vraiment désactiver le partenaire <b>' + nameToggle + '</b> ?\nCe partenaire ainsi que ses clubs seront désactivés et ne pourront plus accéder à leur interface.'
                         })
                     } else {
                         stockModalInfosInStore({
@@ -40,34 +40,61 @@ export default function ToggleSwitch({ idPartner, idClub, nameToggle, idToggle, 
                             nameToggle: nameToggle,
                             typeToggle: typeToggle,
                             action: 'changeState',
-                            title: 'Activation du partenaire ' + nameToggle,
-                            message: 'Voulez-vous vraiment activer le partenaire ' + nameToggle + ' ? Ce partenaire pourra accéder à son interface.'
+                            title: 'Activation du partenaire <b>' + nameToggle + '</b>',
+                            message: 'Voulez-vous vraiment activer le partenaire <b>' + nameToggle + '</b> ?\nCe partenaire pourra accéder à son interface.\nVous devrez activer ses clubs un par un dans la rubrique "Gérer les clubs".'
                         })
                     }
                 break;
                 case 'permission':
-                    if (stateSwitch) {
-                        stockModalInfosInStore({
-                            idPartner: idPartner,
-                            idClub: idClub,
-                            idToggle: idToggle,
-                            nameToggle: nameToggle,
-                            typeToggle: typeToggle,
-                            action: 'changeState',
-                            title: 'Désactivation de la permission ' + nameToggle,
-                            message: 'Voulez-vous vraiment désactiver la permission ' + nameToggle + ' ?'
-                        })
-                    } else {
-                        stockModalInfosInStore({
-                            idPartner: idPartner,
-                            idClub: idClub,
-                            idToggle: idToggle,
-                            nameToggle: nameToggle,
-                            typeToggle: typeToggle,
-                            action: 'changeState',
-                            title: 'Activation de la permission ' + nameToggle,
-                            message: 'Voulez-vous vraiment activer la permission ' + nameToggle + ' ?'
-                        })
+                    if (namePartner !== undefined) {
+                        if (stateSwitch) {
+                            stockModalInfosInStore({
+                                idPartner: idPartner,
+                                idClub: idClub,
+                                idToggle: idToggle,
+                                nameToggle: nameToggle,
+                                typeToggle: typeToggle,
+                                action: 'changeState',
+                                title: 'Désactivation de la permission <b>' + nameToggle + '</b>',
+                                message: 'Voulez-vous vraiment désactiver la permission <b>' + nameToggle + '</b> pour le partenaire <b>' + namePartner + '</b> ?\nSes clubs n\'auront plus accès à cette permission.'
+                            })
+                        } else {
+                            stockModalInfosInStore({
+                                idPartner: idPartner,
+                                idClub: idClub,
+                                idToggle: idToggle,
+                                nameToggle: nameToggle,
+                                typeToggle: typeToggle,
+                                action: 'changeState',
+                                title: 'Activation de la permission <b>' + nameToggle + '</b>',
+                                message: 'Voulez-vous vraiment activer la permission <b>' + nameToggle + '</b> pour le partenaire <b>' + namePartner + '</b> ?\nIl vous sera possible d\'activer cette permission pour les clubs de ce partenaire.'
+                            })
+                        }
+                    }
+                    if (nameClub !== undefined) {
+                        if (stateSwitch) {
+                            stockModalInfosInStore({
+                                idPartner: idPartner,
+                                idClub: idClub,
+                                idToggle: idToggle,
+                                nameToggle: nameToggle,
+                                typeToggle: typeToggle,
+                                action: 'changeState',
+                                title: 'Désactivation de la permission <b>' + nameToggle + '</b>',
+                                message: 'Voulez-vous vraiment désactiver la permission <b>' + nameToggle + '</b> pour le club <b>' + nameClub + '</b> ?'
+                            })
+                        } else {
+                            stockModalInfosInStore({
+                                idPartner: idPartner,
+                                idClub: idClub,
+                                idToggle: idToggle,
+                                nameToggle: nameToggle,
+                                typeToggle: typeToggle,
+                                action: 'changeState',
+                                title: 'Activation de la permission <b>' + nameToggle + '</b>',
+                                message: 'Voulez-vous vraiment activer la permission <b>' + nameToggle + '</b> pour le club <b>' + nameClub + '</b> ?'
+                            })
+                        }
                     }
                 break;
                 case 'club':
@@ -79,8 +106,8 @@ export default function ToggleSwitch({ idPartner, idClub, nameToggle, idToggle, 
                             nameToggle: nameToggle,
                             typeToggle: typeToggle,
                             action: 'changeState',
-                            title: 'Désactivation du club ' + nameToggle,
-                            message: 'Voulez-vous vraiment désactiver le club ' + nameToggle + ' ? Ce club ne pourra plus accéder à son interface.'
+                            title: 'Désactivation du club <b>' + nameToggle + '</b>',
+                            message: 'Voulez-vous vraiment désactiver le club <b>' + nameToggle + '</b> ?\nLe manager de ce club ne pourra plus accéder à son interface.'
                         })
                     } else {
                         stockModalInfosInStore({
@@ -90,8 +117,8 @@ export default function ToggleSwitch({ idPartner, idClub, nameToggle, idToggle, 
                             nameToggle: nameToggle,
                             typeToggle: typeToggle,
                             action: 'changeState',
-                            title: 'Activation du club' + nameToggle,
-                            message: 'Voulez-vous vraiment activer le club ' + nameToggle + ' ? Ce club pourra accéder à son interface.'
+                            title: 'Activation du club <b>' + nameToggle + '</b>',
+                            message: 'Voulez-vous vraiment activer le club <b>' + nameToggle + '</b> ?\nLe manager de ce club pourra accéder à son interface.'
                         })
                     }
                 break;
@@ -121,56 +148,56 @@ export default function ToggleSwitch({ idPartner, idClub, nameToggle, idToggle, 
                 .then(response => {
                     setStateSwitch(!stateSwitch);
                     if (!stateSwitch) {
-                        stockAlertMessageInStore({type: 'success', content: 'Le partenaire ' + answerModal.nameToggle + ' a bien été activé.'})
+                        stockAlertMessageInStore({type: 'success', content: 'Le partenaire <b>' + answerModal.nameToggle + '</b> a bien été activé.'})
                     } else {
-                        stockAlertMessageInStore({type: 'success', content: 'Le partenaire ' + answerModal.nameToggle + ' a bien été désactivé.'})
+                        stockAlertMessageInStore({type: 'success', content: 'Le partenaire <b>' + answerModal.nameToggle + '</b> ainsi que ses clubs ont bien été désactivés.'})
                     }
                 })
                 .catch(error => {
                     if (!stateSwitch) {
-                        stockAlertMessageInStore({type: 'error', content: 'Le partenaire ' + answerModal.nameToggle + ' n\'a pu être activé.'})
+                        stockAlertMessageInStore({type: 'error', content: 'Le partenaire <b>' + answerModal.nameToggle + '</b> n\'a pu être activé.'})
                     } else {
-                        stockAlertMessageInStore({type: 'error', content: 'Le partenaire ' + answerModal.nameToggle + ' n\'a pu être désactivé.'})
+                        stockAlertMessageInStore({type: 'error', content: 'Le partenaire <b>' + answerModal.nameToggle + '</b> ainsi que ses clubs n\'ont pu être désactivés.'})
                     }
                 });
                 break;
             case 'permission':
-                if (answerModal.idPartner !== '' && answerModal.idClub === '') {
+                if (answerModal.idPartner !== undefined && answerModal.idClub === undefined) {
                     Axios.post('/api/partner-permission/' + answerModal.idPartner + '/' + answerModal.idToggle + '/edit', formData, {
                         'content-type': 'multipart/form-data',
                     })
                     .then(response => {
                         setStateSwitch(!stateSwitch);
                         if (!stateSwitch) {
-                            stockAlertMessageInStore({type: 'success', content: 'La permission ' + answerModal.nameToggle + ' a bien été activée pour le partenaire '  + response.data[0].Partner.name + '.'})
+                            stockAlertMessageInStore({type: 'success', content: 'La permission <b>' + answerModal.nameToggle + '</b> a bien été activée pour le partenaire <b>'  + response.data[0].Partner.name + '</b>.'})
                         } else {
-                            stockAlertMessageInStore({type: 'success', content: 'La permission ' + answerModal.nameToggle + ' a bien été désactivée pour le partenaire '  + response.data[0].Partner.name + '.'})
+                            stockAlertMessageInStore({type: 'success', content: 'La permission <b>' + answerModal.nameToggle + '</b> a bien été désactivée pour le partenaire <b>'  + response.data[0].Partner.name + '</b> et retirée pour ses clubs.'})
                         }
                     })
                     .catch(error => {
                         if (!stateSwitch) {
-                            stockAlertMessageInStore({type: 'error', content: 'La permission ' + answerModal.nameToggle + ' n\'a pu être activée.'})
+                            stockAlertMessageInStore({type: 'error', content: 'La permission <b>' + answerModal.nameToggle + '</b> n\'a pu être activée.'})
                         } else {
-                            stockAlertMessageInStore({type: 'error', content: 'La permission ' + answerModal.nameToggle + ' n\'a pu être désactivée.'})
+                            stockAlertMessageInStore({type: 'error', content: 'La permission <b>' + answerModal.nameToggle + '</b> n\'a pu être désactivée.'})
                         }
                     });
-                } else if (answerModal.idClub !== '') {
+                } else if (answerModal.idClub !== undefined) {
                     Axios.post('/api/club-permission/' + answerModal.idClub + '/' + answerModal.idToggle + '/edit', formData, {
                         'content-type': 'multipart/form-data',
                     })
                     .then(response => {
                         setStateSwitch(!stateSwitch);
                         if (!stateSwitch) {
-                            stockAlertMessageInStore({type: 'success', content: 'La permission ' + response.data[0].PartnerPermissions.Permission.name + ' a bien été activée pour le club '  + response.data[0].Club.name + '.'})
+                            stockAlertMessageInStore({type: 'success', content: 'La permission <b>' + response.data[0].PartnerPermissions.Permission.name + '</b> a bien été activée pour le club <b>'  + response.data[0].Club.name + '</b>.'})
                         } else {
-                            stockAlertMessageInStore({type: 'success', content: 'La permission ' + response.data[0].PartnerPermissions.Permission.name + ' a bien été désactivée pour le club '  + response.data[0].Club.name + '.'})
+                            stockAlertMessageInStore({type: 'success', content: 'La permission <b>' + response.data[0].PartnerPermissions.Permission.name + '</b> a bien été désactivée pour le club <b>'  + response.data[0].Club.name + '</b>.'})
                         }
                     })
                     .catch(error => {
                         if (!stateSwitch) {
-                            stockAlertMessageInStore({type: 'error', content: 'La permission ' + answerModal.nameToggle + ' n\'a pu être activée.'})
+                            stockAlertMessageInStore({type: 'error', content: 'La permission <b>' + answerModal.nameToggle + '</b> n\'a pu être activée.'})
                         } else {
-                            stockAlertMessageInStore({type: 'error', content: 'La permission ' + answerModal.nameToggle + ' n\'a pu être désactivée.'})
+                            stockAlertMessageInStore({type: 'error', content: 'La permission <b>' + answerModal.nameToggle + '</b> n\'a pu être désactivée.'})
                         }
                     });
                 }
@@ -182,16 +209,16 @@ export default function ToggleSwitch({ idPartner, idClub, nameToggle, idToggle, 
                 .then(response => {
                     setStateSwitch(!stateSwitch);
                     if (!stateSwitch) {
-                        stockAlertMessageInStore({type: 'success', content: 'Le club ' + answerModal.nameToggle + ' a bien été activé.'})
+                        stockAlertMessageInStore({type: 'success', content: 'Le club <b>' + answerModal.nameToggle + '</b> a bien été activé.'})
                     } else {
-                        stockAlertMessageInStore({type: 'success', content: 'Le club ' + answerModal.nameToggle + ' a bien été désactivé.'})
+                        stockAlertMessageInStore({type: 'success', content: 'Le club <b>' + answerModal.nameToggle + '</b> a bien été désactivé.'})
                     }
                 })
                 .catch(error => {
                     if (!stateSwitch) {
-                        stockAlertMessageInStore({type: 'error', content: 'Le club ' + answerModal.nameToggle + ' n\'a pu être activé.'})
+                        stockAlertMessageInStore({type: 'error', content: 'Le club <b>' + answerModal.nameToggle + '</b> n\'a pu être activé.'})
                     } else {
-                        stockAlertMessageInStore({type: 'error', content: 'Le club ' + answerModal.nameToggle + ' n\'a pu être désactivé.'})
+                        stockAlertMessageInStore({type: 'error', content: 'Le club <b>' + answerModal.nameToggle + '</b> n\'a pu être désactivé.'})
                     }
                 });
                 break;

@@ -75,7 +75,7 @@ export default function EditPartner() {
             'content-type': 'multipart/form-data',
           })
           .then(response => {
-            stockAlertMessageInStore({type: 'success', content: 'Le partenaire ' + response.data.name + ' a été modifié avec succès.'})
+            stockAlertMessageInStore({type: 'success', content: 'Le partenaire <b>' + response.data.name + '</b> a été modifié avec succès.'})
             navigate('/partenaires/' + partner.id + '-' + partner.name);
         })
         .catch(error => {

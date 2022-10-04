@@ -55,7 +55,6 @@ export default function ViewPartner() {
                                     </div>
                                     <ToggleSwitch
                                         idPartner={partner.id}
-                                        idClub=''
                                         idToggle={partner.id}
                                         nameToggle={partner.name}
                                         typeToggle='partner'
@@ -134,7 +133,7 @@ export default function ViewPartner() {
                                                 <div ref={toggleSwitchRef}>
                                                     <ToggleSwitch
                                                         idPartner={partner.id}
-                                                        idClub=''
+                                                        namePartner={partner.name}
                                                         idToggle={partnerPermission.Permission.id}
                                                         nameToggle={partnerPermission.Permission.name}
                                                         typeToggle='permission'

@@ -52,6 +52,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface/* , JWTU
     #[Groups(['userClub:read'])]
     private ?Club $club = null;
 
+    #[ORM\Column]
+    private ?bool $isActive = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -198,4 +201,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface/* , JWTU
         $user->setEmail($username);
         return $user;
     } */
+
+public function isIsActive(): ?bool
+{
+    return $this->isActive;
+}
+
+public function setIsActive(bool $isActive): self
+{
+    $this->isActive = $isActive;
+
+    return $this;
+}
 }

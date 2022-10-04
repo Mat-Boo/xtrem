@@ -59,7 +59,7 @@ export default function AddClub() {
           })
         .then(response => {
             console.log(response.data)
-            stockAlertMessageInStore({type: 'success', content: 'Le nouveau club ' + response.data.name + ' a été créé avec succès.'})
+            stockAlertMessageInStore({type: 'success', content: 'Le nouveau club <b>' + response.data.name + '</b> a été créé avec succès.'})
             navigate(-1);
         })
         .catch(error => {

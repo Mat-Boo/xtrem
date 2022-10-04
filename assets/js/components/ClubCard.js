@@ -54,7 +54,6 @@ export default function ClubCard({ partner, id, name, logo, isActive, address, z
                             </div>
                         </div>
                         <ToggleSwitch
-                            idPartner=''
                             idClub={id}
                             idToggle={id}
                             nameToggle={name}
@@ -132,6 +131,7 @@ export default function ClubCard({ partner, id, name, logo, isActive, address, z
                                             <ToggleSwitch
                                                 idPartner={partner.id}
                                                 idClub={id}
+                                                nameClub={name}
                                                 idToggle={permission.PartnerPermissions.id}
                                                 nameToggle={permission.PartnerPermissions.Permission.name}
                                                 typeToggle='permission'

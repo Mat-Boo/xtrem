@@ -90,6 +90,7 @@ class PartnerController extends AbstractController
             $user->setLastname(ucfirst(strtolower($content['lastname'])));
             $user->setPhone($content['phone']);
             $user->setEmail($content['email']);
+            $user->setIsActive(1);
             $user->setRoles(['ROLE_PARTNER']);
     
             //Hashage du mot de passe                
@@ -180,6 +181,16 @@ class PartnerController extends AbstractController
         if ($content['isActive'] !== null) {          
             //Mise à jour du statut du partenaire
             $partner->setIsActive($content['isActive']);
+            //Mise à jour du statut du contact du partenaire pour l'autoriser ou l'empêcher de se connecter
+            $partner->getContact()->setIsActive($content['isActive']);
+            //Mise à jour du statut des clubs si désactivation du partenaire
+            
+            if ($content['isActive'] === "0") {
+                forEach($partner->getClubs() as $club) {
+                    $club->setIsActive(0);
+                    $club->getManager()->setIsActive(0);
+                }
+            }
         } else {
             //Application de la fonction de contrôle des champs renseignés dans le formulaire de création d'un partenaire
             $errorsValidation  = new ErrorsValidation($content);

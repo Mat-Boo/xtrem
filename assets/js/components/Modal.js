@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Button from './Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAnswerModalForChangeState, updateAnswerModalForDelete, updateModal, updateTypeButton} from '../redux/redux';
+import { helpers } from '../_services/helpers';
 
 export default function Modal() {
 
@@ -36,7 +37,7 @@ export default function Modal() {
         } else {
             setDisplayModal(false);
             document.body.style.overflow= 'auto';
-        } 
+        }
     }, [modalInfos])
 
     switch(typeButtonClicked) {
@@ -64,8 +65,8 @@ export default function Modal() {
                     <>
                         <div className="opacityBox"></div>
                         <div className='modalConfirm'>
-                            <h6>{modalInfos.title}</h6>
-                            <p>{modalInfos.message}</p>
+                            <h6 dangerouslySetInnerHTML={helpers.sanitizedData(modalInfos.title)}></h6>
+                            <p dangerouslySetInnerHTML={helpers.sanitizedData(modalInfos.message)}></p>
                             <div className='actionBtns'>
                                 <Button
                                     typeBtn='cancel'
