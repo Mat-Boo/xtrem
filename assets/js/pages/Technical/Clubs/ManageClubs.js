@@ -13,7 +13,6 @@ import Pagination from '../../../components/Pagination';
 
 export default function ManageClubs() {
 
-    const alertMessage = useSelector((state) => state.alertMessage);
     const [partner, setPartner] = useState([]);
     const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0));
     const [lengthes, setLengthes] = useState();
@@ -24,15 +23,17 @@ export default function ManageClubs() {
     const lastItemIndex = currentPage * paginationParams.clubsPerPage;
     const firstItemIndex = lastItemIndex - paginationParams.clubsPerPage;
 
+    const axiosAnswer = useSelector((state) => state.axiosAnswer);
+
     useEffect(() => {
         Axios.get('/api/partner/' + id)
         .then((res) => {
             setPartner(res.data);
-            setLengthes({
+            /* setLengthes({
                 all: 0,
                 actives: 0,
                 inactives: 0
-            })
+            }) */
             res.data.clubs.forEach((club) => {
                 if (club.isActive) {
                     setLengthes(lengthes => ({...lengthes, actives: lengthes.actives + 1}));
@@ -43,7 +44,7 @@ export default function ManageClubs() {
             setLengthes(lengthes => ({...lengthes, all: res.data.clubs.length}));
         })
         setCurrentPage(1);
-    }, [filter, alertMessage])
+    }, [filter, axiosAnswer])
 
     return (
         <>

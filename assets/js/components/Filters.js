@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateFilter } from '../redux/redux';
+import { updateAxiosAnswer, updateFilter, updateStateItem } from '../redux/redux';
 
 export default function Filters({ all, actives, inactives, displayStates }) {
 
@@ -9,11 +10,44 @@ export default function Filters({ all, actives, inactives, displayStates }) {
     const [stateInactives, setStateInactives] = useState(false);
     const [search, setSearch] = useState('');
     const filter = useSelector((state) => state.filter);
+    const stateItem = useSelector((state) => state.stateItem);
+    const [lengthes, setLengthes] = useState({
+        all: all,
+        actives: actives,
+        inactives: inactives
+    })
     
     const dispatchFilter = useDispatch();
     const stockFilterInStore = (data) => {
         dispatchFilter(updateFilter(data))
     }
+
+    const dispatchStateItem = useDispatch();
+    const stockStateItemInStore = (data) => {
+        dispatchStateItem(updateStateItem(data))
+    }
+
+    const axiosAnswer = useSelector((state) => state.axiosAnswer);
+    const dispatchAxiosAnswer = useDispatch();
+    const stockAxiosAnswerInStore = (data) => {
+        dispatchAxiosAnswer(updateAxiosAnswer(data))
+    }
+
+    useEffect(() => {
+        if (axiosAnswer === 'success') {
+            if (stateItem === true) {
+                setLengthes(lengthes => ({...lengthes, actives: lengthes.actives + 1}))
+                setLengthes(lengthes => ({...lengthes, inactives: lengthes.inactives - 1}));
+                stockStateItemInStore('');
+            } else if (stateItem === false) {
+                setLengthes(lengthes => ({...lengthes, inactives: lengthes.inactives + 1}));
+                setLengthes(lengthes => ({...lengthes, actives: lengthes.actives - 1}));
+                stockStateItemInStore('')
+            }
+            setLengthes(lengthes => ({...lengthes, all: lengthes.actives + lengthes.inactives}));
+            stockAxiosAnswerInStore('');
+        }
+    }, [stateItem, axiosAnswer])
 
     const handleChange = (e) => {
         switch (e.target.id) {
@@ -56,15 +90,15 @@ export default function Filters({ all, actives, inactives, displayStates }) {
                         <div className='stateBox'>
                             <div className='formItem' id='stateItem'>
                                 <input type="radio" id='all' name='state' onChange={e => handleChange(e)} checked={stateAll}/>
-                                <label htmlFor="all">Tous ({all})</label>
+                                <label htmlFor="all">Tous ({lengthes.all})</label>
                             </div>
                             <div className='formItem' id='stateItem'>
                                 <input type="radio" id='actives' name='state' onChange={e => handleChange(e)} checked={stateActives}/>
-                                <label htmlFor="actives">Actifs ({actives})</label>
+                                <label htmlFor="actives">Actifs ({lengthes.actives})</label>
                             </div>
                             <div className='formItem' id='stateItem'>
                                 <input type="radio" id='inactives' name='state' onChange={e => handleChange(e)} checked={stateInactives}/>
-                                <label htmlFor="inactives">Inactifs ({inactives})</label>
+                                <label htmlFor="inactives">Inactifs ({lengthes.inactives})</label>
                             </div>
                         </div>
                 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateAnswerModalForChangeState, updateAlertMessage, updateModal } from '../redux/redux';
+import { updateAnswerModalForChangeState, updateAlertMessage, updateModal, updateStateItem, updateAxiosAnswer } from '../redux/redux';
 import Axios from '../_services/caller_service';
 
 export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub, nameToggle, idToggle, typeToggle, isActive, roles, isEnabled }) {
@@ -18,7 +18,6 @@ export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub,
     }
     
     const clickSwitch = (e, idPartner, idClub, idToggle, nameToggle) => {
-        console.log(isEnabled)
         if (idPartner !== '' || idClub !== '') {
             e.preventDefault();
             switch (typeToggle) {
@@ -138,10 +137,21 @@ export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub,
     const stockAlertMessageInStore = (data) => {
         dispatchAlertMessage(updateAlertMessage(data))
     }
+
+    const dispatchStateItem = useDispatch();
+    const stockStateItemInStore = (data) => {
+        dispatchStateItem(updateStateItem(data))
+    }
+
+    const dispatchAxiosAnswer = useDispatch();
+    const stockAxiosAnswerInStore = (data) => {
+        dispatchAxiosAnswer(updateAxiosAnswer(data))
+    }
     
     if (idToggle === answerModal.idToggle && answerModal.typeButton === 'confirm') {
         const formData = new FormData();
         formData.append('isActive', !stateSwitch ? 1 : 0);
+        stockStateItemInStore(!stateSwitch);
         switch (answerModal.typeToggle) {
             case 'partner':
                 Axios.post('/api/partner/' + answerModal.idToggle + '/edit', formData, {
@@ -151,15 +161,19 @@ export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub,
                     setStateSwitch(!stateSwitch);
                     if (!stateSwitch) {
                         stockAlertMessageInStore({type: 'success', content: 'Le partenaire <b>' + answerModal.nameToggle + '</b> a bien été activé.'})
+                        stockAxiosAnswerInStore('success')
                     } else {
                         stockAlertMessageInStore({type: 'success', content: 'Le partenaire <b>' + answerModal.nameToggle + '</b> ainsi que ses clubs ont bien été désactivés.'})
+                        stockAxiosAnswerInStore('success')
                     }
                 })
                 .catch(error => {
                     if (!stateSwitch) {
                         stockAlertMessageInStore({type: 'error', content: 'Le partenaire <b>' + answerModal.nameToggle + '</b> n\'a pu être activé.'})
+                        stockAxiosAnswerInStore('error')
                     } else {
                         stockAlertMessageInStore({type: 'error', content: 'Le partenaire <b>' + answerModal.nameToggle + '</b> ainsi que ses clubs n\'ont pu être désactivés.'})
+                        stockAxiosAnswerInStore('error')
                     }
                 });
                 break;
@@ -212,15 +226,19 @@ export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub,
                     setStateSwitch(!stateSwitch);
                     if (!stateSwitch) {
                         stockAlertMessageInStore({type: 'success', content: 'Le club <b>' + answerModal.nameToggle + '</b> a bien été activé.'})
+                        stockAxiosAnswerInStore('success')
                     } else {
                         stockAlertMessageInStore({type: 'success', content: 'Le club <b>' + answerModal.nameToggle + '</b> a bien été désactivé.'})
+                        stockAxiosAnswerInStore('success')
                     }
                 })
                 .catch(error => {
                     if (!stateSwitch) {
                         stockAlertMessageInStore({type: 'error', content: 'Le club <b>' + answerModal.nameToggle + '</b> n\'a pu être activé.'})
+                        stockAxiosAnswerInStore('error')
                     } else {
                         stockAlertMessageInStore({type: 'error', content: 'Le club <b>' + answerModal.nameToggle + '</b> n\'a pu être désactivé.'})
+                        stockAxiosAnswerInStore('error')
                     }
                 });
                 break;

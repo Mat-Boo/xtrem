@@ -91,6 +91,32 @@ const filterSlice = createSlice({
 })
 export const {updateFilter} = filterSlice.actions;
 
+// Slice to stock a change of state of partner or club
+const stateItemSlice = createSlice({
+    name: 'stateItem',
+    initialState: '',
+    reducers: {
+        updateStateItem: (state, action) => {
+            state = action.payload
+            return state
+        }
+    }
+})
+export const {updateStateItem} = stateItemSlice.actions;
+
+// Slice to stock the response of axios
+const axiosAnswerSlice = createSlice({
+    name: 'axiosAnswer',
+    initialState: '',
+    reducers: {
+        updateAxiosAnswer: (state, action) => {
+            state = action.payload
+            return state
+        }
+    }
+})
+export const {updateAxiosAnswer} = axiosAnswerSlice.actions;
+
 export const store = configureStore({
     reducer: {
         auth: authSlice.reducer,
@@ -99,6 +125,8 @@ export const store = configureStore({
         answerModalForChangeState: answerModalForChangeStateSlice.reducer,
         answerModalForDelete: answerModalForDeleteSlice.reducer,
         typeButton: typeButtonSlice.reducer,
-        filter: filterSlice.reducer
+        filter: filterSlice.reducer,
+        stateItem: stateItemSlice.reducer,
+        axiosAnswer: axiosAnswerSlice.reducer
     }
 })

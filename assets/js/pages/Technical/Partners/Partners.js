@@ -3,10 +3,11 @@ import Axios from '../../../_services/caller_service';
 import PartnerCard from '../../../components/PartnerCard';
 import Button from '../../../components/Button';
 import Filters from '../../../components/Filters';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Pagination from '../../../components/Pagination';
 import { userServices } from '../../../_services/user_services';
 import { paginationParams } from '../../../_services/paginationParams';
+import { updateStateItem } from '../../../redux/redux';
 
 export default function Partners() {
 
@@ -17,6 +18,7 @@ export default function Partners() {
         inactives: 0
     });
     const filter = useSelector((state) => state.filter);
+
     
     //Pagination
     const [currentPage, setCurrentPage] = useState();
@@ -27,11 +29,11 @@ export default function Partners() {
         Axios.get('/api/partners')
         .then((res) => {
             setPartners(res.data);
-            setLengthes({
+            /* setLengthes({
                 all: 0,
                 actives: 0,
                 inactives: 0
-            });
+            }); */
             res.data.forEach((partner) => {
                 if (partner.isActive) {
                     setLengthes(lengthes => ({...lengthes, actives: lengthes.actives + 1}));

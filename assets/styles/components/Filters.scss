@@ -37,6 +37,7 @@
                 width: 100px;
                 height: 40px;
                 font-size: 0.9em;
+                user-select: none;
                 input {
                     display: none;
                     &:checked + label {
