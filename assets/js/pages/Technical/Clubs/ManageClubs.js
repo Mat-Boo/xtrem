@@ -10,6 +10,7 @@ import ClubCard from '../../../components/ClubCard';
 import { userServices } from '../../../_services/user_services';
 import { paginationParams } from '../../../_services/paginationParams';
 import Pagination from '../../../components/Pagination';
+import { helpers } from '../../../_services/helpers';
 
 export default function ManageClubs() {
 
@@ -129,12 +130,12 @@ export default function ManageClubs() {
                                         && 
                                         (
                                             club.id.toString().includes(filter.search.toString()) || 
-                                            club.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
-                                            club.address.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                            helpers.replaceAccent(club.name).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) || 
+                                            helpers.replaceAccent(club.address).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) ||
                                             club.zipcode.includes(filter.search.toString()) ||
-                                            club.city.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
-                                            club.manager.firstname.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
-                                            club.manager.lastname.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                            helpers.replaceAccent(club.city).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) ||
+                                            helpers.replaceAccent(club.manager.firstname).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) ||
+                                            helpers.replaceAccent(club.manager.lastname).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) ||
                                             club.manager.phone.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
                                             club.manager.email.toLowerCase().includes(filter.search.toString().toLowerCase())
                                         )
@@ -153,12 +154,12 @@ export default function ManageClubs() {
                                                     && 
                                                     (
                                                         club.id.toString().includes(filter.search.toString()) || 
-                                                        club.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
-                                                        club.address.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                                        helpers.replaceAccent(club.name).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) || 
+                                                        helpers.replaceAccent(club.address).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) ||
                                                         club.zipcode.includes(filter.search.toString()) ||
-                                                        club.city.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
-                                                        club.manager.firstname.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
-                                                        club.manager.lastname.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                                        helpers.replaceAccent(club.city).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) ||
+                                                        helpers.replaceAccent(club.manager.firstname).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) ||
+                                                        helpers.replaceAccent(club.manager.lastname).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) ||
                                                         club.manager.phone.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
                                                         club.manager.email.toLowerCase().includes(filter.search.toString().toLowerCase())
                                                     )
@@ -198,12 +199,12 @@ export default function ManageClubs() {
                                         && 
                                         (
                                             club.id.toString().includes(filter.search.toString()) || 
-                                            club.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
-                                            club.address.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                            helpers.replaceAccent(club.name).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) || 
+                                            helpers.replaceAccent(club.address).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) ||
                                             club.zipcode.includes(filter.search.toString()) ||
-                                            club.city.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
-                                            club.manager.firstname.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
-                                            club.manager.lastname.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                            helpers.replaceAccent(club.city).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) ||
+                                            helpers.replaceAccent(club.manager.firstname).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) ||
+                                            helpers.replaceAccent(club.manager.lastname).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) ||
                                             club.manager.phone.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
                                             club.manager.email.toLowerCase().includes(filter.search.toString().toLowerCase())
                                         )
@@ -220,12 +221,12 @@ export default function ManageClubs() {
                                                     && 
                                                     (
                                                         club.id.toString().includes(filter.search.toString()) || 
-                                                        club.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
-                                                        club.address.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                                        helpers.replaceAccent(club.name).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) || 
+                                                        helpers.replaceAccent(club.address).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) ||
                                                         club.zipcode.includes(filter.search.toString()) ||
-                                                        club.city.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
-                                                        club.manager.firstname.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
-                                                        club.manager.lastname.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
+                                                        helpers.replaceAccent(club.city).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) ||
+                                                        helpers.replaceAccent(club.manager.firstname).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) ||
+                                                        helpers.replaceAccent(club.manager.lastname).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) ||
                                                         club.manager.phone.toLowerCase().includes(filter.search.toString().toLowerCase()) ||
                                                         club.manager.email.toLowerCase().includes(filter.search.toString().toLowerCase())
                                                     )

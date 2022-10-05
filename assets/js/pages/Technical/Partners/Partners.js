@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Pagination from '../../../components/Pagination';
 import { userServices } from '../../../_services/user_services';
 import { paginationParams } from '../../../_services/paginationParams';
+import { helpers } from '../../../_services/helpers';
 
 export default function Partners() {
 
@@ -70,24 +71,34 @@ export default function Partners() {
                                     {
                                         partners
                                         .filter((partner) => (
-                                            (filter.state === 'all' ?
+                                            (
+                                                filter.state === 'all' ?
                                                 partner.isActive === true || partner.isActive === false :
-                                                partner.isActive === filter.state)
-                                            && (partner.id.toString().includes(filter.search.toString()) || 
-                                            partner.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
-                                            partner.description.toLowerCase().includes(filter.search.toString().toLowerCase()))
+                                                partner.isActive === filter.state
+                                            )
+                                            && 
+                                            (
+                                                partner.id.toString().includes(filter.search.toString()) || 
+                                                helpers.replaceAccent(partner.name).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) || 
+                                                helpers.replaceAccent(partner.description).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase())
+                                            )
                                         )).length === 0 ?
                                         <p className='messageNoPartner'>Aucun partenaire ne correspond à votre recherche.</p> :
                                         <ul className='partnersList'>
                                             {
                                                 partners
-                                                    .filter((partner) => (
-                                                        (filter.state === 'all' ?
-                                                            partner.isActive === true || partner.isActive === false :
-                                                            partner.isActive === filter.state)
-                                                        && (partner.id.toString().includes(filter.search.toString()) || 
-                                                        partner.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
-                                                        partner.description.toLowerCase().includes(filter.search.toString().toLowerCase()))
+                                                .filter((partner) => (
+                                                    (
+                                                        filter.state === 'all' ?
+                                                        partner.isActive === true || partner.isActive === false :
+                                                        partner.isActive === filter.state
+                                                    )
+                                                    && 
+                                                    (
+                                                        partner.id.toString().includes(filter.search.toString()) || 
+                                                        helpers.replaceAccent(partner.name).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) || 
+                                                        helpers.replaceAccent(partner.description).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase())
+                                                    )
                                                     ))
                                                     .map((partner) => (
                                                         <PartnerCard 
@@ -108,23 +119,33 @@ export default function Partners() {
                                     {
                                         partners
                                         .filter((partner) => (
-                                            (filter.state === 'all' ?
+                                            (
+                                                filter.state === 'all' ?
                                                 partner.isActive === true || partner.isActive === false :
-                                                partner.isActive === filter.state)
-                                            && (partner.id.toString().includes(filter.search.toString()) || 
-                                            partner.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
-                                            partner.description.toLowerCase().includes(filter.search.toString().toLowerCase()))
+                                                partner.isActive === filter.state
+                                            )
+                                            && 
+                                            (
+                                                partner.id.toString().includes(filter.search.toString()) || 
+                                                helpers.replaceAccent(partner.name).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) || 
+                                                helpers.replaceAccent(partner.description).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase())
+                                            )
                                         )).length > paginationParams.partnersPerPage ?
                                         <Pagination 
                                             totalItems={
                                                 partners
-                                                    .filter((partner) => (
-                                                        (filter.state === 'all' ?
-                                                            partner.isActive === true || partner.isActive === false :
-                                                            partner.isActive === filter.state)
-                                                        && (partner.id.toString().includes(filter.search.toString()) || 
-                                                        partner.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
-                                                        partner.description.toLowerCase().includes(filter.search.toString().toLowerCase()))
+                                                .filter((partner) => (
+                                                    (
+                                                        filter.state === 'all' ?
+                                                        partner.isActive === true || partner.isActive === false :
+                                                        partner.isActive === filter.state
+                                                    )
+                                                    && 
+                                                    (
+                                                        partner.id.toString().includes(filter.search.toString()) || 
+                                                        helpers.replaceAccent(partner.name).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) || 
+                                                        helpers.replaceAccent(partner.description).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase())
+                                                    )
                                                     )).length
                                                 }
                                             itemsPerPage={paginationParams.partnersPerPage}

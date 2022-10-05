@@ -6,12 +6,6 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 export default function ClubCard({ partner, id, name, logo, isActive, address, zipcode, city, firstname, lastname, phone, email, permissions, roles, partnerState }) {
-    const toggleSwitchRef = useRef();
-    // Fonction permettant de cliquer sur le nom associé au toggle de la permission et ainsi l'activer ou le désactiver
-    /* const handleClickPermissionName = () => {
-
-        toggleSwitchRef.current.firstChild.click();
-    } */
 
     const axiosAnswer = useSelector((state) => state.axiosAnswer);
 
@@ -139,7 +133,7 @@ export default function ClubCard({ partner, id, name, logo, isActive, address, z
                             permissions
                                 .map((permission) => (
                                     <li  key={permission.id} className='switchPermission'>
-                                        <div ref={toggleSwitchRef}>
+                                        <div>
                                             <ToggleSwitch
                                                 idPartner={partner.id}
                                                 idClub={id}
@@ -152,7 +146,7 @@ export default function ClubCard({ partner, id, name, logo, isActive, address, z
                                                 isEnabled={partnerState}
                                             />
                                         </div>
-                                        <span className='permissionName' /* onClick={handleClickPermissionName} */>{permission.PartnerPermissions.Permission.name}</span>
+                                        <span className='permissionName'>{permission.PartnerPermissions.Permission.name}</span>
                                     </li>
                             ))
                         }

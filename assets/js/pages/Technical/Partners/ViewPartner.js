@@ -11,13 +11,6 @@ import traction from '../../../../img/svgBg/traction.svg';
 
 export default function ViewPartner() {
 
-    const toggleSwitchRef = useRef();
-    // Fonction permettant de cliquer sur le nom associé au toggle de la permission et ainsi l'activer ou le désactiver
-    /* const handleClickPermissionName = () => {
-
-        toggleSwitchRef.current.firstChild.click();
-    } */
-
     const [partner, setPartner] = useState([]);
     const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0));
     
@@ -137,7 +130,7 @@ export default function ViewPartner() {
                                     {
                                         partner.partnerPermissions.map((partnerPermission) => (
                                             <li  key={partnerPermission.Permission.id} className='switchPermission'>
-                                                <div ref={toggleSwitchRef}>
+                                                <div>
                                                     <ToggleSwitch
                                                         idPartner={partner.id}
                                                         namePartner={partner.name}
@@ -149,7 +142,7 @@ export default function ViewPartner() {
                                                         isEnabled={true}
                                                     />
                                                 </div>
-                                                <span className='permissionName' /* onClick={handleClickPermissionName} */>{partnerPermission.Permission.name}</span>
+                                                <span className='permissionName'>{partnerPermission.Permission.name}</span>
                                             </li>
                                         ))
                                     }

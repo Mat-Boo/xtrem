@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import Filters from '../../../components/Filters';
 import Pagination from '../../../components/Pagination';
 import { paginationParams } from '../../../_services/paginationParams';
+import { helpers } from '../../../_services/helpers';
 
 export default function Permissions() {
 
@@ -26,6 +27,7 @@ export default function Permissions() {
         setCurrentPage(1);
     }, [alertMessage, filter])
 
+    
     return (
         <>
             {
@@ -52,8 +54,8 @@ export default function Permissions() {
                                         permissions
                                         .filter((permission) => (
                                             permission.id.toString().includes(filter.search.toString()) || 
-                                            permission.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
-                                            permission.description.toLowerCase().includes(filter.search.toString().toLowerCase())
+                                            helpers.replaceAccent(permission.name).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) || 
+                                            helpers.replaceAccent(permission.description).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase())
                                         )).length === 0 ?
                                         <p className='messageNoPermission'>Aucune permission ne correspond à votre recherche.</p> :
                                         <ul className='permissionsList'>
@@ -61,8 +63,8 @@ export default function Permissions() {
                                                 permissions
                                                     .filter((permission) => (
                                                         permission.id.toString().includes(filter.search.toString()) || 
-                                                        permission.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
-                                                        permission.description.toLowerCase().includes(filter.search.toString().toLowerCase())
+                                                        helpers.replaceAccent(permission.name).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) || 
+                                                        helpers.replaceAccent(permission.description).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase())
                                                     ))
                                                     .map((permission) => (
                                                         <PermissionCard 
@@ -80,16 +82,16 @@ export default function Permissions() {
                                         permissions
                                         .filter((permission) => (
                                             permission.id.toString().includes(filter.search.toString()) || 
-                                            permission.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
-                                            permission.description.toLowerCase().includes(filter.search.toString().toLowerCase())
+                                            helpers.replaceAccent(permission.name).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) || 
+                                            helpers.replaceAccent(permission.description).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase())
                                         )).length > paginationParams.permissionsPerPage ?
                                         <Pagination
                                             totalItems={
                                                 permissions
                                                     .filter((permission) => (
                                                         permission.id.toString().includes(filter.search.toString()) || 
-                                                        permission.name.toLowerCase().includes(filter.search.toString().toLowerCase()) || 
-                                                        permission.description.toLowerCase().includes(filter.search.toString().toLowerCase())
+                                                        helpers.replaceAccent(permission.name).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) || 
+                                                        helpers.replaceAccent(permission.description).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase())
                                                     )).length
                                                 }
                                             itemsPerPage={paginationParams.permissionsPerPage}
