@@ -1,7 +1,13 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { userServices } from '../_services/user_services';
 
-export default function Home() {   
+export default function Home() {
+
+    useEffect(() => {
+        document.title = 'Accueil | Xtrem';
+    })
+
     return (
         <div className='home'>
             {

@@ -20,6 +20,7 @@ export default function resetPassword() {
     const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0));
 
     useEffect(() => {
+        document.title = 'Mot de passe Partenaire | Xtrem';
         Axios.get('/api/partner/' + id)
         .then((res) => {
             setPartner(res.data);

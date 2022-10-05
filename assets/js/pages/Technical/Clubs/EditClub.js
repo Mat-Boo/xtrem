@@ -32,6 +32,7 @@ export default function EditClub() {
     }
 
     useEffect(() => {
+        document.title = 'Modification Club | Xtrem';
         Axios.get('/api/club/' + id)
         .then((res) => {
             setClub(res.data);

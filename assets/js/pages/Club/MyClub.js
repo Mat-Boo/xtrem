@@ -13,6 +13,7 @@ export default function MyClub() {
     const filter = useSelector((state) => state.filter);
 
     useEffect(() => {
+        document.title = 'Mon Club | Xtrem';
         if (userServices.isConnected()) {
             Axios.get('/api/userClub/' + userServices.getUser().username)
             .then((res) => {

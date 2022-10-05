@@ -19,10 +19,11 @@ export default function AddPermission() {
     const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0))
     
      useEffect(() => {
-      Axios.get('/api/permission/' + id)
-      .then((res) => {
-        setPermission(res.data);
-      })
+        document.title = 'Modification Permission | Xtrem';
+        Axios.get('/api/permission/' + id)
+        .then((res) => {
+            setPermission(res.data);
+        })
     }, [])
 
     const handleChange = (e) => {

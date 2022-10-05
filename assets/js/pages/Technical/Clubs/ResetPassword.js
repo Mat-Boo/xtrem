@@ -20,6 +20,7 @@ export default function resetPassword() {
     const id = useParams().idSlugClub.substring(0, useParams().idSlug.indexOf('-', 0));
 
     useEffect(() => {
+        document.title = 'Mot de passe Club | Xtrem';
         Axios.get('/api/club/' + id)
         .then((res) => {
             setClub(res.data);

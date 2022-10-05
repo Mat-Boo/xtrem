@@ -20,6 +20,7 @@ export default function Permissions() {
     const firstItemIndex = lastItemIndex - paginationParams.permissionsPerPage;
 
     useEffect(() => {
+        document.title = 'Permissions | Xtrem';
         Axios.get('/api/permissions')
         .then((res) => {
             setPermissions(res.data);

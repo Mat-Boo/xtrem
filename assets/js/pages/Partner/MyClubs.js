@@ -14,6 +14,7 @@ export default function MyClubs() {
     const filter = useSelector((state) => state.filter);
 
     useEffect(() => {
+        document.title = 'Mes Clubs | Xtrem';
         if (userServices.isConnected()) {
             Axios.get('/api/userPartner/' + userServices.getUser().username)
             .then((res) => {

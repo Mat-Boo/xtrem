@@ -34,6 +34,7 @@ export default function AddClub() {
     }
 
     useEffect(() => {
+        document.title = 'Ajout Club | Xtrem';
         Axios.get('/api/partner/' + id)
         .then((res) => {
             setPartner(res.data);

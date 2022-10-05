@@ -4,6 +4,7 @@ import Axios from '../../_services/caller_service';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateAlertMessage } from '../../redux/redux';
+import { useEffect } from 'react';
 
 export default function ModifyPassword() {
 
@@ -14,6 +15,10 @@ export default function ModifyPassword() {
     const stockAlertMessageInStore = (data) => {
         dispatchAlertMessage(updateAlertMessage(data))
     }
+
+    useEffect(() => {
+        document.title = 'Mon compte | Xtrem';
+    }, [])
 
     // Valid Form and send values to api
     const validForm = (e) => {

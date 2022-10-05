@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '../../../components/Button';
 import Axios from '../../../_services/caller_service';
 import { useDispatch } from 'react-redux'
@@ -14,6 +14,11 @@ export default function AddPermission() {
     const stockAlertMessageInStore = (data) => {
         dispatchAlertMessage(updateAlertMessage(data))
     }
+
+    useEffect(() => {
+        document.title = 'Ajout Permission | Xtrem';
+    }, [])
+    
 
     // Valid Form and send values to api
     const validForm = (e) => {

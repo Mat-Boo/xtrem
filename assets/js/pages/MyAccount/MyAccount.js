@@ -9,6 +9,7 @@ export default function MyAccount() {
     const [user, setUser] = useState();
 
     useEffect(() => {
+        document.title = 'Mon compte | Xtrem';
         Axios.get('/api/user')
         .then((res) => {
             setUser(res.data);

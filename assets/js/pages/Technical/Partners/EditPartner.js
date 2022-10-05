@@ -28,6 +28,7 @@ export default function EditPartner() {
     const [logoFile, setLogoFile] = useState();
 
     useEffect(() => {
+        document.title = 'Modification Partenaire | Xtrem';
         Axios.get('/api/partner/' + id)
         .then((res) => {
             setPartner(res.data);

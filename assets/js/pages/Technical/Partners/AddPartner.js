@@ -31,6 +31,7 @@ export default function AddPartner() {
 
     const [permissions, setPermissions] = useState([]);
     useEffect(() => {
+        document.title = 'Ajout Partenaire | Xtrem';
         Axios.get('/api/permissions')
         .then((res) => {
           setPermissions(res.data);

@@ -18,6 +18,7 @@ export default function Login() {
     }
 
     useEffect(() => {
+        document.title = 'Connexion | Xtrem';
         if(userServices.isConnected()) {
             navigate('/accueil');
         }

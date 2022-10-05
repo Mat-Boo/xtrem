@@ -31,6 +31,7 @@ export default function ManageClubs() {
     const axiosAnswer = useSelector((state) => state.axiosAnswer);
 
     useEffect(() => {
+        document.title = 'Gestion des Clubs | Xtrem';
         Axios.get('/api/partner/' + id)
         .then((res) => {
             setPartner(res.data);
