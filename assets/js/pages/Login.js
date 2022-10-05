@@ -37,7 +37,6 @@ export default function Login() {
             "password": formValues.password
         })
         .then(response => {
-            console.log(response)
             userServices.saveToken(response.data.token);
             stockAlertMessageInStore({type: 'info', content: 'Bienvenue <b>' + jwt(response.data.token).firstname}) + '</b>';
             navigate('/accueil');

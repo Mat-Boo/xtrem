@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAxiosAnswer, updateFilter, updateStateItem } from '../redux/redux';
 
-export default function Filters({ all, actives, inactives, displayStates }) {
+export default function Filters({ type, all, actives, inactives, displayStates }) {
 
     const [stateAll, setStateAll] = useState(true);
     const [stateActives, setStateActives] = useState(false);
@@ -34,7 +34,7 @@ export default function Filters({ all, actives, inactives, displayStates }) {
     }
 
     useEffect(() => {
-        if (axiosAnswer === 'success') {
+        if (axiosAnswer === 'success' && stateItem.type === type) {
             if (stateItem.state === true) {
                 setLengthes(lengthes => ({...lengthes, actives: lengthes.actives + 1}))
                 setLengthes(lengthes => ({...lengthes, inactives: lengthes.inactives - 1}));
@@ -45,8 +45,8 @@ export default function Filters({ all, actives, inactives, displayStates }) {
                 stockStateItemInStore('')
             }
             setLengthes(lengthes => ({...lengthes, all: lengthes.actives + lengthes.inactives}));
-            stockAxiosAnswerInStore('');
         }
+        stockAxiosAnswerInStore('');
     }, [stateItem, axiosAnswer])
 
     const handleChange = (e) => {

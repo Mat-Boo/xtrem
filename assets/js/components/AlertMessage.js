@@ -21,7 +21,7 @@ export default function AlertMessage() {
             setTimeout(() => {
                 stockAlertMessageInStore(null);
                 setDisplayAlertMessage(false);
-            }, 4000);
+            }, 5000);
         } else {
             setDisplayAlertMessage(false);
         } 

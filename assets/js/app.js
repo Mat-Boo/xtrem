@@ -24,7 +24,10 @@ import EditClub from './pages/Technical/Clubs/EditClub';
 import MyAccount from './pages/MyAccount/MyAccount';
 import EditAccount from './pages/MyAccount/EditAccount';
 import ModifyPassword from './pages/MyAccount/ModifyPassword';
-import PrivateRoutes from './PrivateRoutes';
+import PrivateRoutes from './PrivatesRoutes/PrivateRoutes';
+import PrivateTechnicalRoutes from './PrivatesRoutes/PrivateTechnicalRoutes';
+import PrivatePartnerRoutes from './PrivatesRoutes/PrivatePartnerRoutes';
+import PrivateClubRoutes from './PrivatesRoutes/PrivateClubRoutes';
 import MyClubs from './pages/Partner/MyClubs';
 import MyClub from './pages/Club/MyClub';
 import ResetPasswordPartner from './pages/Technical/Partners/ResetPassword';
@@ -41,24 +44,30 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                     <Route path="/" element={<Login />} />
                     <Route element={<PrivateRoutes />}>
                         <Route path="/accueil" element={<Home />} />
-                        <Route path="/partenaires" element={<Partners />} />
-                        <Route path="/partenaires/ajouter" element={<AddPartner />} />
-                        <Route path="/partenaires/:idSlug" element={<ViewPartner />} />
-                        <Route path="/partenaires/:idSlug/modifier" element={<EditPartner />} />
-                        <Route path="/partenaires/:idSlug/reinitialiser-mot-de-passe" element={<ResetPasswordPartner />} />
-                        <Route path="/partenaires/:idSlug/clubs" element={<ManageClubs />} />
-                        <Route path="/partenaires/:idSlug/clubs/ajouter" element={<AddClub />} />
-                        <Route path="/partenaires/:idSlug/clubs/:idSlugClub/modifier" element={<EditClub />} />
-                        <Route path="/partenaires/:idSlug/clubs/:idSlugClub/reinitialiser-mot-de-passe" element={<ResetPasswordClub />} />
-                        <Route path="/permissions" element={<Permissions />} />
-                        <Route path="/permissions/ajouter" element={<AddPermission />} />
-                        <Route path="/permissions/:idSlug" element={<ViewPermission />} />
-                        <Route path="/permissions/:idSlug/modifier" element={<EditPermission />} />
                         <Route path="/mon-compte/" element={<MyAccount />} />
                         <Route path="/mon-compte/modifier-mes-informations" element={<EditAccount />} />
                         <Route path="/mon-compte/modifier-mon-mot-de-passe" element={<ModifyPassword />} />
-                        <Route path="/mes-clubs/" element={<MyClubs />} />
-                        <Route path="/mon-club/" element={<MyClub />} />
+                        <Route element={<PrivateTechnicalRoutes />}>
+                            <Route path="/partenaires" element={<Partners />} />
+                            <Route path="/partenaires/ajouter" element={<AddPartner />} />
+                            <Route path="/partenaires/:idSlug" element={<ViewPartner />} />
+                            <Route path="/partenaires/:idSlug/modifier" element={<EditPartner />} />
+                            <Route path="/partenaires/:idSlug/reinitialiser-mot-de-passe" element={<ResetPasswordPartner />} />
+                            <Route path="/partenaires/:idSlug/clubs" element={<ManageClubs />} />
+                            <Route path="/partenaires/:idSlug/clubs/ajouter" element={<AddClub />} />
+                            <Route path="/partenaires/:idSlug/clubs/:idSlugClub/modifier" element={<EditClub />} />
+                            <Route path="/partenaires/:idSlug/clubs/:idSlugClub/reinitialiser-mot-de-passe" element={<ResetPasswordClub />} />
+                            <Route path="/permissions" element={<Permissions />} />
+                            <Route path="/permissions/ajouter" element={<AddPermission />} />
+                            <Route path="/permissions/:idSlug" element={<ViewPermission />} />
+                            <Route path="/permissions/:idSlug/modifier" element={<EditPermission />} />
+                        </Route>
+                        <Route element={<PrivatePartnerRoutes />}>
+                            <Route path="/mes-clubs/" element={<MyClubs />} />
+                        </Route>
+                        <Route element={<PrivateClubRoutes />}>
+                            <Route path="/mon-club/" element={<MyClub />} />
+                        </Route>
                     </Route>
                 </Routes>
                 <Footer />

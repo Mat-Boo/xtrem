@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Pagination from '../../../components/Pagination';
 import { userServices } from '../../../_services/user_services';
 import { paginationParams } from '../../../_services/paginationParams';
-import { updateStateItem } from '../../../redux/redux';
 
 export default function Partners() {
 
@@ -63,7 +62,7 @@ export default function Partners() {
                                 isActive={true}
                             />
                         </div>
-                        <Filters all={lengthes.all} actives={lengthes.actives} inactives={lengthes.inactives} displayStates={true} />
+                        <Filters type='partner' all={lengthes.all} actives={lengthes.actives} inactives={lengthes.inactives} displayStates={true} />
                         {
                             partners.length === 0 ?
                                 <p className='messageNoPartner'>Il n'existe aucun partenaire.</p> :

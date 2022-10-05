@@ -29,7 +29,7 @@ export default function AddPermission() {
           })
         .then(response => {
             console.log(response)
-            stockAlertMessageInStore({type: 'success', content: 'La nouvelle permission <b>' + response.data.name + '</b> a été créée avec succès.'})
+            stockAlertMessageInStore({type: 'success', content: 'La nouvelle permission <b>' + response.data.name + '</b> a été créée avec succès.\nElle apparaîtra inactive sur l\'ensemble des partenaires.\nIl faudra l\'activer sur le partenaire pour qu\'elle soit disponible sur ses clubs.'})
             navigate('/permissions');
         })
         .catch(error => {

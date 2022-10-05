@@ -13,6 +13,12 @@ export default function ClubCard({ partner, id, name, logo, isActive, address, z
         toggleSwitchRef.current.firstChild.click();
     } */
 
+    const axiosAnswer = useSelector((state) => state.axiosAnswer);
+
+    useEffect(() => {
+        console.log('clubcard')
+    }, [axiosAnswer])
+
 
     const permissionsFieldsetRef = useRef();
     const chevronDownRef = useRef();
