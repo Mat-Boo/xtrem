@@ -11,6 +11,9 @@
         color: $mainBlue;
         text-align: center;
     }
+    .logo {
+        max-width: 95%;
+    }
     .messageContent {
         text-align: center;
         font-size: 1.5em;
@@ -19,4 +22,14 @@
         border: 1px solid $borderBlue;
         padding: 10px 50px;
     }
+    .button {
+        margin: 0 0 30px 0;
+        svg {
+            margin-right: 15px;
+        }
+        span {
+            display: inline;
+        }
+    }
+
 }

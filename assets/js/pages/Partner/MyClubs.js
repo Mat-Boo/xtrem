@@ -57,7 +57,7 @@ export default function MyClubs() {
                     <Filters all={lengthes.all} actives={lengthes.actives} inactives={lengthes.inactives} displayStates={true} />
                     {
                         user.partner.clubs.length === 0 ?
-                            <p className='messageNoClub'>Vous ne possédez aucun club.</p> :
+                            <p className='messageNoClub'>Aucun club ne vous est assigné ou il sont en cours de création.</p> :
                             <ul className='clubsList'>
                                 {
                                     user.partner.clubs
