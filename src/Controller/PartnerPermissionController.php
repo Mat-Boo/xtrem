@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Class\Mail;
 use App\Entity\ClubPermission;
 use App\Entity\Partner;
 use App\Entity\PartnerPermission;
@@ -48,6 +49,14 @@ class PartnerPermissionController extends AbstractController
         //Mise à jour de la relation partenaire-permission
         $partnerPermission[0]->setIsActive($content['isActive']);
 
+        //Envoie d'un mail au contact du partenaire pour lui indiquer l'activation ou la désactivation de la permission
+        (new Mail())->togglePartnerPermission(
+            $content['isActive'],
+            $partnerPermission[0]->getPermission()->getName(),
+            $partnerPermission[0]->getPartner()->getName(),
+            $partnerPermission[0]->getPartner()->getContact()->getFirstname(),
+            $partnerPermission[0]->getPartner()->getContact()->getEmail());
+
         //Impact sur les clubs
         //Recherche de toutes les relations clubs-permissions contenant la permission modifiée du partenaire concerné
         $clubsPermissions = $this->entityManager->getRepository(ClubPermission::class)->findByPartnerPermission($partnerPermission);
@@ -75,6 +84,8 @@ class PartnerPermissionController extends AbstractController
         $response = new Response($json, 200, [
             'Content-Type' => 'application/json'
         ]);
+
+        
         
         return $response;
     }

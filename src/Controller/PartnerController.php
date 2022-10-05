@@ -4,8 +4,6 @@ namespace App\Controller;
 
 use App\Class\ErrorsValidation;
 use App\Class\Mail;
-use App\Entity\Club;
-use App\Entity\ClubPermission;
 use App\Entity\Partner;
 use App\Entity\PartnerPermission;
 use App\Entity\Permission;
@@ -146,14 +144,7 @@ class PartnerController extends AbstractController
             ]);
 
             //Envoie d'un mail au contact du partenaire nouvellement créé pour lui transmettre ses identifiants de connexion avec notamment son mot de passe temporaire
-            $mail = new Mail();
-            $contentMail = "Bonjour {$user->getFirstname()},<br/><br/>";
-            $contentMail .= "Votre accès à l'interface Xtrem est opérationnelle.<br/>";
-            $contentMail .= "Vous pouvez à présent vous connecter en cliquant sur le bouton ci-dessous avec les identifiants suivants :<br/>";
-            $contentMail .= "Email : <b>{$user->getEmail()}</b><br/>";
-            $contentMail .= "Mot de passe temporaire : <b>{$content['password']}</b><br/><br/>";
-            $contentMail .= "Ce mot de passe est temporaire, vous devrez le modifier dès votre 1ère connexion.";
-            $mail->send($user->getEmail(), $user->getFirstname(), 'Xtrem | Accès Interface', $contentMail);
+            (new Mail())->createPartner($user->getFirstname(), $user->getEmail(), $content['password']);
             
         } else {
             //Création de la réponse pour renvoyer le json contenant les erreurs liées au remplissage du formulaire de création d'un partenaire
@@ -194,31 +185,27 @@ class PartnerController extends AbstractController
             $partner->setIsActive($content['isActive']);
             //Mise à jour du statut du contact du partenaire pour l'autoriser ou l'empêcher de se connecter
             $partner->getContact()->setIsActive($content['isActive']);
-            //Mise à jour du statut des clubs si désactivation du partenaire
-            
+            //Envoie d'un mail au contact du partenaire pour lui indiquer que son compte est activé ou désactivé
+            (new Mail())->togglePartner($content['isActive'], $partner->getName(), $partner->getContact()->getFirstname(), $partner->getContact()->getEmail());
+            //Mise à jour du statut des clubs si désactivation du partenaire et envoi de mail
             if ($content['isActive'] === "0") {
                 forEach($partner->getClubs() as $club) {
                     $club->setIsActive(0);
                     $club->getManager()->setIsActive(0);
+                    //Envoie d'un mail au manager des clubs pour l'informer de la désactivation des club
+                    //Et envoie d'un mail aussi au contact de leur partenaire pour le prévenir de ces désactivation
+                    (new Mail())->toggleClub(
+                        "0",
+                        $club->getName(),
+                        $club->getManager()->getFirstname(), 
+                        $club->getManager()->getLastname(),
+                        $club->getManager()->getEmail(), 
+                        $club->getPartner()->getcontact()->getFirstname(),
+                        $club->getPartner()->getcontact()->getEmail());
                 }
-                //Envoie d'un mail au contact du partenaire pour lui indiquer que son compte est désactivé
-                $mail = new Mail();
-                $contentMail = "Bonjour {$partner->getContact()->getFirstname()},<br/><br/>";
-                $contentMail .= "Le partenaire <b>{$partner->getName()}</b> a été désactivé.<br/>";
-                $contentMail .= "Votre accès à notre interface a donc été désactivé aussi.<br/><br/>";
-                $contentMail .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
-                $contentMail .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-                $mail->send($partner->getContact()->getEmail(), $partner->getContact()->getFirstname(), 'Xtrem | Accès désactivé', $contentMail);
-            } else if ($content['isActive'] === "1") {
-                //Envoie d'un mail au contact du partenaire pour lui indiquer que son compte est activé
-                $mail = new Mail();
-                $contentMail = "Bonjour {$partner->getContact()->getFirstname()},<br/><br/>";
-                $contentMail .= "Le partenaire <b>{$partner->getName()}</b> a été activé.<br/>";
-                $contentMail .= "Votre accès à notre interface a donc été activé aussi, vous pouvez donc vous connecter avec vos identifiants habituels.<br/><br/>";
-                $contentMail .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
-                $contentMail .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-                $mail->send($partner->getContact()->getEmail(), $partner->getContact()->getFirstname(), 'Xtrem | Accès activé', $contentMail);
-            }
+            } 
+
+
         } else {
             //Application de la fonction de contrôle des champs renseignés dans le formulaire de création d'un partenaire
             $errorsValidation  = new ErrorsValidation($content);
@@ -253,24 +240,8 @@ class PartnerController extends AbstractController
                     $partner->setLogo($newLogoName);
                 }
                 //Envoie d'un mail au contact du partenaire modifié pour lui indiquer les modifications effectuées
-                $mail = new Mail();
-                $contentMail = "Bonjour {$user->getFirstname()},<br/><br/>";
-                $contentMail .= "Les information du partenaire <b>{$partner->getName()}</b> ont été mises à jour.<br/>";
-                $contentMail .= "Veuillez trouver le récapitualtif de ces informations :<br/>";
-                $contentMail .= "<ul>";
-                $contentMail .= "<li>Nom : <b>{$partner->getName()}</b></li>";
-                $contentMail .= "<li>Description : <b>{$partner->getDescription()}</b></li>";
-                $contentMail .= "</ul>";
-                $contentMail .= "Vos information de contact : <br/>";
-                $contentMail .= "<ul>";
-                $contentMail .= "<li>Prénom : <b>{$user->getFirstname()}</b></li>";
-                $contentMail .= "<li>Nom : <b>{$user->getLastname()}</b></li>";
-                $contentMail .= "<li>Téléphone : <b>{$user->getPhone()}</b></li>";
-                $contentMail .= "<li>Email : <b>{$user->getEmail()}</b></li>";
-                $contentMail .= "</ul><br/>";
-                $contentMail .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
-                $contentMail .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-                $mail->send($user->getEmail(), $user->getFirstname(), 'Xtrem | Modification d\'informations', $contentMail);
+                (new Mail())->editPartner($partner->getName(), $partner->getDescription(), $user->getFirstname(), $user->getLastname(), $user->getPhone(), $user->getEmail());
+                
             } else {
                 //Création de la réponse pour renvoyer le json contenant les erreurs liées au remplissage du formulaire de modification du partenaire
                 $errorsJson = $serializer->serialize($errors, 'json');
@@ -322,13 +293,7 @@ class PartnerController extends AbstractController
         ]);
 
         //Envoie d'un mail au contact du partenaire supprimé pour lui indiquer la suppression
-        $mail = new Mail();
-        $contentMail = "Bonjour {$partner->getContact()->getFirstname()},<br/><br/>";
-        $contentMail .= "Le partenaire <b>{$partner->getName()}</b> a été supprimé de notre base de données.<br/>";
-        $contentMail .= "Votre accès à notre interface a donc été clôturé.<br/><br/>";
-        $contentMail .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
-        $contentMail .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-        $mail->send($partner->getContact()->getEmail(), $partner->getContact()->getFirstname(), 'Xtrem | Accès clôturé', $contentMail);
+        (new Mail())->deletePartner($partner->getName(), $partner->getContact()->getFirstname(), $partner->getContact()->getEmail());
         
         return $response;
     }
@@ -361,14 +326,7 @@ class PartnerController extends AbstractController
             ]);
 
             //Envoie d'un mail au contact du partenaire pour lui transmettre son nouveau mot de passe temporaire
-            $mail = new Mail();
-            $contentMail = "Bonjour {$partner->getContact()->getFirstname()},<br/><br/>";
-            $contentMail .= "Votre mot de passe a été réinitialisé.<br/>";
-            $contentMail .= "Vous pouvez à présent vous connecter en cliquant sur le bouton ci-dessous avec les identifiants suivants :<br/>";
-            $contentMail .= "Email : <b>{$partner->getContact()->getEmail()}</b><br/>";
-            $contentMail .= "Mot de passe temporaire : <b>{$content['password']}</b><br/><br/>";
-            $contentMail .= "Ce mot de passe est temporaire, vous devrez le modifier dès votre 1ère connexion.";
-            $mail->send($partner->getContact()->getEmail(), $partner->getContact()->getFirstname(), 'Xtrem | Réinitialisation de mot de passe', $contentMail);
+            (new Mail())->resetPasswordPartner($partner->getContact()->getFirstname(), $partner->getContact()->getEmail(), $content['password']);
 
        } else {
             //Création de la réponse pour renvoyer le json contenant les erreurs liées au remplissage du formulaire de modification du mot de passe de l'utilisateur
