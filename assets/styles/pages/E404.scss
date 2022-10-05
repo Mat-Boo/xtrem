@@ -1,0 +1,22 @@
+.e404 {
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 95%;
+    max-width: 1720px;
+    margin: 0 auto;
+    h1 {
+        font-size: 2em;
+        color: $mainBlue;
+        text-align: center;
+    }
+    .messageContent {
+        text-align: center;
+        font-size: 1.5em;
+        margin: 100px 0;
+        background: $itemBgBlue;
+        border: 1px solid $borderBlue;
+        padding: 10px 50px;
+    }
+}

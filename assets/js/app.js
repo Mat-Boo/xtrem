@@ -32,6 +32,7 @@ import MyClubs from './pages/Partner/MyClubs';
 import MyClub from './pages/Club/MyClub';
 import ResetPasswordPartner from './pages/Technical/Partners/ResetPassword';
 import ResetPasswordClub from './pages/Technical/Clubs/ResetPassword';
+import E404 from './pages/E404';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <>
@@ -69,6 +70,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                             <Route path="/mon-club/" element={<MyClub />} />
                         </Route>
                     </Route>
+                    <Route path="*" element={<E404 />} />
                 </Routes>
                 <Footer />
             </Provider>
