@@ -33,6 +33,7 @@ import MyClub from './pages/Club/MyClub';
 import ResetPasswordPartner from './pages/Technical/Partners/ResetPassword';
 import ResetPasswordClub from './pages/Technical/Clubs/ResetPassword';
 import E404 from './pages/E404';
+import ChangeTempPwd from './pages/ChangeTempPwd';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <>
@@ -44,6 +45,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 <Routes>
                     <Route path="/" element={<Login />} />
                     <Route element={<PrivateRoutes />}>
+                        <Route path="/creation-mot-de-passe" element={<ChangeTempPwd />} />
                         <Route path="/accueil" element={<Home />} />
                         <Route path="/mon-compte/" element={<MyAccount />} />
                         <Route path="/mon-compte/modifier-mes-informations" element={<EditAccount />} />

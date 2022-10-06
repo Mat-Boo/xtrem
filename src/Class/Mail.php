@@ -355,12 +355,12 @@ class Mail {
             $this->send($partner->getContact()->getEmail(), $partner->getContact()->getFirstname(), 'Xtrem | Suppression Permission', $contentMailPartner);
         }
         foreach($clubs as $club) {
-            $contentMailClub = "Bonjour {$club->getContact()->getFirstname()},<br/><br/>";
+            $contentMailClub = "Bonjour {$club->getManager()->getFirstname()},<br/><br/>";
             $contentMailClub .= "Nous venons de supprimer la permission <b>{$permissionName}</b>.<br/>";
             $contentMailClub .= "Celle-ci ne sera donc plus disponible pour votre club <b>{$club->getName()}</b>.<br/><br/>";
             $contentMailClub .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
             $contentMailClub .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-            $this->send($club->getContact()->getEmail(), $club->getContact()->getFirstname(), 'Xtrem | Suppression Permission', $contentMailClub);
+            $this->send($club->getManager()->getEmail(), $club->getManager()->getFirstname(), 'Xtrem | Suppression Permission', $contentMailClub);
         }
     }
 }

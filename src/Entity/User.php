@@ -55,6 +55,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface/* , JWTU
     #[ORM\Column]
     private ?bool $isActive = null;
 
+    #[ORM\Column]
+    private ?bool $hasChangedTempPwd = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -210,6 +213,18 @@ public function isIsActive(): ?bool
 public function setIsActive(bool $isActive): self
 {
     $this->isActive = $isActive;
+
+    return $this;
+}
+
+public function isHasChangedTempPwd(): ?bool
+{
+    return $this->hasChangedTempPwd;
+}
+
+public function setHasChangedTempPwd(bool $hasChangedTempPwd): self
+{
+    $this->hasChangedTempPwd = $hasChangedTempPwd;
 
     return $this;
 }

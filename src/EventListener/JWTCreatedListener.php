@@ -22,7 +22,8 @@ class JWTCreatedListener
         $payload = array_merge(
             $event->getData(),
             [
-                'firstname' => $user->getFirstname()
+                'firstname' => $user->getFirstname(),
+                'hasChangedTempPwd' => $user->isHasChangedTempPwd()
             ]
         );
 
