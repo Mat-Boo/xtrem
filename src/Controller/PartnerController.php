@@ -189,22 +189,19 @@ class PartnerController extends AbstractController
             (new Mail())->togglePartner($content['isActive'], $partner->getName(), $partner->getContact()->getFirstname(), $partner->getContact()->getEmail());
             //Mise à jour du statut des clubs si désactivation du partenaire et envoi de mail
             if ($content['isActive'] === "0") {
+                //Envoie d'un mail au manager des clubs pour l'informer de la désactivation des club
+                //Et envoie d'un mail aussi au contact de leur partenaire pour le prévenir de ces désactivation
+                (new Mail())->toggleClubs(
+                    $partner->getClubs(), 
+                    $partner->getName(),
+                    $partner->getcontact()->getFirstname(),
+                    $partner->getcontact()->getEmail());
+
                 forEach($partner->getClubs() as $club) {
                     $club->setIsActive(0);
                     $club->getManager()->setIsActive(0);
-                    //Envoie d'un mail au manager des clubs pour l'informer de la désactivation des club
-                    //Et envoie d'un mail aussi au contact de leur partenaire pour le prévenir de ces désactivation
-                    (new Mail())->toggleClub(
-                        "0",
-                        $club->getName(),
-                        $club->getManager()->getFirstname(), 
-                        $club->getManager()->getLastname(),
-                        $club->getManager()->getEmail(), 
-                        $club->getPartner()->getcontact()->getFirstname(),
-                        $club->getPartner()->getcontact()->getEmail());
                 }
-            } 
-
+            }
 
         } else {
             //Application de la fonction de contrôle des champs renseignés dans le formulaire de création d'un partenaire
