@@ -5,12 +5,13 @@ import ToggleSwitch from '../../../components/ToggleSwitch';
 import Axios from '../../../_services/caller_service';
 import slugify from 'react-slugify';
 import Filters from '../../../components/Filters';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ClubCard from '../../../components/ClubCard';
 import { userServices } from '../../../_services/user_services';
 import { paginationParams } from '../../../_services/paginationParams';
 import Pagination from '../../../components/Pagination';
 import { helpers } from '../../../_services/helpers';
+import { updateAxiosAnswer } from '../../../redux/redux';
 
 export default function ManageClubs() {
 
@@ -30,16 +31,21 @@ export default function ManageClubs() {
 
     const axiosAnswer = useSelector((state) => state.axiosAnswer);
 
+    const dispatchAxiosAnswer = useDispatch();
+    const stockAxiosAnswerInStore = (data) => {
+        dispatchAxiosAnswer(updateAxiosAnswer(data))
+    }
+
     useEffect(() => {
         document.title = 'Gestion des Clubs | Xtrem';
         Axios.get('/api/partner/' + id)
         .then((res) => {
             setPartner(res.data);
-/*             setLengthes({
+            setLengthes({
                 all: 0,
                 actives: 0,
                 inactives: 0
-            }) */
+            })
             res.data.clubs.forEach((club) => {
                 if (club.isActive) {
                     setLengthes(lengthes => ({...lengthes, actives: lengthes.actives + 1}));
@@ -50,6 +56,7 @@ export default function ManageClubs() {
             setLengthes(lengthes => ({...lengthes, all: res.data.clubs.length}));
         })
         setCurrentPage(1);
+        stockAxiosAnswerInStore('');
     }, [filter, axiosAnswer])
 
     return (

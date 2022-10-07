@@ -39,7 +39,7 @@ class Club
     private ?string $city = null;
 
     #[ORM\Column]
-    #[Groups(['club:read', 'partner:read', 'userPartner:read'])]
+    #[Groups(['club:read', 'partner:read', 'userPartner:read', 'userClub:read'])]
     private ?bool $isActive = null;
 
     #[ORM\OneToOne(inversedBy: 'club', cascade: ['persist', 'remove'])]

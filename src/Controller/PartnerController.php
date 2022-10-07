@@ -282,6 +282,14 @@ class PartnerController extends AbstractController
         //Recherche du partenaire concerné par la suppression en fonction de l'id
         $partner = $this->entityManager->getRepository(Partner::class)->findOneById($id);
 
+        $logo = $partner->getLogo();
+        
+        //Suppression de la photo du club
+        $logoPath = '../public/uploads/' . $logo;
+        if (file_exists($logoPath)) {
+            unlink($logoPath);
+        }
+
         //Mise à jour de la base de donnée en supprimant le partenaire
         $this->entityManager->remove($partner);
 

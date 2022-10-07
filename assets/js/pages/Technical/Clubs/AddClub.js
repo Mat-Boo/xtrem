@@ -59,7 +59,6 @@ export default function AddClub() {
             'content-type': 'multipart/form-data',
           })
         .then(response => {
-            console.log(response.data)
             stockAlertMessageInStore({type: 'success', content: 'Le nouveau club <b>' + response.data.name + '</b> a été créé avec succès.'})
             navigate(-1);
         })

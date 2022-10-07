@@ -8,7 +8,8 @@ import abdos from '../../../../img/svgBg/abdos.svg';
 import haltere from '../../../../img/svgBg/haltere.svg';
 import rameur from '../../../../img/svgBg/rameur.svg';
 import traction from '../../../../img/svgBg/traction.svg';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateAxiosAnswer } from '../../../redux/redux';
 
 export default function ViewPartner() {
 
@@ -16,6 +17,11 @@ export default function ViewPartner() {
     const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0));
 
     const axiosAnswer = useSelector((state) => state.axiosAnswer);
+
+    const dispatchAxiosAnswer = useDispatch();
+    const stockAxiosAnswerInStore = (data) => {
+        dispatchAxiosAnswer(updateAxiosAnswer(data))
+    }
     
     useEffect(() => {
         document.title = 'Partenaire | Xtrem';
@@ -23,6 +29,7 @@ export default function ViewPartner() {
         .then((res) => {
             setPartner(res.data);
         })
+        stockAxiosAnswerInStore('');
     }, [axiosAnswer])
 
     return (

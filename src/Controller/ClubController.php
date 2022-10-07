@@ -291,11 +291,19 @@ class ClubController extends AbstractController
 
         //Recherche du club concerné par la suppression en fonction de l'id
         $club = $this->entityManager->getRepository(Club::class)->findOneById($idClub);
+        $picture = $club->getPicture();
+        
+        //Suppression de la photo du club
+        $picturePath = '../public/uploads/' . $picture;
+        if (file_exists($picturePath)) {
+            unlink($picturePath);
+        }
 
         //Mise à jour de la base de donnée en supprimant le club
         $this->entityManager->remove($club);
 
         $this->entityManager->flush();
+
 
         //Création de la réponse pour renvoyer le json contenant les infos du club supprimé
         $json = $serializer->serialize($club, 'json', ['groups' => 'club:read']);

@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateAnswerModalForDelete, updateAlertMessage, updateModal, updateTypeButton } from '../redux/redux';
+import { updateAnswerModalForDelete, updateAlertMessage, updateModal, updateTypeButton, updateAxiosAnswer } from '../redux/redux';
 import Axios from '../_services/caller_service';
 import { useEffect } from 'react';
 
@@ -71,6 +71,11 @@ export default function Button({ idItem, nameItem, typeItem, typeBtn, btnSvg, bt
     const stockAlertMessageInStore = (data) => {
         dispatchAlertMessage(updateAlertMessage(data))
     }
+
+    const dispatchAxiosAnswer = useDispatch();
+    const stockAxiosAnswerInStore = (data) => {
+        dispatchAxiosAnswer(updateAxiosAnswer(data))
+    }
     
     if (idItem === answerModal.idItem && answerModal.typeButton === 'confirm') {
         switch (answerModal.typeItem) {
@@ -97,9 +102,11 @@ export default function Button({ idItem, nameItem, typeItem, typeBtn, btnSvg, bt
                 Axios.post('/api/club/' + answerModal.idItem + '/delete')
                 .then(response => {
                     stockAlertMessageInStore({type: 'success', content: 'Le club <b>' + answerModal.nameItem + '</b> a bien été supprimé.'})
+                    stockAxiosAnswerInStore('success');
                 })
                 .catch(error => {
                     stockAlertMessageInStore({type: 'error', content: 'La suppression du club <b>' + answerModal.nameItem + '</b> n\'a pu aboutir, merci de réessayer.'})
+                    stockAxiosAnswerInStore('error');
                 });
                 break;
         }
