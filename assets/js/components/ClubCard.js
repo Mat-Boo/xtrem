@@ -120,6 +120,10 @@ export default function ClubCard({ partner, id, name, logo, isActive, address, z
                         </div>
                 }
             </div>
+            {
+                (!isActive & partnerState) ?
+                    <p className='messageActivateClub'>Le club doit être activé pour pouvoir gérer ses permissions.</p> : ''
+            }
             <form>
                 <fieldset id='permissionsFieldset' ref={permissionsFieldsetRef}>
                     <legend onClick={displayPermissions}>
@@ -143,7 +147,7 @@ export default function ClubCard({ partner, id, name, logo, isActive, address, z
                                                 typeToggle='permission'
                                                 isActive={permission.isActive}
                                                 roles={roles}
-                                                isEnabled={partnerState}
+                                                isEnabled={isActive}
                                             />
                                         </div>
                                         <span className='permissionName'>{permission.PartnerPermissions.Permission.name}</span>

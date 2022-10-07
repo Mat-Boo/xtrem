@@ -17,7 +17,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class PermissionController extends AbstractController
 {
-
     private $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)

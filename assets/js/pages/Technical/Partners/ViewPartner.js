@@ -8,11 +8,14 @@ import abdos from '../../../../img/svgBg/abdos.svg';
 import haltere from '../../../../img/svgBg/haltere.svg';
 import rameur from '../../../../img/svgBg/rameur.svg';
 import traction from '../../../../img/svgBg/traction.svg';
+import { useSelector } from 'react-redux';
 
 export default function ViewPartner() {
 
     const [partner, setPartner] = useState([]);
     const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0));
+
+    const axiosAnswer = useSelector((state) => state.axiosAnswer);
     
     useEffect(() => {
         document.title = 'Partenaire | Xtrem';
@@ -20,7 +23,7 @@ export default function ViewPartner() {
         .then((res) => {
             setPartner(res.data);
         })
-    }, [])
+    }, [axiosAnswer])
 
     return (
         <>
@@ -124,6 +127,10 @@ export default function ViewPartner() {
                                 </div>
                             </div>
                         </div>
+                        {
+                            !partner.isActive &&
+                                <p className='messageActivatePartner'>Le partenaire doit être activé pour pouvoir gérer ses permissions.</p>
+                        }
                         <form>
                             <fieldset>
                                 <legend>Permissions Globales</legend>
@@ -140,7 +147,7 @@ export default function ViewPartner() {
                                                         typeToggle='permission'
                                                         isActive={partnerPermission.isActive}
                                                         roles={userServices.getUser().roles}
-                                                        isEnabled={true}
+                                                        isEnabled={partner.isActive}
                                                     />
                                                 </div>
                                                 <span className='permissionName'>{partnerPermission.Permission.name}</span>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAnswerModalForChangeState, updateAlertMessage, updateModal, updateStateItem, updateAxiosAnswer } from '../redux/redux';
 import Axios from '../_services/caller_service';
@@ -7,6 +8,12 @@ export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub,
 
     const [stateSwitch, setStateSwitch] = useState(isActive);
     const [clickedToggle, setClickedToggle] = useState({idToggle: '', typeToggle: ''});
+
+    const axiosAnswer = useSelector((state) => state.axiosAnswer);
+
+    /* useEffect(() => {
+        setStateSwitch(isActive);
+    }, [stateSwitch]) */
 
     const handleChange = (e) => {
         setStateSwitch(e.target.checked);
@@ -169,6 +176,7 @@ export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub,
                     }
                 })
                 .catch(error => {
+                    console.log(error)
                     if (!stateSwitch) {
                         stockAlertMessageInStore({type: 'error', content: 'Le partenaire <b>' + answerModal.nameToggle + '</b> n\'a pu être <b>activé</b>.'})
                         stockAxiosAnswerInStore('error')

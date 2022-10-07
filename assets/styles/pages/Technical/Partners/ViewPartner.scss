@@ -85,8 +85,14 @@
             }
         }
     }
-    form {
-        margin-top: 30px;
+    .messageActivatePartner {
+        background: $switchOffBg;
+        color: #7D1D1D;
+        padding: 10px 20px;
+        text-align: center;
+        margin: 20px 0 0 0;
+    }
+    form {  
         fieldset {
             .permissionsList {
                 display: flex;
