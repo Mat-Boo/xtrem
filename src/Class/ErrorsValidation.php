@@ -128,7 +128,7 @@ class ErrorsValidation
                 case 'city':
                     if ($valueItem === '') {
                         $errors['city'] = 'La ville est obligatoire';
-                    } else if (!preg_match('/^[A-Za-z\é\è\ê\-]+$/', $valueItem)) {
+                    } else if (!preg_match('/^[A-Za-z\é\è\ê\-\ ]+$/', $valueItem)) {
                         $errors['city'] = 'La ville ne doit pas comporter de caractères spéciaux';
                     }
                     break;

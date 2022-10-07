@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\User\JWTUserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -57,6 +58,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface/* , JWTU
 
     #[ORM\Column]
     private ?bool $hasChangedTempPwd = null;
+
+    #[ORM\Column(type: Types::GUID)]
+    private ?string $uuid = null;
 
     public function getId(): ?int
     {
@@ -225,6 +229,18 @@ public function isHasChangedTempPwd(): ?bool
 public function setHasChangedTempPwd(bool $hasChangedTempPwd): self
 {
     $this->hasChangedTempPwd = $hasChangedTempPwd;
+
+    return $this;
+}
+
+public function getUuid(): ?string
+{
+    return $this->uuid;
+}
+
+public function setUuid(string $uuid): self
+{
+    $this->uuid = $uuid;
 
     return $this;
 }

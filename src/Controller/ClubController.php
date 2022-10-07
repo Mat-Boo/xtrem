@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Ramsey\Uuid\Uuid;
 
 class ClubController extends AbstractController
 {
@@ -73,12 +74,15 @@ class ClubController extends AbstractController
         if (empty($errors)) {
             //Création de la nouvelle instance User
             $user = new User;
-            $user->setFirstname(ucfirst(strtolower($content['firstname'])));
-            $user->setLastname(ucfirst(strtolower($content['lastname'])));
+            $user->setFirstname(ucwords(strtolower($content['firstname'])));
+            $user->setLastname(ucwords(strtolower($content['lastname'])));
             $user->setPhone($content['phone']);
             $user->setEmail($content['email']);
             $user->setIsActive(1);
             $user->setRoles(['ROLE_CLUB']);
+            $user->setHasChangedTempPwd(0);
+            $uuid = Uuid::uuid4();
+            $user->setUuid($uuid->toString());
     
             //Hashage du mot de passe                
             $password = $hasher->hashPassword($user, $content['password']);
@@ -92,11 +96,11 @@ class ClubController extends AbstractController
     
             //Création de la nouvelle instance Club
             $club = new Club;
-            $club->setName(ucfirst(strtolower($content['name'])));
+            $club->setName(ucwords(strtolower($content['name'])));
             $club->setPicture($newLogoName);
             $club->setAddress(ucfirst(strtolower($content['address'])));
             $club->setZipcode($content['zipcode']);
-            $club->setCity($content['city']);
+            $club->setCity(ucwords(strtolower($content['city'])));
             $club->setIsActive(true);
             $club->setManager($user);
             
@@ -216,18 +220,18 @@ class ClubController extends AbstractController
             }
             if (empty($errors)) {
                 //Modification du manager du club en vérifiant si le champs concerné a été modifié
-                $content['firstname'] !== $user->getFirstname() ? $user->setFirstname(ucfirst(strtolower($content['firstname']))) : null;
-                $content['lastname'] !== $user->getLastname() ? $user->setLastname(ucfirst(strtolower($content['lastname']))) : null;
+                $content['firstname'] !== $user->getFirstname() ? $user->setFirstname(ucwords(strtolower($content['firstname']))) : null;
+                $content['lastname'] !== $user->getLastname() ? $user->setLastname(ucwords(strtolower($content['lastname']))) : null;
                 $content['phone'] !== $user->getPhone() ? $user->setPhone($content['phone']) : null;
                 $content['email'] !== $user->getEmail() ? $user->setEmail($content['email']) : null;
                 //Mise à jour de l'utilisateur modifié
                 $this->entityManager->persist($user);
 
                 //Modification du club en vérifiant si le champs concerné a été modifié
-                $content['name'] !== $club->getName() ? $club->setName(ucfirst(strtolower($content['name']))) : null;
+                $content['name'] !== $club->getName() ? $club->setName(ucwords(strtolower($content['name']))) : null;
                 $content['address'] !== $club->getAddress() ? $club->setAddress(ucfirst(strtolower($content['address']))) : null;
                 $content['zipcode'] !== $club->getZipcode() ? $club->setZipcode(ucfirst(strtolower($content['zipcode']))) : null;
-                $content['city'] !== $club->getCity() ? $club->setCity(ucfirst(strtolower($content['city']))) : null;
+                $content['city'] !== $club->getCity() ? $club->setCity(ucwords(strtolower($content['city']))) : null;
                 //Copie de la photo du club dans le dossier uploads (avec renommage du fichier avec le nom du club sluggé) si modifié
                 if (isset($content['logoFile'])) {
                     $logo = $content['logoFile'];

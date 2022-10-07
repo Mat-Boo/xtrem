@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Ramsey\Uuid\Uuid;
 
 class PartnerController extends AbstractController
 {
@@ -85,12 +86,15 @@ class PartnerController extends AbstractController
         if (empty($errors)) {
             //Création de la nouvelle instance User
             $user = new User;
-            $user->setFirstname(ucfirst(strtolower($content['firstname'])));
-            $user->setLastname(ucfirst(strtolower($content['lastname'])));
+            $user->setFirstname(ucwords(strtolower($content['firstname'])));
+            $user->setLastname(ucwords(strtolower($content['lastname'])));
             $user->setPhone($content['phone']);
             $user->setEmail($content['email']);
             $user->setIsActive(1);
             $user->setRoles(['ROLE_PARTNER']);
+            $user->setHasChangedTempPwd(0);
+            $uuid = Uuid::uuid4();
+            $user->setUuid($uuid->toString());
     
             //Hashage du mot de passe                
             $password = $hasher->hashPassword($user, $content['password']);
@@ -104,7 +108,7 @@ class PartnerController extends AbstractController
     
             //Création de la nouvelle instance Partner
             $partner = new Partner;
-            $partner->setName(ucfirst(strtolower($content['name'])));
+            $partner->setName(ucwords(strtolower($content['name'])));
             $partner->setLogo($newLogoName);
             $partner->setDescription(ucfirst(strtolower($content['description'])));
             $partner->setIsActive(true);
@@ -144,7 +148,7 @@ class PartnerController extends AbstractController
             ]);
 
             //Envoie d'un mail au contact du partenaire nouvellement créé pour lui transmettre ses identifiants de connexion avec notamment son mot de passe temporaire
-            (new Mail())->createPartner($user->getFirstname(), $user->getEmail(), $content['password']);
+    //        (new Mail())->createPartner($user->getFirstname(), $user->getEmail(), $content['password']);
             
         } else {
             //Création de la réponse pour renvoyer le json contenant les erreurs liées au remplissage du formulaire de création d'un partenaire
@@ -186,16 +190,16 @@ class PartnerController extends AbstractController
             //Mise à jour du statut du contact du partenaire pour l'autoriser ou l'empêcher de se connecter
             $partner->getContact()->setIsActive($content['isActive']);
             //Envoie d'un mail au contact du partenaire pour lui indiquer que son compte est activé ou désactivé
-            (new Mail())->togglePartner($content['isActive'], $partner->getName(), $partner->getContact()->getFirstname(), $partner->getContact()->getEmail());
+    //        (new Mail())->togglePartner($content['isActive'], $partner->getName(), $partner->getContact()->getFirstname(), $partner->getContact()->getEmail());
             //Mise à jour du statut des clubs si désactivation du partenaire et envoi de mail
             if ($content['isActive'] === "0") {
                 //Envoie d'un mail au manager des clubs pour l'informer de la désactivation des club
                 //Et envoie d'un mail aussi au contact de leur partenaire pour le prévenir de ces désactivation
-                (new Mail())->toggleClubs(
-                    $partner->getClubs(), 
-                    $partner->getName(),
-                    $partner->getcontact()->getFirstname(),
-                    $partner->getcontact()->getEmail());
+    //            (new Mail())->toggleClubs(
+    //                $partner->getClubs(), 
+    //                $partner->getName(),
+    //                $partner->getcontact()->getFirstname(),
+    //                $partner->getcontact()->getEmail());
 
                 forEach($partner->getClubs() as $club) {
                     $club->setIsActive(0);
@@ -218,15 +222,15 @@ class PartnerController extends AbstractController
             }
             if (empty($errors)) {
                 //Modification du contact du partenaire en vérifiant si le champs concerné a été modifié
-                $content['firstname'] !== $user->getFirstname() ? $user->setFirstname(ucfirst(strtolower($content['firstname']))) : null;
-                $content['lastname'] !== $user->getLastname() ? $user->setLastname(ucfirst(strtolower($content['lastname']))) : null;
+                $content['firstname'] !== $user->getFirstname() ? $user->setFirstname(ucwords(strtolower($content['firstname']))) : null;
+                $content['lastname'] !== $user->getLastname() ? $user->setLastname(ucwords(strtolower($content['lastname']))) : null;
                 $content['phone'] !== $user->getPhone() ? $user->setPhone($content['phone']) : null;
                 $content['email'] !== $user->getEmail() ? $user->setEmail($content['email']) : null;
                 //Mise à jour de l'utilisateur modifié
                 $this->entityManager->persist($user);
                 
                 //Modification du partenaire en vérifiant si le champs concerné a été modifié
-                $content['name'] !== $partner->getName() ? $partner->setName(ucfirst(strtolower($content['name']))) : null;
+                $content['name'] !== $partner->getName() ? $partner->setName(ucwords(strtolower($content['name']))) : null;
                 $content['description'] !== $partner->getDescription() ? $partner->setDescription(ucfirst(strtolower($content['description']))) : null;
                 //Copie du logo du partenaire dans le dossier uploads (avec renommage du fichier avec le nom du partenaire sluggé) si modifié
                 if (isset($content['logoFile'])) {

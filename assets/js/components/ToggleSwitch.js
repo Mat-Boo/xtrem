@@ -9,11 +9,13 @@ export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub,
     const [stateSwitch, setStateSwitch] = useState(isActive);
     const [clickedToggle, setClickedToggle] = useState({idToggle: '', typeToggle: ''});
 
-    const axiosAnswer = useSelector((state) => state.axiosAnswer);
+    /* const axiosAnswer = useSelector((state) => state.axiosAnswer);
 
-    /* useEffect(() => {
-        setStateSwitch(isActive);
-    }, [stateSwitch]) */
+    useEffect(() => {
+        if (axiosAnswer === 'success') {
+            setStateSwitch(stateSwitch);
+        }
+    }, [axiosAnswer]) */
 
     const handleChange = (e) => {
         setStateSwitch(e.target.checked);
@@ -235,19 +237,19 @@ export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub,
                     setStateSwitch(!stateSwitch);
                     if (!stateSwitch) {
                         stockAlertMessageInStore({type: 'success', content: 'Le club <b>' + answerModal.nameToggle + '</b> a bien été <b>activé</b>.'})
-                        stockAxiosAnswerInStore('success')
+                        /* stockAxiosAnswerInStore('success') */
                     } else {
                         stockAlertMessageInStore({type: 'success', content: 'Le club <b>' + answerModal.nameToggle + '</b> a bien été <b>désactivé</b>.'})
-                        stockAxiosAnswerInStore('success')
+                        /* stockAxiosAnswerInStore('success') */
                     }
                 })
                 .catch(error => {
                     if (!stateSwitch) {
                         stockAlertMessageInStore({type: 'error', content: 'Le club <b>' + answerModal.nameToggle + '</b> n\'a pu être <b>activé</b>.'})
-                        stockAxiosAnswerInStore('error')
+                        /* stockAxiosAnswerInStore('error') */
                     } else {
                         stockAlertMessageInStore({type: 'error', content: 'Le club <b>' + answerModal.nameToggle + '</b> n\'a pu être <b>désactivé</b>.'})
-                        stockAxiosAnswerInStore('error')
+                        /* stockAxiosAnswerInStore('error') */
                     }
                 });
                 break;

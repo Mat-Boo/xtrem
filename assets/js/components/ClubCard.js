@@ -7,13 +7,6 @@ import { useSelector } from 'react-redux';
 
 export default function ClubCard({ partner, id, name, logo, isActive, address, zipcode, city, firstname, lastname, phone, email, permissions, roles, partnerState }) {
 
-    const axiosAnswer = useSelector((state) => state.axiosAnswer);
-
-    useEffect(() => {
-        console.log('clubcard')
-    }, [axiosAnswer])
-
-
     const permissionsFieldsetRef = useRef();
     const chevronDownRef = useRef();
     const [displayedPermissions, setDisplayedPermissions] = useState(false);
