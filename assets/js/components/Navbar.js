@@ -25,7 +25,7 @@ export default function Navbar() {
         if (userServices.isConnected()) {
             setUser(userServices.getUser());
         }
-    }, [userServices.isConnected()])
+    }, [userServices.isConnected(), userServices.hasChangedTempPwd()])
 
     const displayMiniMenu = () => {
         setMiniMenu(true)
@@ -54,11 +54,11 @@ export default function Navbar() {
 
     return (
         <nav className='navbar'>
-            <NavLink to={user ? '/accueil' : '/'}>
-                <img src={WhiteLogo} alt='logo' className='logoNav' onClick={user ? (e) => hideMiniMenu(e) : null} />
+            <NavLink to={user && user.hasChangedTempPwd ? '/accueil' : (user && !user.hasChangedTempPwd ? '#' : '/')}>
+                <img src={WhiteLogo} alt='logo' className='logoNav' onClick={user && user.hasChangedTempPwd ? (e) => hideMiniMenu(e) : null} />
             </NavLink>
             {
-                user &&
+                user && user.hasChangedTempPwd &&
                 <>
                     {!miniMenu ? <svg onClick={(e) => displayMiniMenu(e)} xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" className='miniMenuBtn' viewBox="0 0 16 16">
                         <path fillRule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />

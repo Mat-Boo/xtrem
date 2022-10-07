@@ -40,7 +40,6 @@ export default function resetPassword() {
             'content-type': 'multipart/form-data',
           })
         .then(response => {
-            console.log(response)
             stockAlertMessageInStore({type: 'success', content: 'Le mot de passe de <b>' + response.data.contact.firstname + ' ' +  response.data.contact.lastname + '</b>, contact du partenaire <b>' + response.data.name + '</b>, a été modifié avec succès.'})
             navigate('/partenaires/' + partner.id + '-' + slugify(partner.name));
         })

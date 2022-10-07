@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import Button from '../components/Button';
 import Axios from '../_services/caller_service';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateAlertMessage } from '../redux/redux';
-import slugify from 'react-slugify';
 import { userServices } from '../_services/user_services';
+import jwt from 'jwt-decode';
 
 export default function ChangeTempPwd() {
 
@@ -19,7 +18,7 @@ export default function ChangeTempPwd() {
 
     useEffect(() => {
         document.title = 'Changement de mot de passe | Xtrem';
-        if (userServices.getUser().hasChangedTempPwd) {
+        if (userServices.hasChangedTempPwd()) {
             navigate('/accueil');
         }
     }, [])
@@ -28,21 +27,39 @@ export default function ChangeTempPwd() {
     const validForm = (e) => {
         e.preventDefault();
         const formData = new FormData();
+        let password = '';
         for (let item of e.target) {
             if (item.name !== '') {
                 formData.append(item.name, item.value);
             }
+            if (item.name === 'password') {
+                password = item.value;
+            }
         }
-        Axios.post('/api/partner/' + id + '/reset-password', formData, {
+        Axios.post('/api/user/create-password', formData, {
             'content-type': 'multipart/form-data',
           })
         .then(response => {
-            console.log(response)
-            stockAlertMessageInStore({type: 'success', content: 'Le mot de passe de <b>' + response.data.contact.firstname + ' ' +  response.data.contact.lastname + '</b>, contact du partenaire <b>' + response.data.name + '</b>, a été modifié avec succès.'})
-            navigate('/accueil');
+            stockAlertMessageInStore({type: 'success', content: 'Votre nouveau mot de passe a été créé avec succès.'})
+            Axios.post('/api/login', {
+                "username": userServices.getUser().username,
+                "password": password
+            })
+            .then(response => {
+                userServices.saveToken(response.data.token);
+                stockAlertMessageInStore({type: 'info', content: 'Bienvenue <b>' + jwt(response.data.token).firstname}) + '</b>';
+                navigate('/accueil');
+            })
+            .catch(error => {
+                if (error.response.data.message === 'Invalid credentials.') {
+                    stockAlertMessageInStore({type: 'error', content: 'Veuillez vérifier votre email et/ou votre mot de passe.'});
+                } else {
+                    stockAlertMessageInStore({type: 'error', content: 'Compte inactif, vous serez informé par email lorsque vous pourrez vous connecter.'});
+                }
+            });
         })
         .catch(error => {
-            stockAlertMessageInStore({type: 'error', content: 'La modification du mot de passe n\'a pu aboutir, veuillez corriger les erreurs.'})
+            stockAlertMessageInStore({type: 'error', content: 'La création de votre mot de passe n\'a pu aboutir, veuillez corriger les erreurs.'})
             setErrors(error.response.data);
         });
     }
@@ -56,13 +73,13 @@ export default function ChangeTempPwd() {
                 </div>
                 <div className='pwdMessage'>
                     <p>Pour pouvoir vous connecter à notre interface, vous devez créer votre mot de passe personnel.</p>
-                    <p className='rulesTitle'>Règle de création de votre mot de passe : </p>
+                    <p className='rulesTitle'>Règles de création de votre mot de passe : </p>
                     <ul id='pwdRules'>
                         <li>Entre 8 et 20 caractères</li>
                         <li>Au moins une lettre minuscule</li>
                         <li>Au moins une lettre majuscule</li>
                         <li>Au moins 1 chiffre</li>
-                        <li>Au moins 1 caractères spécial (- + ! * $ @ % _)</li>
+                        <li>Au moins 1 caractère spécial (- + ! * $ @ % _)</li>
                     </ul>
                 </div>
                 <form onSubmit={(e) => validForm(e)}>

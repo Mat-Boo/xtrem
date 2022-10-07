@@ -28,6 +28,7 @@ import PrivateRoutes from './PrivatesRoutes/PrivateRoutes';
 import PrivateTechnicalRoutes from './PrivatesRoutes/PrivateTechnicalRoutes';
 import PrivatePartnerRoutes from './PrivatesRoutes/PrivatePartnerRoutes';
 import PrivateClubRoutes from './PrivatesRoutes/PrivateClubRoutes';
+import PrivateChangeTempPwdRoutes from './PrivatesRoutes/PrivateChangeTempPwdRoutes';
 import MyClubs from './pages/Partner/MyClubs';
 import MyClub from './pages/Club/MyClub';
 import ResetPasswordPartner from './pages/Technical/Partners/ResetPassword';
@@ -44,8 +45,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 <AlertMessage />
                 <Routes>
                     <Route path="/" element={<Login />} />
-                    <Route element={<PrivateRoutes />}>
+                    <Route element={<PrivateChangeTempPwdRoutes />}>
                         <Route path="/creation-mot-de-passe" element={<ChangeTempPwd />} />
+                    </Route>
+                    <Route element={<PrivateRoutes />}>
                         <Route path="/accueil" element={<Home />} />
                         <Route path="/mon-compte/" element={<MyAccount />} />
                         <Route path="/mon-compte/modifier-mes-informations" element={<EditAccount />} />

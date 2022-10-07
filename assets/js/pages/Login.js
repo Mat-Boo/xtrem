@@ -20,7 +20,11 @@ export default function Login() {
     useEffect(() => {
         document.title = 'Connexion | Xtrem';
         if(userServices.isConnected()) {
-            navigate('/accueil');
+            if(userServices.hasChangedTempPwd()) {
+                navigate('/accueil');
+            } else {
+                navigate('/creation-mot-de-passe');
+            }
         }
     }, [])
 
@@ -40,7 +44,11 @@ export default function Login() {
         .then(response => {
             userServices.saveToken(response.data.token);
             stockAlertMessageInStore({type: 'info', content: 'Bienvenue <b>' + jwt(response.data.token).firstname}) + '</b>';
-            navigate('/accueil');
+            if (userServices.hasChangedTempPwd()) {
+                navigate('/accueil');
+            } else {
+                navigate('/creation-mot-de-passe')
+            }
         })
         .catch(error => {
             if (error.response.data.message === 'Invalid credentials.') {

@@ -16,10 +16,18 @@ const getUser = () => {
     return jwt(localStorage.getItem('token'));
 }
 
+const hasChangedTempPwd = () => {
+    if (!!localStorage.getItem('token')) {
+        return jwt(localStorage.getItem('token')).hasChangedTempPwd;
+    } else {
+        return false;
+    }
+}
+
 const logout = () => {
     localStorage.removeItem('token');
 }
 
 export const userServices = {
-    saveToken, isConnected, getToken, getUser, logout
+    saveToken, isConnected, getToken, getUser, hasChangedTempPwd, logout
 };

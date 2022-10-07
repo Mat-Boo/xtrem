@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class AccountController extends AbstractController
@@ -115,6 +116,47 @@ class AccountController extends AbstractController
             $response = new Response($json, 200, [
                 'Content-Type' => 'application/json'
             ]);
+       } else {
+            //Création de la réponse pour renvoyer le json contenant les erreurs liées au remplissage du formulaire de modification du mot de passe de l'utilisateur
+            $errorsJson = $serializer->serialize($errors, 'json');
+            $response = new Response($errorsJson, 500, [
+                'Content-Type' => 'application/json'
+            ]);
+       }
+       return $response;
+    }
+
+    #[Route(path: '/api/user/create-password', name: 'api_user_create_password', methods: ['POST'])]
+    public function createPassword(Request $request, SerializerInterface $serializer, UserPasswordHasherInterface $hasher): Response
+    {
+        //Récupération des données issues du formulaire de modification de mot de passe
+        $content = [];
+        $content['password'] = $request->get('password');
+        $content['passwordConfirm'] = $request->get('passwordConfirm');
+        
+        //Application de la fonction de contrôle des champs renseignés dans le formulaire de modification du mot de passe de l'utilisateur
+        $errorsValidation  = new ErrorsValidation($content);
+        $errors = $errorsValidation->formItemControl();
+
+        //Recherche de l'utilisateur connecté
+        $user = $this->getUser();
+    
+        if (empty($errors)) {
+            //Mise à jour du mot de passe de l'utilisateur après hashage
+            $password = $hasher->hashPassword($user, $content['password']);
+            $user->setPassword($password);
+            $user->setHasChangedTempPwd(1);
+            $this->entityManager->flush();
+
+            //Création de la réponse pour renvoyer le json contenant les infos de l'utilisateur dont le mot de passe a été modifié
+            $json = $serializer->serialize($user, 'json', ['groups' => 'user:read']);
+            $response = new Response($json, 200, [
+                'Content-Type' => 'application/json'
+            ]);
+
+
+
+
        } else {
             //Création de la réponse pour renvoyer le json contenant les erreurs liées au remplissage du formulaire de modification du mot de passe de l'utilisateur
             $errorsJson = $serializer->serialize($errors, 'json');
