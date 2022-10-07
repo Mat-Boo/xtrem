@@ -35,11 +35,11 @@ export default function ManageClubs() {
         Axios.get('/api/partner/' + id)
         .then((res) => {
             setPartner(res.data);
-            setLengthes({
+/*             setLengthes({
                 all: 0,
                 actives: 0,
                 inactives: 0
-            })
+            }) */
             res.data.clubs.forEach((club) => {
                 if (club.isActive) {
                     setLengthes(lengthes => ({...lengthes, actives: lengthes.actives + 1}));
