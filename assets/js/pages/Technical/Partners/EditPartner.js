@@ -1,19 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../../../components/Button';
 import Axios from '../../../_services/caller_service';
 import { useDispatch } from 'react-redux'
 import { updateAlertMessage } from '../../../redux/redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { checkToken } from '../../../_services/checkToken';
 
 export default function EditPartner() {
     
-    const toggleSwitchRef = useRef();
-    // Fonction permettant de cliquer sur le nom associé au toggle de la permission et ainsi l'activer ou le désactiver
-    /* const handleClickPermissionName = () => {
-        
-        toggleSwitchRef.current.firstChild.click();
-    } */
     const [partner, setPartner] = useState([]);
     const [displayLogo, setDisplayLogo] = useState(true);
     const navigate = useNavigate();
@@ -29,15 +22,11 @@ export default function EditPartner() {
     const [logoFile, setLogoFile] = useState();
     
     useEffect(() => {
-        if (checkToken.expired()) {
-            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
-            navigate('/');
-        }
-        document.title = 'Modification Partenaire | Xtrem';
         Axios.get('/api/partner/' + id)
         .then((res) => {
             setPartner(res.data);
         })
+        document.title = 'Modification Partenaire | Xtrem';
     }, [])
 
     const handleLogoFile = (e) => {

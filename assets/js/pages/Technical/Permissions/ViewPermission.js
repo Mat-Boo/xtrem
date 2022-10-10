@@ -1,32 +1,19 @@
 import React, { useState, useEffect }  from 'react';
 import Button from '../../../components/Button';
 import Axios from '../../../_services/caller_service';
-import { useParams } from 'react-router-dom';
-import { checkToken } from '../../../_services/checkToken';
-import { useDispatch } from 'react-redux';
-import { updateAlertMessage } from '../../../redux/redux';
 
 export default function ViewPermission() {
 
     const [permission, setPermission] = useState([]);
 
     const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0));
-
-    const dispatchAlertMessage = useDispatch();
-    const stockAlertMessageInStore = (data) => {
-        dispatchAlertMessage(updateAlertMessage(data))
-    }
     
     useEffect(() => {
-        if (checkToken.expired()) {
-            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
-            navigate('/');
-        }
-        document.title = 'Permission | Xtrem';
         Axios.get('/api/permission/' + id)
         .then((res) => {
             setPermission(res.data);
         })
+        document.title = 'Permission | Xtrem';
     }, [])
 
 

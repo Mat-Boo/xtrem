@@ -6,7 +6,6 @@ import { updateAlertMessage } from '../../../redux/redux';
 import { useNavigate } from 'react-router-dom';
 import ToggleSwitch from '../../../components/ToggleSwitch';
 import { userServices } from '../../../_services/user_services';
-import { checkToken } from '../../../_services/checkToken';
 
 export default function AddPartner() {
        
@@ -26,15 +25,11 @@ export default function AddPartner() {
     const [permissions, setPermissions] = useState([]);
     
     useEffect(() => {
-        if (checkToken.expired()) {
-            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
-            navigate('/');
-        }
-        document.title = 'Ajout Partenaire | Xtrem';
         Axios.get('/api/permissions')
         .then((res) => {
-          setPermissions(res.data);
+            setPermissions(res.data);
         })
+        document.title = 'Ajout Partenaire | Xtrem';
       }, [])
 
     //Validate Form and send to api

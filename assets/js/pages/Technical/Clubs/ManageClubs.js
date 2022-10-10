@@ -11,13 +11,9 @@ import { userServices } from '../../../_services/user_services';
 import { paginationParams } from '../../../_services/paginationParams';
 import Pagination from '../../../components/Pagination';
 import { helpers } from '../../../_services/helpers';
-import { updateAlertMessage, updateAxiosAnswer } from '../../../redux/redux';
-import { checkToken } from '../../../_services/checkToken';
-import { useNavigate } from 'react-router-dom';
+import { updateAxiosAnswer } from '../../../redux/redux';
 
 export default function ManageClubs() {
-
-    const navigate = useNavigate();
     
     const [partner, setPartner] = useState([]);
     const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0));
@@ -38,18 +34,8 @@ export default function ManageClubs() {
     const stockAxiosAnswerInStore = (data) => {
         dispatchAxiosAnswer(updateAxiosAnswer(data))
     }
-
-    const dispatchAlertMessage = useDispatch();
-    const stockAlertMessageInStore = (data) => {
-        dispatchAlertMessage(updateAlertMessage(data))
-    }
     
     useEffect(() => {
-        if (checkToken.expired()) {
-            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
-            navigate('/');
-        }
-        document.title = 'Gestion des Clubs | Xtrem';
         Axios.get('/api/partner/' + id)
         .then((res) => {
             setPartner(res.data);
@@ -69,6 +55,7 @@ export default function ManageClubs() {
         })
         setCurrentPage(1);
         stockAxiosAnswerInStore('');
+        document.title = 'Gestion des Clubs | Xtrem';
     }, [filter, axiosAnswer])
 
     return (

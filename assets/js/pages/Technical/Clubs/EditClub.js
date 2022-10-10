@@ -1,19 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../../../components/Button';
 import Axios from '../../../_services/caller_service';
 import { useDispatch } from 'react-redux'
 import { updateAlertMessage } from '../../../redux/redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { checkToken } from '../../../_services/checkToken';
 
 export default function EditClub() {
-    
-    const toggleSwitchRef = useRef();
-    // Fonction permettant de cliquer sur le nom associé au toggle de la permission et ainsi l'activer ou le désactiver
-    /* const handleClickPermissionName = () => {
-        
-        toggleSwitchRef.current.firstChild.click();
-    } */
 
     const [club, setClub] = useState([]);
     const [displayLogo, setDisplayLogo] = useState(true);
@@ -33,15 +25,11 @@ export default function EditClub() {
     }
     
     useEffect(() => {
-        if (checkToken.expired()) {
-            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
-            navigate('/');
-        }
-        document.title = 'Modification Club | Xtrem';
         Axios.get('/api/club/' + id)
         .then((res) => {
             setClub(res.data);
         })
+        document.title = 'Modification Club | Xtrem';
     }, [])
 
     const handleChange = (e) => {

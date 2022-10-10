@@ -1,7 +1,7 @@
 import React from 'react';
 import ToggleSwitch from './ToggleSwitch';
 
-export default function PermissionsList({ permissions, permissionCategory, idPartner, namePartner, idClub, nameClub, userRoles, isEnabled }) {
+export default function PermissionsList({ permissions, idPartner, namePartner, idClub, nameClub, userRoles, isEnabled }) {
     return (
         <ul className='permissionsList'>
             {

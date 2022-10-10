@@ -1,33 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Button from '../../components/Button';
 import Axios from '../../_services/caller_service';
-import { checkToken } from '../../_services/checkToken';
-import { useNavigate } from 'react-router-dom';
-import { updateAlertMessage } from '../../redux/redux';
 
 export default function MyAccount() {
-
-    const navigate = useNavigate();
     
     const alertMessage = useSelector((state) => state.alertMessage);
     const [user, setUser] = useState();
-
-    const dispatchAlertMessage = useDispatch();
-    const stockAlertMessageInStore = (data) => {
-        dispatchAlertMessage(updateAlertMessage(data))
-    }
     
     useEffect(() => {
-        if (checkToken.expired()) {
-            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
-            navigate('/');
-        }
-        document.title = 'Mon compte | Xtrem';
         Axios.get('/api/user')
         .then((res) => {
             setUser(res.data);
         })
+        document.title = 'Mon compte | Xtrem';
     }, [alertMessage])
 
     return (

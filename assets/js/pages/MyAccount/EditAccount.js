@@ -4,7 +4,6 @@ import Axios from '../../_services/caller_service';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateAlertMessage } from '../../redux/redux';
-import { checkToken } from '../../_services/checkToken';
 
 export default function EditAccount() {
     
@@ -19,15 +18,11 @@ export default function EditAccount() {
     const [user, setUser] = useState();
     
     useEffect(() => {
-        if (checkToken.expired()) {
-            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
-            navigate('/');
-        }
-        document.title = 'Mon compte | Xtrem';
         Axios.get('/api/user')
         .then((res) => {
             setUser(res.data);
         })
+        document.title = 'Mon compte | Xtrem';
     }, [])
 
     const handleChange = (e) => {

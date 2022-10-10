@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateAlertMessage } from '../../redux/redux';
 import { useEffect } from 'react';
-import { checkToken } from '../../_services/checkToken';
 
 export default function ModifyPassword() {
     
@@ -18,10 +17,6 @@ export default function ModifyPassword() {
     }
     
     useEffect(() => {
-        if (checkToken.expired()) {
-            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
-            navigate('/');
-        }
         document.title = 'Mon compte | Xtrem';
     }, [])
 

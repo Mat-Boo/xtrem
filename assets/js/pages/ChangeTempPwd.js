@@ -18,14 +18,10 @@ export default function ChangeTempPwd() {
     }
 
     useEffect(() => {
-        if (checkToken.expired()) {
-            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
-            navigate('/');
-        }
-        document.title = 'Changement de mot de passe | Xtrem';
         if (userServices.hasChangedTempPwd()) {
             navigate('/accueil');
         }
+        document.title = 'Changement de mot de passe | Xtrem';
     }, [])
 
     // Valid Form and send values to api

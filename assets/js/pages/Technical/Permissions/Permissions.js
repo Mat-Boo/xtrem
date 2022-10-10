@@ -2,13 +2,11 @@ import React, { useState, useEffect } from 'react';
 import Axios from '../../../_services/caller_service';
 import PermissionCard from '../../../components/PermissionCard';
 import Button from '../../../components/Button';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Filters from '../../../components/Filters';
 import Pagination from '../../../components/Pagination';
 import { paginationParams } from '../../../_services/paginationParams';
 import { helpers } from '../../../_services/helpers';
-import { checkToken } from '../../../_services/checkToken';
-import { updateAlertMessage } from '../../../redux/redux';
 
 export default function Permissions() {
 
@@ -21,22 +19,13 @@ export default function Permissions() {
     const lastItemIndex = currentPage * paginationParams.permissionsPerPage;
     const firstItemIndex = lastItemIndex - paginationParams.permissionsPerPage;
 
-    const dispatchAlertMessage = useDispatch();
-    const stockAlertMessageInStore = (data) => {
-        dispatchAlertMessage(updateAlertMessage(data))
-    }
-
     useEffect(() => {
-        if (checkToken.expired()) {
-            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
-            navigate('/');
-        }
-        document.title = 'Permissions | Xtrem';
         Axios.get('/api/permissions')
         .then((res) => {
             setPermissions(res.data);
         })
         setCurrentPage(1);
+        document.title = 'Permissions | Xtrem';
     }, [alertMessage, filter])
 
     

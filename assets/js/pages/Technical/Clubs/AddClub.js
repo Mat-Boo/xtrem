@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../../../components/Button';
 import Axios from '../../../_services/caller_service';
 import { useDispatch } from 'react-redux'
@@ -7,16 +7,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import ToggleSwitch from '../../../components/ToggleSwitch';
 import slugify from 'react-slugify';
 import { userServices } from '../../../_services/user_services';
-import { checkToken } from '../../../_services/checkToken';
 
 export default function AddClub() {
-    
-    const toggleSwitchRef = useRef();
-    // Fonction permettant de cliquer sur le nom associé au toggle de la permission et ainsi l'activer ou le désactiver
-    /* const handleClickPermissionName = () => {
-        
-        toggleSwitchRef.current.firstChild.click();
-    } */
 
     const [partner, setPartner] = useState([]);
     const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0));
@@ -35,15 +27,11 @@ export default function AddClub() {
     }
     
     useEffect(() => {
-        if (checkToken.expired()) {
-            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
-            navigate('/');
-        }
-        document.title = 'Ajout Club | Xtrem';
         Axios.get('/api/partner/' + id)
         .then((res) => {
             setPartner(res.data);
         })
+        document.title = 'Ajout Club | Xtrem';
     }, [])
 
     //Validate Form and send to api
@@ -215,7 +203,7 @@ export default function AddClub() {
                                             .filter((permission) => permission.isActive === true)
                                             .map((permission) => (
                                                 <li  key={permission.id} className='switchPermission'>
-                                                    <div ref={toggleSwitchRef}>
+                                                    <div>
                                                         <ToggleSwitch
                                                             idPartner=''
                                                             idClub=''

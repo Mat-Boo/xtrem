@@ -1,23 +1,10 @@
 import React, { useEffect } from 'react';
 import Button from '../components/Button';
 import logo from '../../img/logo_horizontal.png';
-import { checkToken } from '../_services/checkToken';
-import { useNavigate } from 'react-router-dom';
 
 export default function E404() {
 
-    const navigate = useNavigate();
-
-    const dispatchAlertMessage = useDispatch();
-    const stockAlertMessageInStore = (data) => {
-        dispatchAlertMessage(updateAlertMessage(data))
-    }
-
     useEffect(() => {
-        if (checkToken.expired()) {
-            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
-            navigate('/');
-        }
         document.title = 'Page introuvable | Xtrem';
     })
 

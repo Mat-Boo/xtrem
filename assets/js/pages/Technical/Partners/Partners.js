@@ -3,13 +3,11 @@ import Axios from '../../../_services/caller_service';
 import PartnerCard from '../../../components/PartnerCard';
 import Button from '../../../components/Button';
 import Filters from '../../../components/Filters';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Pagination from '../../../components/Pagination';
 import { userServices } from '../../../_services/user_services';
 import { paginationParams } from '../../../_services/paginationParams';
 import { helpers } from '../../../_services/helpers';
-import { useNavigate } from 'react-router-dom';
-import { checkToken } from '../../../_services/checkToken';
 
 export default function Partners() {
 
@@ -20,24 +18,13 @@ export default function Partners() {
         inactives: 0
     });
     const filter = useSelector((state) => state.filter);
-
-    const navigate = useNavigate();
     
     //Pagination
     const [currentPage, setCurrentPage] = useState();
     const lastItemIndex = currentPage * paginationParams.partnersPerPage;
     const firstItemIndex = lastItemIndex - paginationParams.partnersPerPage;
 
-    const dispatchAlertMessage = useDispatch();
-    const stockAlertMessageInStore = (data) => {
-        dispatchAlertMessage(updateAlertMessage(data))
-    }
-
     useEffect(() => {
-        if (checkToken.expired()) {
-            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
-            navigate('/');
-        }
         document.title = 'Partenaires | Xtrem';
         Axios.get('/api/partners')
         .then((res) => {

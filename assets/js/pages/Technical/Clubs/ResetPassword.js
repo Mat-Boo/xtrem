@@ -5,7 +5,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateAlertMessage } from '../../../redux/redux';
 import slugify from 'react-slugify';
-import { checkToken } from '../../../_services/checkToken';
 
 export default function resetPassword() {
     
@@ -21,15 +20,11 @@ export default function resetPassword() {
     const id = useParams().idSlugClub.substring(0, useParams().idSlug.indexOf('-', 0));
     
     useEffect(() => {
-        if (checkToken.expired()) {
-            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
-            navigate('/');
-        }
-        document.title = 'Mot de passe Club | Xtrem';
         Axios.get('/api/club/' + id)
         .then((res) => {
             setClub(res.data);
         })
+        document.title = 'Mot de passe Club | Xtrem';
     }, [])
     // Valid Form and send values to api
     const validForm = (e) => {

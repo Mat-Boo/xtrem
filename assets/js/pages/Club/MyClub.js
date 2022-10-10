@@ -1,33 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import Axios from '../../_services/caller_service';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import ClubCard from '../../components/ClubCard';
 import { userServices } from '../../_services/user_services';
-import { checkToken } from '../../_services/checkToken';
-import { useNavigate } from 'react-router-dom';
-import { updateAlertMessage } from '../../redux/redux';
 
 export default function MyClub() {
-
-    const navigate = useNavigate();
 
     const alertMessage = useSelector((state) => state.alertMessage);
     const [user, setUser] = useState([]);
     
     const [lengthes, setLengthes] = useState();
     const filter = useSelector((state) => state.filter);
-
-    const dispatchAlertMessage = useDispatch();
-    const stockAlertMessageInStore = (data) => {
-        dispatchAlertMessage(updateAlertMessage(data))
-    }
     
     useEffect(() => {
-        if (checkToken.expired()) {
-            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
-            navigate('/');
-        }
-        document.title = 'Mon Club | Xtrem';
         if (userServices.isConnected()) {
             Axios.get('/api/userClub/' + userServices.getUser().username)
             .then((res) => {
@@ -47,6 +32,7 @@ export default function MyClub() {
                 setLengthes(lengthes => ({...lengthes, all: res.data.partner.clubs.length}));
             })
         }
+        document.title = 'Mon Club | Xtrem';
     }, [alertMessage])
 
     return (

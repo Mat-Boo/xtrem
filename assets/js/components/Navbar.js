@@ -4,6 +4,7 @@ import WhiteLogo from '../../img/logo-white.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAlertMessage } from '../redux/redux';
 import { userServices } from '../_services/user_services';
+import { checkToken } from '../_services/checkToken';
 
 export default function Navbar() {
 

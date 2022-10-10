@@ -4,7 +4,6 @@ import Axios from '../../../_services/caller_service';
 import { useDispatch } from 'react-redux'
 import { updateAlertMessage } from '../../../redux/redux';
 import { useNavigate } from 'react-router-dom';
-import { checkToken } from '../../../_services/checkToken';
 
 export default function AddPermission() {
     
@@ -17,10 +16,6 @@ export default function AddPermission() {
     }
     
     useEffect(() => {
-        if (checkToken.expired()) {
-            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
-            navigate('/');
-        }
         document.title = 'Ajout Permission | Xtrem';
     }, [])
     

@@ -1,19 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Axios from '../../_services/caller_service';
 import Filters from '../../components/Filters';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import ClubCard from '../../components/ClubCard';
 import { userServices } from '../../_services/user_services';
 import { paginationParams } from '../../_services/paginationParams';
 import Pagination from '../../components/Pagination';
-import { checkToken } from '../../_services/checkToken';
-import { useNavigate } from 'react-router-dom';
 import ToggleSwitch from '../../components/ToggleSwitch';
-import { updateAlertMessage } from '../../redux/redux';
 
 export default function MyClubs() {
-
-    const navigate = useNavigate();
     
     const [user, setUser] = useState([]);
     
@@ -31,18 +26,8 @@ export default function MyClubs() {
     const [currentPage, setCurrentPage] = useState();
     const lastItemIndex = currentPage * paginationParams.clubsPerPage;
     const firstItemIndex = lastItemIndex - paginationParams.clubsPerPage;
-
-    const dispatchAlertMessage = useDispatch();
-    const stockAlertMessageInStore = (data) => {
-        dispatchAlertMessage(updateAlertMessage(data))
-    }
     
     useEffect(() => {
-        if (checkToken.expired()) {
-            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
-            navigate('/');
-        }
-        document.title = 'Mes Clubs | Xtrem';
         if (userServices.isConnected()) {
             Axios.get('/api/userPartner/' + userServices.getUser().username)
             .then((res) => {
@@ -63,6 +48,7 @@ export default function MyClubs() {
             })
         }
         setCurrentPage(1);
+        document.title = 'Mes Clubs | Xtrem';
     }, [filter])
 
     const displayPartnerDetails = () => {
@@ -88,8 +74,6 @@ export default function MyClubs() {
 
         }
     }
-
-    console.log(user.partner)
 
     return (
         <>
