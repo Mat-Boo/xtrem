@@ -97,12 +97,12 @@
             .permissionsList {
                 display: flex;
                 flex-wrap: wrap;
-                justify-content: center;
+                justify-content: start;
                 align-items: center;
                 .switchPermission {
                     display: flex;
                     align-items: center;
-                    margin: 20px;
+                    margin: 20px 5px;
                     width: 100%;
                     max-width: 300px;
                     div {
@@ -111,6 +111,7 @@
                     }
                     .permissionName {
                         margin-left: 20px;
+                        font-size: 14px;
                     }
                 }
             }
@@ -147,6 +148,24 @@
         top: 85px;
         left: 100px;
         margin: 0 50px;
+    }
+}
+
+@media screen and (min-width: 500px) {
+    .viewPartner {
+        form {
+            fieldset {
+                .permissionsList {
+                    justify-content: center;
+                    .switchPermission {
+                        margin: 20px;
+                        .permissionName {
+                            font-size: 16px;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

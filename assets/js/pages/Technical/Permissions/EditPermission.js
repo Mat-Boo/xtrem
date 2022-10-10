@@ -21,6 +21,7 @@ export default function AddPermission() {
     
     useEffect(() => {
          if (checkToken.expired()) {
+            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
              navigate('/');
          }
         document.title = 'Modification Permission | Xtrem';

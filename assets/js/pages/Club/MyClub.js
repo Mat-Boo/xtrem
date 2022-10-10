@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Axios from '../../_services/caller_service';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ClubCard from '../../components/ClubCard';
 import { userServices } from '../../_services/user_services';
 import { checkToken } from '../../_services/checkToken';
 import { useNavigate } from 'react-router-dom';
+import { updateAlertMessage } from '../../redux/redux';
 
 export default function MyClub() {
 
@@ -15,9 +16,15 @@ export default function MyClub() {
     
     const [lengthes, setLengthes] = useState();
     const filter = useSelector((state) => state.filter);
+
+    const dispatchAlertMessage = useDispatch();
+    const stockAlertMessageInStore = (data) => {
+        dispatchAlertMessage(updateAlertMessage(data))
+    }
     
     useEffect(() => {
         if (checkToken.expired()) {
+            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
             navigate('/');
         }
         document.title = 'Mon Club | Xtrem';

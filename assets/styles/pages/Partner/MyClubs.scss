@@ -9,36 +9,116 @@
     .partner {
         display: flex;
         flex-direction: column;
+        align-items: center;
         background: $itemBgBlue;
         border: 1px solid $borderBlue;
         width: 100%;
         max-width: 1340px;
         padding: 10px;
         margin-bottom: 20px;
-        .logo {
-            width: 60%;
-            height: 60%;
-            max-width: 200px;
-            background: $mainBlueBg;
-            border: 1px solid $borderBlue;
-            padding-top: 5px;
-            margin-right: 15px;
-            align-self: center;
-        }
-        .partnerInfos {
+        .logoAndInfos {
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            width: 100%;
-            .id {
-                margin: 20px 0 0 0;
+            .logo {
+                width: 60%;
+                height: 60%;
+                max-width: 200px;
+                background: $mainBlueBg;
+                border: 1px solid $borderBlue;
+                padding-top: 5px;
+                margin-right: 15px;
+                align-self: center;
             }
-            .name {
-                font-weight: 600;
+            .partnerInfos {
+                display: flex;
+                flex-direction: column;
+
+                width: 100%;
+                .id {
+                    margin: 20px 0 0 0;
+                }
+                .name {
+                    font-weight: 600;
+                }
+                .button {
+                    max-width: 160px;
+                    align-self: end;
+                }
             }
-            .button {
-                max-width: 160px;
-                align-self: end;
+        }
+        .details {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+            max-width: 115px;
+            transition: max-width 500ms;
+            .detailsBtn {
+                display: flex;
+                align-items: center;
+                color: $mainBlueBg;
+                background: $mainBlue;
+                padding: 10px;
+                width: 100%;
+                cursor: pointer;
+                svg {
+                    margin-left: 15px;
+                    transition: transform 500ms;
+                }
+            }
+            .detailsInfos {
+                max-height: 0;
+                overflow: hidden;
+                margin-top: 20px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                height: 100%;
+                .partnerContact {
+                    align-self: flex-start;
+                    width: 95%;
+                    max-width: 1340px;
+                    margin: 0 auto;
+                    .name {
+                        font-weight: 600;
+                    }
+                    .phone, .email {
+                        display: flex;
+                        align-items: center;
+                        svg {
+                            margin-right: 10px;
+                        }
+                        
+                    }
+                }
+                form {  
+                    #permissionsFieldset {
+                        background: $mainBlueBg;
+                        .permissionsList {
+                            display: flex;
+                            flex-wrap: wrap;
+                            justify-content: start;
+                            align-items: center;
+                            .switchPermission {
+                                display: flex;
+                                align-items: center;
+                                margin: 20px 5px;
+                                width: 100%;
+                                max-width: 300px;
+                                div {
+                                    width: 60px;
+                                    height: 30px;
+                                }
+                                .permissionName {
+                                    margin-left: 20px;
+                                    font-size: 14px;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -62,6 +142,30 @@
     }
 }
 
+@media screen and (min-width: 500px) {
+    .myClubs {
+        .partner {
+            .details {
+                .detailsInfos {
+                    form {
+                        #permissionsFieldset {
+                            .permissionsList {
+                                justify-content: center;
+                                .switchPermission {
+                                    margin: 20px;
+                                    .permissionName {
+                                        font-size: 16px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 @media screen and (min-width: 800px) {
     .myClubs {
         .header {
@@ -71,13 +175,53 @@
             }
         }
         .partner {
-            flex-direction: row;
-            .logo {
-                align-self: auto;
+            .logoAndInfos {
+                flex-direction: row;
+                .logo {
+                    align-self: auto;
+                }
+                .partnerInfos {
+                    .id {
+                        margin: 0;
+                    }
+                }
             }
-            .partnerInfos {
-                .id {
-                    margin: 0;
+        }
+    }
+}
+
+@media screen and (min-width: 885px) {
+    .viewPartner {
+        .partner {
+            .details {
+                .detailsInfos {
+                    form {
+                        #permissionsFieldset {
+                            .permissionsList {
+                                justify-content: flex-start;
+                                margin: 0 auto;
+                                max-width: 680px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 1260px) {
+    .viewPartner {
+        .partner {
+            .details {
+                .detailsInfos {
+                    form {
+                        #permissionsFieldset {
+                            .permissionsList {
+                                max-width: 1020px;
+                            }
+                        }
+                    }
                 }
             }
         }

@@ -1,0 +1,48 @@
+.permissionsList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    align-items: center;
+    .switchPermission {
+        display: flex;
+        align-items: center;
+        margin: 20px 5px;
+        width: 100%;
+        max-width: 300px;
+        div {
+            width: 60px;
+            height: 30px;
+        }
+        .permissionName {
+            margin-left: 20px;
+            font-size: 14px;
+        }
+    }
+}
+
+
+@media screen and (min-width: 500px) {
+    .permissionsList {
+        justify-content: center;
+        .switchPermission {
+            margin: 20px;
+            .permissionName {
+                font-size: 16px;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 885px) {
+    .permissionsList {
+        justify-content: flex-start;
+        margin: 0 auto;
+        max-width: 680px;
+    }
+}
+
+@media screen and (min-width: 1260px) {
+    .permissionsList {
+        max-width: 1020px;
+    }
+}

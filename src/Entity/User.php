@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-class User implements UserInterface, PasswordAuthenticatedUserInterface/* , JWTUserInterface */
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -201,13 +201,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface/* , JWTU
 
         return $this;
     }
-
-/*     public static function createFromPayload($username, array $payload)
-    {
-        $user = new User();
-        $user->setEmail($username);
-        return $user;
-    } */
 
 public function isIsActive(): ?bool
 {

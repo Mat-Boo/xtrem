@@ -8,8 +8,14 @@ export default function E404() {
 
     const navigate = useNavigate();
 
+    const dispatchAlertMessage = useDispatch();
+    const stockAlertMessageInStore = (data) => {
+        dispatchAlertMessage(updateAlertMessage(data))
+    }
+
     useEffect(() => {
         if (checkToken.expired()) {
+            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
             navigate('/');
         }
         document.title = 'Page introuvable | Xtrem';

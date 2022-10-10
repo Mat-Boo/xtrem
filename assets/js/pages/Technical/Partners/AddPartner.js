@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../../../components/Button';
 import Axios from '../../../_services/caller_service';
 import { useDispatch } from 'react-redux'
@@ -9,14 +9,7 @@ import { userServices } from '../../../_services/user_services';
 import { checkToken } from '../../../_services/checkToken';
 
 export default function AddPartner() {
-    
-    const toggleSwitchRef = useRef();
-    // Fonction permettant de cliquer sur le nom associé au toggle de la permission et ainsi l'activer ou le désactiver
-    /* const handleClickPermissionName = () => {
-        
-        toggleSwitchRef.current.firstChild.click();
-    } */
-    
+       
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
     
@@ -34,6 +27,7 @@ export default function AddPartner() {
     
     useEffect(() => {
         if (checkToken.expired()) {
+            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
             navigate('/');
         }
         document.title = 'Ajout Partenaire | Xtrem';
@@ -187,7 +181,7 @@ export default function AddPartner() {
                                     {
                                         permissions.map((permission) => (
                                             <li  key={permission.id} className='switchPermission'>
-                                                <div ref={toggleSwitchRef}>
+                                                <div>
                                                     <ToggleSwitch
                                                         idPartner=''
                                                         idClub=''
@@ -199,7 +193,7 @@ export default function AddPartner() {
                                                         isEnabled={true}
                                                     />
                                                 </div>
-                                                <span className='permissionName' /* onClick={handleClickPermissionName} */>{permission.name}</span>
+                                                <span className='permissionName'>{permission.name}</span>
                                             </li>
                                         ))
                                     }

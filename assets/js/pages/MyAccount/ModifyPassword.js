@@ -19,6 +19,7 @@ export default function ModifyPassword() {
     
     useEffect(() => {
         if (checkToken.expired()) {
+            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
             navigate('/');
         }
         document.title = 'Mon compte | Xtrem';

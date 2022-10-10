@@ -22,6 +22,7 @@ export default function resetPassword() {
     
     useEffect(() => {
         if (checkToken.expired()) {
+            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
             navigate('/');
         }
         document.title = 'Mot de passe Partenaire | Xtrem';

@@ -11,7 +11,7 @@ import { userServices } from '../../../_services/user_services';
 import { paginationParams } from '../../../_services/paginationParams';
 import Pagination from '../../../components/Pagination';
 import { helpers } from '../../../_services/helpers';
-import { updateAxiosAnswer } from '../../../redux/redux';
+import { updateAlertMessage, updateAxiosAnswer } from '../../../redux/redux';
 import { checkToken } from '../../../_services/checkToken';
 import { useNavigate } from 'react-router-dom';
 
@@ -38,9 +38,15 @@ export default function ManageClubs() {
     const stockAxiosAnswerInStore = (data) => {
         dispatchAxiosAnswer(updateAxiosAnswer(data))
     }
+
+    const dispatchAlertMessage = useDispatch();
+    const stockAlertMessageInStore = (data) => {
+        dispatchAlertMessage(updateAlertMessage(data))
+    }
     
     useEffect(() => {
         if (checkToken.expired()) {
+            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
             navigate('/');
         }
         document.title = 'Gestion des Clubs | Xtrem';
@@ -64,8 +70,6 @@ export default function ManageClubs() {
         setCurrentPage(1);
         stockAxiosAnswerInStore('');
     }, [filter, axiosAnswer])
-
-    console.log(partner.clubs)
 
     return (
         <>

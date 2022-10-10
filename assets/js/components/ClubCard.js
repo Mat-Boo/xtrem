@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import Button from './Button';
 import ToggleSwitch from './ToggleSwitch';
 import slugify from 'react-slugify';
+import { userServices } from '../_services/user_services';
 
 export default function ClubCard({ partner, id, name, logo, isActive, address, zipcode, city, firstname, lastname, phone, email, permissions, roles, partnerState }) {
 
@@ -17,7 +18,7 @@ export default function ClubCard({ partner, id, name, logo, isActive, address, z
             permissionsFieldsetRef.current.style.maxHeight = '5000px';
             chevronDownRef.current.style.transform = 'rotate(-180deg)';
             setTimeout(() => {
-                permissionsFieldsetRef.current.style.maxHeight = (permissionsFieldsetRef.current.clientHeight + 4)  + 'px';
+                permissionsFieldsetRef.current.style.maxHeight = (permissionsFieldsetRef.current.clientHeight) * 2  + 'px';
             }, 500);
         } else {
             setDisplayedPermissions(false);
@@ -112,7 +113,7 @@ export default function ClubCard({ partner, id, name, logo, isActive, address, z
                 }
             </div>
             {
-                (!isActive & partnerState) ?
+                (!isActive & partnerState & userServices.getUser().roles.includes('ROLE_TECHNICAL')) ?
                     <p className='messageActivateClub'>Le club doit être activé pour pouvoir gérer ses permissions.</p> : ''
             }
             <form>

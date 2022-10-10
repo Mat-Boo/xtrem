@@ -31,7 +31,7 @@ class Partner
     private ?string $description = null;
 
     #[ORM\Column]
-    #[Groups(['partners:read', 'partner:read'])]
+    #[Groups(['partners:read', 'partner:read', 'userPartner:read'])]
     private ?bool $isActive = null;
 
     #[ORM\OneToOne(inversedBy: 'partner', cascade: ['persist', 'remove'])]
@@ -43,7 +43,7 @@ class Partner
     #[ORM\OneToMany(mappedBy: 'partner', targetEntity: Club::class)]
     private Collection $clubs;
 
-    #[Groups(['partner:read'])]
+    #[Groups(['partner:read', 'userPartner:read'])]
     #[ORM\OneToMany(mappedBy: 'Partner', targetEntity: PartnerPermission::class)]
     private Collection $partnerPermissions;
 

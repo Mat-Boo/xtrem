@@ -3,7 +3,7 @@ import Axios from '../../../_services/caller_service';
 import PartnerCard from '../../../components/PartnerCard';
 import Button from '../../../components/Button';
 import Filters from '../../../components/Filters';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Pagination from '../../../components/Pagination';
 import { userServices } from '../../../_services/user_services';
 import { paginationParams } from '../../../_services/paginationParams';
@@ -28,8 +28,14 @@ export default function Partners() {
     const lastItemIndex = currentPage * paginationParams.partnersPerPage;
     const firstItemIndex = lastItemIndex - paginationParams.partnersPerPage;
 
+    const dispatchAlertMessage = useDispatch();
+    const stockAlertMessageInStore = (data) => {
+        dispatchAlertMessage(updateAlertMessage(data))
+    }
+
     useEffect(() => {
         if (checkToken.expired()) {
+            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
             navigate('/');
         }
         document.title = 'Partenaires | Xtrem';
@@ -63,11 +69,8 @@ export default function Partners() {
                 />
             </div>
             {
-                partners.length === 0 &&
-                    <p className='messageNoPartner'>Il n'existe aucun partenaire.</p>
-            }
-            {
-                partners[0] &&
+                partners.length === 0 ?
+                    <p className='messageNoPartner'>Il n'existe aucun partenaire.</p> :
                     <>
                         <Filters type='partner' all={lengthes.all} actives={lengthes.actives} inactives={lengthes.inactives} displayStates={true} />
                         <div className='partnersListAndPagination'>

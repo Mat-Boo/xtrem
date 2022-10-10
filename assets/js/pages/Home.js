@@ -3,14 +3,22 @@ import { useEffect } from 'react';
 import { userServices } from '../_services/user_services';
 import { checkToken } from '../_services/checkToken';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { updateAlertMessage } from '../redux/redux';
 import abdos from '../../img/svgBg/abdos.svg';
 
 export default function Home() {
 
     const navigate = useNavigate();
 
+    const dispatchAlertMessage = useDispatch();
+    const stockAlertMessageInStore = (data) => {
+        dispatchAlertMessage(updateAlertMessage(data))
+    }
+
     useEffect(() => {
         if (checkToken.expired()) {
+            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
             navigate('/');
         }
         document.title = 'Accueil | Xtrem';

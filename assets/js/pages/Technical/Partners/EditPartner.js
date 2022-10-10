@@ -30,6 +30,7 @@ export default function EditPartner() {
     
     useEffect(() => {
         if (checkToken.expired()) {
+            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
             navigate('/');
         }
         document.title = 'Modification Partenaire | Xtrem';

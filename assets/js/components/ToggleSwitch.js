@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateAnswerModalForChangeState, updateAlertMessage, updateModal, updateStateItem, updateAxiosAnswer } from '../redux/redux';
 import Axios from '../_services/caller_service';
 
-export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub, nameToggle, idToggle, typeToggle, isActive, roles, isEnabled }) {
+export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub, idToggle, nameToggle, typeToggle, isActive, roles, isEnabled }) {
 
     const [stateSwitch, setStateSwitch] = useState(isActive);
     const [clickedToggle, setClickedToggle] = useState({idToggle: '', typeToggle: ''});
