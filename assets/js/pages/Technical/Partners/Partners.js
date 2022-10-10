@@ -1,13 +1,15 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Axios from '../../../_services/caller_service';
 import PartnerCard from '../../../components/PartnerCard';
 import Button from '../../../components/Button';
 import Filters from '../../../components/Filters';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Pagination from '../../../components/Pagination';
 import { userServices } from '../../../_services/user_services';
 import { paginationParams } from '../../../_services/paginationParams';
 import { helpers } from '../../../_services/helpers';
+import { useNavigate } from 'react-router-dom';
+import { checkToken } from '../../../_services/checkToken';
 
 export default function Partners() {
 
@@ -19,6 +21,7 @@ export default function Partners() {
     });
     const filter = useSelector((state) => state.filter);
 
+    const navigate = useNavigate();
     
     //Pagination
     const [currentPage, setCurrentPage] = useState();
@@ -26,6 +29,9 @@ export default function Partners() {
     const firstItemIndex = lastItemIndex - paginationParams.partnersPerPage;
 
     useEffect(() => {
+        if (checkToken.expired()) {
+            navigate('/');
+        }
         document.title = 'Partenaires | Xtrem';
         Axios.get('/api/partners')
         .then((res) => {
@@ -41,7 +47,7 @@ export default function Partners() {
         })
         setCurrentPage(1);
     }, [filter])
-    
+  
     return (
         <div className='partners'>
             <div className='header'>

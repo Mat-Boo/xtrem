@@ -18,7 +18,7 @@ const getUser = () => {
 
 const hasChangedTempPwd = () => {
     if (!!localStorage.getItem('token')) {
-        return jwt(localStorage.getItem('token')).hasChangedTempPwd;
+        return getUser().hasChangedTempPwd;
     } else {
         return false;
     }

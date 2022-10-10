@@ -4,9 +4,10 @@ import Axios from '../../../_services/caller_service';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateAlertMessage } from '../../../redux/redux';
+import { checkToken } from '../../../_services/checkToken';
 
 export default function AddPermission() {
-
+    
     const [permission, setPermission] = useState([]);
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
@@ -18,7 +19,10 @@ export default function AddPermission() {
 
     const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0))
     
-     useEffect(() => {
+    useEffect(() => {
+         if (checkToken.expired()) {
+             navigate('/');
+         }
         document.title = 'Modification Permission | Xtrem';
         Axios.get('/api/permission/' + id)
         .then((res) => {

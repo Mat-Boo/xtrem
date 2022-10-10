@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAnswerModalForChangeState, updateAlertMessage, updateModal, updateStateItem, updateAxiosAnswer } from '../redux/redux';
 import Axios from '../_services/caller_service';
@@ -8,14 +7,6 @@ export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub,
 
     const [stateSwitch, setStateSwitch] = useState(isActive);
     const [clickedToggle, setClickedToggle] = useState({idToggle: '', typeToggle: ''});
-
-    /* const axiosAnswer = useSelector((state) => state.axiosAnswer);
-
-    useEffect(() => {
-        if (axiosAnswer === 'success') {
-            setStateSwitch(stateSwitch);
-        }
-    }, [axiosAnswer]) */
 
     const handleChange = (e) => {
         setStateSwitch(e.target.checked);
@@ -259,7 +250,7 @@ export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub,
     
     return (
         <label id={idToggle} className='toggleSwitch' onClick={roles.includes('ROLE_TECHNICAL') && isEnabled ? (e) => clickSwitch(e, idPartner, idClub, idToggle, nameToggle) : null} style={!roles.includes('ROLE_TECHNICAL') || !isEnabled ? {opacity: 0.5, cursor: 'not-allowed'} : null}>
-            <input type="checkbox" id={idToggle} name={typeToggle} onChange={e => handleChange(e)} checked={stateSwitch} disabled={!roles.includes('ROLE_TECHNICAL') || !isEnabled ? true : false}/>
+            <input type="checkbox" id={idToggle} name={typeToggle} onChange={e => handleChange(e)} checked={typeToggle === 'club' ? (!isEnabled ? false : stateSwitch) : stateSwitch} disabled={!roles.includes('ROLE_TECHNICAL') || !isEnabled ? true : false}/>
             <span></span>
         </label>
     )

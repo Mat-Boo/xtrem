@@ -5,21 +5,25 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateAlertMessage } from '../../../redux/redux';
 import slugify from 'react-slugify';
+import { checkToken } from '../../../_services/checkToken';
 
 export default function resetPassword() {
-
+    
     const [club, setClub] = useState();
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
-
+    
     const dispatchAlertMessage = useDispatch();
     const stockAlertMessageInStore = (data) => {
         dispatchAlertMessage(updateAlertMessage(data))
     }
-
+    
     const id = useParams().idSlugClub.substring(0, useParams().idSlug.indexOf('-', 0));
-
+    
     useEffect(() => {
+        if (checkToken.expired()) {
+            navigate('/');
+        }
         document.title = 'Mot de passe Club | Xtrem';
         Axios.get('/api/club/' + id)
         .then((res) => {

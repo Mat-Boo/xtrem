@@ -5,9 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateAlertMessage } from '../../redux/redux';
 import { useEffect } from 'react';
+import { checkToken } from '../../_services/checkToken';
 
 export default function ModifyPassword() {
-
+    
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
 
@@ -15,8 +16,11 @@ export default function ModifyPassword() {
     const stockAlertMessageInStore = (data) => {
         dispatchAlertMessage(updateAlertMessage(data))
     }
-
+    
     useEffect(() => {
+        if (checkToken.expired()) {
+            navigate('/');
+        }
         document.title = 'Mon compte | Xtrem';
     }, [])
 

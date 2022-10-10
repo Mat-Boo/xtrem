@@ -2,6 +2,7 @@ import React, { useState, useEffect }  from 'react';
 import Button from '../../../components/Button';
 import Axios from '../../../_services/caller_service';
 import { useParams } from 'react-router-dom';
+import { checkToken } from '../../../_services/checkToken';
 
 export default function ViewPermission() {
 
@@ -10,11 +11,14 @@ export default function ViewPermission() {
     const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0))
     
      useEffect(() => {
+        if (checkToken.expired()) {
+            navigate('/');
+        }
         document.title = 'Permission | Xtrem';
-      Axios.get('/api/permission/' + id)
-      .then((res) => {
-        setPermission(res.data);
-      })
+        Axios.get('/api/permission/' + id)
+        .then((res) => {
+            setPermission(res.data);
+        })
     }, [])
 
 

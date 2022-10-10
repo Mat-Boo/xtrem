@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { updateAlertMessage } from '../redux/redux';
 import { userServices } from '../_services/user_services';
 import jwt from 'jwt-decode';
+import { checkToken } from '../_services/checkToken';
 
 export default function ChangeTempPwd() {
 
@@ -17,6 +18,9 @@ export default function ChangeTempPwd() {
     }
 
     useEffect(() => {
+        if (checkToken.expired()) {
+            navigate('/');
+        }
         document.title = 'Changement de mot de passe | Xtrem';
         if (userServices.hasChangedTempPwd()) {
             navigate('/accueil');

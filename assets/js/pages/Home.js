@@ -1,11 +1,18 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { userServices } from '../_services/user_services';
+import { checkToken } from '../_services/checkToken';
+import { useNavigate } from 'react-router-dom';
 import abdos from '../../img/svgBg/abdos.svg';
 
 export default function Home() {
 
+    const navigate = useNavigate();
+
     useEffect(() => {
+        if (checkToken.expired()) {
+            navigate('/');
+        }
         document.title = 'Accueil | Xtrem';
     })
 

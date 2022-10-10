@@ -4,20 +4,24 @@ import Axios from '../../_services/caller_service';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateAlertMessage } from '../../redux/redux';
+import { checkToken } from '../../_services/checkToken';
 
 export default function EditAccount() {
-
+    
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
-
+    
     const dispatchAlertMessage = useDispatch();
     const stockAlertMessageInStore = (data) => {
         dispatchAlertMessage(updateAlertMessage(data))
     }
     
     const [user, setUser] = useState();
-
+    
     useEffect(() => {
+        if (checkToken.expired()) {
+            navigate('/');
+        }
         document.title = 'Mon compte | Xtrem';
         Axios.get('/api/user')
         .then((res) => {

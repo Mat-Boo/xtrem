@@ -7,33 +7,37 @@ import { useNavigate, useParams } from 'react-router-dom';
 import ToggleSwitch from '../../../components/ToggleSwitch';
 import slugify from 'react-slugify';
 import { userServices } from '../../../_services/user_services';
+import { checkToken } from '../../../_services/checkToken';
 
 export default function AddClub() {
-
+    
     const toggleSwitchRef = useRef();
     // Fonction permettant de cliquer sur le nom associé au toggle de la permission et ainsi l'activer ou le désactiver
     /* const handleClickPermissionName = () => {
-
+        
         toggleSwitchRef.current.firstChild.click();
     } */
 
     const [partner, setPartner] = useState([]);
     const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0));
-
+    
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
-
+    
     const dispatchAlertMessage = useDispatch();
     const stockAlertMessageInStore = (data) => {
         dispatchAlertMessage(updateAlertMessage(data))
     }
-
+    
     const [logoFile, setLogoFile] = useState();
     const handleLogoFile = (e) => {
         setLogoFile(e.target.files[0])
     }
-
+    
     useEffect(() => {
+        if (checkToken.expired()) {
+            navigate('/');
+        }
         document.title = 'Ajout Club | Xtrem';
         Axios.get('/api/partner/' + id)
         .then((res) => {

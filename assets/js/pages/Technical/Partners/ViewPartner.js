@@ -4,18 +4,22 @@ import Button from '../../../components/Button';
 import ToggleSwitch from '../../../components/ToggleSwitch';
 import Axios from '../../../_services/caller_service';
 import { userServices } from '../../../_services/user_services';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateAxiosAnswer } from '../../../redux/redux';
+import { checkToken } from '../../../_services/checkToken';
+import { useNavigate } from 'react-router-dom';
 import abdos from '../../../../img/svgBg/abdos.svg';
 import haltere from '../../../../img/svgBg/haltere.svg';
 import rameur from '../../../../img/svgBg/rameur.svg';
 import traction from '../../../../img/svgBg/traction.svg';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateAxiosAnswer } from '../../../redux/redux';
 
 export default function ViewPartner() {
 
+    const navigate = useNavigate();
+    
     const [partner, setPartner] = useState([]);
     const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0));
-
+    
     const axiosAnswer = useSelector((state) => state.axiosAnswer);
 
     const dispatchAxiosAnswer = useDispatch();
@@ -24,6 +28,9 @@ export default function ViewPartner() {
     }
     
     useEffect(() => {
+        if (checkToken.expired()) {
+            navigate('/');
+        }
         document.title = 'Partenaire | Xtrem';
         Axios.get('/api/partner/' + id)
         .then((res) => {

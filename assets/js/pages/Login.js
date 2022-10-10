@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import logo from '../../img/logo_horizontal.png';
 import Axios from '../_services/caller_service';
 import { useDispatch } from 'react-redux'

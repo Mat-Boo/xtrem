@@ -2,8 +2,6 @@ import React, { useRef, useState } from 'react';
 import Button from './Button';
 import ToggleSwitch from './ToggleSwitch';
 import slugify from 'react-slugify';
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 
 export default function ClubCard({ partner, id, name, logo, isActive, address, zipcode, city, firstname, lastname, phone, email, permissions, roles, partnerState }) {
 
@@ -128,6 +126,7 @@ export default function ClubCard({ partner, id, name, logo, isActive, address, z
                     <ul className='permissionsList'>
                         {
                             permissions
+                                .sort((a, b) => (a.PartnerPermissions.Permission.id - b.PartnerPermissions.Permission.id))
                                 .map((permission) => (
                                     <li  key={permission.id} className='switchPermission'>
                                         <div>

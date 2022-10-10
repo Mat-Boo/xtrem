@@ -2,13 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Button from '../../components/Button';
 import Axios from '../../_services/caller_service';
+import { checkToken } from '../../_services/checkToken';
+import { useNavigate } from 'react-router-dom';
 
 export default function MyAccount() {
 
+    const navigate = useNavigate();
+    
     const alertMessage = useSelector((state) => state.alertMessage);
     const [user, setUser] = useState();
-
+    
     useEffect(() => {
+        if (checkToken.expired()) {
+            navigate('/');
+        }
         document.title = 'Mon compte | Xtrem';
         Axios.get('/api/user')
         .then((res) => {

@@ -232,13 +232,14 @@ class ClubController extends AbstractController
                 $content['address'] !== $club->getAddress() ? $club->setAddress(ucfirst(strtolower($content['address']))) : null;
                 $content['zipcode'] !== $club->getZipcode() ? $club->setZipcode(ucfirst(strtolower($content['zipcode']))) : null;
                 $content['city'] !== $club->getCity() ? $club->setCity(ucwords(strtolower($content['city']))) : null;
-                //Copie de la photo du club dans le dossier uploads (avec renommage du fichier avec le nom du club sluggé) si modifié
+                //Copie de la photo du club dans le dossier uploads (Avec renommage du nouveau fichier avec le nom du club sluggé) si modifié
                 if (isset($content['logoFile'])) {
+                    //Ajout de la nouvelle photo
                     $logo = $content['logoFile'];
                     $slugLogoName = $slugger->slug($content['name']);
                     $newLogoName = strtolower($slugLogoName . '.' . $logo->guessExtension());
                     $logo->move($this->getParameter('files_directory'), $newLogoName); //file_directory paramétré dans le fichier config/services.yaml
-                    $club->setLogo($newLogoName);
+                    $club->setPicture($newLogoName);
                 }                
                 //Envoie d'un mail au manager du club pour l'informer des modifications effectuées
                 //Et envoie d'un mail aussi au contact de son partenaire pour le prévenir de cette modification

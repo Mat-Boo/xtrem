@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Button from '../../../components/Button';
 import ToggleSwitch from '../../../components/ToggleSwitch';
@@ -12,9 +12,13 @@ import { paginationParams } from '../../../_services/paginationParams';
 import Pagination from '../../../components/Pagination';
 import { helpers } from '../../../_services/helpers';
 import { updateAxiosAnswer } from '../../../redux/redux';
+import { checkToken } from '../../../_services/checkToken';
+import { useNavigate } from 'react-router-dom';
 
 export default function ManageClubs() {
 
+    const navigate = useNavigate();
+    
     const [partner, setPartner] = useState([]);
     const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0));
     const [lengthes, setLengthes] = useState({
@@ -23,20 +27,22 @@ export default function ManageClubs() {
         inactives: 0
     });
     const filter = useSelector((state) => state.filter);
-
+    
     //Pagination
     const [currentPage, setCurrentPage] = useState();
     const lastItemIndex = currentPage * paginationParams.clubsPerPage;
     const firstItemIndex = lastItemIndex - paginationParams.clubsPerPage;
-
+    
     const axiosAnswer = useSelector((state) => state.axiosAnswer);
-
     const dispatchAxiosAnswer = useDispatch();
     const stockAxiosAnswerInStore = (data) => {
         dispatchAxiosAnswer(updateAxiosAnswer(data))
     }
-
+    
     useEffect(() => {
+        if (checkToken.expired()) {
+            navigate('/');
+        }
         document.title = 'Gestion des Clubs | Xtrem';
         Axios.get('/api/partner/' + id)
         .then((res) => {
@@ -58,6 +64,8 @@ export default function ManageClubs() {
         setCurrentPage(1);
         stockAxiosAnswerInStore('');
     }, [filter, axiosAnswer])
+
+    console.log(partner.clubs)
 
     return (
         <>

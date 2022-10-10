@@ -4,34 +4,38 @@ import Axios from '../../../_services/caller_service';
 import { useDispatch } from 'react-redux'
 import { updateAlertMessage } from '../../../redux/redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import { checkToken } from '../../../_services/checkToken';
 
 export default function EditClub() {
-
+    
     const toggleSwitchRef = useRef();
     // Fonction permettant de cliquer sur le nom associé au toggle de la permission et ainsi l'activer ou le désactiver
     /* const handleClickPermissionName = () => {
-
+        
         toggleSwitchRef.current.firstChild.click();
     } */
 
     const [club, setClub] = useState([]);
     const [displayLogo, setDisplayLogo] = useState(true);
     const id = useParams().idSlugClub.substring(0, useParams().idSlugClub.indexOf('-', 0));
-
+    
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
-
+    
     const dispatchAlertMessage = useDispatch();
     const stockAlertMessageInStore = (data) => {
         dispatchAlertMessage(updateAlertMessage(data))
     }
-
+    
     const [logoFile, setLogoFile] = useState();
     const handleLogoFile = (e) => {
         setLogoFile(e.target.files[0])
     }
-
+    
     useEffect(() => {
+        if (checkToken.expired()) {
+            navigate('/');
+        }
         document.title = 'Modification Club | Xtrem';
         Axios.get('/api/club/' + id)
         .then((res) => {

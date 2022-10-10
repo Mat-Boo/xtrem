@@ -4,18 +4,22 @@ import Axios from '../../../_services/caller_service';
 import { useDispatch } from 'react-redux'
 import { updateAlertMessage } from '../../../redux/redux';
 import { useNavigate } from 'react-router-dom';
+import { checkToken } from '../../../_services/checkToken';
 
 export default function AddPermission() {
-
+    
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
-
+    
     const dispatchAlertMessage = useDispatch();
     const stockAlertMessageInStore = (data) => {
         dispatchAlertMessage(updateAlertMessage(data))
     }
-
+    
     useEffect(() => {
+        if (checkToken.expired()) {
+            navigate('/');
+        }
         document.title = 'Ajout Permission | Xtrem';
     }, [])
     

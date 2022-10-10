@@ -6,19 +6,20 @@ import { updateAlertMessage } from '../../../redux/redux';
 import { useNavigate } from 'react-router-dom';
 import ToggleSwitch from '../../../components/ToggleSwitch';
 import { userServices } from '../../../_services/user_services';
+import { checkToken } from '../../../_services/checkToken';
 
 export default function AddPartner() {
-
+    
     const toggleSwitchRef = useRef();
     // Fonction permettant de cliquer sur le nom associé au toggle de la permission et ainsi l'activer ou le désactiver
     /* const handleClickPermissionName = () => {
-
+        
         toggleSwitchRef.current.firstChild.click();
     } */
-
+    
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
-
+    
     const dispatchAlertMessage = useDispatch();
     const stockAlertMessageInStore = (data) => {
         dispatchAlertMessage(updateAlertMessage(data))
@@ -28,9 +29,13 @@ export default function AddPartner() {
     const handleLogoFile = (e) => {
         setLogoFile(e.target.files[0])
     }
-
+    
     const [permissions, setPermissions] = useState([]);
+    
     useEffect(() => {
+        if (checkToken.expired()) {
+            navigate('/');
+        }
         document.title = 'Ajout Partenaire | Xtrem';
         Axios.get('/api/permissions')
         .then((res) => {

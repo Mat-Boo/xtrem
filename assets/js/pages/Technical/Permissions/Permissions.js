@@ -7,6 +7,7 @@ import Filters from '../../../components/Filters';
 import Pagination from '../../../components/Pagination';
 import { paginationParams } from '../../../_services/paginationParams';
 import { helpers } from '../../../_services/helpers';
+import { checkToken } from '../../../_services/checkToken';
 
 export default function Permissions() {
 
@@ -20,6 +21,9 @@ export default function Permissions() {
     const firstItemIndex = lastItemIndex - paginationParams.permissionsPerPage;
 
     useEffect(() => {
+        if (checkToken.expired()) {
+            navigate('/');
+        }
         document.title = 'Permissions | Xtrem';
         Axios.get('/api/permissions')
         .then((res) => {

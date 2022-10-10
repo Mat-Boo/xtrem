@@ -6,20 +6,27 @@ import ClubCard from '../../components/ClubCard';
 import { userServices } from '../../_services/user_services';
 import { paginationParams } from '../../_services/paginationParams';
 import Pagination from '../../components/Pagination';
+import { checkToken } from '../../_services/checkToken';
+import { useNavigate } from 'react-router-dom';
 
 export default function MyClubs() {
 
+    const navigate = useNavigate();
+    
     const [user, setUser] = useState([]);
-
+    
     const [lengthes, setLengthes] = useState();
     const filter = useSelector((state) => state.filter);
-
+    
     //Pagination
     const [currentPage, setCurrentPage] = useState();
     const lastItemIndex = currentPage * paginationParams.clubsPerPage;
     const firstItemIndex = lastItemIndex - paginationParams.clubsPerPage;
-
+    
     useEffect(() => {
+        if (checkToken.expired()) {
+            navigate('/');
+        }
         document.title = 'Mes Clubs | Xtrem';
         if (userServices.isConnected()) {
             Axios.get('/api/userPartner/' + userServices.getUser().username)

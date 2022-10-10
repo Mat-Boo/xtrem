@@ -3,16 +3,23 @@ import Axios from '../../_services/caller_service';
 import { useSelector } from 'react-redux';
 import ClubCard from '../../components/ClubCard';
 import { userServices } from '../../_services/user_services';
+import { checkToken } from '../../_services/checkToken';
+import { useNavigate } from 'react-router-dom';
 
 export default function MyClub() {
 
+    const navigate = useNavigate();
+
     const alertMessage = useSelector((state) => state.alertMessage);
     const [user, setUser] = useState([]);
-
+    
     const [lengthes, setLengthes] = useState();
     const filter = useSelector((state) => state.filter);
-
+    
     useEffect(() => {
+        if (checkToken.expired()) {
+            navigate('/');
+        }
         document.title = 'Mon Club | Xtrem';
         if (userServices.isConnected()) {
             Axios.get('/api/userClub/' + userServices.getUser().username)
