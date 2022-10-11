@@ -41,7 +41,7 @@ export default function ChangeTempPwd() {
             'content-type': 'multipart/form-data',
           })
         .then(response => {
-            stockAlertMessageInStore({type: 'success', content: 'Votre nouveau mot de passe a été créé avec succès.'})
+            stockAlertMessageInStore({type: 'success', content: 'Votre nouveau mot de passe a été créé avec succès.'});
             Axios.post('/api/login', {
                 "username": userServices.getUser().username,
                 "password": password
@@ -60,8 +60,14 @@ export default function ChangeTempPwd() {
             });
         })
         .catch(error => {
-            stockAlertMessageInStore({type: 'error', content: 'La création de votre mot de passe n\'a pu aboutir, veuillez corriger les erreurs.'})
-            setErrors(error.response.data);
+            if (error.response.data.message = 'Expired JWT Token') {
+                stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'});
+                userServices.logout();
+                navigate('/');
+            } else {
+                stockAlertMessageInStore({type: 'error', content: 'La création de votre mot de passe n\'a pu aboutir, veuillez corriger les erreurs.'})
+                setErrors(error.response.data);
+            }
         });
     }
 

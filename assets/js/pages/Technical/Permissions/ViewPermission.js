@@ -10,8 +10,15 @@ export default function ViewPermission() {
     
     useEffect(() => {
         Axios.get('/api/permission/' + id)
-        .then((res) => {
-            setPermission(res.data);
+        .then((response) => {
+            setPermission(response.data);
+        })
+        .error((error) => {
+            if (error.response.data.message = 'Expired JWT Token') {
+                stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'});
+                userServices.logout();
+                navigate('/');
+            }
         })
         document.title = 'Permission | Xtrem';
     }, [])

@@ -24,10 +24,6 @@ export default function PrivateChangeTempPwdRoutes() {
     }, [])
 
     return (
-        !hasChangedTempPwd ? <Outlet/> : <Navigate to='/accueil'/>
+        auth && !hasChangedTempPwd ? <Outlet/> : <Navigate to='/accueil'/>
     )
 }
-
-
-
-//REGENEER TOKEN APRES CREATE PASSWORD car l'actuel contient encore le hasChangedTempPwd a false !!!

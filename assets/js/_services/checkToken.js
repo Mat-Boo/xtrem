@@ -1,11 +1,13 @@
 import { userServices } from './user_services';
 
 const expired = () => {
-    if (Date.now() > userServices.getUser().exp * 1000) {
-        userServices.logout();
-        return true;
-    } else {
-        return false;
+    if (userServices.isConnected()) {
+        if (Date.now() > userServices.getUser().exp * 1000) {
+            userServices.logout();
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 
