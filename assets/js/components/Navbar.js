@@ -23,8 +23,10 @@ export default function Navbar() {
     const [user, setUser] = useState();
 
     useEffect(() => {
-        if (userServices.isConnected()) {
+        if (userServices.isConnected() & !checkToken.expired()) {
             setUser(userServices.getUser());
+        } else {
+            setUser(null);
         }
     }, [userServices.isConnected(), userServices.hasChangedTempPwd()])
 
