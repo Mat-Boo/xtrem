@@ -148,7 +148,7 @@ class PartnerController extends AbstractController
             ]);
 
             //Envoie d'un mail au contact du partenaire nouvellement créé pour lui transmettre ses identifiants de connexion avec notamment son mot de passe temporaire
-    //        (new Mail())->createPartner($user->getFirstname(), $user->getEmail(), $content['password']);
+            (new Mail())->createPartner($user->getFirstname(), $user->getEmail(), $content['password']);
             
         } else {
             //Création de la réponse pour renvoyer le json contenant les erreurs liées au remplissage du formulaire de création d'un partenaire
@@ -190,16 +190,16 @@ class PartnerController extends AbstractController
             //Mise à jour du statut du contact du partenaire pour l'autoriser ou l'empêcher de se connecter
             $partner->getContact()->setIsActive($content['isActive']);
             //Envoie d'un mail au contact du partenaire pour lui indiquer que son compte est activé ou désactivé
-    //        (new Mail())->togglePartner($content['isActive'], $partner->getName(), $partner->getContact()->getFirstname(), $partner->getContact()->getEmail());
+            (new Mail())->togglePartner($content['isActive'], $partner->getName(), $partner->getContact()->getFirstname(), $partner->getContact()->getEmail());
             //Mise à jour du statut des clubs si désactivation du partenaire et envoi de mail
             if ($content['isActive'] === "0") {
                 //Envoie d'un mail au manager des clubs pour l'informer de la désactivation des club
                 //Et envoie d'un mail aussi au contact de leur partenaire pour le prévenir de ces désactivation
-    //            (new Mail())->toggleClubs(
-    //                $partner->getClubs(), 
-    //                $partner->getName(),
-    //                $partner->getcontact()->getFirstname(),
-    //                $partner->getcontact()->getEmail());
+                (new Mail())->toggleClubs(
+                    $partner->getClubs(), 
+                    $partner->getName(),
+                    $partner->getcontact()->getFirstname(),
+                    $partner->getcontact()->getEmail());
 
                 forEach($partner->getClubs() as $club) {
                     $club->setIsActive(0);
@@ -284,14 +284,18 @@ class PartnerController extends AbstractController
 
         $logo = $partner->getLogo();
         
-        //Suppression de la photo du club
+        //Suppression du logo du partenaire
         $logoPath = '../public/uploads/' . $logo;
         if (file_exists($logoPath)) {
             unlink($logoPath);
         }
 
-        //Mise à jour de la base de donnée en supprimant le partenaire
+        //Recherche du contact du partenaire concerné par la suppression en fonction de l'id
+        $user = $this->entityManager->getRepository(User::class)->findOneById($partner->getContact()->getId());
+
+        //Mise à jour de la base de donnée en supprimant le partenaire et son contact
         $this->entityManager->remove($partner);
+        $this->entityManager->remove($user);
 
         $this->entityManager->flush();
 

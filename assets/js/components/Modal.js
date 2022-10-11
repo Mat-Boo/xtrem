@@ -3,6 +3,7 @@ import Button from './Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAnswerModalForChangeState, updateAnswerModalForDelete, updateModal, updateTypeButton} from '../redux/redux';
 import { helpers } from '../_services/helpers';
+import { checkToken } from '../_services/checkToken';
 
 export default function Modal() {
 

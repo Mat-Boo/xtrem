@@ -87,7 +87,9 @@ class PermissionController extends AbstractController
                 $partnerPermission->setIsActive(false);
                 $this->entityManager->persist(($partnerPermission));
                 //Envoie d'un mail aux partenaires pour les prévenir de la création de la nouvelle pemission
-                (new Mail())->createPermission($partner->getContact()->getFirstname(), $partner->getContact()->getEmail(), $partner->getName(), $permission->getName(), $permission->getDescription());
+                if ($partner->isIsactive()) {
+                    (new Mail())->createPermission($partner->getContact()->getFirstname(), $partner->getContact()->getEmail(), $partner->getName(), $permission->getName(), $permission->getDescription());
+                }
             }
 
             $this->entityManager->flush();

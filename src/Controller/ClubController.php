@@ -300,8 +300,12 @@ class ClubController extends AbstractController
             unlink($picturePath);
         }
 
-        //Mise à jour de la base de donnée en supprimant le club
+        //Recherche du manager du club concerné par la suppression en fonction de l'id
+        $user = $this->entityManager->getRepository(User::class)->findOneById($club->getManager()->getId());
+
+        //Mise à jour de la base de donnée en supprimant le club et son manager
         $this->entityManager->remove($club);
+        $this->entityManager->remove($user);
 
         $this->entityManager->flush();
 

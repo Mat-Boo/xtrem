@@ -6,9 +6,9 @@ use Mailjet\Client;
 
 class Mail {
 
-    public function send($to_email, $to_name, $subject, $content)
+    public function send($withBtn, $to_email, $to_name, $subject, $content)
     {
-        /* $mj = new Client($_ENV['MJ_APIKEY_PUBLIC'], $_ENV['MJ_APIKEY_PRIVATE'],true,['version' => 'v3.1']);
+        $mj = new Client($_ENV['MJ_APIKEY_PUBLIC'], $_ENV['MJ_APIKEY_PRIVATE'],true,['version' => 'v3.1']);
         $body = [
             'Messages' => [
                 [
@@ -22,7 +22,7 @@ class Mail {
                             'Name' => $to_name
                         ]
                     ],
-                    'TemplateID' => 4129346,
+                    'TemplateID' => $withBtn ? 4129346 : 4267792,
                     'TemplateLanguage' => true,
                     'Subject' => $subject,
                     'Variables' => [
@@ -32,7 +32,7 @@ class Mail {
             ]
         ];
         $response = $mj->post(Resources::$Email, ['body' => $body]);
-        $response->success(); */
+        $response->success();
     }
 
     //Mails concernant les contacts de partenaire
@@ -47,7 +47,7 @@ class Mail {
         $contentMail .= "Vous retrouverez l'ensemble des informations du partenaire et les permissions mises en place et donc activable ou désactivable sur demande pour vos clubs.<br/><br/>";
         $contentMail .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
         $contentMail .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-        $this->send($email, $firstname, 'Xtrem | Accès Interface', $contentMail);
+        $this->send(true, $email, $firstname, 'Xtrem | Accès Interface', $contentMail);
     }
 
     public function editPartner($partnerName, $description, $firstname, $lastname, $phone, $email)
@@ -68,7 +68,7 @@ class Mail {
         $contentMail .= "</ul><br/>";
         $contentMail .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
         $contentMail .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-        $this->send($email, $firstname, 'Xtrem | Modification d\'informations', $contentMail);
+        $this->send(true, $email, $firstname, 'Xtrem | Modification d\'informations', $contentMail);
     }
 
     public function togglePartner($PartnerState, $partnerName, $firstname, $email)
@@ -79,7 +79,7 @@ class Mail {
             $contentMail .= "Votre accès à notre interface a donc été désactivé aussi.<br/><br/>";
             $contentMail .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
             $contentMail .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-            $this->send($email, $firstname, 'Xtrem | Accès désactivé', $contentMail);
+            $this->send(false, $email, $firstname, 'Xtrem | Accès désactivé', $contentMail);
         } else if ($PartnerState === "1") {
             $contentMail = "Bonjour {$firstname},<br/><br/>";
             $contentMail .= "Le partenaire <b>{$partnerName}</b> a été activé.<br/>";
@@ -87,7 +87,7 @@ class Mail {
             $contentMail .= "Vos clubs restent désactivés, veuillez nous contactez pour leur activation.<br/><br/>";
             $contentMail .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
             $contentMail .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-            $this->send($email, $firstname, 'Xtrem | Accès activé', $contentMail);
+            $this->send(true, $email, $firstname, 'Xtrem | Accès activé', $contentMail);
         }
     }
 
@@ -98,7 +98,7 @@ class Mail {
         $contentMail .= "Votre accès à notre interface a donc été clôturé.<br/><br/>";
         $contentMail .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
         $contentMail .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-        $this->send($email, $firstname, 'Xtrem | Accès clôturé', $contentMail);
+        $this->send(false, $email, $firstname, 'Xtrem | Accès clôturé', $contentMail);
     }
 
     public function resetPasswordPartner($firstname, $email, $password)
@@ -111,7 +111,7 @@ class Mail {
         $contentMail .= "Ce mot de passe est temporaire, vous devrez le modifier dès votre 1ère connexion.<br/><br/>";
         $contentMail .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
         $contentMail .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-        $this->send($email, $firstname, 'Xtrem | Réinitialisation de mot de passe', $contentMail);
+        $this->send(true, $email, $firstname, 'Xtrem | Réinitialisation de mot de passe', $contentMail);
     }
 
     public function togglePartnerPermission($permissionState, $permissionName, $partnerName, $firstname, $email)
@@ -122,7 +122,7 @@ class Mail {
             $contentMail .= "L'ensemble de vos clubs n'auront donc plus accès à cette permission.<br/><br/>";
             $contentMail .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
             $contentMail .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-            $this->send($email, $firstname, 'Xtrem | Permission désactivée', $contentMail);
+            $this->send(true, $email, $firstname, 'Xtrem | Permission désactivée', $contentMail);
         } else if ($permissionState === "1") {
             $contentMail = "Bonjour {$firstname},<br/><br/>";
             $contentMail .= "La permission <b>{$permissionName}</b> a été activée pour le partenaire <b>{$partnerName}</b>.<br/>";
@@ -130,7 +130,7 @@ class Mail {
             $contentMail .= "Veuillez nous contactez pour l'activation sur l'un de vos clubs.<br/><br/>";
             $contentMail .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
             $contentMail .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-            $this->send($email, $firstname, 'Xtrem | Permission activée', $contentMail);
+            $this->send(true, $email, $firstname, 'Xtrem | Permission activée', $contentMail);
         }
     }
 
@@ -146,7 +146,7 @@ class Mail {
         $contentMailClub .= "Vous retrouverez l'ensemble des informations du club et les permissions mises en place et donc activable ou désactivable sur demande de votre partenaire.<br/><br/>";
         $contentMailClub .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
         $contentMailClub .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-        $this->send($emailManagerClub, $firstnameManagerClub, 'Xtrem | Accès Interface', $contentMailClub);
+        $this->send(true, $emailManagerClub, $firstnameManagerClub, 'Xtrem | Accès Interface', $contentMailClub);
 
         $contentMailPartner = "Bonjour {$firstnameContactPartner},<br/><br/>";
         $contentMailPartner .= "Nous vous informons que votre club <b>{$clubName}</b> a été créé sur notre interface.<br/>";
@@ -154,7 +154,7 @@ class Mail {
         $contentMailPartner .= "Un mail a été envoyé au manager, <b>{$firstnameManagerClub} {$lastnameManagerClub}</b> pour l'en informer et lui donner ses identifiants de connexion.<br/><br/>";
         $contentMailPartner .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
         $contentMailPartner .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-        $this->send($emailContactPartner, $firstnameContactPartner, 'Xtrem | Création Club', $contentMailPartner);
+        $this->send(true, $emailContactPartner, $firstnameContactPartner, 'Xtrem | Création Club', $contentMailPartner);
     }
 
     public function editClub($firstnameManagerClub, $lastnameManagerClub, $phoneManagerClub, $emailManagerClub, $clubName, $clubAddress, $clubZipcode, $clubCity, $firstnameContactPartner, $emailContactPartner)
@@ -177,7 +177,7 @@ class Mail {
         $contentMailClub .= "</ul><br/>";
         $contentMailClub .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
         $contentMailClub .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-        $this->send($emailManagerClub, $firstnameManagerClub, 'Xtrem | Modification Informations', $contentMailClub);
+        $this->send(true, $emailManagerClub, $firstnameManagerClub, 'Xtrem | Modification Informations', $contentMailClub);
 
         $contentMailPartner = "Bonjour {$firstnameContactPartner},<br/><br/>";
         $contentMailPartner .= "Nous vous informons que les informations de votre club <b>{$clubName}</b> ont été mises à jour.<br/>";
@@ -198,7 +198,7 @@ class Mail {
         $contentMailPartner .= "Un mail a été envoyé au manager, <b>{$firstnameManagerClub} {$lastnameManagerClub}</b> pour l'en informer.<br/><br/>";
         $contentMailPartner .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
         $contentMailPartner .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-        $this->send($emailContactPartner, $firstnameContactPartner, 'Xtrem | Modification Informations Club', $contentMailPartner);
+        $this->send(true, $emailContactPartner, $firstnameContactPartner, 'Xtrem | Modification Informations Club', $contentMailPartner);
     }
 
     public function toggleClub($clubState, $clubName, $firstnameManagerClub, $lastnameManagerClub, $emailManagerClub, $firstnameContactPartner, $emailContactPartner)
@@ -209,7 +209,7 @@ class Mail {
             $contentMailClub .= "Votre accès à notre interface a donc été désactivé aussi.<br/><br/>";
             $contentMailClub .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
             $contentMailClub .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-            $this->send($emailManagerClub, $firstnameManagerClub, 'Xtrem | Accès désactivé', $contentMailClub);
+            $this->send(false, $emailManagerClub, $firstnameManagerClub, 'Xtrem | Accès désactivé', $contentMailClub);
 
             $contentMailPartner = "Bonjour {$firstnameContactPartner},<br/><br/>";
             $contentMailPartner .= "Nous vous informons que votre club <b>{$clubName}</b> a été désactivé.<br/>";
@@ -217,14 +217,14 @@ class Mail {
             $contentMailPartner .= "Un mail lui a été envoyé pour l'en informer.<br/><br/>";
             $contentMailPartner .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
             $contentMailPartner .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-            $this->send($emailContactPartner, $firstnameContactPartner, 'Xtrem | Accès Club désactivé', $contentMailPartner);
+            $this->send(true, $emailContactPartner, $firstnameContactPartner, 'Xtrem | Accès Club désactivé', $contentMailPartner);
         } else if ($clubState === "1") {
             $contentMailClub = "Bonjour {$firstnameManagerClub},<br/><br/>";
             $contentMailClub .= "Le club <b>{$clubName}</b> a été activé.<br/>";
             $contentMailClub .= "Votre accès à notre interface a donc été activé aussi, vous pouvez donc vous connecter avec vos identifiants habituels.<br/><br/>";
             $contentMailClub .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
             $contentMailClub .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-            $this->send($emailManagerClub, $firstnameManagerClub, 'Xtrem | Accès activé', $contentMailClub);
+            $this->send(true, $emailManagerClub, $firstnameManagerClub, 'Xtrem | Accès activé', $contentMailClub);
 
             $contentMailPartner = "Bonjour {$firstnameContactPartner},<br/><br/>";
             $contentMailPartner .= "Nous vous informons que votre club <b>{$clubName}</b> a été activé.<br/>";
@@ -232,7 +232,7 @@ class Mail {
             $contentMailPartner .= "Un mail lui a été envoyé pour l'en informer.<br/><br/>";
             $contentMailPartner .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
             $contentMailPartner .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-            $this->send($emailContactPartner, $firstnameContactPartner, 'Xtrem | Accès Club activé', $contentMailPartner);
+            $this->send(true, $emailContactPartner, $firstnameContactPartner, 'Xtrem | Accès Club activé', $contentMailPartner);
         }
     }
 
@@ -243,14 +243,14 @@ class Mail {
         $contentMailClub .= "Votre accès à notre interface a donc été clôturé.<br/><br/>";
         $contentMailClub .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
         $contentMailClub .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-        $this->send($emailManagerClub, $firstnameManagerClub, 'Xtrem | Accès clôturé', $contentMailClub);
+        $this->send(false, $emailManagerClub, $firstnameManagerClub, 'Xtrem | Accès clôturé', $contentMailClub);
 
         $contentMailPartner = "Bonjour {$firstnameContactPartner},<br/><br/>";
         $contentMailPartner .= "Nous vous informons que votre club <b>{$clubName}</b> a été supprimé de notre base de données.<br/>";
         $contentMailPartner .= "Un mail a été envoyé au manager, <b>{$firstnameManagerClub} {$lastnameManagerClub}</b> pour l'en informer.<br/><br/>";
         $contentMailPartner .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
         $contentMailPartner .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-        $this->send($emailContactPartner, $firstnameContactPartner, 'Xtrem | Accès Club clôturé', $contentMailPartner);
+        $this->send(true, $emailContactPartner, $firstnameContactPartner, 'Xtrem | Accès Club clôturé', $contentMailPartner);
     }
 
     public function resetPasswordClub($firstnameManagerClub, $lastnameManagerClub, $emailManagerClub, $passwordManagerClub, $clubName, $firstnameContactPartner, $emailContactPartner)
@@ -263,14 +263,14 @@ class Mail {
         $contentMailClub .= "Ce mot de passe est temporaire, vous devrez le modifier dès votre 1ère connexion.<br/><br/>";
         $contentMailClub .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
         $contentMailClub .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-        $this->send($emailManagerClub, $firstnameManagerClub, 'Xtrem | Réinitialisation de mot de passe', $contentMailClub);
+        $this->send(true, $emailManagerClub, $firstnameManagerClub, 'Xtrem | Réinitialisation de mot de passe', $contentMailClub);
 
         $contentMailPartner = "Bonjour {$firstnameContactPartner},<br/><br/>";
         $contentMailPartner .= "Nous vous informons que le mot de passe de <b>{$firstnameManagerClub} {$lastnameManagerClub}</b>, manager du club <b>{$clubName}</b> a été réinitialisé.<br/>";
         $contentMailPartner .= "Un mail lui a été envoyé pour l'en informer.<br/><br/>";
         $contentMailPartner .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
         $contentMailPartner .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-        $this->send($emailContactPartner, $firstnameContactPartner, 'Xtrem | Réinitialisation de mot de passe', $contentMailPartner);
+        $this->send(true, $emailContactPartner, $firstnameContactPartner, 'Xtrem | Réinitialisation de mot de passe', $contentMailPartner);
     }
 
     public function toggleClubPermission($permissionState, $permissionName, $clubName, $firstnameManagerClub, $lastnameManagerClub, $emailManagerClub, $firstnameContactPartner, $emailContactPartner)
@@ -280,33 +280,34 @@ class Mail {
             $contentMail .= "La permission <b>{$permissionName}</b> a été désactivée pour votre club <b>{$clubName}</b>.<br/><br/>";
             $contentMail .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
             $contentMail .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-            $this->send($emailManagerClub, $firstnameManagerClub, 'Xtrem | Permission désactivée', $contentMail);
+            $this->send(true, $emailManagerClub, $firstnameManagerClub, 'Xtrem | Permission désactivée', $contentMail);
 
             $contentMailPartner = "Bonjour {$firstnameContactPartner},<br/><br/>";
             $contentMailPartner .= "Nous vous informons que la permission <b>{$permissionName}</b> a été désactivée pour votre club <b>{$clubName}</b>.<br/>";
             $contentMailPartner .= "Un mail a été envoyé au manager de ce club, <b>{$firstnameManagerClub} {$lastnameManagerClub}</b>, pour l'en informer.<br/><br/>";
             $contentMailPartner .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
             $contentMailPartner .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-            $this->send($emailContactPartner, $firstnameContactPartner, 'Xtrem | Permission club désactivée', $contentMailPartner);
+            $this->send(true, $emailContactPartner, $firstnameContactPartner, 'Xtrem | Permission club désactivée', $contentMailPartner);
         } else if ($permissionState === "1") {
             $contentMail = "Bonjour {$firstnameManagerClub},<br/><br/>";
             $contentMail .= "La permission <b>{$permissionName}</b> a été activée pour votre club <b>{$clubName}</b>.<br/><br/>";
             $contentMail .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
             $contentMail .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-            $this->send($emailManagerClub, $firstnameManagerClub, 'Xtrem | Permission activée', $contentMail);
+            $this->send(true, $emailManagerClub, $firstnameManagerClub, 'Xtrem | Permission activée', $contentMail);
 
             $contentMailPartner = "Bonjour {$firstnameContactPartner},<br/><br/>";
             $contentMailPartner .= "Nous vous informons que la permission <b>{$permissionName}</b> a été activée pour votre club <b>{$clubName}</b>.<br/>";
             $contentMailPartner .= "Un mail a été envoyé au manager de ce club, <b>{$firstnameManagerClub} {$lastnameManagerClub}</b>, pour l'en informer.<br/><br/>";
             $contentMailPartner .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
             $contentMailPartner .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-            $this->send($emailContactPartner, $firstnameContactPartner, 'Xtrem | Permission club activée', $contentMailPartner);
+            $this->send(true, $emailContactPartner, $firstnameContactPartner, 'Xtrem | Permission club activée', $contentMailPartner);
         }
     }
 
     //Mails envoyés aux clubs et partenaires suite action sur partenaire et impactant les clubs
     public function toggleClubs($clubs, $partnerName, $firstnameContactPartner, $emailContactPartner)
     {
+        $countClubs = 0;
         $contentMailPartner = "Bonjour {$firstnameContactPartner},<br/><br/>";
         $contentMailPartner .= "Nous vous informons que suite à la désactivation du partenaire <b>{$partnerName}</b>, les clubs suivants ont été désactivés : <br/>";
         $contentMailPartner .= "<ul>";
@@ -318,9 +319,10 @@ class Mail {
                 $contentMailClub .= "Votre accès à notre interface a donc été désactivé aussi.<br/><br/>";
                 $contentMailClub .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
                 $contentMailClub .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-                $this->send($club->getManager()->getEmail(), $club->getManager()->getFirstname(), 'Xtrem | Accès désactivé', $contentMailClub);
+                $this->send(false, $club->getManager()->getEmail(), $club->getManager()->getFirstname(), 'Xtrem | Accès désactivé', $contentMailClub);
     
                 $contentMailPartner .= "<li><b>{$club->getName()}</b></li>";
+                $countClubs++;
             }
         }
         
@@ -329,7 +331,9 @@ class Mail {
         $contentMailPartner .= "Un mail leur a été envoyé pour les informer.<br/><br/>";
         $contentMailPartner .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
         $contentMailPartner .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-        $this->send($emailContactPartner, $firstnameContactPartner, 'Xtrem | Accès Clubs désactivés', $contentMailPartner);
+        if ($countClubs > 0) {
+            $this->send(false, $emailContactPartner, $firstnameContactPartner, 'Xtrem | Accès Clubs désactivés', $contentMailPartner);
+        }
     }
 
     //Mail envoyé aux partenaires quand création et suppression d'une permission et clubs concernés quand suppression
@@ -341,26 +345,30 @@ class Mail {
         $contentMail .= "Veuillez nous contacter, si vous souhaitez l'activer sur le partenaire <b>{$partnerName}</b> et l'un de ses clubs.<br/><br/>";
         $contentMail .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
         $contentMail .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-        $this->send($email, $firstname, 'Xtrem | Création Permission', $contentMail);
+        $this->send(true, $email, $firstname, 'Xtrem | Création Permission', $contentMail);
     }
 
     public function deletePermission($partners, $clubs, $permissionName)
     {
         foreach($partners as $partner) {
-            $contentMailPartner = "Bonjour {$partner->getContact()->getFirstname()},<br/><br/>";
-            $contentMailPartner .= "Nous venons de supprimer la permission <b>{$permissionName}</b>.<br/>";
-            $contentMailPartner .= "Celle-ci ne sera donc plus disponible pour le partenaire <b>{$partner->getName()}</b> et ses clubs.<br/><br/>";
-            $contentMailPartner .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
-            $contentMailPartner .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-            $this->send($partner->getContact()->getEmail(), $partner->getContact()->getFirstname(), 'Xtrem | Suppression Permission', $contentMailPartner);
+            if ($partner->isIsactive()) {
+                $contentMailPartner = "Bonjour {$partner->getContact()->getFirstname()},<br/><br/>";
+                $contentMailPartner .= "Nous venons de supprimer la permission <b>{$permissionName}</b>.<br/>";
+                $contentMailPartner .= "Celle-ci ne sera donc plus disponible pour le partenaire <b>{$partner->getName()}</b> et ses clubs.<br/><br/>";
+                $contentMailPartner .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
+                $contentMailPartner .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
+                $this->send(true, $partner->getContact()->getEmail(), $partner->getContact()->getFirstname(), 'Xtrem | Suppression Permission', $contentMailPartner);
+            }
         }
-        foreach($clubs as $club) {
-            $contentMailClub = "Bonjour {$club->getManager()->getFirstname()},<br/><br/>";
-            $contentMailClub .= "Nous venons de supprimer la permission <b>{$permissionName}</b>.<br/>";
-            $contentMailClub .= "Celle-ci ne sera donc plus disponible pour votre club <b>{$club->getName()}</b>.<br/><br/>";
-            $contentMailClub .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
-            $contentMailClub .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-            $this->send($club->getManager()->getEmail(), $club->getManager()->getFirstname(), 'Xtrem | Suppression Permission', $contentMailClub);
+        foreach($clubs as $club) { //Ne concerne que les clubs disposant de cette permission
+            if ($club->isIsactive()) {
+                $contentMailClub = "Bonjour {$club->getManager()->getFirstname()},<br/><br/>";
+                $contentMailClub .= "Nous venons de supprimer la permission <b>{$permissionName}</b>.<br/>";
+                $contentMailClub .= "Celle-ci ne sera donc plus disponible pour votre club <b>{$club->getName()}</b>.<br/><br/>";
+                $contentMailClub .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
+                $contentMailClub .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
+                $this->send(true, $club->getManager()->getEmail(), $club->getManager()->getFirstname(), 'Xtrem | Suppression Permission', $contentMailClub);
+            }
         }
     }
 }

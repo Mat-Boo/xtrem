@@ -4,7 +4,6 @@ import DOMPurify from 'dompurify';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAnswerModalForDelete, updateAlertMessage, updateModal, updateTypeButton, updateAxiosAnswer } from '../redux/redux';
 import Axios from '../_services/caller_service';
-import { useEffect } from 'react';
 
 export default function Button({ idItem, nameItem, typeItem, typeBtn, btnSvg, btnTitle, btnUrl, isActive }) {
 
