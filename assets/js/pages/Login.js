@@ -20,11 +20,11 @@ export default function Login() {
     useEffect(() => {
         document.title = 'Connexion | Xtrem';
         if(userServices.isConnected()) {
-            if(userServices.hasChangedTempPwd()) {
-                navigate('/accueil');
+            navigate('/accueil');
+/*             if(userServices.hasCreatedPwd()) {
             } else {
                 navigate('/creation-mot-de-passe');
-            }
+            } */
         }
     }, [])
 
@@ -44,15 +44,13 @@ export default function Login() {
         .then(response => {
             userServices.saveToken(response.data.token);
             stockAlertMessageInStore({type: 'info', content: 'Bienvenue <b>' + jwt(response.data.token).firstname}) + '</b>';
-            if (userServices.hasChangedTempPwd()) {
-                navigate('/accueil');
-            } else {
-                navigate('/creation-mot-de-passe')
-            }
+            navigate('/accueil');
         })
         .catch(error => {
             if (error.response.data.message === 'Invalid credentials.') {
                 stockAlertMessageInStore({type: 'error', content: 'Veuillez vérifier votre email et/ou votre mot de passe.'});
+            } else if (error.response.data.detail === 'App\\Entity\\User::getPassword(): Return value must be of type string, null returned') {
+                stockAlertMessageInStore({type: 'error', content: 'Votre compte est bien créé mais vous n\'avez pas encore créé votre mot de passe personnel.\nVeuillez vous référer au mail que vous avez reçu de la part de Xtrem.'});
             } else {
                 stockAlertMessageInStore({type: 'error', content: 'Compte inactif, vous serez informé par email lorsque vous pourrez vous connecter.'});
             }

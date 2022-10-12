@@ -10,20 +10,23 @@
     .messageNoPartner {
         margin: 30px 0;
     }
-    .partnersListAndPagination {
-        min-height: 730px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        .partnersList {
-            height: 100%;
-            width: 100%;
-            max-width: 1700px;
+    .filterAndPartners {
+        animation: fadein linear 500ms;
+        .partnersListAndPagination {
+            min-height: 730px;
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
+            .partnersList {
+                height: 100%;
+                width: 100%;
+                max-width: 1700px;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
+            }
         }
     }
 }

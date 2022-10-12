@@ -31,7 +31,7 @@ class Partner
     private ?string $description = null;
 
     #[ORM\Column]
-    #[Groups(['partners:read', 'partner:read', 'userPartner:read'])]
+    #[Groups(['partners:read', 'partner:read', 'userPartner:read', 'userClub:read'])]
     private ?bool $isActive = null;
 
     #[ORM\OneToOne(inversedBy: 'partner', cascade: ['persist', 'remove'])]

@@ -8,16 +8,19 @@ import Pagination from '../../../components/Pagination';
 import { userServices } from '../../../_services/user_services';
 import { paginationParams } from '../../../_services/paginationParams';
 import { helpers } from '../../../_services/helpers';
+import Loader from '../../../components/Loader';
 
 export default function Partners() {
 
-    const [partners, setPartners] = useState([]);
+    const [partners, setPartners] = useState();
     const [lengthes, setLengthes] = useState({
         all: 0,
         actives: 0,
         inactives: 0
     });
     const filter = useSelector((state) => state.filter);
+
+    const [loader, setLoader] = useState(true);
     
     //Pagination
     const [currentPage, setCurrentPage] = useState();
@@ -27,16 +30,17 @@ export default function Partners() {
     useEffect(() => {
         document.title = 'Partenaires | Xtrem';
         Axios.get('/api/partners')
-        .then((res) => {
-            setPartners(res.data);
-            res.data.forEach((partner) => {
+        .then((response) => {
+            setPartners(response.data);
+            response.data.forEach((partner) => {
                 if (partner.isActive) {
                     setLengthes(lengthes => ({...lengthes, actives: lengthes.actives + 1}));
                 } else {
                     setLengthes(lengthes => ({...lengthes, inactives: lengthes.inactives + 1}));
                 }
             })
-            setLengthes(lengthes => ({...lengthes, all: res.data.length}));
+            setLengthes(lengthes => ({...lengthes, all: response.data.length}));
+            setLoader(false);
         })
         setCurrentPage(1);
     }, [filter])
@@ -56,9 +60,11 @@ export default function Partners() {
                 />
             </div>
             {
-                partners.length === 0 ?
+                loader ? 
+                    <Loader /> :
+                    partners.length === 0 ?
                     <p className='messageNoPartner'>Il n'existe aucun partenaire.</p> :
-                    <>
+                    <div className='filterAndPartners'>
                         <Filters type='partner' all={lengthes.all} actives={lengthes.actives} inactives={lengthes.inactives} displayStates={true} />
                         <div className='partnersListAndPagination'>
                             {
@@ -146,7 +152,7 @@ export default function Partners() {
                                     currentPage={currentPage}/> : null
                             }
                         </div>
-                    </>
+                    </div>
             }
         </div>
     )

@@ -30,7 +30,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      */
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
@@ -57,7 +57,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?bool $isActive = null;
 
     #[ORM\Column]
-    private ?bool $hasChangedTempPwd = null;
+    private ?bool $hasCreatedPwd = null;
 
     #[ORM\Column(type: Types::GUID)]
     private ?string $uuid = null;
@@ -214,14 +214,14 @@ public function setIsActive(bool $isActive): self
     return $this;
 }
 
-public function isHasChangedTempPwd(): ?bool
+public function isHasCreatedPwd(): ?bool
 {
-    return $this->hasChangedTempPwd;
+    return $this->hasCreatedPwd;
 }
 
-public function setHasChangedTempPwd(bool $hasChangedTempPwd): self
+public function setHasCreatedPwd(bool $hasCreatedPwd): self
 {
-    $this->hasChangedTempPwd = $hasChangedTempPwd;
+    $this->hasCreatedPwd = $hasCreatedPwd;
 
     return $this;
 }

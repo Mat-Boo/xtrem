@@ -58,8 +58,6 @@ class ClubController extends AbstractController
         $content['lastname'] = $request->get('lastname');
         $content['phone'] = $request->get('phone');
         $content['email'] = $request->get('email');
-        $content['password'] = $request->get('password');
-        $content['passwordConfirm'] = $request->get('passwordConfirm');
         $content['permissions'] = $request->get('permissions');
 
         //Application de la fonction de contrôle des champs renseignés dans le formulaire de création d'un club
@@ -80,13 +78,9 @@ class ClubController extends AbstractController
             $user->setEmail($content['email']);
             $user->setIsActive(1);
             $user->setRoles(['ROLE_CLUB']);
-            $user->setHasChangedTempPwd(0);
+            $user->setHasCreatedPwd(0);
             $uuid = Uuid::uuid4();
             $user->setUuid($uuid->toString());
-    
-            //Hashage du mot de passe                
-            $password = $hasher->hashPassword($user, $content['password']);
-            $user->setPassword($password);
     
             //Copie du logo du club dans le dossier uploads (avec renommage du fichier avec le nom du club sluggé)
             $logo = $content['logoFile'];
@@ -149,7 +143,7 @@ class ClubController extends AbstractController
                 $user->getFirstname(), 
                 $user->getLastname(), 
                 $user->getEmail(), 
-                $content['password'],
+                $user->getUuid(),
                 $club->getName(),
                 $partner->getcontact()->getFirstname(),
                 $partner->getcontact()->getEmail());

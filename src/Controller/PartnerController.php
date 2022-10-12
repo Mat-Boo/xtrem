@@ -70,8 +70,8 @@ class PartnerController extends AbstractController
         $content['lastname'] = $request->get('lastname');
         $content['phone'] = $request->get('phone');
         $content['email'] = $request->get('email');
-        $content['password'] = $request->get('password');
-        $content['passwordConfirm'] = $request->get('passwordConfirm');
+        /* $content['password'] = $request->get('password');
+        $content['passwordConfirm'] = $request->get('passwordConfirm'); */
         $content['permissions'] = $request->get('permissions');
 
         //Application de la fonction de contrôle des champs renseignés dans le formulaire de création d'un partenaire
@@ -92,13 +92,9 @@ class PartnerController extends AbstractController
             $user->setEmail($content['email']);
             $user->setIsActive(1);
             $user->setRoles(['ROLE_PARTNER']);
-            $user->setHasChangedTempPwd(0);
+            $user->setHasCreatedPwd(0);
             $uuid = Uuid::uuid4();
             $user->setUuid($uuid->toString());
-    
-            //Hashage du mot de passe                
-            $password = $hasher->hashPassword($user, $content['password']);
-            $user->setPassword($password);
     
             //Copie du logo du partenaire dans le dossier uploads (avec renommage du fichier avec le nom du partenaire sluggé)
             $logo = $content['logoFile'];
@@ -148,7 +144,7 @@ class PartnerController extends AbstractController
             ]);
 
             //Envoie d'un mail au contact du partenaire nouvellement créé pour lui transmettre ses identifiants de connexion avec notamment son mot de passe temporaire
-            (new Mail())->createPartner($user->getFirstname(), $user->getEmail(), $content['password']);
+            (new Mail())->createPartner($user->getFirstname(), $user->getEmail(), $user->getUuid());
             
         } else {
             //Création de la réponse pour renvoyer le json contenant les erreurs liées au remplissage du formulaire de création d'un partenaire

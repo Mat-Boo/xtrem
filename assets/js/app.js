@@ -28,13 +28,13 @@ import PrivateRoutes from './PrivatesRoutes/PrivateRoutes';
 import PrivateTechnicalRoutes from './PrivatesRoutes/PrivateTechnicalRoutes';
 import PrivatePartnerRoutes from './PrivatesRoutes/PrivatePartnerRoutes';
 import PrivateClubRoutes from './PrivatesRoutes/PrivateClubRoutes';
-import PrivateChangeTempPwdRoutes from './PrivatesRoutes/PrivateChangeTempPwdRoutes';
+import PrivateCreatePwdRoutes from './PrivatesRoutes/PrivateCreatePwdRoutes';
 import MyClubs from './pages/Partner/MyClubs';
 import MyClub from './pages/Club/MyClub';
 import ResetPasswordPartner from './pages/Technical/Partners/ResetPassword';
 import ResetPasswordClub from './pages/Technical/Clubs/ResetPassword';
 import E404 from './pages/E404';
-import ChangeTempPwd from './pages/ChangeTempPwd';
+import CreatePwd from './pages/CreatePwd';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <>
@@ -45,8 +45,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 <AlertMessage />
                 <Routes>
                     <Route path="/" element={<Login />} />
-                    <Route element={<PrivateChangeTempPwdRoutes />}>
-                        <Route path="/creation-mot-de-passe" element={<ChangeTempPwd />} />
+                    <Route element={<PrivateCreatePwdRoutes />}>
+                        <Route path="/:uuid/creer-mot-de-passe" element={<CreatePwd />} />
                     </Route>
                     <Route element={<PrivateRoutes />}>
                         <Route path="/accueil" element={<Home />} />

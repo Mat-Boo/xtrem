@@ -23,7 +23,7 @@ class JWTCreatedListener
             $event->getData(),
             [
                 'firstname' => $user->getFirstname(),
-                'hasChangedTempPwd' => $user->isHasChangedTempPwd()
+                'hasCreatedPwd' => $user->isHasCreatedPwd()
             ]
         );
 

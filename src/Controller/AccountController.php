@@ -126,8 +126,8 @@ class AccountController extends AbstractController
        return $response;
     }
 
-    #[Route(path: '/api/user/create-password', name: 'api_user_create_password', methods: ['POST'])]
-    public function createPassword(Request $request, SerializerInterface $serializer, UserPasswordHasherInterface $hasher): Response
+    #[Route(path: '/api/user/creer-mot-de-passe/{uuid}', name: 'api_user_create_password', methods: ['POST'])]
+    public function createPassword(Request $request, SerializerInterface $serializer, UserPasswordHasherInterface $hasher, $uuid): Response
     {
         //Récupération des données issues du formulaire de modification de mot de passe
         $content = [];
@@ -139,13 +139,13 @@ class AccountController extends AbstractController
         $errors = $errorsValidation->formItemControl();
 
         //Recherche de l'utilisateur connecté
-        $user = $this->getUser();
+        $user = $this->entityManager->getRepository(User::class)->findOneByUuid($uuid);
     
         if (empty($errors)) {
             //Mise à jour du mot de passe de l'utilisateur après hashage
             $password = $hasher->hashPassword($user, $content['password']);
             $user->setPassword($password);
-            $user->setHasChangedTempPwd(1);
+            $user->setHasCreatedPwd(1);
             $this->entityManager->flush();
 
             //Création de la réponse pour renvoyer le json contenant les infos de l'utilisateur dont le mot de passe a été modifié

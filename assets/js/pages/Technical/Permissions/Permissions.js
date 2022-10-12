@@ -7,12 +7,15 @@ import Filters from '../../../components/Filters';
 import Pagination from '../../../components/Pagination';
 import { paginationParams } from '../../../_services/paginationParams';
 import { helpers } from '../../../_services/helpers';
+import Loader from '../../../components/Loader';
 
 export default function Permissions() {
 
     const alertMessage = useSelector((state) => state.alertMessage);
     const [permissions, setPermissions] = useState([]);
     const filter = useSelector((state) => state.filter);
+
+    const [loader, setLoader] = useState(true);
 
     //Pagination
     const [currentPage, setCurrentPage] = useState();
@@ -21,8 +24,9 @@ export default function Permissions() {
 
     useEffect(() => {
         Axios.get('/api/permissions')
-        .then((res) => {
-            setPermissions(res.data);
+        .then((response) => {
+            setPermissions(response.data);
+            setLoader(false);
         })
         setCurrentPage(1);
         document.title = 'Permissions | Xtrem';
@@ -44,9 +48,11 @@ export default function Permissions() {
                 />
             </div>
             {
-                permissions.length === 0 ?
-                <p className='messageNoPermission'>Il n'existe aucune permission.</p> :
-                    <>
+                loader ? 
+                    <Loader /> :
+                    permissions.length === 0 ?
+                    <p className='messageNoPermission'>Il n'existe aucune permission.</p> :
+                    <div className='filterAndPermissions'>
                         <Filters displayStates={false} />
                         <div className='permissionsListAndPagination'>
                             {
@@ -98,7 +104,7 @@ export default function Permissions() {
                                     currentPage={currentPage}/> : null
                             }
                         </div>
-                    </>
+                    </div>
             }  
         </div>
     )

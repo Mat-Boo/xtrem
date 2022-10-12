@@ -112,8 +112,6 @@ export default function Button({ idItem, nameItem, typeItem, typeBtn, btnSvg, bt
         stockAnswerModalForDeleteInStore('');
     }   
 
-
-
     return (
         <div className='button' id={typeBtn} onClick={onClick} style={{opacity: !isActive  ? 0.5 : ''}}>
             <NavLink to={btnUrl && isActive ? btnUrl : '#'} className={isActive === true ? '' : 'desactivedLink'}>

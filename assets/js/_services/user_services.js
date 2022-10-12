@@ -16,9 +16,9 @@ const getUser = () => {
     return jwt(localStorage.getItem('token'));
 }
 
-const hasChangedTempPwd = () => {
+const hasCreatedPwd = () => {
     if (!!localStorage.getItem('token')) {
-        return getUser().hasChangedTempPwd;
+        return getUser().hasCreatedPwd;
     } else {
         return false;
     }
@@ -29,5 +29,5 @@ const logout = () => {
 }
 
 export const userServices = {
-    saveToken, isConnected, getToken, getUser, hasChangedTempPwd, logout
+    saveToken, isConnected, getToken, getUser, hasCreatedPwd, logout
 };

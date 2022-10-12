@@ -1,32 +1,32 @@
 import React, { useState, useEffect }  from 'react';
+import { useParams } from 'react-router-dom';
 import Button from '../../../components/Button';
 import Axios from '../../../_services/caller_service';
+import Loader from '../../../components/Loader';
 
 export default function ViewPermission() {
 
     const [permission, setPermission] = useState([]);
 
     const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0));
+
+    const [loader, setLoader] = useState(true);
     
     useEffect(() => {
         Axios.get('/api/permission/' + id)
         .then((response) => {
             setPermission(response.data);
         })
-        .error((error) => {
-            if (error.response.data.message = 'Expired JWT Token') {
-                stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'});
-                userServices.logout();
-                navigate('/');
-            }
-        })
         document.title = 'Permission | Xtrem';
+        setLoader(false);
     }, [])
 
 
     return (
         <>
             {
+                loader ? 
+                    <Loader /> :
                 permission.name &&
                     <div className='viewPermission'>
                         <div className='header'>

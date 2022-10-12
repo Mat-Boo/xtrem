@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Axios from '../_services/caller_service';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateAlertMessage } from '../redux/redux';
 import { userServices } from '../_services/user_services';
-import jwt from 'jwt-decode';
-import { checkToken } from '../_services/checkToken';
 
-export default function ChangeTempPwd() {
+export default function CreatePwd() {
 
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
@@ -17,8 +15,11 @@ export default function ChangeTempPwd() {
         dispatchAlertMessage(updateAlertMessage(data))
     }
 
+    const uuid = useParams().uuid;
+    console.log(uuid)
+
     useEffect(() => {
-        if (userServices.hasChangedTempPwd()) {
+        if (userServices.hasCreatedPwd()) {
             navigate('/accueil');
         }
         document.title = 'Changement de mot de passe | Xtrem';
@@ -37,37 +38,16 @@ export default function ChangeTempPwd() {
                 password = item.value;
             }
         }
-        Axios.post('/api/user/create-password', formData, {
+        Axios.post('/api/user/creer-mot-de-passe/' + uuid, formData, {
             'content-type': 'multipart/form-data',
           })
         .then(response => {
-            stockAlertMessageInStore({type: 'success', content: 'Votre nouveau mot de passe a été créé avec succès.'});
-            Axios.post('/api/login', {
-                "username": userServices.getUser().username,
-                "password": password
-            })
-            .then(response => {
-                userServices.saveToken(response.data.token);
-                stockAlertMessageInStore({type: 'info', content: 'Bienvenue <b>' + jwt(response.data.token).firstname}) + '</b>';
-                navigate('/accueil');
-            })
-            .catch(error => {
-                if (error.response.data.message === 'Invalid credentials.') {
-                    stockAlertMessageInStore({type: 'error', content: 'Veuillez vérifier votre email et/ou votre mot de passe.'});
-                } else {
-                    stockAlertMessageInStore({type: 'error', content: 'Compte inactif, vous serez informé par email lorsque vous pourrez vous connecter.'});
-                }
-            });
+            stockAlertMessageInStore({type: 'success', content: 'Votre nouveau mot de passe a été créé avec succès.\nVous pouvez vous connecter'});
+            navigate('/');
         })
         .catch(error => {
-            if (error.response.data.message = 'Expired JWT Token') {
-                stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'});
-                userServices.logout();
-                navigate('/');
-            } else {
-                stockAlertMessageInStore({type: 'error', content: 'La création de votre mot de passe n\'a pu aboutir, veuillez corriger les erreurs.'})
-                setErrors(error.response.data);
-            }
+            stockAlertMessageInStore({type: 'error', content: 'La création de votre mot de passe n\'a pu aboutir, veuillez corriger les erreurs.'})
+            setErrors(error.response.data);
         });
     }
 

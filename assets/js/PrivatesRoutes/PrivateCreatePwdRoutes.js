@@ -5,25 +5,21 @@ import { useDispatch } from 'react-redux';
 import { updateAlertMessage } from '../redux/redux';
 import { userServices } from '../_services/user_services';
 
-export default function PrivateChangeTempPwdRoutes() {
+export default function PrivateCreatePwdRoutes() {
 
-    let auth = userServices.isConnected();
-    let hasChangedTempPwd = userServices.hasChangedTempPwd();
+    let hasCreatedPwd = userServices.hasCreatedPwd();
 
     const dispatchAlertMessage = useDispatch();
     const stockAlertMessageInStore = (data) => {
         dispatchAlertMessage(updateAlertMessage(data))
     }
     useEffect(() => {
-        if (!auth) {
-            stockAlertMessageInStore({type: 'error', content: 'Veuillez vous connecter pour accéder à cette page.'})
-        }
-        if (hasChangedTempPwd) {
+        if (hasCreatedPwd) {
             stockAlertMessageInStore({type: 'error', content: 'Vous n\'êtes pas autorisé à accéder à cette page.'})
         }
     }, [])
 
     return (
-        auth && !hasChangedTempPwd ? <Outlet/> : <Navigate to='/accueil'/>
+        !hasCreatedPwd ? <Outlet/> : <Navigate to='/accueil'/>
     )
 }

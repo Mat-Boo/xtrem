@@ -36,18 +36,17 @@ class Mail {
     }
 
     //Mails concernant les contacts de partenaire
-    public function createPartner($firstname, $email, $password)
+    public function createPartner($firstname, $email, $uuid)
     {
         $contentMail = "Bonjour {$firstname},<br/><br/>";
-        $contentMail .= "Votre accès à l'interface Xtrem est opérationnelle.<br/>";
-        $contentMail .= "Vous pouvez à présent vous connecter en cliquant sur le bouton ci-dessous avec les identifiants suivants :<br/>";
-        $contentMail .= "Email : <b>{$email}</b><br/>";
-        $contentMail .= "Mot de passe temporaire : <b>{$password}</b><br/><br/>";
-        $contentMail .= "Ce mot de passe est temporaire, vous devrez le modifier dès votre 1ère connexion.<br/>";
-        $contentMail .= "Vous retrouverez l'ensemble des informations du partenaire et les permissions mises en place et donc activable ou désactivable sur demande pour vos clubs.<br/><br/>";
+        $contentMail .= "Votre accès à l'interface Xtrem est opérationnel.<br/><br/>";
+        $contentMail .= "Vous devez, maintenant, créer votre mot de passe personnel.<br/>";
+        $contentMail .= "Pour celà, cliquez sur le lien suivant : <br/>";
+        $contentMail .= "<a href='http://127.0.0.1:8000/{$uuid}/creer-mot-de-passe'>Créer mon mot de passe</a><br/><br/>";
+        $contentMail .= "Vous retrouverez ensuite, sur votre espace, l'ensemble des informations du partenaire et les permissions mises en place et donc activable ou désactivable sur demande pour vos clubs.<br/><br/>";
         $contentMail .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
         $contentMail .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-        $this->send(true, $email, $firstname, 'Xtrem | Accès Interface', $contentMail);
+        $this->send(false, $email, $firstname, 'Xtrem | Accès Interface', $contentMail);
     }
 
     public function editPartner($partnerName, $description, $firstname, $lastname, $phone, $email)
@@ -135,18 +134,17 @@ class Mail {
     }
 
     //Mails concernant les managers de club et on prévient aussi le partenaire
-    public function createClub($firstnameManagerClub, $lastnameManagerClub, $emailManagerClub, $passwordManagerClub, $clubName, $firstnameContactPartner, $emailContactPartner)
+    public function createClub($firstnameManagerClub, $lastnameManagerClub, $emailManagerClub, $uuidClub, $clubName, $firstnameContactPartner, $emailContactPartner)
     {
         $contentMailClub = "Bonjour {$firstnameManagerClub},<br/><br/>";
-        $contentMailClub .= "Votre accès à l'interface Xtrem est opérationnelle.<br/>";
-        $contentMailClub .= "Vous pouvez à présent vous connecter en cliquant sur le bouton ci-dessous avec les identifiants suivants :<br/>";
-        $contentMailClub .= "Email : <b>{$emailManagerClub}</b><br/>";
-        $contentMailClub .= "Mot de passe temporaire : <b>{$passwordManagerClub}</b><br/><br/>";
-        $contentMailClub .= "Ce mot de passe est temporaire, vous devrez le modifier dès votre 1ère connexion.<br/>";
-        $contentMailClub .= "Vous retrouverez l'ensemble des informations du club et les permissions mises en place et donc activable ou désactivable sur demande de votre partenaire.<br/><br/>";
+        $contentMailClub .= "Votre accès à l'interface Xtrem est opérationnel.<br/><br/>";
+        $contentMailClub .= "Vous devez, maintenant, créer votre mot de passe personnel.<br/>";
+        $contentMailClub .= "Pour celà, cliquez sur le lien suivant : <br/>";
+        $contentMailClub .= "<a href='http://127.0.0.1:8000/{$uuidClub}/creer-mot-de-passe'>Créer mon mot de passe</a><br/><br/>";
+        $contentMailClub .= "Vous retrouverez ensuite, sur votre espace, l'ensemble des informations du club et les permissions mises en place et donc activable ou désactivable sur demande de votre partenaire.<br/><br/>";
         $contentMailClub .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
         $contentMailClub .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-        $this->send(true, $emailManagerClub, $firstnameManagerClub, 'Xtrem | Accès Interface', $contentMailClub);
+        $this->send(false, $emailManagerClub, $firstnameManagerClub, 'Xtrem | Accès Interface', $contentMailClub);
 
         $contentMailPartner = "Bonjour {$firstnameContactPartner},<br/><br/>";
         $contentMailPartner .= "Nous vous informons que votre club <b>{$clubName}</b> a été créé sur notre interface.<br/>";

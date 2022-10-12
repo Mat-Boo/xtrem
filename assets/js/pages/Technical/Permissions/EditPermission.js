@@ -4,6 +4,7 @@ import Axios from '../../../_services/caller_service';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateAlertMessage } from '../../../redux/redux';
+import Loader from '../../../components/Loader';
 
 export default function AddPermission() {
     
@@ -16,12 +17,15 @@ export default function AddPermission() {
         dispatchAlertMessage(updateAlertMessage(data))
     }
 
-    const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0))
+    const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0));
+
+    const [loader, setLoader] = useState(true);
     
     useEffect(() => {
             Axios.get('/api/permission/' + id)
-            .then((res) => {
-                setPermission(res.data);
+            .then((response) => {
+                setPermission(response.data);
+                setLoader(false);
             })
         document.title = 'Modification Permission | Xtrem';
     }, [])
@@ -58,6 +62,8 @@ export default function AddPermission() {
     return (
         <>
             {
+                loader ? 
+                    <Loader /> :
                 permission.name &&
                     <div className='editPermission'>
                         <div className='header'>
