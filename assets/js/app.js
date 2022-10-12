@@ -31,10 +31,9 @@ import PrivateClubRoutes from './PrivatesRoutes/PrivateClubRoutes';
 import PrivateCreatePwdRoutes from './PrivatesRoutes/PrivateCreatePwdRoutes';
 import MyClubs from './pages/Partner/MyClubs';
 import MyClub from './pages/Club/MyClub';
-import ResetPasswordPartner from './pages/Technical/Partners/ResetPassword';
-import ResetPasswordClub from './pages/Technical/Clubs/ResetPassword';
 import E404 from './pages/E404';
 import CreatePwd from './pages/CreatePwd';
+import ForgottenPassword from './pages/ForgottenPassword';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <>
@@ -45,6 +44,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 <AlertMessage />
                 <Routes>
                     <Route path="/" element={<Login />} />
+                    <Route path="/mot-de-passe-oublie" element={<ForgottenPassword />} />
                     <Route element={<PrivateCreatePwdRoutes />}>
                         <Route path="/:uuid/creer-mot-de-passe" element={<CreatePwd />} />
                     </Route>
@@ -58,11 +58,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                             <Route path="/partenaires/ajouter" element={<AddPartner />} />
                             <Route path="/partenaires/:idSlug" element={<ViewPartner />} />
                             <Route path="/partenaires/:idSlug/modifier" element={<EditPartner />} />
-                            <Route path="/partenaires/:idSlug/reinitialiser-mot-de-passe" element={<ResetPasswordPartner />} />
                             <Route path="/partenaires/:idSlug/clubs" element={<ManageClubs />} />
                             <Route path="/partenaires/:idSlug/clubs/ajouter" element={<AddClub />} />
                             <Route path="/partenaires/:idSlug/clubs/:idSlugClub/modifier" element={<EditClub />} />
-                            <Route path="/partenaires/:idSlug/clubs/:idSlugClub/reinitialiser-mot-de-passe" element={<ResetPasswordClub />} />
                             <Route path="/permissions" element={<Permissions />} />
                             <Route path="/permissions/ajouter" element={<AddPermission />} />
                             <Route path="/permissions/:idSlug" element={<ViewPermission />} />

@@ -21,10 +21,6 @@ export default function Login() {
         document.title = 'Connexion | Xtrem';
         if(userServices.isConnected()) {
             navigate('/accueil');
-/*             if(userServices.hasCreatedPwd()) {
-            } else {
-                navigate('/creation-mot-de-passe');
-            } */
         }
     }, [])
 
@@ -60,7 +56,7 @@ export default function Login() {
     return (
         <div className='login'>
             <img src={logo} alt="logo" className='logo'/>
-            <form id='loginForm' onSubmit={(e) => validForm(e)}>
+            <form  noValidate id='loginForm' onSubmit={(e) => validForm(e)}>
                 <div className='formItem'>
                     <label htmlFor="email">Email</label>
                     <input type="email" id='email' name='email' />
@@ -75,6 +71,7 @@ export default function Login() {
                     </svg>
                     <span>Valider</span>
                 </button>
+                <a href='/mot-de-passe-oublie' className='forgottenPwdLink'>Mot de passe oublié ?</a>
             </form>
         </div>
     )

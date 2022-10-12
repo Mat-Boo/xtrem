@@ -6,7 +6,6 @@
 @import './pages/Technical/Partners/AddPartner.scss';
 @import './pages/Technical/Partners/ViewPartner.scss';
 @import './pages/Technical/Partners/EditPartner.scss';
-@import './pages/Technical/Partners/ResetPassword.scss';
 @import './pages/Technical/Clubs/ManageClubs.scss';
 @import './components/Button.scss';
 @import './components/Modal.scss';
@@ -22,7 +21,6 @@
 @import './components/ClubCard.scss';
 @import './pages/Technical/Clubs/AddClub.scss';
 @import './pages/Technical/Clubs/EditClub.scss';
-@import './pages/Technical/Clubs/ResetPassword.scss';
 @import './components/Pagination.scss';
 @import './pages/MyAccount/MyAccount.scss';
 @import './pages/MyAccount/EditAccount.scss';
@@ -33,3 +31,4 @@
 @import './pages/E404.scss';
 @import './pages/CreatePwd.scss';
 @import './components/loader.scss';
+@import './pages/ForgottenPassword.scss';
