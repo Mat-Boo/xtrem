@@ -100,19 +100,6 @@ class Mail {
         $this->send(false, $email, $firstname, 'Xtrem | Accès clôturé', $contentMail);
     }
 
-    public function resetPasswordPartner($firstname, $email, $password)
-    {
-        $contentMail = "Bonjour {$firstname},<br/><br/>";
-        $contentMail .= "Votre mot de passe a été réinitialisé.<br/>";
-        $contentMail .= "Vous pouvez à présent vous connecter en cliquant sur le bouton ci-dessous avec les identifiants suivants :<br/>";
-        $contentMail .= "Email : <b>{$email}</b><br/>";
-        $contentMail .= "Mot de passe temporaire : <b>{$password}</b><br/><br/>";
-        $contentMail .= "Ce mot de passe est temporaire, vous devrez le modifier dès votre 1ère connexion.<br/><br/>";
-        $contentMail .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
-        $contentMail .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-        $this->send(true, $email, $firstname, 'Xtrem | Réinitialisation de mot de passe', $contentMail);
-    }
-
     public function togglePartnerPermission($permissionState, $permissionName, $partnerName, $firstname, $email)
     {
         if ($permissionState === "0") {
@@ -149,7 +136,7 @@ class Mail {
         $contentMailPartner = "Bonjour {$firstnameContactPartner},<br/><br/>";
         $contentMailPartner .= "Nous vous informons que votre club <b>{$clubName}</b> a été créé sur notre interface.<br/>";
         $contentMailPartner .= "Il apparaîtra dorénavant parmi vos clubs.<br/>";
-        $contentMailPartner .= "Un mail a été envoyé au manager, <b>{$firstnameManagerClub} {$lastnameManagerClub}</b> pour l'en informer et lui donner ses identifiants de connexion.<br/><br/>";
+        $contentMailPartner .= "Un mail a été envoyé au manager, <b>{$firstnameManagerClub} {$lastnameManagerClub}</b> pour l'en informer et lui transmettre la procédure de connexion.<br/><br/>";
         $contentMailPartner .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
         $contentMailPartner .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
         $this->send(true, $emailContactPartner, $firstnameContactPartner, 'Xtrem | Création Club', $contentMailPartner);
@@ -251,26 +238,6 @@ class Mail {
         $this->send(true, $emailContactPartner, $firstnameContactPartner, 'Xtrem | Accès Club clôturé', $contentMailPartner);
     }
 
-    public function resetPasswordClub($firstnameManagerClub, $lastnameManagerClub, $emailManagerClub, $passwordManagerClub, $clubName, $firstnameContactPartner, $emailContactPartner)
-    {
-        $contentMailClub = "Bonjour {$firstnameManagerClub},<br/><br/>";
-        $contentMailClub .= "Votre mot de passe a été réinitialisé.<br/>";
-        $contentMailClub .= "Vous pouvez à présent vous connecter en cliquant sur le bouton ci-dessous avec les identifiants suivants :<br/>";
-        $contentMailClub .= "Email : <b>{$emailManagerClub}</b><br/>";
-        $contentMailClub .= "Mot de passe temporaire : <b>{$passwordManagerClub}</b><br/><br/>";
-        $contentMailClub .= "Ce mot de passe est temporaire, vous devrez le modifier dès votre 1ère connexion.<br/><br/>";
-        $contentMailClub .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
-        $contentMailClub .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-        $this->send(true, $emailManagerClub, $firstnameManagerClub, 'Xtrem | Réinitialisation de mot de passe', $contentMailClub);
-
-        $contentMailPartner = "Bonjour {$firstnameContactPartner},<br/><br/>";
-        $contentMailPartner .= "Nous vous informons que le mot de passe de <b>{$firstnameManagerClub} {$lastnameManagerClub}</b>, manager du club <b>{$clubName}</b> a été réinitialisé.<br/>";
-        $contentMailPartner .= "Un mail lui a été envoyé pour l'en informer.<br/><br/>";
-        $contentMailPartner .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
-        $contentMailPartner .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-        $this->send(true, $emailContactPartner, $firstnameContactPartner, 'Xtrem | Réinitialisation de mot de passe', $contentMailPartner);
-    }
-
     public function toggleClubPermission($permissionState, $permissionName, $clubName, $firstnameManagerClub, $lastnameManagerClub, $emailManagerClub, $firstnameContactPartner, $emailContactPartner)
     {
         if ($permissionState === "0") {
@@ -368,5 +335,17 @@ class Mail {
                 $this->send(true, $club->getManager()->getEmail(), $club->getManager()->getFirstname(), 'Xtrem | Suppression Permission', $contentMailClub);
             }
         }
+    }
+
+    //Réiniialisation accès pour contact partenaire ou manager club
+    public function resetAccess($firstname, $email, $uuid)
+    {
+        $contentMail = "Bonjour {$firstname},<br/><br/>";
+        $contentMail .= "Votre accès à l'interface Xtrem a été réinitialisé.<br/>";
+        $contentMail .= "Vous pouvez recréer votre mot de passe personnel en cliquant sur le lien suivant : <br/>";
+        $contentMail .= "<a href='http://127.0.0.1:8000/{$uuid}/creer-mot-de-passe'>Créer mon mot de passe</a><br/><br/>";
+        $contentMail .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante :<br/>";
+        $contentMail .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
+        $this->send(false, $email, $firstname, 'Xtrem | Réinitialisation Accès', $contentMail);
     }
 }

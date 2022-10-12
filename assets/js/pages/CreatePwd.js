@@ -16,7 +16,6 @@ export default function CreatePwd() {
     }
 
     const uuid = useParams().uuid;
-    console.log(uuid)
 
     useEffect(() => {
         if (userServices.hasCreatedPwd()) {

@@ -2,10 +2,10 @@ import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateAnswerModalForDelete, updateAlertMessage, updateModal, updateTypeButton, updateAxiosAnswer } from '../redux/redux';
+import { updateAnswerModalForDelete, updateAlertMessage, updateModal, updateTypeButton, updateAxiosAnswer, updateAnswerModalForResetAccess } from '../redux/redux';
 import Axios from '../_services/caller_service';
 
-export default function Button({ idItem, nameItem, typeItem, typeBtn, btnSvg, btnTitle, btnUrl, isActive }) {
+export default function Button({ idItem, nameItem, typeItem, nameUser, typeBtn, btnSvg, btnTitle, btnUrl, isActive }) {
 
     const navigate = useNavigate();
 
@@ -58,12 +58,46 @@ export default function Button({ idItem, nameItem, typeItem, typeBtn, btnSvg, bt
                 break;
             }
         }
+        if (typeBtn === 'resetAccess') {
+            switch (typeItem) {
+                case 'partner':
+                    stockModalInfosInStore({
+                        idItem: idItem,
+                        nameItem: nameItem,
+                        nameUser: nameUser,
+                        typeItem: typeItem,
+                        action: typeBtn,
+                        title: 'Réinitialisation de l\'accès de <b>' + nameUser + '</b>',
+                        message: 'Voulez-vous vraiment réinitialiser l\'accès de <b>' + nameUser + '</b>, Contact du partenaire <b>' + nameItem + '</b> ?'
+                    })
+                break;
+                case 'club':
+                    if (isActive) {
+                        stockModalInfosInStore({
+                            idItem: idItem,
+                            nameItem: nameItem,
+                            nameUser: nameUser,
+                            typeItem: typeItem,
+                            action: typeBtn,
+                            title: 'Réinitialisation de l\'accès de <b>' + nameUser + '</b>',
+                        message: 'Voulez-vous vraiment réinitialiser l\'accès de <b>' + nameUser + '</b>, Manager du club <b>' + nameItem + '</b> ?'
+                        })
+                    }
+                break;
+            }
+        }
     }
 
-    const answerModal = useSelector((state) => state.answerModalForDelete);
+    const answerModalForDelete = useSelector((state) => state.answerModalForDelete);
     const dispatchAnswerModalForDelete = useDispatch();
     const stockAnswerModalForDeleteInStore = (data) => {
         dispatchAnswerModalForDelete(updateAnswerModalForDelete(data))
+    }
+
+    const answerModalForResetAccess = useSelector((state) => state.answerModalForResetAccess);
+    const dispatchAnswerModalForResetAccess = useDispatch();
+    const stockAnswerModalForResetAccessInStore = (data) => {
+        dispatchAnswerModalForResetAccess(updateAnswerModalForResetAccess(data))
     }
 
     const dispatchAlertMessage = useDispatch();
@@ -76,41 +110,52 @@ export default function Button({ idItem, nameItem, typeItem, typeBtn, btnSvg, bt
         dispatchAxiosAnswer(updateAxiosAnswer(data))
     }
     
-    if (idItem === answerModal.idItem && answerModal.typeButton === 'confirm') {
-        switch (answerModal.typeItem) {
+    if (idItem === answerModalForDelete.idItem && answerModalForDelete.typeButton === 'confirm') {
+        switch (answerModalForDelete.typeItem) {
             case 'partner':
-                Axios.post('/api/partner/' + answerModal.idItem + '/delete')
+                Axios.post('/api/partner/' + answerModalForDelete.idItem + '/delete')
                 .then(response => {
-                    stockAlertMessageInStore({type: 'success', content: 'Le partenaire <b>' + answerModal.nameItem + '</b> a bien été supprimé.'})
+                    stockAlertMessageInStore({type: 'success', content: 'Le partenaire <b>' + answerModalForDelete.nameItem + '</b> a bien été supprimé.'})
                     navigate('/partenaires');
                 })
                 .catch(error => {
-                    stockAlertMessageInStore({type: 'error', content: 'La suppression du partenaire <b>' + answerModal.nameItem + '</b> n\'a pu aboutir, merci de réessayer.'})
+                    stockAlertMessageInStore({type: 'error', content: 'La suppression du partenaire <b>' + answerModalForDelete.nameItem + '</b> n\'a pu aboutir, merci de réessayer.'})
                 });
                 break;
             case 'permission':
-                Axios.post('/api/permission/' + answerModal.idItem + '/delete')
+                Axios.post('/api/permission/' + answerModalForDelete.idItem + '/delete')
                 .then(response => {
-                    stockAlertMessageInStore({type: 'success', content: 'La permission <b>' + answerModal.nameItem + '</b> a bien été supprimée.'})
+                    stockAlertMessageInStore({type: 'success', content: 'La permission <b>' + answerModalForDelete.nameItem + '</b> a bien été supprimée.'})
                 })
                 .catch(error => {
-                    stockAlertMessageInStore({type: 'error', content: 'La suppression de la permission <b>' + answerModal.nameItem + '</b> n\'a pu aboutir, merci de réessayer.'})
+                    stockAlertMessageInStore({type: 'error', content: 'La suppression de la permission <b>' + answerModalForDelete.nameItem + '</b> n\'a pu aboutir, merci de réessayer.'})
                 });
                 break;
             case 'club':
-                Axios.post('/api/club/' + answerModal.idItem + '/delete')
+                Axios.post('/api/club/' + answerModalForDelete.idItem + '/delete')
                 .then(response => {
-                    stockAlertMessageInStore({type: 'success', content: 'Le club <b>' + answerModal.nameItem + '</b> a bien été supprimé.'})
+                    stockAlertMessageInStore({type: 'success', content: 'Le club <b>' + answerModalForDelete.nameItem + '</b> a bien été supprimé.'})
                     stockAxiosAnswerInStore('success');
                 })
                 .catch(error => {
-                    stockAlertMessageInStore({type: 'error', content: 'La suppression du club <b>' + answerModal.nameItem + '</b> n\'a pu aboutir, merci de réessayer.'})
+                    stockAlertMessageInStore({type: 'error', content: 'La suppression du club <b>' + answerModalForDelete.nameItem + '</b> n\'a pu aboutir, merci de réessayer.'})
                     stockAxiosAnswerInStore('error');
                 });
                 break;
         }
         stockAnswerModalForDeleteInStore('');
-    }   
+    }
+
+    if (idItem === answerModalForResetAccess.idItem && answerModalForResetAccess.typeButton === 'confirm') {
+                Axios.post('/api/user/' + answerModalForResetAccess.idItem + '/reset')
+                .then(response => {
+                    stockAlertMessageInStore({type: 'success', content: 'L\'accès de <b>' + response.data.firstname + ' ' + response.data.lastname + '</b> a bien été réinitialisé.'})
+                })
+                .catch(error => {
+                    stockAlertMessageInStore({type: 'error', content: 'La réinitialisation de l\'accès de  <b>' + response.data.firstname + ' ' + response.data.lastname + '</b> n\'a pu aboutir, merci de réessayer.'})
+                });
+        stockAnswerModalForResetAccessInStore('');
+    }  
 
     return (
         <div className='button' id={typeBtn} onClick={onClick} style={{opacity: !isActive  ? 0.5 : ''}}>

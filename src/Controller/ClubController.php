@@ -137,7 +137,7 @@ class ClubController extends AbstractController
                 'Content-Type' => 'application/json'
             ]);
             
-            //Envoie d'un mail au manager du club nouvellement créé pour lui transmettre ses identifiants de connexion avec notamment son mot de passe temporaire
+            ////Envoie d'un mail au manager du club pour lui transmettre le lien de création de mot de passe
             //Et envoie d'un mail aussi au contact de son partenaire pour le prévenir de cette nouvelle création
             (new Mail())->createClub(
                 $user->getFirstname(), 
@@ -321,53 +321,5 @@ class ClubController extends AbstractController
             $club->getPartner()->getcontact()->getEmail());
         
         return $response;
-    }
-
-    #[Route(path: '/api/club/{id}/reset-password', name: 'api_club_reset_password', methods: ['POST'])]
-    public function modifyPassword(Request $request, SerializerInterface $serializer, UserPasswordHasherInterface $hasher, $id): Response
-    {
-        //Récupération des données issues du formulaire de réinitialisation de mot de passe
-        $content = [];
-        $content['password'] = $request->get('password');
-        $content['passwordConfirm'] = $request->get('passwordConfirm');
-        
-        //Application de la fonction de contrôle des champs renseignés dans le formulaire de modification du mot de passe de l'utilisateur
-        $errorsValidation  = new ErrorsValidation($content);
-        $errors = $errorsValidation->formItemControl();
-
-        //Recherche du club concerné par la réinitialisation du mot de passe en fonction de l'id
-        $club = $this->entityManager->getRepository(Club::class)->findOneById($id);
-    
-        if (empty($errors)) {
-            //Mise à jour du mot de passe du manager du club après hashage
-            $password = $hasher->hashPassword($club->getManager(), $content['password']);
-            $club->getManager()->setPassword($password);
-            $this->entityManager->flush();
-
-            //Création de la réponse pour renvoyer le json contenant les infos du club dont le mot de passe du manager a été modifié
-            $json = $serializer->serialize($club, 'json', ['groups' => 'club:read']);
-            $response = new Response($json, 200, [
-                'Content-Type' => 'application/json'
-            ]);
-
-            //Envoie d'un mail au manager du club pour l'informer de la réinitialisation de son mot de passe
-            //Et envoie d'un mail aussi au contact de son partenaire pour le prévenir de cette réinitialisation
-            (new Mail())->resetPasswordClub(
-                $club->getManager()->getFirstname(), 
-                $club->getManager()->getLastname(),
-                $club->getManager()->getEmail(),
-                $content['password'],
-                $club->getName(),
-                $club->getPartner()->getcontact()->getFirstname(),
-                $club->getPartner()->getcontact()->getEmail());
-
-       } else {
-            //Création de la réponse pour renvoyer le json contenant les erreurs liées au remplissage du formulaire de modification du mot de passe de l'utilisateur
-            $errorsJson = $serializer->serialize($errors, 'json');
-            $response = new Response($errorsJson, 500, [
-                'Content-Type' => 'application/json'
-            ]);
-       }
-       return $response;
     }
 }

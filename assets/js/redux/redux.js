@@ -65,6 +65,19 @@ const answerModalForDeleteSlice = createSlice({
 })
 export const {updateAnswerModalForDelete} = answerModalForDeleteSlice.actions;
 
+// Slice to stock anwser of modal for Reset Access
+const answerModalForResetAccessSlice = createSlice({
+    name: 'answerModalForResetAccess',
+    initialState: '',
+    reducers: {
+        updateAnswerModalForResetAccess: (state, action) => {
+            state = action.payload
+            return state
+        }
+    }
+})
+export const {updateAnswerModalForResetAccess} = answerModalForResetAccessSlice.actions;
+
 // Slice to stock type of button
 const typeButtonSlice = createSlice({
     name: 'typeButton',
@@ -124,6 +137,7 @@ export const store = configureStore({
         modal: modalSlice.reducer,
         answerModalForChangeState: answerModalForChangeStateSlice.reducer,
         answerModalForDelete: answerModalForDeleteSlice.reducer,
+        answerModalForResetAccess: answerModalForResetAccessSlice.reducer,
         typeButton: typeButtonSlice.reducer,
         filter: filterSlice.reducer,
         stateItem: stateItemSlice.reducer,

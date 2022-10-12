@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Class\ErrorsValidation;
+use App\Class\Mail;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -153,10 +154,6 @@ class AccountController extends AbstractController
             $response = new Response($json, 200, [
                 'Content-Type' => 'application/json'
             ]);
-
-
-
-
        } else {
             //Création de la réponse pour renvoyer le json contenant les erreurs liées au remplissage du formulaire de modification du mot de passe de l'utilisateur
             $errorsJson = $serializer->serialize($errors, 'json');
@@ -164,6 +161,29 @@ class AccountController extends AbstractController
                 'Content-Type' => 'application/json'
             ]);
        }
+       return $response;
+    }
+
+    #[Route(path: '/api/user/{id}/reset', name: 'api_user_reset', methods: ['POST'])]
+    public function resetAccess(Request $request, SerializerInterface $serializer, UserPasswordHasherInterface $hasher, $id): Response
+    {
+        //Recherche de l'utilisateur concerné
+        $user = $this->entityManager->getRepository(User::class)->findOneByid($id);
+    
+        $user->setHasCreatedPwd(0);
+        $user->setPassword('');
+
+        $this->entityManager->flush();
+        
+        //Création de la réponse pour renvoyer le json contenant les infos de l'utilisateur dont le mot de passe a été modifié
+        $json = $serializer->serialize($user, 'json', ['groups' => 'user:read']);
+        $response = new Response($json, 200, [
+            'Content-Type' => 'application/json'
+        ]);
+
+        //Envoie d'un mail à l'utilisateur pour lui transmettre le lien de création de mot de passe
+        (new Mail())->resetAccess($user->getFirstname(), $user->getEmail(), $user->getUuid());
+
        return $response;
     }
 }

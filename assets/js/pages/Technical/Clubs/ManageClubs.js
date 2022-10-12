@@ -188,6 +188,7 @@ export default function ManageClubs() {
                                                             address={club.address}
                                                             zipcode={club.zipcode}
                                                             city={club.city}
+                                                            idManager={club.manager.id}
                                                             firstname={club.manager.firstname}
                                                             lastname={club.manager.lastname}
                                                             phone={club.manager.phone}

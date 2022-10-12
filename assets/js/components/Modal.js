@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Button from './Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateAnswerModalForChangeState, updateAnswerModalForDelete, updateModal, updateTypeButton} from '../redux/redux';
+import { updateAnswerModalForChangeState, updateAnswerModalForDelete, updateAnswerModalForResetAccess, updateModal, updateTypeButton} from '../redux/redux';
 import { helpers } from '../_services/helpers';
 import { checkToken } from '../_services/checkToken';
 
@@ -29,6 +29,11 @@ export default function Modal() {
     const dispatchAnswerModalForDelete = useDispatch();
     const stockAnswerModalForDeleteInStore = (data) => {
         dispatchAnswerModalForDelete(updateAnswerModalForDelete(data))
+    }
+
+    const dispatchAnswerModalForResetAccess = useDispatch();
+    const stockAnswerModalForResetAccessInStore = (data) => {
+        dispatchAnswerModalForDelete(updateAnswerModalForResetAccess(data))
     }
 
     useEffect(() => {
@@ -61,6 +66,16 @@ export default function Modal() {
                 stockTypeButtonInStore('');
             } else if (modalInfos.action === 'delete') {
                 stockAnswerModalForDeleteInStore(
+                    {
+                        idItem: modalInfos.idItem,
+                        nameItem: modalInfos.nameItem,
+                        typeItem: modalInfos.typeItem,
+                        typeButton: 'confirm'
+                    });
+                stockModalInfosInStore('');
+                stockTypeButtonInStore('');
+            } else if (modalInfos.action === 'resetAccess') {
+                stockAnswerModalForResetAccessInStore(
                     {
                         idItem: modalInfos.idItem,
                         nameItem: modalInfos.nameItem,

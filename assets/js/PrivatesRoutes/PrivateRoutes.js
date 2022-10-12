@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { updateAlertMessage, updateAnswerModalForChangeState, updateAnswerModalForDelete, updateAuth, updateAxiosAnswer, updateFilter, updateModal, updateStateItem, updateTypeButton } from '../redux/redux';
+import { updateAlertMessage, updateAnswerModalForChangeState, updateAnswerModalForDelete, updateAnswerModalForResetAccess, updateAuth, updateAxiosAnswer, updateFilter, updateModal, updateStateItem, updateTypeButton } from '../redux/redux';
 import { userServices } from '../_services/user_services';
 import { checkToken } from '../_services/checkToken';
 
@@ -12,6 +12,7 @@ export default function PrivateRoutes() {
     const dispatchModal = useDispatch();
     const dispatchAnswerModalForChangeState = useDispatch();
     const dispatchAnswerModalForDelete = useDispatch();
+    const dispatchAnswerModalForResetAccess = useDispatch();
     const dispatchTypeButton = useDispatch();
     const dispatchFilter = useDispatch();
     const dispatchStateItem = useDispatch();
@@ -21,6 +22,7 @@ export default function PrivateRoutes() {
         dispatchModal(updateModal(data)),
         dispatchAnswerModalForChangeState(updateAnswerModalForChangeState(data)),
         dispatchAnswerModalForDelete(updateAnswerModalForDelete(data)),
+        dispatchAnswerModalForResetAccess(updateAnswerModalForResetAccess(data)),
         dispatchTypeButton(updateTypeButton(data)),
         dispatchFilter(updateFilter(dataFilter)),
         dispatchStateItem(updateStateItem(data)),
