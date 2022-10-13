@@ -30,7 +30,6 @@ export default function PrivateRoutes() {
     }
 
     let auth = userServices.isConnected();
-    let hasCreatedPwd = userServices.hasCreatedPwd();
 
     let expiredToken = checkToken.expired();
 
@@ -47,12 +46,10 @@ export default function PrivateRoutes() {
             stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
             stockInStore('', {search: '', state: 'all'});
             userServices.logout();
-        } else if (!hasCreatedPwd) {
-            stockAlertMessageInStore({type: 'error', content: 'Vous n\'êtes pas autorisé à accéder à cette page.'})
         }
     }, [location])
 
     return (
-        auth && hasCreatedPwd && !expiredToken ? <Outlet/> : <Navigate to='/'/>
+        auth && !expiredToken ? <Outlet/> : <Navigate to='/'/>
     )
 }

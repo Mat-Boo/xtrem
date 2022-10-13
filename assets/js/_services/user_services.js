@@ -16,18 +16,10 @@ const getUser = () => {
     return jwt(localStorage.getItem('token'));
 }
 
-const hasCreatedPwd = () => {
-    if (!!localStorage.getItem('token')) {
-        return getUser().hasCreatedPwd;
-    } else {
-        return false;
-    }
-}
-
 const logout = () => {
     localStorage.removeItem('token');
 }
 
 export const userServices = {
-    saveToken, isConnected, getToken, getUser, hasCreatedPwd, logout
+    saveToken, isConnected, getToken, getUser, logout
 };

@@ -28,7 +28,7 @@ export default function Navbar() {
         } else {
             setUser(null);
         }
-    }, [userServices.isConnected(), userServices.hasCreatedPwd()])
+    }, [userServices.isConnected()])
 
     const displayMiniMenu = () => {
         setMiniMenu(true)

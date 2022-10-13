@@ -13,10 +13,32 @@ $switchOffBg: #ECACAC;
     margin: 0;
 }
 
+/* Pour Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: $mainBlue $itemBgBlue;
+}
+
+/* Pour Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+    background: $itemBgBlue;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: $mainBlue;
+    border-radius: 20px;
+    border: 3px solid $itemBgBlue;
+}
+
 html {
     background-color: $mainBlueBg;
     font-family: $mainFont;
 }
+
 
 
 #root {
