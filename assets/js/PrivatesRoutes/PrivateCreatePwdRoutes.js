@@ -7,19 +7,19 @@ import { userServices } from '../_services/user_services';
 
 export default function PrivateCreatePwdRoutes() {
 
-    let hasCreatedPwd = userServices.hasCreatedPwd();
+    let isConnected = userServices.isConnected();
 
     const dispatchAlertMessage = useDispatch();
     const stockAlertMessageInStore = (data) => {
         dispatchAlertMessage(updateAlertMessage(data))
     }
     useEffect(() => {
-        if (hasCreatedPwd) {
+        if (isConnected) {
             stockAlertMessageInStore({type: 'error', content: 'Vous n\'êtes pas autorisé à accéder à cette page.'})
         }
     }, [])
 
     return (
-        !hasCreatedPwd ? <Outlet/> : <Navigate to='/accueil'/>
+        !isConnected ? <Outlet/> : <Navigate to='/accueil'/>
     )
 }

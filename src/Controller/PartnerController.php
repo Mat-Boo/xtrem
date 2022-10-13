@@ -94,6 +94,7 @@ class PartnerController extends AbstractController
             $user->setRoles(['ROLE_PARTNER']);
             $user->setHasCreatedPwd(0);
             $uuid = Uuid::uuid4();
+            $user->setHasForgottenPwd(0);
             $user->setUuid($uuid->toString());
     
             //Copie du logo du partenaire dans le dossier uploads (avec renommage du fichier avec le nom du partenaire sluggé)

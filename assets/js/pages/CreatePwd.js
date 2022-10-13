@@ -18,9 +18,9 @@ export default function CreatePwd() {
     const uuid = useParams().uuid;
 
     useEffect(() => {
-        if (userServices.hasCreatedPwd()) {
+        /* if (userServices.hasCreatedPwd()) {
             navigate('/accueil');
-        }
+        } */
         document.title = 'Changement de mot de passe | Xtrem';
     }, [])
 

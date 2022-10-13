@@ -7,7 +7,7 @@ import { checkToken } from '../_services/checkToken';
 
 export default function PrivateRoutes() {
 
-    //redux store : On déclare tout les slices pour ensuite les réinitialiser si token expiré
+    //redux store : On déclare toutes les slices pour ensuite les réinitialiser si token expiré
     const dispatchAuth = useDispatch();
     const dispatchModal = useDispatch();
     const dispatchAnswerModalForChangeState = useDispatch();

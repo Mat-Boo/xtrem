@@ -29,7 +29,7 @@ export default function ForgottenPassword() {
                 formData.append(item.name, item.value);
             }
         }
-        Axios.post('/api/club/forgotten-password', formData, {
+        Axios.post('/api/user/forgotten-password', formData, {
             'content-type': 'multipart/form-data',
         })
         .then(response => {
@@ -41,7 +41,7 @@ export default function ForgottenPassword() {
             setErrors(error.response.data);
         });
     }
-
+console.log(errors)
     return (
         <>
         {

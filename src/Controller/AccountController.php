@@ -165,14 +165,13 @@ class AccountController extends AbstractController
     }
 
     #[Route(path: '/api/user/{id}/reset', name: 'api_user_reset', methods: ['POST'])]
-    public function resetAccess(Request $request, SerializerInterface $serializer, UserPasswordHasherInterface $hasher, $id): Response
+    public function resetAccess(SerializerInterface $serializer, $id): Response
     {
         //Recherche de l'utilisateur concerné
-        $user = $this->entityManager->getRepository(User::class)->findOneByid($id);
+        $user = $this->entityManager->getRepository(User::class)->findOneById($id);
     
         $user->setHasCreatedPwd(0);
         $user->setPassword('');
-
         $this->entityManager->flush();
         
         //Création de la réponse pour renvoyer le json contenant les infos de l'utilisateur dont le mot de passe a été modifié
@@ -183,6 +182,42 @@ class AccountController extends AbstractController
 
         //Envoie d'un mail à l'utilisateur pour lui transmettre le lien de création de mot de passe
         (new Mail())->resetAccess($user->getFirstname(), $user->getEmail(), $user->getUuid());
+
+       return $response;
+    }
+
+    #[Route(path: '/api/user/forgotten-password', name: 'api_user_forgotten_password', methods: ['POST'])]
+    public function forgottenPwd(Request $request, SerializerInterface $serializer): Response
+    {
+        $content['email'] = $request->get('email');
+        
+        //Application de la fonction de contrôle des champs renseignés dans le formulaire de modification du mot de passe de l'utilisateur
+        $errorsValidation  = new ErrorsValidation($content);
+        $errors = $errorsValidation->formItemControl();
+
+        //Recherche de l'utilisateur concerné grâce à son email
+        $user = $this->entityManager->getRepository(User::class)->findOneByEmail($content['email']);
+        if (!$user) {
+            $errors['email'] = 'L\'email renseigné n\'existe pas.';
+        }
+
+        if (empty($errors)) {          
+            //Création de la réponse pour renvoyer le json contenant les infos de l'utilisateur dont le mot de passe a été modifié
+            $json = $serializer->serialize($user, 'json', ['groups' => 'user:read']);
+            $response = new Response($json, 200, [
+                'Content-Type' => 'application/json'
+            ]);
+     
+            //Envoie d'un mail à l'utilisateur pour lui transmettre le lien de création de mot de passe
+            (new Mail())->resetAccess($user->getFirstname(), $user->getEmail(), $user->getUuid());
+       } else {
+            //Création de la réponse pour renvoyer le json contenant les erreurs liées au remplissage du formulaire de modification du mot de passe de l'utilisateur
+            $errorsJson = $serializer->serialize($errors, 'json');
+            $response = new Response($errorsJson, 500, [
+                'Content-Type' => 'application/json'
+            ]);
+       }
+
 
        return $response;
     }

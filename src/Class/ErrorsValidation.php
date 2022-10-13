@@ -53,7 +53,7 @@ class ErrorsValidation
                     if ($valueItem === '') {
                         $errors['email'] = 'L\'email est obligatoire';
                     } else  if (!preg_match('/[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}/im', $valueItem)) {
-                        $errors['email'] = 'L\'email doit respecter le format d\'un email';
+                        $errors['email'] = 'L\'email doit respecter le format d\'un email (ex: john.doe@exemple.com)';
                     } else if (strlen($valueItem) < 6) {
                         $errors['email'] = 'L\'email doit comporter au minimum 6 caractères';
                     } else if (strlen($valueItem) > 255) {

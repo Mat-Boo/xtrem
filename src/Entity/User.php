@@ -203,39 +203,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-public function isIsActive(): ?bool
-{
-    return $this->isActive;
-}
+    public function isIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
 
-public function setIsActive(bool $isActive): self
-{
-    $this->isActive = $isActive;
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
-    return $this;
-}
+        return $this;
+    }
 
-public function isHasCreatedPwd(): ?bool
-{
-    return $this->hasCreatedPwd;
-}
+    public function isHasCreatedPwd(): ?bool
+    {
+        return $this->hasCreatedPwd;
+    }
 
-public function setHasCreatedPwd(bool $hasCreatedPwd): self
-{
-    $this->hasCreatedPwd = $hasCreatedPwd;
+    public function setHasCreatedPwd(bool $hasCreatedPwd): self
+    {
+        $this->hasCreatedPwd = $hasCreatedPwd;
 
-    return $this;
-}
+        return $this;
+    }
 
-public function getUuid(): ?string
-{
-    return $this->uuid;
-}
+    public function getUuid(): ?string
+    {
+        return $this->uuid;
+    }
 
-public function setUuid(string $uuid): self
-{
-    $this->uuid = $uuid;
+    public function setUuid(string $uuid): self
+    {
+        $this->uuid = $uuid;
 
-    return $this;
-}
+        return $this;
+    }
 }

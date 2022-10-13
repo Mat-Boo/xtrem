@@ -8,7 +8,7 @@ class Mail {
 
     public function send($withBtn, $to_email, $to_name, $subject, $content)
     {
-        /* $mj = new Client($_ENV['MJ_APIKEY_PUBLIC'], $_ENV['MJ_APIKEY_PRIVATE'],true,['version' => 'v3.1']);
+        $mj = new Client($_ENV['MJ_APIKEY_PUBLIC'], $_ENV['MJ_APIKEY_PRIVATE'],true,['version' => 'v3.1']);
         $body = [
             'Messages' => [
                 [
@@ -32,7 +32,7 @@ class Mail {
             ]
         ];
         $response = $mj->post(Resources::$Email, ['body' => $body]);
-        $response->success(); */
+        $response->success();
     }
 
     //Mails concernant les contacts de partenaire
