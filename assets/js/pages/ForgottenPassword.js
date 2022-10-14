@@ -4,7 +4,6 @@ import Axios from '../_services/caller_service';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateAlertMessage } from '../redux/redux';
-import slugify from 'react-slugify';
 
 export default function ForgottenPassword() {
     
