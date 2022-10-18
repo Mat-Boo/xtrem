@@ -15,7 +15,7 @@ import { updateAxiosAnswer } from '../../../redux/redux';
 import Loader from '../../../components/Loader';
 
 export default function ManageClubs() {
-    
+
     const [partner, setPartner] = useState([]);
     const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0));
     const [lengthes, setLengthes] = useState({
@@ -112,7 +112,7 @@ export default function ManageClubs() {
                                 </div>
                             </div>
                         </div>
-                        <Filters type='club' all={lengthes.all} actives={lengthes.actives} inactives={lengthes.inactives} displayStates={true} />
+                        <Filters type='club' all={lengthes.all} actives={lengthes.actives} inactives={lengthes.inactives} displayStates={true} manageClubs={true}/>
                         {
                             !partner.isActive &&
                                 <p className='messageActivatePartner'>Le partenaire doit être activé pour pouvoir gérer ses clubs.</p>

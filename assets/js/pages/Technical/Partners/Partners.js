@@ -31,6 +31,7 @@ export default function Partners() {
         document.title = 'Partenaires | Xtrem';
         Axios.get('/api/partners')
         .then((response) => {
+            console.log(response)
             setPartners(response.data);
             response.data.forEach((partner) => {
                 if (partner.isActive) {

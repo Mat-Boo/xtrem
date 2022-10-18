@@ -129,6 +129,9 @@ export default function EditAccount() {
                                         <span>Valider</span>
                                     </button>
                                 </div>
+                                <input type="hidden" name="_csrf_token"
+                                    value="{{ csrf_token('authenticate') }}"
+                                ></input>
                             </form>
                         </div>
             }

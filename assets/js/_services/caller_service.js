@@ -8,6 +8,7 @@ const Axios = axios.create({
 Axios.interceptors.request.use(request => {
     if(userServices.isConnected()) {
         request.headers.Authorization = 'Bearer ' + userServices.getToken();
+        /* request.headers.common['X-CSRF-TOKEN'] = userServices.getToken(); */
     }
 
     return request;
