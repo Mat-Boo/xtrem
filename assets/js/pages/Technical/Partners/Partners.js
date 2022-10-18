@@ -3,12 +3,13 @@ import Axios from '../../../_services/caller_service';
 import PartnerCard from '../../../components/PartnerCard';
 import Button from '../../../components/Button';
 import Filters from '../../../components/Filters';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Pagination from '../../../components/Pagination';
 import { userServices } from '../../../_services/user_services';
 import { paginationParams } from '../../../_services/paginationParams';
 import { helpers } from '../../../_services/helpers';
 import Loader from '../../../components/Loader';
+import { updateFilter } from '../../../redux/redux';
 
 export default function Partners() {
 
@@ -19,6 +20,10 @@ export default function Partners() {
         inactives: 0
     });
     const filter = useSelector((state) => state.filter);
+    const dispatchFilter = useDispatch();
+    const stockFilterInStore = (data) => {
+        dispatchFilter(updateFilter(data))
+    }
 
     const [loader, setLoader] = useState(true);
     
@@ -31,7 +36,6 @@ export default function Partners() {
         document.title = 'Partenaires | Xtrem';
         Axios.get('/api/partners')
         .then((response) => {
-            console.log(response)
             setPartners(response.data);
             response.data.forEach((partner) => {
                 if (partner.isActive) {
@@ -44,7 +48,13 @@ export default function Partners() {
             setLoader(false);
         })
         setCurrentPage(1);
-    }, [filter])
+
+        return () => {
+            stockFilterInStore({search: '', state: 'all'});
+        }
+
+    }, [])
+    
   
     return (
         <div className='partners'>

@@ -2,18 +2,23 @@ import React, { useState, useEffect } from 'react';
 import Axios from '../../../_services/caller_service';
 import PermissionCard from '../../../components/PermissionCard';
 import Button from '../../../components/Button';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Filters from '../../../components/Filters';
 import Pagination from '../../../components/Pagination';
 import { paginationParams } from '../../../_services/paginationParams';
 import { helpers } from '../../../_services/helpers';
 import Loader from '../../../components/Loader';
+import { updateFilter } from '../../../redux/redux';
 
 export default function Permissions() {
 
     const alertMessage = useSelector((state) => state.alertMessage);
     const [permissions, setPermissions] = useState([]);
     const filter = useSelector((state) => state.filter);
+    const dispatchFilter = useDispatch();
+    const stockFilterInStore = (data) => {
+        dispatchFilter(updateFilter(data))
+    }
 
     const [loader, setLoader] = useState(true);
 
@@ -30,7 +35,12 @@ export default function Permissions() {
         })
         setCurrentPage(1);
         document.title = 'Permissions | Xtrem';
-    }, [alertMessage, filter])
+        
+        return () => {
+            stockFilterInStore({search: '', state: 'all'});
+        }
+
+    }, [alertMessage])
 
     
     return (

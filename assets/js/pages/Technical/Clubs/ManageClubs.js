@@ -11,7 +11,7 @@ import { userServices } from '../../../_services/user_services';
 import { paginationParams } from '../../../_services/paginationParams';
 import Pagination from '../../../components/Pagination';
 import { helpers } from '../../../_services/helpers';
-import { updateAxiosAnswer } from '../../../redux/redux';
+import { updateAxiosAnswer, updateFilter } from '../../../redux/redux';
 import Loader from '../../../components/Loader';
 
 export default function ManageClubs() {
@@ -24,6 +24,10 @@ export default function ManageClubs() {
         inactives: 0
     });
     const filter = useSelector((state) => state.filter);
+    const dispatchFilter = useDispatch();
+    const stockFilterInStore = (data) => {
+        dispatchFilter(updateFilter(data))
+    }
 
     const [loader, setLoader] = useState(true);
     
@@ -60,7 +64,12 @@ export default function ManageClubs() {
         setCurrentPage(1);
         stockAxiosAnswerInStore('');
         document.title = 'Gestion des Clubs | Xtrem';
-    }, [filter, axiosAnswer])
+
+        return () => {
+            stockFilterInStore({search: '', state: 'all'});
+        }
+
+    }, [axiosAnswer])
 
     return (
         <>

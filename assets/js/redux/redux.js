@@ -94,7 +94,7 @@ export const {updateTypeButton} = typeButtonSlice.actions;
 // Slice to stock filter's choices
 const filterSlice = createSlice({
     name: 'filter',
-    initialState: {search: '', state: 'all'},
+    initialState: {/* type: '', */ search: '', state: 'all'},
     reducers: {
         updateFilter: (state, action) => {
             state = action.payload
