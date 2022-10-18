@@ -4,16 +4,22 @@ import DOMPurify from 'dompurify';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAnswerModalForDelete, updateAlertMessage, updateModal, updateTypeButton, updateAxiosAnswer, updateAnswerModalForResetAccess } from '../redux/redux';
 import Axios from '../_services/caller_service';
+import { useEffect } from 'react';
 
 export default function Button({ idItem, nameItem, typeItem, nameUser, typeBtn, btnSvg, btnTitle, btnUrl, isActive }) {
 
     const navigate = useNavigate();
 
+    
     const typeButtonClicked = useSelector((state) => state.typeButton);
     const dispatchTypeButton = useDispatch();
     const stockTypeButtonInStore = (data) => {
         dispatchTypeButton(updateTypeButton(data))
     }
+    
+    useEffect(() => {
+            scroll(0,0);
+    }, [])
 
     const dispatchModal = useDispatch();
     const stockModalInfosInStore = (data) => {

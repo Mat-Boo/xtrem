@@ -12,7 +12,7 @@ import Loader from '../../../components/Loader';
 import { updateFilter } from '../../../redux/redux';
 
 export default function Partners() {
-
+    
     const [partners, setPartners] = useState();
     const [lengthes, setLengthes] = useState({
         all: 0,
@@ -24,16 +24,15 @@ export default function Partners() {
     const stockFilterInStore = (data) => {
         dispatchFilter(updateFilter(data))
     }
-
-    const [loader, setLoader] = useState(true);
     
+    const [loader, setLoader] = useState(true);
+
     //Pagination
     const [currentPage, setCurrentPage] = useState();
     const lastItemIndex = currentPage * paginationParams.partnersPerPage;
     const firstItemIndex = lastItemIndex - paginationParams.partnersPerPage;
 
     useEffect(() => {
-        
         document.title = 'Partenaires | Xtrem';
         Axios.get('/api/partners')
         .then((response) => {
