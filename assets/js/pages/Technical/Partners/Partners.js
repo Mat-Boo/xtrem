@@ -33,6 +33,7 @@ export default function Partners() {
     const firstItemIndex = lastItemIndex - paginationParams.partnersPerPage;
 
     useEffect(() => {
+        
         document.title = 'Partenaires | Xtrem';
         Axios.get('/api/partners')
         .then((response) => {

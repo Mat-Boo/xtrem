@@ -2,7 +2,7 @@ import axios from "axios";
 import { userServices } from '../_services/user_services';
 
 const Axios = axios.create({
-    baseURL: 'http://127.0.0.1:8000'
+    baseURL: 'https://xtrem-studi.herokuapp.com/'
 })
 
 Axios.interceptors.request.use(request => {
