@@ -7,10 +7,6 @@ import { userServices } from '../../../_services/user_services';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAxiosAnswer } from '../../../redux/redux';
 import Loader from '../../../components/Loader';
-import abdos from '../../../../img/svgBg/abdos.svg';
-import haltere from '../../../../img/svgBg/haltere.svg';
-import rameur from '../../../../img/svgBg/rameur.svg';
-import traction from '../../../../img/svgBg/traction.svg';
 
 export default function ViewPartner() {
     
@@ -53,7 +49,7 @@ export default function ViewPartner() {
                                     btnUrl={'/partenaires'}
                                     isActive={true}
                                 />
-                                <h1>Informations</h1>
+                                <h1>Informations du partenaire</h1>
                             </div>
                             <div className='partner'>
                                 <div className='logoAndInfos'>
@@ -173,11 +169,7 @@ export default function ViewPartner() {
                                         }
                                     </ul>
                                 </fieldset>
-                            </form>
-                            {/* <img src={haltere} alt="haltere" className='haltere'/> */}
-                            {/* <img src={abdos} alt="abdos" className='abdos'/> */}
-                            {/* <img src={traction} alt="traction" className='traction'/>    */}    
-                        {/*  <img src={rameur} alt="rameur" className='rameur'/>   */}            
+                            </form>         
                         </div>
             }
         </>

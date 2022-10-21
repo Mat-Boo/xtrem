@@ -1,13 +1,20 @@
-.footer {
-    position: absolute;
-    bottom: -85px;
-    width: 100%;
+.sportClipartAndFooter {
     display: flex;
-    justify-content: center;
-    background: $mainBlue;
-    padding: 5px 0;
-    .copyright {
-        text-align: center;
-        color: white;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    width: 100%;
+    position: absolute;
+    bottom: -485px;
+    .footer {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        background: $mainBlue;
+        padding: 5px 0;
+        .copyright {
+            text-align: center;
+            color: white;
+        }
     }
 }

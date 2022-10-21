@@ -10,6 +10,7 @@ import { paginationParams } from '../../../_services/paginationParams';
 import { helpers } from '../../../_services/helpers';
 import Loader from '../../../components/Loader';
 import { updateFilter } from '../../../redux/redux';
+import {Helmet} from "react-helmet";
 
 export default function Partners() {
     
@@ -33,7 +34,6 @@ export default function Partners() {
     const firstItemIndex = lastItemIndex - paginationParams.partnersPerPage;
 
     useEffect(() => {
-        document.title = 'Partenaires | Xtrem';
         Axios.get('/api/partners')
         .then((response) => {
             setPartners(response.data);
@@ -53,11 +53,29 @@ export default function Partners() {
             stockFilterInStore({search: '', state: 'all'});
         }
 
-    }, [])
-    
+    }, [])    
   
     return (
         <div className='partners'>
+            <Helmet>
+            <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                <title>Partenaires | Xtrem</title>
+                <meta name="description" content="Photographe professionnel, besoin de plus d'information, utilisez mon formulaire de contact et je répondrais le plus rapidement possible." />
+                {/* Open Graph meta for Facebook */}
+                <meta property="og:title" content="CONTACT | Charles Cantin - Photographe" />
+                <meta property="og:url" content="https://c-cantin-photo.netlify.app/" />
+                <meta property="og:image" content="https://c-cantin-photo.netlify.app/resources/homeOg.png" />
+                <meta property="og:description" content="Photographe professionnel, besoin de plus d'information, utilisez mon formulaire de contact et je répondrais le plus rapidement possible." />
+                <meta property="og:site_name" content="Charles Cantin - Photographe" />
+                <meta property="og:type" content="website" />
+                {/* Card meta for Twitter */}
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:site" content="@ccantin_photo" />
+                <meta name="twitter:title" content="CONTACT | Charles Cantin - Photographe" />
+                <meta name="twitter:description" content="Photographe professionnel, besoin de plus d'information, utilisez mon formulaire de contact et je répondrais le plus rapidement possible." />
+                <meta name="twitter:image:src" content="https://c-cantin-photo.netlify.app/resources/homeOg.png" />
+            </Helmet>
             <div className='header'>
                 <h1>Partenaires</h1>
                 <Button

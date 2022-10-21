@@ -60,6 +60,22 @@ Dans le dossier Annexes de ce dépot se trouvent :
 - Installez les dépendances PHP via la commande : `composer install`
 - Installez les dépendances NPM via la commande : `npm install`
 
+### Variables d'environnement:
+- Créez un fichier .env.local à la racine de votre projet et y ajouter les variables d'environnement suivantes :
+
+//Voir si faut vraiment faire un env.local
+dans tous les cas ajouter API KY de mailjet en ayant pris soin de créer au préalable u compte sur mailjet
+générer les clé api pour lexik
+
+
+
+
+
+
+
+
+
+
 
 ### Base de données:
 - Dans le fichier .env.local, à la racine du projet, configurez la DATABASE_URL avec vos informations de base de données: Exemple avec mySql : `DATABASE_URL="mysql://identiant:mot-de-passe@url:port/database`
@@ -80,6 +96,7 @@ Dans le dossier Annexes de ce dépot se trouvent :
   `INSERT INTO user (email, roles, password, firstname, lastname, is_active, has_created_pwd, uuid) VALUES ('email', '["ROLE_TECHNICAL"]', 'mot_de_passe', 'prenom', 'nom', 1, 1, 'uuid');`
   
 
+### Lancement du projet:
 - Lancez le projet avec la commande : `symfony serve`
 
 ---
