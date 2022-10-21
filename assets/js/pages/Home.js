@@ -56,7 +56,7 @@ export default function Home() {
                     </div>
                 </>
             }
-            <img src={fentes2} alt="abdos" className='abdos'/>
+            
         </div>
     )
 }
