@@ -276,33 +276,29 @@ class ClubController extends AbstractController
     #[Route('/api/club/{idClub}/delete', name: 'partner_club_delete', methods: ['POST'])]
     public function deleteClub(SerializerInterface $serializer, $idClub): Response
     {
-        //Recherche des relations ClubPermission dont le club est concerné par la suppression
-        $clubsPermissions = $this->entityManager->getRepository(ClubPermission::class)->findByClub($idClub);
-
-        //Mise à jour de la base de donnée en supprimant les relations Club et Permission
-        foreach($clubsPermissions as $clubPermission) {
-            $this->entityManager->remove($clubPermission);
-        }
-
         //Recherche du club concerné par la suppression en fonction de l'id
         $club = $this->entityManager->getRepository(Club::class)->findOneById($idClub);
-        $picture = $club->getPicture();
+
+        //Suppression des relations Club et Permission
+        foreach($club->getClubPermissions() as $clubPermission) {
+            $this->entityManager->remove($clubPermission);
+        }
         
         //Suppression de la photo du club
+        $picture = $club->getPicture();
         $picturePath = '../public/uploads/' . $picture;
         if (file_exists($picturePath)) {
             unlink($picturePath);
         }
 
-        //Recherche du manager du club concerné par la suppression en fonction de l'id
-        $user = $this->entityManager->getRepository(User::class)->findOneById($club->getManager()->getId());
+        //Suppression du lmanager du club
+        $this->entityManager->remove($club->getManager());
 
-        //Mise à jour de la base de donnée en supprimant le club et son manager
+        //Suppression du club
         $this->entityManager->remove($club);
-        $this->entityManager->remove($user);
 
+        //Mise à jour de la base de donnée
         $this->entityManager->flush();
-
 
         //Création de la réponse pour renvoyer le json contenant les infos du club supprimé
         $json = $serializer->serialize($club, 'json', ['groups' => 'club:read']);

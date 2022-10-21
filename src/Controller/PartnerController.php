@@ -267,32 +267,47 @@ class PartnerController extends AbstractController
     #[Route('/api/partner/{id}/delete', name: 'partner_delete', methods: ['POST'])]
     public function deletePartner(SerializerInterface $serializer, $id): Response
     {
-        //Recherche des relations PartnerPermission dont le partenaire est concerné par la suppression
-        $partnersPermissions = $this->entityManager->getRepository(PartnerPermission::class)->findByPartner($id);
-
-        //Mise à jour de la base de donnée en supprimant les relations Partenaire et Permission
-        foreach($partnersPermissions as $partnerPermission) {
-            $this->entityManager->remove($partnerPermission);
-        }
-
         //Recherche du partenaire concerné par la suppression en fonction de l'id
         $partner = $this->entityManager->getRepository(Partner::class)->findOneById($id);
 
-        $logo = $partner->getLogo();
+        //Suppression des clubs dépendant du partenaire concerné par la suppression
+        foreach ($partner->getClubs() as $club) {
+            //Suppression des relations ClubPermission par club
+            foreach ($club->getClubPermissions() as $clubPermission) {
+                $this->entityManager->remove($clubPermission);
+            }
+            //Suppression de la photo du club
+            $picture = $club->getPicture();
+            $picturePath = '../public/uploads/' . $picture;
+            if (file_exists($picturePath)) {
+                unlink($picturePath);
+            }
+            $clubManager = $club->getManager();
+            //Suppression du manager
+            $this->entityManager->remove($clubManager);
+            //Suppression du club
+            $this->entityManager->remove($club);
+        }        
+        
+        //Suppression des relations Partenaire et Permission
+        foreach($partner->getPartnerPermissions() as $partnerPermission) {
+            $this->entityManager->remove($partnerPermission);
+        }
         
         //Suppression du logo du partenaire
+        $logo = $partner->getLogo();
         $logoPath = '../public/uploads/' . $logo;
         if (file_exists($logoPath)) {
             unlink($logoPath);
         }
 
-        //Recherche du contact du partenaire concerné par la suppression en fonction de l'id
-        $user = $this->entityManager->getRepository(User::class)->findOneById($partner->getContact()->getId());
+        //suppression du contact du partenaire
+        $this->entityManager->remove($partner->getContact());
 
-        //Mise à jour de la base de donnée en supprimant le partenaire et son contact
+        //Suppression du partenaire
         $this->entityManager->remove($partner);
-        $this->entityManager->remove($user);
 
+        // Mise à jour de la base de donnée
         $this->entityManager->flush();
 
         //Création de la réponse pour renvoyer le json contenant les infos du partenaire supprimé
