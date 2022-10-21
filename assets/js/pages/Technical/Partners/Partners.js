@@ -64,8 +64,8 @@ export default function Partners() {
                 <meta name="description" content="Xtrem, gestion des partenaires avec possibilité d'activer et de désactiver un partenaire, visualisé un partenaire et gérer ses clubs." />
                 {/* Open Graph meta for Facebook */}
                 <meta property="og:title" content="CONTACT | Charles Cantin - Photographe" />
-                <meta property="og:url" content="https://c-cantin-photo.netlify.app/" />
-                <meta property="og:image" content="https://c-cantin-photo.netlify.app/resources/homeOg.png" />
+                <meta property="og:url" content="https://xtrem-studi.fly.dev/" />
+                <meta property="og:image" content="https://xtrem-studi.fly.dev/uploads/xtrem-paris-la-defense.jpg" />
                 <meta property="og:description" content="Photographe professionnel, besoin de plus d'information, utilisez mon formulaire de contact et je répondrais le plus rapidement possible." />
                 <meta property="og:site_name" content="Charles Cantin - Photographe" />
                 <meta property="og:type" content="website" />
@@ -74,7 +74,7 @@ export default function Partners() {
                 <meta name="twitter:site" content="@ccantin_photo" />
                 <meta name="twitter:title" content="CONTACT | Charles Cantin - Photographe" />
                 <meta name="twitter:description" content="Photographe professionnel, besoin de plus d'information, utilisez mon formulaire de contact et je répondrais le plus rapidement possible." />
-                <meta name="twitter:image:src" content="https://c-cantin-photo.netlify.app/resources/homeOg.png" />
+                <meta name="twitter:image:src" content="https://xtrem-studi.fly.dev/uploads/xtrem-paris-la-defense.jpg" />
             </Helmet>
             <div className='header'>
                 <h1>Partenaires</h1>
