@@ -1,5 +1,5 @@
 import React from 'react';
-import SportClipart from './sportClipart';
+import SportClipart from './SportClipart';
 
 export default function Footer() {
     return (

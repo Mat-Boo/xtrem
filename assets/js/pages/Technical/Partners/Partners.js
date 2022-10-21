@@ -61,7 +61,7 @@ export default function Partners() {
             <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                 <title>Partenaires | Xtrem</title>
-                <meta name="description" content="Photographe professionnel, besoin de plus d'information, utilisez mon formulaire de contact et je répondrais le plus rapidement possible." />
+                <meta name="description" content="Xtrem, gestion des partenaires avec possibilité d'activer et de désactiver un partenaire, visualisé un partenaire et gérer ses clubs." />
                 {/* Open Graph meta for Facebook */}
                 <meta property="og:title" content="CONTACT | Charles Cantin - Photographe" />
                 <meta property="og:url" content="https://c-cantin-photo.netlify.app/" />
