@@ -37,7 +37,7 @@ export default function Button({ idItem, nameItem, typeItem, nameUser, typeBtn, 
                         typeItem: typeItem,
                         action: typeBtn,
                         title: 'Suppression du partenaire <b>' + nameItem + '</b>',
-                        message: 'Voulez-vous vraiment supprimer le partenaire <b>' + nameItem + '</b> ?\nSes clubs seront automatiquement supprimés aussi.'
+                        message: 'Voulez-vous vraiment supprimer le partenaire <b>' + nameItem + '</b> ?\n\n<b>ATTENTION</b>, son contact, ses clubs ainsi que les managers des clubs seront automatiquement supprimés aussi.'
                     })
                 break;
                 case 'permission':
@@ -58,7 +58,7 @@ export default function Button({ idItem, nameItem, typeItem, nameUser, typeBtn, 
                             typeItem: typeItem,
                             action: typeBtn,
                             title: 'Suppression du club <b>' + nameItem + '</b>',
-                            message: 'Voulez-vous vraiment supprimer le club <b>' + nameItem + '</b> ?'
+                            message: 'Voulez-vous vraiment supprimer le club <b>' + nameItem + '</b> ?\n\n<b>ATTENTION</b>, son manager sera automatiquement supprimé aussi.'
                         })
                     }
                 break;

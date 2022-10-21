@@ -2,6 +2,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import { userServices } from '../_services/user_services';
 import abdos from '../../img/svgBg/abdos.svg';
+import fentes2 from '../../img/svgBg/fentes2.svg';
 
 export default function Home() {
     useEffect(() => {
@@ -55,7 +56,7 @@ export default function Home() {
                     </div>
                 </>
             }
-            <img src={abdos} alt="abdos" className='abdos'/>
+            <img src={fentes2} alt="abdos" className='abdos'/>
         </div>
     )
 }

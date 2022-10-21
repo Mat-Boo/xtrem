@@ -4,17 +4,42 @@ Créé avec Symfony & React
 ### Description
 
 Il s'agit du dépôt Github du projet d'ECF Studi pour la session de décembre 2022.
+Ce projet a pour but de créer une application permettant la gestion de partenaires de la marque Xtrem et leurs clubs avec la possibilité de gérer l'accès à des permissions.
 
 Dans le dossier Annexes de ce dépot se trouvent :
+- 01 - Personas - ECF - Xtrem
+- 02 - User Stories - ECF - Xtrem
+- 03 - Wireframes (desktop & mobile) - ECF - Xtrem
+- 04 - Graphical charter - ECF - Xtrem
+- 05 - Mockups (desktop & mobile) - ECF - Xtrem
+- 06 - Schémas de conception (Merise, Use case, Sequence) - ECF - Xtrem
+- 07 - Manuel d’utilisation - ECF - Xtrem
 
-- Le manuel d’utilisation
-- La documentation technique
+---
+
+## Spécifications techniques
+### Backend :
+- Symfony 6.1.6
+- PHP 8.1.4
+- Orm Doctrine 2.13
+- Base de données : MySQL
+
+### Frontend :
+- React 18.2.0
+- Sass 13.0.2
+
+---
+
+## Choix techniques
+- Pour la création de cette application, j’ai choisi pour le backend d’utiliser le framework Symfony qui m’a permis facilement de mettre en place une API, associé à Doctrine pour gérer la base de données.
+
+- Pour une meilleure expérience utilisateur, je voulais impérativement mettre en place une SPA, je me suis donc tourné vers la librairie REACT pour la partie frontend avec les styles gérés avec le pré-processeur SASS.
+
+- Pour la sécurité, les mots de passe sont cryptés, les requêtes effectuées via doctrine sont préparées et les formulaires sont contrôlés à la validation.
 
 ---
 
 ## Déploiement du projet en local
-
-Ce projet est réalisé avec Symfony 6.1.6, PHP 8.1.4 et React 18.2.0
 
 - Au préalable, créez votre environnement Symfony en suivant la procédure suivante : https://symfony.com/doc/current/setup.html
 
@@ -86,3 +111,13 @@ Les variables d'environnement seront créés automatiquement sur Heroku et l'add
 - Exportez votre base de données vers clearDb (Vous pouvez retrouver les identifiants directement dans l'onglet Settings sur Heroku au niveau des Config Vars : CLEAR_DB_NAT_URL)
 
 - Il ne reste plus qu'à executer les commandes GIT habituelles (add, commit et push)
+
+---
+
+## Connexion à l'interface
+Il existe 3 accès différents :
+- L'équipe technique (assimilée à l'administrateur) qui a un accès totale pour visualiser, créer, modifier et supprimer les partenaires, clubs et permissions.
+- Les contacts des partenaires qui ont juste un accès en lecture sur le partenaire concerné et leurs clubs.
+- Les managers des clubs qui ont un juste un accès en lecture sur leur club.
+
+Vous retrouvez les identifiants dans le modèle de copie transmis chez Studi.

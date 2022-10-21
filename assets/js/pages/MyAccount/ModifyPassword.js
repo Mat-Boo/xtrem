@@ -47,6 +47,16 @@ export default function ModifyPassword() {
             <div className='header'>
                 <h1>Modification de mon mot de passe</h1>
             </div>
+            <div className='pwdMessage'>
+                    <p className='rulesTitle'>Règles de création de votre mot de passe : </p>
+                    <ul id='pwdRules'>
+                        <li>Entre 8 et 20 caractères</li>
+                        <li>Au moins une lettre minuscule</li>
+                        <li>Au moins une lettre majuscule</li>
+                        <li>Au moins 1 chiffre</li>
+                        <li>Au moins 1 caractère spécial (- + ! * $ @ % _)</li>
+                    </ul>
+                </div>
             <form onSubmit={(e) => validForm(e)}>
                 <div className="infosGroup">
                     <div className='formItem'>

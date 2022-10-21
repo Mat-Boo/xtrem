@@ -51,7 +51,7 @@ export default function Navbar() {
         hideMiniMenu()
         userServices.logout()
         setUser(null);
-        stockAlertMessageInStore({type: 'infos', content: 'Vous avez été déconnecté avec succès'});
+        stockAlertMessageInStore({type: 'success', content: 'Vous avez été déconnecté avec succès'});
         navigate('/');
     }
 
