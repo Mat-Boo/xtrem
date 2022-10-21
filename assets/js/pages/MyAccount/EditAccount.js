@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateAlertMessage } from '../../redux/redux';
 import Loader from '../../components/Loader';
+import {Helmet} from "react-helmet";
 
 export default function EditAccount() {
     
@@ -26,7 +27,6 @@ export default function EditAccount() {
             setUser(response.data);
             setLoader(false);
         })
-        document.title = 'Mon compte | Xtrem';
     }, [])
 
     const handleChange = (e) => {
@@ -65,6 +65,10 @@ export default function EditAccount() {
                     <Loader /> :
                     user &&
                         <div className='editAccount'>
+                            <Helmet>
+                                <title>Mon compte | Xtrem</title>
+                                <meta name="description" content="Xtrem, modification des informations personnelles." />
+                            </Helmet>
                             <div className='header'>
                                 <h1>Modification de mes informations personnelles</h1>
                             </div>

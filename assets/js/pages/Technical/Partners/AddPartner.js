@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import ToggleSwitch from '../../../components/ToggleSwitch';
 import { userServices } from '../../../_services/user_services';
 import Loader from '../../../components/Loader';
+import {Helmet} from "react-helmet";
 
 export default function AddPartner() {
        
@@ -33,7 +34,6 @@ export default function AddPartner() {
             setPermissions(response.data);
             setLoader(false);
         })
-        document.title = 'Ajout Partenaire | Xtrem';
       }, [])
 
     //Validate Form and send to api
@@ -70,6 +70,10 @@ export default function AddPartner() {
                     <Loader /> :
                     permissions[0] &&
                         <div className='addPartner'>
+                            <Helmet>
+                                <title>Ajout partenaires | Xtrem</title>
+                                <meta name="description" content="Xtrem, création d'un partenaire avec affectations des permissions globales." />
+                            </Helmet>
                             <div className='header'>
                                 <h1>Nouveau partenaire</h1>
                             </div>

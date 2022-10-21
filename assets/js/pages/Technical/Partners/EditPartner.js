@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import { updateAlertMessage } from '../../../redux/redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import Loader from '../../../components/Loader';
+import {Helmet} from "react-helmet";
 
 export default function EditPartner() {
     
@@ -30,7 +31,6 @@ export default function EditPartner() {
             setPartner(response.data);
             setLoader(false);
         })
-        document.title = 'Modification Partenaire | Xtrem';
     }, [])
 
     const handleLogoFile = (e) => {
@@ -90,6 +90,10 @@ export default function EditPartner() {
                     <Loader /> :
                     partner.contact &&
                         <div className='editPartner'>
+                            <Helmet>
+                                <title>Modification partenaires | Xtrem</title>
+                                <meta name="description" content="Xtrem, modification des informations liées à un partenaire." />
+                            </Helmet>
                             <div className='header'>
                                 <h1>Edition du partenaire {partner.id}</h1>
                             </div>

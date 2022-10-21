@@ -8,6 +8,7 @@ import { paginationParams } from '../../_services/paginationParams';
 import Pagination from '../../components/Pagination';
 import ToggleSwitch from '../../components/ToggleSwitch';
 import Loader from '../../components/Loader';
+import {Helmet} from "react-helmet";
 
 export default function MyClubs() {
     
@@ -52,7 +53,6 @@ export default function MyClubs() {
             })
         }
         setCurrentPage(1);
-        document.title = 'Mes Clubs | Xtrem';
     }, [filter])
 
     const displayPartnerDetails = () => {
@@ -86,6 +86,10 @@ export default function MyClubs() {
                     <Loader /> :
                     user.partner &&
                     <div className='myClubs'>
+                        <Helmet>
+                            <title>Mes clubs | Xtrem</title>
+                            <meta name="description" content="Xtrem, visualisation des clubs du partenaire avec leurs permissions." />
+                        </Helmet>
                         <div className='header'>
                             <h1>Mes clubs</h1>
                         </div>

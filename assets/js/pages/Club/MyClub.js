@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import ClubCard from '../../components/ClubCard';
 import { userServices } from '../../_services/user_services';
 import Loader from '../../components/Loader';
+import {Helmet} from "react-helmet";
 
 export default function MyClub() {
 
@@ -30,6 +31,10 @@ export default function MyClub() {
                     <Loader /> :
                     user.club &&
                     <div className='myClub'>
+                        <Helmet>
+                            <title>Mon club | Xtrem</title>
+                            <meta name="description" content="Xtrem, visualisation du club et ses permissions." />
+                        </Helmet>
                         <div className='header'>
                             <h1>Mon club</h1>
                         </div>

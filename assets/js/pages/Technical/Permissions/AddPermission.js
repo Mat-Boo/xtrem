@@ -4,6 +4,7 @@ import Axios from '../../../_services/caller_service';
 import { useDispatch } from 'react-redux'
 import { updateAlertMessage } from '../../../redux/redux';
 import { useNavigate } from 'react-router-dom';
+import {Helmet} from "react-helmet";
 
 export default function AddPermission() {
     
@@ -14,11 +15,7 @@ export default function AddPermission() {
     const stockAlertMessageInStore = (data) => {
         dispatchAlertMessage(updateAlertMessage(data))
     }
-    
-    useEffect(() => {
-        document.title = 'Ajout Permission | Xtrem';
-    }, [])
-    
+        
 
     // Valid Form and send values to api
     const validForm = (e) => {
@@ -45,6 +42,10 @@ export default function AddPermission() {
 
     return (
         <div className='addPermission'>
+            <Helmet>
+                <title>Ajout permission | Xtrem</title>
+                <meta name="description" content="Xtrem, création d'un permission globale." />
+            </Helmet>
             <div className='header'>
                 <h1>Nouvelle permission</h1>
             </div>

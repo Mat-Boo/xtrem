@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateAlertMessage } from '../../redux/redux';
 import { useEffect } from 'react';
+import {Helmet} from "react-helmet";
 
 export default function ModifyPassword() {
     
@@ -16,9 +17,6 @@ export default function ModifyPassword() {
         dispatchAlertMessage(updateAlertMessage(data))
     }
     
-    useEffect(() => {
-        document.title = 'Mon compte | Xtrem';
-    }, [])
 
     // Valid Form and send values to api
     const validForm = (e) => {
@@ -44,6 +42,10 @@ export default function ModifyPassword() {
 
     return (
         <div className='modifyPassword'>
+            <Helmet>
+                <title>Mon compte | Xtrem</title>
+                <meta name="description" content="Xtrem, modification du mot de passe." />
+            </Helmet>
             <div className='header'>
                 <h1>Modification de mon mot de passe</h1>
             </div>

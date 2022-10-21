@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateAlertMessage } from '../redux/redux';
 import { userServices } from '../_services/user_services';
+import {Helmet} from "react-helmet";
 
 export default function CreatePwd() {
 
@@ -16,10 +17,6 @@ export default function CreatePwd() {
     }
 
     const uuid = useParams().uuid;
-
-    useEffect(() => {
-        document.title = 'Changement de mot de passe | Xtrem';
-    }, [])
 
     // Valid Form and send values to api
     const validForm = (e) => {
@@ -51,6 +48,10 @@ export default function CreatePwd() {
         <>
         {
             <div className='changeTempPwd'>
+                <Helmet>
+                    <title>Changement de mot de passe | Xtrem</title>
+                    <meta name="description" content="Xtrem, page de création d'un nouveau mot de passe pour pouvoir se connecter à l'interface Xtrem." />
+                </Helmet>
                 <div className='header'>
                     <h1>Créez votre mot de passe personnel</h1>
                 </div>

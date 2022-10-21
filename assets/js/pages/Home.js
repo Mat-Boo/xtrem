@@ -1,14 +1,16 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { userServices } from '../_services/user_services';
+import {Helmet} from "react-helmet";
 
 export default function Home() {
-    useEffect(() => {
-        document.title = 'Accueil | Xtrem';
-    })
 
     return (
         <div className='home'>
+            <Helmet>
+                <title>Accueil | Xtrem</title>
+                <meta name="description" content="Xtrem, accueil de l'interface Xtrem." />
+            </Helmet>
             {
                 userServices.getUser().roles.includes('ROLE_TECHNICAL') &&
                 <>

@@ -4,6 +4,7 @@ import Axios from '../_services/caller_service';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateAlertMessage } from '../redux/redux';
+import {Helmet} from "react-helmet";
 
 export default function ForgottenPassword() {
     
@@ -15,10 +16,6 @@ export default function ForgottenPassword() {
         dispatchAlertMessage(updateAlertMessage(data))
     }
 
-    
-    useEffect(() => {
-        document.title = 'Mot de passe oublié | Xtrem';
-    }, [])
     // Valid Form and send values to api
     const validForm = (e) => {
         e.preventDefault();
@@ -45,6 +42,10 @@ console.log(errors)
         <>
         {
             <div className='forgottenPassword'>
+                <Helmet>
+                    <title>Mot de passe oublié | Xtrem</title>
+                    <meta name="description" content="Xtrem, page de récupération de mot de passe avec l'email." />
+                </Helmet>
                 <div className='header'>
                     <h1>Mot de passe oublié</h1>
                 </div>

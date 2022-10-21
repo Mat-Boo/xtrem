@@ -6,6 +6,7 @@ import { updateAlertMessage } from '../../../redux/redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import slugify from 'react-slugify';
 import Loader from '../../../components/Loader';
+import {Helmet} from "react-helmet";
 
 export default function EditClub() {
 
@@ -34,7 +35,6 @@ export default function EditClub() {
             setClub(response.data);
             setLoader(false);
         })
-        document.title = 'Modification Club | Xtrem';
     }, [])
 
     const handleChange = (e) => {
@@ -91,6 +91,10 @@ export default function EditClub() {
                     <Loader /> :
                     club.manager &&
                         <div className='editClub'>
+                            <Helmet>
+                                <title>Partenaires | Xtrem</title>
+                                <meta name="description" content="Xtrem, modification des informations liées à un club." />
+                            </Helmet>
                             <div className='header'>
                                 <h1>Edition du club {club.id}</h1>
                             </div>

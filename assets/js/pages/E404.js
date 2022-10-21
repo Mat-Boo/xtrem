@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
 import Button from '../components/Button';
 import logo from '../../img/logo_horizontal.png';
+import {Helmet} from "react-helmet";
 
 export default function E404() {
 
-    useEffect(() => {
-        document.title = 'Page introuvable | Xtrem';
-    })
-
     return (
         <div className='e404'>
+            <Helmet>
+                <title>Page introuvable | Xtrem</title>
+                <meta name="description" content="Xtrem, oups, page introuvable, cette page n'existe pas chez Xtrem." />
+            </Helmet>
             <div className='header'>
                 <h1>Page introuvable</h1>
             </div>

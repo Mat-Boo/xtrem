@@ -8,6 +8,7 @@ import ToggleSwitch from '../../../components/ToggleSwitch';
 import slugify from 'react-slugify';
 import { userServices } from '../../../_services/user_services';
 import Loader from '../../../components/Loader';
+import {Helmet} from "react-helmet";
 
 export default function AddClub() {
 
@@ -35,7 +36,6 @@ export default function AddClub() {
             setPartner(response.data);
             setLoader(false);
         })
-        document.title = 'Ajout Club | Xtrem';
     }, [])
 
     //Validate Form and send to api
@@ -73,6 +73,10 @@ export default function AddClub() {
                     <Loader /> :
                     partner.partnerPermissions &&
                         <div className='addClub'>
+                            <Helmet>
+                                <title>Ajout club | Xtrem</title>
+                                <meta name="description" content="Xtrem, création d'un nouveau club avec affectation des permissions." />
+                            </Helmet>
                             <div className='header'>
                                 <h1>Nouveau club</h1>
                             </div>

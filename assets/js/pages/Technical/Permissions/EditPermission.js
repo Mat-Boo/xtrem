@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateAlertMessage } from '../../../redux/redux';
 import Loader from '../../../components/Loader';
+import {Helmet} from "react-helmet";
 
 export default function AddPermission() {
     
@@ -27,7 +28,6 @@ export default function AddPermission() {
                 setPermission(response.data);
                 setLoader(false);
             })
-        document.title = 'Modification Permission | Xtrem';
     }, [])
 
     const handleChange = (e) => {
@@ -66,6 +66,10 @@ export default function AddPermission() {
                     <Loader /> :
                 permission.name &&
                     <div className='editPermission'>
+                        <Helmet>
+                            <title>Modification permission | Xtrem</title>
+                            <meta name="description" content="Xtrem, modification des informations d'une permission globale." />
+                        </Helmet>
                         <div className='header'>
                             <h1>Edition de la permission {permission.id}</h1>
                         </div>

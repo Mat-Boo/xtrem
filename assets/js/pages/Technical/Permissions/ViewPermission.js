@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import Button from '../../../components/Button';
 import Axios from '../../../_services/caller_service';
 import Loader from '../../../components/Loader';
+import {Helmet} from "react-helmet";
 
 export default function ViewPermission() {
 
@@ -17,7 +18,6 @@ export default function ViewPermission() {
         .then((response) => {
             setPermission(response.data);
         })
-        document.title = 'Permission | Xtrem';
         setLoader(false);
     }, [])
 
@@ -29,6 +29,10 @@ export default function ViewPermission() {
                     <Loader /> :
                 permission.name &&
                     <div className='viewPermission'>
+                        <Helmet>
+                            <title>Permission | Xtrem</title>
+                            <meta name="description" content="Xtrem, visualisation des informations d'une permission." />
+                        </Helmet>
                         <div className='header'>
                             <h1>{permission.id} | {permission.name}</h1>
                         </div>

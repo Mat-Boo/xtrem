@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import Button from '../../components/Button';
 import Axios from '../../_services/caller_service';
 import Loader from '../../components/Loader';
+import {Helmet} from "react-helmet";
 
 export default function MyAccount() {
     
@@ -17,7 +18,6 @@ export default function MyAccount() {
             setUser(response.data);
             setLoader(false);
         })
-        document.title = 'Mon compte | Xtrem';
     }, [alertMessage])
 
     return (
@@ -27,6 +27,10 @@ export default function MyAccount() {
                     <Loader /> :
                     user &&
                         <div className='myAccount'>
+                            <Helmet>
+                                <title>Mon compte | Xtrem</title>
+                                <meta name="description" content="Xtrem, visualisation des informations personnelles." />
+                            </Helmet>
                             <div className='header'>
                                 <h1>Mes informations personnelles</h1>
                             </div>

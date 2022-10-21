@@ -7,6 +7,7 @@ import { userServices } from '../../../_services/user_services';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAxiosAnswer } from '../../../redux/redux';
 import Loader from '../../../components/Loader';
+import {Helmet} from "react-helmet";
 
 export default function ViewPartner() {
     
@@ -29,7 +30,6 @@ export default function ViewPartner() {
             setLoader(false);
         })
         stockAxiosAnswerInStore('');
-        document.title = 'Partenaire | Xtrem';
     }, [axiosAnswer])
 
     return (
@@ -39,6 +39,10 @@ export default function ViewPartner() {
                     <Loader /> :
                     partner.partnerPermissions &&
                         <div className='viewPartner'>
+                            <Helmet>
+                                <title>Partenaire | Xtrem</title>
+                                <meta name="description" content="Xtrem, visualisation des information d'un partenaire avec la possibilité de gérer ses permissions globales." />
+                            </Helmet>
                             <div className='header'>
                                 <Button 
                                     typeBtn='back'

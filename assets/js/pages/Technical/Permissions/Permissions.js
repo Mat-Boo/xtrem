@@ -9,6 +9,7 @@ import { paginationParams } from '../../../_services/paginationParams';
 import { helpers } from '../../../_services/helpers';
 import Loader from '../../../components/Loader';
 import { updateFilter } from '../../../redux/redux';
+import {Helmet} from "react-helmet";
 
 export default function Permissions() {
 
@@ -34,7 +35,6 @@ export default function Permissions() {
             setLoader(false);
         })
         setCurrentPage(1);
-        document.title = 'Permissions | Xtrem';
         
         return () => {
             stockFilterInStore({search: '', state: 'all'});
@@ -45,6 +45,10 @@ export default function Permissions() {
     
     return (
         <div className='permissions'>
+            <Helmet>
+                <title>Permissions | Xtrem</title>
+                <meta name="description" content="Xtrem, gestion des permissions avec la possibilité de les visualiser, les modifier ou les supprimer." />
+            </Helmet>
             <div className='header'>
                 <h1>Permissions</h1>
                 <Button
