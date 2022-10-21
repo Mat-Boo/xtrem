@@ -35,6 +35,17 @@ class Mail {
         $response->success();
     }
 
+    public function getUrl()
+    {
+        if ($_ENV['APP_ENV'] === 'dev') {
+            $url = 'http://127.0.0.1:8000';
+        } else {
+            $url = 'https://xtrem-studi.fly.dev';
+        }
+
+        return $url;
+    }
+
     //Mails concernant les contacts de partenaire
     public function createPartner($firstname, $email, $uuid)
     {
@@ -42,7 +53,7 @@ class Mail {
         $contentMail .= "Votre accès à l'interface Xtrem est opérationnel.<br/><br/>";
         $contentMail .= "Vous devez, maintenant, créer votre mot de passe personnel.<br/>";
         $contentMail .= "Pour celà, cliquez sur le lien suivant : <br/>";
-        $contentMail .= "<a href='http://127.0.0.1:8000/{$uuid}/creer-mot-de-passe'>Créer mon mot de passe</a><br/><br/>";
+        $contentMail .= "<a href='" . $this->getUrl() . "/{$uuid}/creer-mot-de-passe'>Créer mon mot de passe</a><br/><br/>";
         $contentMail .= "Vous retrouverez ensuite, sur votre espace, l'ensemble des informations du partenaire et les permissions mises en place et donc activable ou désactivable sur demande pour vos clubs.<br/><br/>";
         $contentMail .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante:<br/>";
         $contentMail .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
@@ -127,7 +138,7 @@ class Mail {
         $contentMailClub .= "Votre accès à l'interface Xtrem est opérationnel.<br/><br/>";
         $contentMailClub .= "Vous devez, maintenant, créer votre mot de passe personnel.<br/>";
         $contentMailClub .= "Pour celà, cliquez sur le lien suivant : <br/>";
-        $contentMailClub .= "<a href='http://127.0.0.1:8000/{$uuidClub}/creer-mot-de-passe'>Créer mon mot de passe</a><br/><br/>";
+        $contentMailClub .= "<a href='" . $this->getUrl() . "/{$uuidClub}/creer-mot-de-passe'>Créer mon mot de passe</a><br/><br/>";
         $contentMailClub .= "Vous retrouverez ensuite, sur votre espace, l'ensemble des informations du club et les permissions mises en place et donc activable ou désactivable sur demande de votre partenaire.<br/><br/>";
         $contentMailClub .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante:<br/>";
         $contentMailClub .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
@@ -343,7 +354,7 @@ class Mail {
         $contentMail = "Bonjour {$firstname},<br/><br/>";
         $contentMail .= "Votre accès à l'interface Xtrem a été réinitialisé.<br/>";
         $contentMail .= "Vous pouvez recréer votre mot de passe personnel en cliquant sur le lien suivant: <br/>";
-        $contentMail .= "<a href='http://127.0.0.1:8000/{$uuid}/creer-mot-de-passe'>Créer mon mot de passe</a><br/><br/>";
+        $contentMail .= "<a href='" . $this->getUrl() . "/{$uuid}/creer-mot-de-passe'>Créer mon mot de passe</a><br/><br/>";
         $contentMail .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante:<br/>";
         $contentMail .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
         $this->send(false, $email, $firstname, 'Xtrem | Réinitialisation Accès', $contentMail);
