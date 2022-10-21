@@ -10,7 +10,7 @@ Dans le dossier Annexes de ce dépot se trouvent :
 - 01 - Personas - ECF - Xtrem
 - 02 - User Stories - ECF - Xtrem
 - 03 - Wireframes (desktop & mobile) - ECF - Xtrem
-- 04 - Graphical charter - ECF - Xtrem
+- 04 - Charte graphique - ECF - Xtrem
 - 05 - Mockups (desktop & mobile) - ECF - Xtrem
 - 06 - Schémas de conception (Merise, Use case, Sequence) - ECF - Xtrem
 - 07 - Manuel d’utilisation - ECF - Xtrem

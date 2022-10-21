@@ -108,7 +108,7 @@ Encore
     .configureDefinePlugin(options => {
         const env = dotenv.config();
   
-        console.log(env); //ICI
+        console.log(env);
         if (env.error) {
             throw env.error;
         }
