@@ -14,6 +14,7 @@ Dans le dossier Annexes de ce dépot se trouvent :
 - 05 - Mockups (desktop & mobile) - ECF - Xtrem
 - 06 - Schémas de conception (Merise, Use case, Sequence) - ECF - Xtrem
 - 07 - Manuel d’utilisation - ECF - Xtrem
+- 08 - sql-xtrem-insert-testValues.sql
 
 ---
 
@@ -25,6 +26,7 @@ Dans le dossier Annexes de ce dépot se trouvent :
 - Base de données : MySQL
 
 ### Frontend :
+- node 16.3.2
 - React 18.2.0
 - Sass 13.0.2
 
@@ -36,14 +38,11 @@ Dans le dossier Annexes de ce dépot se trouvent :
 - Pour une meilleure expérience utilisateur, je voulais impérativement mettre en place une SPA, je me suis donc tourné vers la librairie REACT pour la partie frontend avec les styles gérés avec le pré-processeur SASS.
 
 - Pour la sécurité, les mots de passe sont cryptés, les requêtes effectuées via doctrine sont préparées et les formulaires sont contrôlés à la validation.
+De plus, j'utilise un token JWT pour l'authentification mis en place avec le package Lexik qui nécessite qu'OpenSSL soit présent sur votre machine. 5instalaltion possible avec la commande : `choco install openssl`
 
 ---
 
 ## Déploiement du projet en local
-
-- Au préalable, créez votre environnement Symfony en suivant la procédure suivante : https://symfony.com/doc/current/setup.html
-
-
 ### Clonage dépôt Git:
 - Rendez-vous sur le dépot GIT fourni
 
@@ -55,35 +54,34 @@ Dans le dossier Annexes de ce dépot se trouvent :
 
 - Sur VSC, ouvrez le dossier de travail et accédez au code
 
+<br/>
+
+### Variables d'environnement:
+- Dans le fichier .env, à la racine du projet, modifiez la variable APP_ENV avec la valeur : dev
+- Créez un fichier .env.local à la racine de votre projet et y ajouter les variables d'environnement suivantes :
+  - Configurez la DATABASE_URL avec vos informations de base de données: Exemple avec mySql : `DATABASE_URL="mysql://identiant:mot-de-passe@url:port/database`
+
+- Création compte MailJet
+Chaque action sur le site (Activation ou désactivation d'un partenaire, club ou permission, Ajout, mise à jour, suppression de partenaire, club ou permission) génère automatiquement l'envoi d'un email au contact du partenaire et/ou manager du club.
+Cette fonctionnalité d'envoi est basée sur MailJet, il est donc impératif de créer un compte au préalable chez MailJet est d'indiquer vos clés de la façon suivante dans le fichier .env.local :
+  - MJ_APIKEY_PUBLIC='votre clé Mailjet publique'
+  - MJ_APIKEY_PRIVATE='votre clé MailJet privée'
+
+<br/>
 
 ### Installation dépendances:
 - Installez les dépendances PHP via la commande : `composer install`
 - Installez les dépendances NPM via la commande : `npm install`
 
-### Variables d'environnement:
-- Créez un fichier .env.local à la racine de votre projet et y ajouter les variables d'environnement suivantes :
+<br/>
 
-//Voir si faut vraiment faire un env.local
-dans tous les cas ajouter API KY de mailjet en ayant pris soin de créer au préalable u compte sur mailjet
-générer les clé api pour lexik
-
-
-
-
-
-
-
-
-
-
-
-### Base de données:
-- Dans le fichier .env.local, à la racine du projet, configurez la DATABASE_URL avec vos informations de base de données: Exemple avec mySql : `DATABASE_URL="mysql://identiant:mot-de-passe@url:port/database`
+### Création de la base de données:
 
 - Si la base de données est configurée mais pas créée, executez la commande suivante : `php bin/console doctrine:database:create`
 
 - Puis lancez les migrations via la commande suivante : `php bin/console doctrine:migrations:migrate`
 
+<br/>
 
 ### Compte d'un utilisateur de l'équipe technique:
 
@@ -95,16 +93,30 @@ générer les clé api pour lexik
 
   `INSERT INTO user (email, roles, password, firstname, lastname, is_active, has_created_pwd, uuid) VALUES ('email', '["ROLE_TECHNICAL"]', 'mot_de_passe', 'prenom', 'nom', 1, 1, 'uuid');`
   
+<br/>
+
+### Ajout de valeurs de test dans la base de données
+Si vous le souhaitez, un  fichier SQL est disponible dans le dossier Annexes à la racine du projet, nommé "08 - sql-xtrem-insert-testValues.sql". Ce fichier reprend les commandes SQL d'insertion de valeurs dans toutes les tables de l'application.
+
+<br/>
+
+### Génération des clés SSL pour Lexik
+Le package Lexik est utilisé pour générer le token JWT à l'authentification utilisateur. Pour la mise en place du projet, il est nécésaaire de générer la paire de clé SSL avec la commande suivante : `php bin/console lexik:jwt:generate-keypair`
+(Rappel : Comme vu plus haut, OpenSSL est nécessaire)
+
+<br/>
 
 ### Lancement du projet:
-- Lancez le projet avec la commande : `symfony serve`
+- Si votre version de nodeJS est supérieure à celle indiquée ci-dessus, il sera peut être nécessaire d'executer la commande : `npm rebuild node-sass`
+- Lancez d'abord la commande suivante : `npm run build`
+- Lancez le projet avec la commande : `php -S 127.0.0.1:8000 -t public/`
 
 ---
 
 
 ## Déploiement du projet en ligne
 
-- Le site est actuellement en ligne ici : https://xtrem-studi.fly.dev/
+Le site est actuellement en ligne ici : https://xtrem-studi.fly.dev/
 Le déploiement a été effectué sur Heroku et récupéré sur Fly.io car Heroku est devenu payant.
 
 ### Deploiement sur Heroku

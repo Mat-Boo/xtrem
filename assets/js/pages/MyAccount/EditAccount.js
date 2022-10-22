@@ -72,7 +72,7 @@ export default function EditAccount() {
                             <div className='header'>
                                 <h1>Modification de mes informations personnelles</h1>
                             </div>
-                            <form novalidate onSubmit={(e) => validForm(e)}>
+                            <form noValidate onSubmit={(e) => validForm(e)}>
                                 <div className="infosGroup">
                                     <div className='formItem'>
                                         <label htmlFor="firstname">Prénom</label>
