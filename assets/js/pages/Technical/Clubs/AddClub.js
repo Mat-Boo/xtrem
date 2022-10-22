@@ -207,7 +207,7 @@ export default function AddClub() {
                                                                 idToggle={permission.Permission.id}
                                                                 nameToggle={permission.Permission.name}
                                                                 typeToggle='permission'
-                                                                isActive={false}
+                                                                isActive={true} //////////////////////////////////////////////
                                                                 roles={userServices.getUser().roles}
                                                                 isEnabled={true}
                                                             />
