@@ -1,5 +1,4 @@
 import React from 'react';
-import { useEffect } from 'react';
 import { userServices } from '../_services/user_services';
 import {Helmet} from "react-helmet";
 

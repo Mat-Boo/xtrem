@@ -3,7 +3,7 @@ import Button from '../../../components/Button';
 import Axios from '../../../_services/caller_service';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { updateAlertMessage } from '../../../redux/redux';
+import { updateAlertMessage, updateLoader } from '../../../redux/redux';
 import Loader from '../../../components/Loader';
 import {Helmet} from "react-helmet";
 
@@ -21,12 +21,18 @@ export default function AddPermission() {
     const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0));
 
     const [loader, setLoader] = useState(true);
+    const dispatchLoader = useDispatch();
+    const stockLoaderInStore = (data) => {
+        dispatchLoader(updateLoader(data))
+    }
     
     useEffect(() => {
+            stockLoaderInStore(true);
             Axios.get('/api/permission/' + id)
             .then((response) => {
                 setPermission(response.data);
                 setLoader(false);
+                stockLoaderInStore(false);
             })
     }, [])
 

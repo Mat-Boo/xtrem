@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Button from '../../../components/Button';
 import Axios from '../../../_services/caller_service';
 import { useDispatch } from 'react-redux'
-import { updateAlertMessage } from '../../../redux/redux';
+import { updateAlertMessage, updateLoader } from '../../../redux/redux';
 import { useNavigate } from 'react-router-dom';
 import ToggleSwitch from '../../../components/ToggleSwitch';
 import { userServices } from '../../../_services/user_services';
@@ -27,12 +27,18 @@ export default function AddPartner() {
     const [permissions, setPermissions] = useState([]);
 
     const [loader, setLoader] = useState(true);
+    const dispatchLoader = useDispatch();
+    const stockLoaderInStore = (data) => {
+        dispatchLoader(updateLoader(data))
+    }
     
     useEffect(() => {
+        stockLoaderInStore(true);
         Axios.get('/api/permissions')
         .then((response) => {
             setPermissions(response.data);
             setLoader(false);
+            stockLoaderInStore(false);
         })
       }, [])
 

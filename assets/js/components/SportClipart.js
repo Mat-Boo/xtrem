@@ -27,6 +27,7 @@ export default function SportClipart() {
     
     useEffect(() => {
         setRandomClipart(Math.floor(Math.random() * (10 - 0) + 0))
+
     }, [location.pathname])
     
     return (

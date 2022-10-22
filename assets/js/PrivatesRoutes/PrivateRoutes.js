@@ -1,7 +1,12 @@
 import React, { useEffect } from 'react';
 import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { updateAlertMessage, updateAnswerModalForChangeState, updateAnswerModalForDelete, updateAnswerModalForResetAccess, updateAuth, updateAxiosAnswer, updateFilter, updateModal, updateStateItem, updateTypeButton } from '../redux/redux';
+import { 
+    updateAlertMessage, updateAnswerModalForChangeState, 
+    updateAnswerModalForDelete, updateAnswerModalForResetAccess, 
+    updateAuth, updateAxiosAnswer, updateFilter, updateLoader, 
+    updateModal, updateStateItem, updateTypeButton
+} from '../redux/redux';
 import { userServices } from '../_services/user_services';
 import { checkToken } from '../_services/checkToken';
 
@@ -26,7 +31,8 @@ export default function PrivateRoutes() {
         dispatchTypeButton(updateTypeButton(data)),
         dispatchFilter(updateFilter(dataFilter)),
         dispatchStateItem(updateStateItem(data)),
-        dispatchAxiosAnswer(updateAxiosAnswer(data))
+        dispatchAxiosAnswer(updateAxiosAnswer(data)),
+        dispatchLoader(updateLoader(data))
     }
 
     let auth = userServices.isConnected();

@@ -3,7 +3,7 @@ import Button from '../../components/Button';
 import Axios from '../../_services/caller_service';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { updateAlertMessage } from '../../redux/redux';
+import { updateAlertMessage, updateLoader } from '../../redux/redux';
 import Loader from '../../components/Loader';
 import {Helmet} from "react-helmet";
 
@@ -18,14 +18,20 @@ export default function EditAccount() {
     }
     
     const [user, setUser] = useState();
+    const dispatchLoader = useDispatch();
+    const stockLoaderInStore = (data) => {
+        dispatchLoader(updateLoader(data))
+    }
 
     const [loader, setLoader] = useState(true);
     
     useEffect(() => {
+        stockLoaderInStore(true);
         Axios.get('/api/user')
         .then((response) => {
             setUser(response.data);
             setLoader(false);
+            stockLoaderInStore(false);
         })
     }, [])
 

@@ -4,6 +4,8 @@ import Button from '../../../components/Button';
 import Axios from '../../../_services/caller_service';
 import Loader from '../../../components/Loader';
 import {Helmet} from "react-helmet";
+import { updateLoader } from '../../../redux/redux';
+import { useDispatch } from 'react-redux';
 
 export default function ViewPermission() {
 
@@ -12,13 +14,19 @@ export default function ViewPermission() {
     const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0));
 
     const [loader, setLoader] = useState(true);
+    const dispatchLoader = useDispatch();
+    const stockLoaderInStore = (data) => {
+        dispatchLoader(updateLoader(data))
+    }
     
     useEffect(() => {
+        stockLoaderInStore(true);
         Axios.get('/api/permission/' + id)
         .then((response) => {
             setPermission(response.data);
+            setLoader(false);
+            stockLoaderInStore(false);
         })
-        setLoader(false);
     }, [])
 
 

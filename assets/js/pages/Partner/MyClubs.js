@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Axios from '../../_services/caller_service';
 import Filters from '../../components/Filters';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ClubCard from '../../components/ClubCard';
 import { userServices } from '../../_services/user_services';
 import { paginationParams } from '../../_services/paginationParams';
@@ -9,6 +9,7 @@ import Pagination from '../../components/Pagination';
 import ToggleSwitch from '../../components/ToggleSwitch';
 import Loader from '../../components/Loader';
 import {Helmet} from "react-helmet";
+import { updateLoader } from '../../redux/redux';
 
 export default function MyClubs() {
     
@@ -25,6 +26,10 @@ export default function MyClubs() {
     const [displayedParterDetails, setDisplayedPartnerDetails] = useState(false);
 
     const [loader, setLoader] = useState(true);
+    const dispatchLoader = useDispatch();
+    const stockLoaderInStore = (data) => {
+        dispatchLoader(updateLoader(data))
+    }
     
     //Pagination
     const [currentPage, setCurrentPage] = useState();
@@ -32,6 +37,7 @@ export default function MyClubs() {
     const firstItemIndex = lastItemIndex - paginationParams.clubsPerPage;
     
     useEffect(() => {
+        stockLoaderInStore(true);
         if (userServices.isConnected()) {
             Axios.get('/api/user-partner/')
             .then((response) => {
@@ -50,6 +56,7 @@ export default function MyClubs() {
                 })
                 setLengthes(lengthes => ({...lengthes, all: response.data.partner.clubs.length}));
                 setLoader(false);
+                stockLoaderInStore(false);
             })
         }
         setCurrentPage(1);

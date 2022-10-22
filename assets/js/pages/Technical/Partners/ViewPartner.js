@@ -5,7 +5,7 @@ import ToggleSwitch from '../../../components/ToggleSwitch';
 import Axios from '../../../_services/caller_service';
 import { userServices } from '../../../_services/user_services';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateAxiosAnswer } from '../../../redux/redux';
+import { updateAxiosAnswer, updateLoader } from '../../../redux/redux';
 import Loader from '../../../components/Loader';
 import {Helmet} from "react-helmet";
 
@@ -22,12 +22,18 @@ export default function ViewPartner() {
     }
 
     const [loader, setLoader] = useState(true);
+    const dispatchLoader = useDispatch();
+    const stockLoaderInStore = (data) => {
+        dispatchLoader(updateLoader(data))
+    }
 
     useEffect(() => {
+        stockLoaderInStore(true);
         Axios.get('/api/partner/' + id)
         .then((response) => {
             setPartner(response.data);
             setLoader(false);
+            stockLoaderInStore(false);
         })
         stockAxiosAnswerInStore('');
     }, [axiosAnswer])

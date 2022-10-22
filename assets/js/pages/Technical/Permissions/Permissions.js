@@ -8,7 +8,7 @@ import Pagination from '../../../components/Pagination';
 import { paginationParams } from '../../../_services/paginationParams';
 import { helpers } from '../../../_services/helpers';
 import Loader from '../../../components/Loader';
-import { updateFilter } from '../../../redux/redux';
+import { updateFilter, updateLoader } from '../../../redux/redux';
 import {Helmet} from "react-helmet";
 
 export default function Permissions() {
@@ -22,6 +22,10 @@ export default function Permissions() {
     }
 
     const [loader, setLoader] = useState(true);
+    const dispatchLoader = useDispatch();
+    const stockLoaderInStore = (data) => {
+        dispatchLoader(updateLoader(data))
+    }
 
     //Pagination
     const [currentPage, setCurrentPage] = useState();
@@ -29,10 +33,12 @@ export default function Permissions() {
     const firstItemIndex = lastItemIndex - paginationParams.permissionsPerPage;
 
     useEffect(() => {
+        stockLoaderInStore(true);
         Axios.get('/api/permissions')
         .then((response) => {
             setPermissions(response.data);
             setLoader(false);
+            stockLoaderInStore(false);
         })
         setCurrentPage(1);
         

@@ -11,7 +11,7 @@ import { userServices } from '../../../_services/user_services';
 import { paginationParams } from '../../../_services/paginationParams';
 import Pagination from '../../../components/Pagination';
 import { helpers } from '../../../_services/helpers';
-import { updateAxiosAnswer, updateFilter } from '../../../redux/redux';
+import { updateAxiosAnswer, updateFilter, updateLoader } from '../../../redux/redux';
 import Loader from '../../../components/Loader';
 import {Helmet} from "react-helmet";
 
@@ -31,6 +31,10 @@ export default function ManageClubs() {
     }
 
     const [loader, setLoader] = useState(true);
+    const dispatchLoader = useDispatch();
+    const stockLoaderInStore = (data) => {
+        dispatchLoader(updateLoader(data))
+    }
     
     //Pagination
     const [currentPage, setCurrentPage] = useState();
@@ -44,6 +48,7 @@ export default function ManageClubs() {
     }
     
     useEffect(() => {
+        stockLoaderInStore(true);
         Axios.get('/api/partner/' + id)
         .then((response) => {
             setPartner(response.data);
@@ -61,6 +66,7 @@ export default function ManageClubs() {
             })
             setLengthes(lengthes => ({...lengthes, all: response.data.clubs.length}));
             setLoader(false);
+            stockLoaderInStore(false);
         })
         setCurrentPage(1);
         stockAxiosAnswerInStore('');

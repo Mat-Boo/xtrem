@@ -130,6 +130,19 @@ const axiosAnswerSlice = createSlice({
 })
 export const {updateAxiosAnswer} = axiosAnswerSlice.actions;
 
+// Slice to stock the loader
+const loaderSlice = createSlice({
+    name: 'loader',
+    initialState: true,
+    reducers: {
+        updateLoader: (state, action) => {
+            state = action.payload
+            return state
+        }
+    }
+})
+export const {updateLoader} = loaderSlice.actions;
+
 export const store = configureStore({
     reducer: {
         auth: authSlice.reducer,
@@ -141,6 +154,7 @@ export const store = configureStore({
         typeButton: typeButtonSlice.reducer,
         filter: filterSlice.reducer,
         stateItem: stateItemSlice.reducer,
-        axiosAnswer: axiosAnswerSlice.reducer
+        axiosAnswer: axiosAnswerSlice.reducer,
+        loader: loaderSlice.reducer
     }
 })

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Button from '../../../components/Button';
 import Axios from '../../../_services/caller_service';
 import { useDispatch } from 'react-redux'
-import { updateAlertMessage } from '../../../redux/redux';
+import { updateAlertMessage, updateLoader } from '../../../redux/redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import slugify from 'react-slugify';
 import Loader from '../../../components/Loader';
@@ -18,6 +18,10 @@ export default function EditClub() {
     const [errors, setErrors] = useState({});
 
     const [loader, setLoader] = useState(true);
+    const dispatchLoader = useDispatch();
+    const stockLoaderInStore = (data) => {
+        dispatchLoader(updateLoader(data))
+    }
     
     const dispatchAlertMessage = useDispatch();
     const stockAlertMessageInStore = (data) => {
@@ -30,10 +34,12 @@ export default function EditClub() {
     }
     
     useEffect(() => {
+        stockLoaderInStore(true);
         Axios.get('/api/club/' + id)
         .then((response) => {
             setClub(response.data);
             setLoader(false);
+            stockLoaderInStore(false);
         })
     }, [])
 

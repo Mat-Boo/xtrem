@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Axios from '../../_services/caller_service';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ClubCard from '../../components/ClubCard';
 import { userServices } from '../../_services/user_services';
 import Loader from '../../components/Loader';
 import {Helmet} from "react-helmet";
+import { updateLoader } from '../../redux/redux';
 
 export default function MyClub() {
 
@@ -12,16 +13,21 @@ export default function MyClub() {
     const [user, setUser] = useState([]);
     
     const [loader, setLoader] = useState(true);
+    const dispatchLoader = useDispatch();
+    const stockLoaderInStore = (data) => {
+        dispatchLoader(updateLoader(data))
+    }
 
     useEffect(() => {
+        stockLoaderInStore(true);
         if (userServices.isConnected()) {
             Axios.get('/api/user-club/')
             .then((response) => {
                 setUser(response.data);
                 setLoader(false);
+                stockLoaderInStore(false);
             })
         }
-        document.title = 'Mon Club | Xtrem';
     }, [alertMessage])
 
     return (

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Button from '../components/Button';
 import Axios from '../_services/caller_service';
 import { useNavigate } from 'react-router-dom';
@@ -37,7 +37,7 @@ export default function ForgottenPassword() {
             setErrors(error.response.data);
         });
     }
-console.log(errors)
+
     return (
         <>
         {

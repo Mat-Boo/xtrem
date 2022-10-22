@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../components/Button';
 import Axios from '../../_services/caller_service';
 import Loader from '../../components/Loader';
 import {Helmet} from "react-helmet";
+import { updateLoader } from '../../redux/redux';
 
 export default function MyAccount() {
     
@@ -11,12 +12,18 @@ export default function MyAccount() {
     const [user, setUser] = useState();
 
     const [loader, setLoader] = useState(true);
+    const dispatchLoader = useDispatch();
+    const stockLoaderInStore = (data) => {
+        dispatchLoader(updateLoader(data))
+    }
     
     useEffect(() => {
+        stockLoaderInStore(true);
         Axios.get('/api/user')
         .then((response) => {
             setUser(response.data);
             setLoader(false);
+            stockLoaderInStore(false);
         })
     }, [alertMessage])
 

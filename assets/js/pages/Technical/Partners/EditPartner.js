@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Button from '../../../components/Button';
 import Axios from '../../../_services/caller_service';
 import { useDispatch } from 'react-redux'
-import { updateAlertMessage } from '../../../redux/redux';
+import { updateAlertMessage, updateLoader } from '../../../redux/redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import Loader from '../../../components/Loader';
 import {Helmet} from "react-helmet";
@@ -24,12 +24,18 @@ export default function EditPartner() {
     const [logoFile, setLogoFile] = useState();
 
     const [loader, setLoader] = useState(true);
+    const dispatchLoader = useDispatch();
+    const stockLoaderInStore = (data) => {
+        dispatchLoader(updateLoader(data))
+    }
     
     useEffect(() => {
+        stockLoaderInStore(true);
         Axios.get('/api/partner/' + id)
         .then((response) => {
             setPartner(response.data);
             setLoader(false);
+            stockLoaderInStore(false);
         })
     }, [])
 

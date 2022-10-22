@@ -9,7 +9,7 @@ import { userServices } from '../../../_services/user_services';
 import { paginationParams } from '../../../_services/paginationParams';
 import { helpers } from '../../../_services/helpers';
 import Loader from '../../../components/Loader';
-import { updateFilter } from '../../../redux/redux';
+import { updateFilter, updateLoader } from '../../../redux/redux';
 import {Helmet} from "react-helmet";
 
 export default function Partners() {
@@ -27,6 +27,10 @@ export default function Partners() {
     }
     
     const [loader, setLoader] = useState(true);
+    const dispatchLoader = useDispatch();
+    const stockLoaderInStore = (data) => {
+        dispatchLoader(updateLoader(data))
+    }
 
     //Pagination
     const [currentPage, setCurrentPage] = useState();
@@ -34,6 +38,7 @@ export default function Partners() {
     const firstItemIndex = lastItemIndex - paginationParams.partnersPerPage;
 
     useEffect(() => {
+        stockLoaderInStore(true);
         Axios.get('/api/partners')
         .then((response) => {
             setPartners(response.data);
@@ -46,6 +51,7 @@ export default function Partners() {
             })
             setLengthes(lengthes => ({...lengthes, all: response.data.length}));
             setLoader(false);
+            stockLoaderInStore(false);
         })
         setCurrentPage(1);
 
