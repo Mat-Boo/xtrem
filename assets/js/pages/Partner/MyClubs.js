@@ -33,7 +33,7 @@ export default function MyClubs() {
     
     useEffect(() => {
         if (userServices.isConnected()) {
-            Axios.get('/api/userPartner/' + userServices.getUser().username)
+            Axios.get('/api/user-partner/')
             .then((response) => {
                 setUser(response.data);
                 setLengthes({

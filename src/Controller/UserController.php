@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,18 +9,10 @@ use Symfony\Component\Serializer\SerializerInterface as SerializerSerializerInte
 
 class UserController extends AbstractController
 {
-    private $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    #[Route('/api/user-partner/', name: 'user_partner', methods: ['GET'])]
+    public function getUserPartner(SerializerSerializerInterface $serializer): Response
     {
-        $this->entityManager = $entityManager;
-    }
-
-    #[Route('/api/userPartner/{email}', name: 'userPartner', methods: ['GET'])]
-    public function getUserPartner(SerializerSerializerInterface $serializer, $email): Response
-    {
-        //Récupération de l'utilisateur par son email
-        $user = $this->entityManager->getRepository(User::class)->findOneByEmail($email);
+        $user = $this->getUser();
 
         //Création de la réponse pour renvoyer le json contenant le partenaire associé à l'utilisateur connecté
         $json = $serializer->serialize($user, 'json', ['groups' => 'userPartner:read']);
@@ -33,11 +23,10 @@ class UserController extends AbstractController
         return $response;
     }
 
-    #[Route('/api/userClub/{email}', name: 'userClub', methods: ['GET'])]
-    public function getUserClub(SerializerSerializerInterface $serializer, $email): Response
+    #[Route('/api/user-club/', name: 'user_club', methods: ['GET'])]
+    public function getUserClub(SerializerSerializerInterface $serializer): Response
     {
-        //Récupération de l'utilisateur par son email
-        $user = $this->entityManager->getRepository(User::class)->findOneByEmail($email);
+        $user = $this->getUser();
 
         //Création de la réponse pour renvoyer le json contenant le club associé à l'utilisateur connecté
         $json = $serializer->serialize($user, 'json', ['groups' => 'userClub:read']);

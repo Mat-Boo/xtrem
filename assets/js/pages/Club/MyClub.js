@@ -15,7 +15,7 @@ export default function MyClub() {
 
     useEffect(() => {
         if (userServices.isConnected()) {
-            Axios.get('/api/userClub/' + userServices.getUser().username)
+            Axios.get('/api/user-club/')
             .then((response) => {
                 setUser(response.data);
                 setLoader(false);
