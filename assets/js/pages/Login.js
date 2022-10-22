@@ -58,19 +58,6 @@ export default function Login() {
             <Helmet>
                 <title>Connexion | Xtrem</title>
                 <meta name="description" content="Xtrem, page de connexion à l'interface Xtrem." />
-                {/* Open Graph meta for Facebook */}
-                <meta property="og:title" content="Partenaires | Xtrem" />
-                <meta property="og:url" content="https://xtrem-studi.fly.dev/" />
-                <meta property="og:image" content="https://xtrem-studi.fly.dev/uploads/seo.jpg" />
-                <meta property="og:description" content="Xtrem, page de connexion à l'interface Xtrem." />
-                <meta property="og:site_name" content="Xtrem" />
-                <meta property="og:type" content="website" />
-                {/* Card meta for Twitter */}
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:site" content="@xtrem" />
-                <meta name="twitter:title" content="Partenaires | Xtrem" />
-                <meta name="twitter:description" content="Xtrem, page de connexion à l'interface Xtrem." />
-                <meta name="twitter:image:src" content="https://xtrem-studi.fly.dev/uploads/seo.jpg" />
             </Helmet>
             <img src={logo} alt="logo" className='logo'/>
             <form  noValidate id='loginForm' onSubmit={(e) => validForm(e)}>

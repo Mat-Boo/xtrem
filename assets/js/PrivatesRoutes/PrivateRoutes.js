@@ -22,6 +22,7 @@ export default function PrivateRoutes() {
     const dispatchFilter = useDispatch();
     const dispatchStateItem = useDispatch();
     const dispatchAxiosAnswer = useDispatch();
+    const dispatchLoader = useDispatch();
     const stockInStore = (data, dataFilter) => {
         dispatchAuth(updateAuth(data)),
         dispatchModal(updateModal(data)),
