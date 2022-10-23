@@ -96,7 +96,7 @@ Cette fonctionnalité d'envoi est basée sur MailJet, il est donc impératif de 
 <br/>
 
 ### Ajout de valeurs de test dans la base de données
-Si vous le souhaitez, un  fichier SQL est disponible dans le dossier Annexes à la racine du projet, nommé "08 - sql-xtrem-insert-testValues.sql". Ce fichier reprend les commandes SQL d'insertion de valeurs dans toutes les tables de l'application.
+Si vous le souhaitez, un  fichier SQL est disponible dans le dossier Annexes à la racine du projet, nommé "08 - Sql - Insert testValues - ECF - Xtrem.sql". Ce fichier reprend les commandes SQL d'insertion de valeurs dans toutes les tables de l'application.
 
 <br/>
 
