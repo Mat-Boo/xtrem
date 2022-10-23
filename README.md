@@ -3,18 +3,18 @@ Créé avec Symfony & React
 
 ### Description
 
-Il s'agit du dépôt Github du projet d'ECF Studi pour la session de décembre 2022.
+Il s'agit du dépôt Github du projet d'ECF Studi pour la session de décembre 2022.  
 Ce projet a pour but de créer une application permettant la gestion de partenaires de la marque Xtrem et leurs clubs avec la possibilité de gérer l'accès à des permissions.
 
 Dans le dossier Annexes de ce dépot se trouvent :
-- 01 - Personas - ECF - Xtrem
-- 02 - User Stories - ECF - Xtrem
-- 03 - Wireframes (desktop & mobile) - ECF - Xtrem
-- 04 - Charte graphique - ECF - Xtrem
-- 05 - Mockups (desktop & mobile) - ECF - Xtrem
-- 06 - Schémas de conception (Merise, Use case, Sequence) - ECF - Xtrem
-- 07 - Manuel d’utilisation - ECF - Xtrem
-- 08 - sql-xtrem-insert-testValues.sql
+- [01 - Personas - ECF - Xtrem.pdf](https://github.com/Mat-Boo/xtrem/blob/main/Annexes/01%20-%20Personas%20-%20ECF%20-%20Xtrem.pdf)
+- [02 - User Stories - ECF - Xtrem.pdf](https://github.com/Mat-Boo/xtrem/blob/main/Annexes/02%20-%20User%20Stories%20-%20ECF%20-%20Xtrem.pdf)
+- [03 - Wireframes (desktop & mobile) - ECF - Xtrem.pdf](https://github.com/Mat-Boo/xtrem/blob/main/Annexes/03%20-%20Wireframes%20(desktop%20%26%20mobile)%20-%20ECF%20-%20Xtrem.pdf)
+- [04 - Charte graphique - ECF - Xtrem.pdf](https://github.com/Mat-Boo/xtrem/blob/main/Annexes/04%20-%20Charte%20graphique%20%20-%20ECF%20-%20Xtrem.pdf)
+- [05 - Mockups (desktop & mobile) - ECF - Xtrem.pdf](https://github.com/Mat-Boo/xtrem/blob/main/Annexes/05%20-%20Mockups%20(desktop%20%26%20mobile)%20-%20ECF%20-%20Xtrem.pdf)
+- [06 - Schémas de conception (Merise, Use case, Sequence) - ECF - Xtrem.pdf](https://github.com/Mat-Boo/xtrem/blob/main/Annexes/06%20-%20Sch%C3%A9mas%20de%20conception%20(Merise%2C%20Use%20case%2C%20Sequence)%20-%20ECF%20-%20Xtrem.pdf)
+- [07 - Manuel d’utilisation - ECF - Xtrem.pdf](https://github.com/Mat-Boo/xtrem/blob/main/Annexes/07%20-%20Manuel%20d'utilisation%20-%20ECF%20-%20Xtrem.pdf)
+- [08 - sql-xtrem-insert-testValues.sql](https://github.com/Mat-Boo/xtrem/blob/main/Annexes/08%20-%20Sql%20-%20Insert%20testValues%20-%20ECF%20-%20Xtrem.sql)
 
 ---
 
@@ -37,7 +37,7 @@ Dans le dossier Annexes de ce dépot se trouvent :
 
 - Pour une meilleure expérience utilisateur, je voulais impérativement mettre en place une SPA, je me suis donc tourné vers la librairie REACT pour la partie frontend avec les styles gérés avec le pré-processeur SASS.
 
-- Pour la sécurité, les mots de passe sont cryptés, les requêtes effectuées via doctrine sont préparées et les formulaires sont contrôlés à la validation.
+- Pour la sécurité, les mots de passe sont cryptés, les requêtes effectuées via doctrine sont préparées et les formulaires sont contrôlés à la validation.  
 De plus, j'utilise un token JWT pour l'authentification mis en place avec le package Lexik qui nécessite qu'OpenSSL soit présent sur votre machine. 5instalaltion possible avec la commande : `choco install openssl`
 
 ---
@@ -62,10 +62,11 @@ De plus, j'utilise un token JWT pour l'authentification mis en place avec le pac
   - Configurez la DATABASE_URL avec vos informations de base de données: Exemple avec mySql : `DATABASE_URL="mysql://identiant:mot-de-passe@url:port/database`
 
 - Création compte MailJet
-Chaque action sur le site (Activation ou désactivation d'un partenaire, club ou permission, Ajout, mise à jour, suppression de partenaire, club ou permission) génère automatiquement l'envoi d'un email au contact du partenaire et/ou manager du club.
-Cette fonctionnalité d'envoi est basée sur MailJet, il est donc impératif de créer un compte au préalable chez MailJet est d'indiquer vos clés de la façon suivante dans le fichier .env.local :
+Chaque action sur le site (Activation ou désactivation d'un partenaire, club ou permission, Ajout, mise à jour, suppression de partenaire, club ou permission) génère automatiquement l'envoi d'un email au contact du partenaire et/ou au manager du club.  
+Cette fonctionnalité d'envoi est basée sur [MailJet](https://www.mailjet.com/fr/), il est donc impératif de créer un compte au préalable chez [MailJet](https://www.mailjet.com/fr/) est d'indiquer vos clés de la façon suivante dans le fichier .env.local :
   - MJ_APIKEY_PUBLIC='votre clé Mailjet publique'
-  - MJ_APIKEY_PRIVATE='votre clé MailJet privée'
+  - MJ_APIKEY_PRIVATE='votre clé MailJet privée'  
+Il sera ensuite nécessaire de créer 2 modèles d'email transactionnel et de modifier les TemplateID dans la class Mail.
 
 <br/>
 
@@ -96,18 +97,19 @@ Cette fonctionnalité d'envoi est basée sur MailJet, il est donc impératif de 
 <br/>
 
 ### Ajout de valeurs de test dans la base de données
-Si vous le souhaitez, un  fichier SQL est disponible dans le dossier Annexes à la racine du projet, nommé "08 - Sql - Insert testValues - ECF - Xtrem.sql". Ce fichier reprend les commandes SQL d'insertion de valeurs dans toutes les tables de l'application.
+Si vous le souhaitez, un  fichier SQL est disponible dans le dossier Annexes à la racine du projet, nommé [08 - sql-xtrem-insert-testValues.sql](https://github.com/Mat-Boo/xtrem/blob/main/Annexes/08%20-%20Sql%20-%20Insert%20testValues%20-%20ECF%20-%20Xtrem.sql).  
+Ce fichier reprend les commandes SQL d'insertion de valeurs dans toutes les tables de l'application.
 
 <br/>
 
 ### Génération des clés SSL pour Lexik
-Le package Lexik est utilisé pour générer le token JWT à l'authentification utilisateur. Pour la mise en place du projet, il est nécésaaire de générer la paire de clé SSL avec la commande suivante : `php bin/console lexik:jwt:generate-keypair`
+Le package Lexik est utilisé pour générer le token JWT à l'authentification utilisateur.  
+Pour la mise en place du projet, il est nécéssaire de générer la paire de clés SSL avec la commande suivante : `php bin/console lexik:jwt:generate-keypair`  
 (Rappel : Comme vu plus haut, OpenSSL est nécessaire)
 
 <br/>
 
 ### Lancement du projet:
-- Si votre version de nodeJS est supérieure à celle indiquée ci-dessus, il sera peut être nécessaire d'executer la commande : `npm rebuild node-sass`
 - Lancez d'abord la commande suivante : `npm run build`
 - Lancez le projet avec la commande : `php -S 127.0.0.1:8000 -t public/`
 
@@ -116,7 +118,7 @@ Le package Lexik est utilisé pour générer le token JWT à l'authentification 
 
 ## Déploiement du projet en ligne
 
-Le site est actuellement en ligne ici : https://xtrem-studi.fly.dev/
+Le site est actuellement en ligne ici : https://xtrem-studi.fly.dev/  
 Le déploiement a été effectué sur Heroku et récupéré sur Fly.io car Heroku est devenu payant.
 
 ### Deploiement sur Heroku
@@ -131,7 +133,7 @@ Le déploiement a été effectué sur Heroku et récupéré sur Fly.io car Herok
 
 - Executez la commande : `php bin/console nat:heroku`
 
-- Répondez aux questions avec votre identifiant Heroku, votre clé API Heroku, votre nom d'app sur Heroku et ajoutez clearDb.
+- Répondez aux questions avec votre identifiant Heroku, votre clé API Heroku, votre nom d'app sur Heroku et ajoutez clearDb.  
 Les fichiers Procfil, htaccess et .env.php seront créé automatiquement.
 Les variables d'environnement seront créés automatiquement sur Heroku et l'addon clearDB sera ajouté sur Heroku.
 

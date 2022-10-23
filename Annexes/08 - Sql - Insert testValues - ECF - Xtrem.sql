@@ -1,7 +1,5 @@
 INSERT INTO user
 VALUES
-(1,'christophe.durand@xtrem.fr','["ROLE_TECHNICAL"]','$2y$13$BzIfTZuf9vtyr1dlFKScr.c6u72c.BWteNtSxv3JfU3H0G/LBEFXG',
-'Christophe','Durand',NULL,1,1,'e467b4f9-0a10-477c-8c81-0829b21db0a3'),
 (2,'christine.dupond@xtrem.fr','["ROLE_PARTNER"]','$2y$13$xiLtN3KGYw1BrLYsgu/8iOJvVrskfeznsm1dUxiMzsJ3C8n6Cf3Ge',
 'Christine','Dupond','0320123456',1,1,'51e8f970-cf22-4e96-b937-c95666e90d00'),
 (3,'nicolas.perou@xtrem.fr','["ROLE_PARTNER"]','$2y$13$V.6KHrVpdt4eHlIG9wAR3ulbSiCxEyOh6pIITvbLLq5NoLQfG6Zq6',
