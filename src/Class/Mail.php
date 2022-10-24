@@ -111,23 +111,36 @@ class Mail {
         $this->send(false, $email, $firstname, 'Xtrem | Accès clôturé', $contentMail);
     }
 
-    public function togglePartnerPermission($permissionState, $permissionName, $partnerName, $firstname, $email)
+    public function togglePartnerPermission($permissionState, $permissionName, $partnerName, $partnerFirstname, $partnerEmail, $clubName, $clubFirstname, $clubEmail)
     {
         if ($permissionState === "0") {
-            $contentMail = "Bonjour {$firstname},<br/><br/>";
-            $contentMail .= "La permission <b>{$permissionName}</b> a été désactivée pour le partenaire <b>{$partnerName}</b>.<br/>";
-            $contentMail .= "L'ensemble de vos clubs n'auront donc plus accès à cette permission.<br/><br/>";
-            $contentMail .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante:<br/>";
-            $contentMail .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-            $this->send(true, $email, $firstname, 'Xtrem | Permission désactivée', $contentMail);
+            if ($partnerEmail !== '') {
+                $contentMail = "Bonjour {$partnerFirstname},<br/><br/>";
+                $contentMail .= "La permission <b>{$permissionName}</b> a été désactivée pour le partenaire <b>{$partnerName}</b>.<br/>";
+                $contentMail .= "L'ensemble de vos clubs n'auront donc plus accès à cette permission.<br/><br/>";
+                $contentMail .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante:<br/>";
+                $contentMail .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
+                $this->send(true, $partnerEmail, $partnerFirstname, 'Xtrem | Permission désactivée', $contentMail);
+            }
+
+            if ($clubEmail !== '') {
+                $contentMailClub = "Bonjour {$clubFirstname},<br/><br/>";
+                $contentMailClub .= "La permission <b>{$permissionName}</b> a été désactivée sur votre partenaire <b>{$partnerName}</b>.<br/>";
+                $contentMailClub .= "votre club <b>{$clubName}</b> n'aura donc plus accès à cette permission.<br/><br/>";
+                $contentMailClub .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante:<br/>";
+                $contentMailClub .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
+                $this->send(true, $clubEmail, $clubFirstname, 'Xtrem | Permission désactivée', $contentMailClub);
+            }
+
+
         } else if ($permissionState === "1") {
-            $contentMail = "Bonjour {$firstname},<br/><br/>";
+            $contentMail = "Bonjour {$partnerFirstname},<br/><br/>";
             $contentMail .= "La permission <b>{$permissionName}</b> a été activée pour le partenaire <b>{$partnerName}</b>.<br/>";
             $contentMail .= "Cette permission est dorénavant disponible mais inactive par défaut pour vos clubs.<br/>";
             $contentMail .= "Veuillez nous contactez pour l'activation sur l'un de vos clubs.<br/><br/>";
             $contentMail .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante:<br/>";
             $contentMail .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
-            $this->send(true, $email, $firstname, 'Xtrem | Permission activée', $contentMail);
+            $this->send(true, $partnerEmail, $partnerFirstname, 'Xtrem | Permission activée', $contentMail);
         }
     }
 

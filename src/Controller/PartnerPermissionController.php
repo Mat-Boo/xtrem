@@ -55,7 +55,11 @@ class PartnerPermissionController extends AbstractController
             $partnerPermission[0]->getPermission()->getName(),
             $partnerPermission[0]->getPartner()->getName(),
             $partnerPermission[0]->getPartner()->getContact()->getFirstname(),
-            $partnerPermission[0]->getPartner()->getContact()->getEmail());
+            $partnerPermission[0]->getPartner()->getContact()->getEmail(),
+            '',
+            '',
+            ''
+        );
 
         //Impact sur les clubs
         //Recherche de toutes les relations clubs-permissions contenant la permission modifiée du partenaire concerné
@@ -66,6 +70,19 @@ class PartnerPermissionController extends AbstractController
         if ($clubsPermissions) {
             foreach($clubsPermissions as $clubPermission) {
                 $this->entityManager->remove($clubPermission);
+                //Envoie d'un mail au manager du club pour lui indiquer la désactivation de la permission
+                if ($clubPermission->getClub()->isIsActive()) {
+                    (new Mail())->togglePartnerPermission(
+                        $content['isActive'],
+                        $partnerPermission[0]->getPermission()->getName(),
+                        '',
+                        '',
+                        '',
+                        $clubPermission->getClub()->getName(),
+                        $clubPermission->getClub()->getManager()->getFirstname(),
+                        $clubPermission->getClub()->getManager()->getEmail()
+                    );
+                }
             }
         } else {
             foreach($partner->getClubs() as $club) {
