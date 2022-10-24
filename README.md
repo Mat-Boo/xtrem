@@ -10,7 +10,7 @@ Dans le dossier Annexes de ce dépot se trouvent :
 - [01 - Personas - ECF - Xtrem.pdf](https://github.com/Mat-Boo/xtrem/blob/main/Annexes/01%20-%20Personas%20-%20ECF%20-%20Xtrem.pdf)
 - [02 - User Stories - ECF - Xtrem.pdf](https://github.com/Mat-Boo/xtrem/blob/main/Annexes/02%20-%20User%20Stories%20-%20ECF%20-%20Xtrem.pdf)
 - [03 - Wireframes (desktop & mobile) - ECF - Xtrem.pdf](https://github.com/Mat-Boo/xtrem/blob/main/Annexes/03%20-%20Wireframes%20(desktop%20%26%20mobile)%20-%20ECF%20-%20Xtrem.pdf)
-- [04 - Charte graphique - ECF - Xtrem.pdf](https://github.com/Mat-Boo/xtrem/blob/main/Annexes/04%20-%20Charte%20graphique%20%20-%20ECF%20-%20Xtrem.pdf)
+- [04 - Charte graphique - ECF - Xtrem.pdf](https://github.com/Mat-Boo/xtrem/blob/main/Annexes/04%20-%20Charte%20graphique%20-%20ECF%20-%20Xtrem.pdf)
 - [05 - Mockups (desktop & mobile) - ECF - Xtrem.pdf](https://github.com/Mat-Boo/xtrem/blob/main/Annexes/05%20-%20Mockups%20(desktop%20%26%20mobile)%20-%20ECF%20-%20Xtrem.pdf)
 - [06 - Schémas de conception (Merise, Use case, Sequence) - ECF - Xtrem.pdf](https://github.com/Mat-Boo/xtrem/blob/main/Annexes/06%20-%20Sch%C3%A9mas%20de%20conception%20(Merise%2C%20Use%20case%2C%20Sequence)%20-%20ECF%20-%20Xtrem.pdf)
 - [07 - Manuel d’utilisation - ECF - Xtrem.pdf](https://github.com/Mat-Boo/xtrem/blob/main/Annexes/07%20-%20Manuel%20d'utilisation%20-%20ECF%20-%20Xtrem.pdf)
