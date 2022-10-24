@@ -1,8 +1,27 @@
-.sportClipart {
-    filter: invert(11%) sepia(99%) saturate(1005%) hue-rotate(188deg) brightness(93%) contrast(92%);   
-    animation: fadein linear 500ms;
-    height: 100%;
+.lineAndSportClipart {
     width: 100%;
-    max-height: 400px;
-    max-width: 500px;
+    display: flex;
+    justify-content: center;
+    animation: fadein linear 500ms;
+    .line {
+        display: none;
+        position: absolute;
+        bottom: 50px;
+        max-height: 450px;
+    }
+    .sportClipart {
+        filter: invert(11%) sepia(99%) saturate(1005%) hue-rotate(188deg) brightness(93%) contrast(92%);   
+        height: 100%;
+        width: 100%;
+        max-height: 400px;
+        max-width: 500px;
+    }
+}
+
+@media screen and (min-width: 1376px) {
+    .lineAndSportClipart {
+        .line {
+            display: block;
+        }
+    }
 }

@@ -133,7 +133,7 @@ export const {updateAxiosAnswer} = axiosAnswerSlice.actions;
 // Slice to stock the loader
 const loaderSlice = createSlice({
     name: 'loader',
-    initialState: true,
+    initialState: false,
     reducers: {
         updateLoader: (state, action) => {
             state = action.payload
