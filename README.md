@@ -38,7 +38,7 @@ Dans le dossier Annexes de ce dépot se trouvent :
 - Pour une meilleure expérience utilisateur, je voulais impérativement mettre en place une SPA, je me suis donc tourné vers la librairie REACT pour la partie frontend avec les styles gérés avec le pré-processeur SASS.
 
 - Pour la sécurité, les mots de passe sont cryptés, les requêtes effectuées via doctrine sont préparées et les formulaires sont contrôlés à la validation.  
-De plus, j'utilise un token JWT pour l'authentification mis en place avec le package Lexik qui nécessite qu'OpenSSL soit présent sur votre machine. 5instalaltion possible avec la commande : `choco install openssl`
+De plus, j'utilise un token JWT pour l'authentification mis en place avec le package Lexik qui nécessite qu'OpenSSL soit présent sur votre machine. Installation possible avec la commande : `choco install openssl`
 
 ---
 
@@ -61,7 +61,7 @@ De plus, j'utilise un token JWT pour l'authentification mis en place avec le pac
 - Créez un fichier .env.local à la racine de votre projet et y ajouter les variables d'environnement suivantes :
   - Configurez la DATABASE_URL avec vos informations de base de données: Exemple avec mySql : `DATABASE_URL="mysql://identiant:mot-de-passe@url:port/database`
 
-- Création compte MailJet
+- Création compte MailJet  
 Chaque action sur le site (Activation ou désactivation d'un partenaire, club ou permission, Ajout, mise à jour, suppression de partenaire, club ou permission) génère automatiquement l'envoi d'un email au contact du partenaire et/ou au manager du club.  
 Cette fonctionnalité d'envoi est basée sur [MailJet](https://www.mailjet.com/fr/), il est donc impératif de créer un compte au préalable chez [MailJet](https://www.mailjet.com/fr/) est d'indiquer vos clés de la façon suivante dans le fichier .env.local :
   - MJ_APIKEY_PUBLIC='votre clé Mailjet publique'
@@ -147,7 +147,7 @@ Les variables d'environnement seront créés automatiquement sur Heroku et l'add
 
 ## Connexion à l'interface
 Il existe 3 accès différents :
-- L'équipe technique (assimilée à l'administrateur) qui a un accès totale pour visualiser, créer, modifier et supprimer les partenaires, clubs et permissions.
+- L'équipe technique (assimilée à l'administrateur) qui a un accès total pour visualiser, créer, modifier et supprimer les partenaires, clubs et permissions.
 - Les contacts des partenaires qui ont juste un accès en lecture sur le partenaire concerné et leurs clubs.
 - Les managers des clubs qui ont un juste un accès en lecture sur leur club.
 

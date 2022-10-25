@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Ramsey\Uuid\Uuid;
@@ -58,7 +57,7 @@ class PartnerController extends AbstractController
     }
 
     #[Route('/api/partner/create', name: 'partner_create', methods: ['POST'])]
-    public function createPartner(Request $request, SerializerInterface $serializer, UserPasswordHasherInterface $hasher, SluggerInterface $slugger): Response
+    public function createPartner(Request $request, SerializerInterface $serializer, SluggerInterface $slugger): Response
     {
         //Récupération des données issues du formulaire de création d'un partenaire
         $content = [];

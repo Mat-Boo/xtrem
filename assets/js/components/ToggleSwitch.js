@@ -169,7 +169,6 @@ export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub,
                     }
                 })
                 .catch(error => {
-                    console.log(error)
                     if (!stateSwitch) {
                         stockAlertMessageInStore({type: 'error', content: 'Le partenaire <b>' + answerModal.nameToggle + '</b> n\'a pu être <b>activé</b>.'})
                         stockAxiosAnswerInStore('error')

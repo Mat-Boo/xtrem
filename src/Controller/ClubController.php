@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Ramsey\Uuid\Uuid;
@@ -44,7 +43,7 @@ class ClubController extends AbstractController
     }
 
     #[Route('/api/partner/{id}/club/create', name: 'partner_club_create', methods: ['POST'])]
-    public function createClub(Request $request, SerializerInterface $serializer, UserPasswordHasherInterface $hasher, SluggerInterface $slugger, $id): Response
+    public function createClub(Request $request, SerializerInterface $serializer, SluggerInterface $slugger, $id): Response
     {
         //Récupération des données issues du formulaire de création d'un club
         $content = [];

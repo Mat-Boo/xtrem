@@ -12,9 +12,9 @@ export default function Footer() {
                 !loader &&
                 <SportClipart />
             }
-            <div className='footer'>
+            <footer className='footer'>
                 <span className='copyright'>© 2022 Xtrem | Créé par Mathieu Bouthors</span>
-            </div>
+            </footer>
         </div>
     )
 }

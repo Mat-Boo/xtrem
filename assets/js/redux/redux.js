@@ -1,7 +1,7 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit'
 
 // Slice to stock User's infos when he's connected
-const authSlice = createSlice({
+/* const authSlice = createSlice({
     name: 'auth',
     initialState: '',
     reducers: {
@@ -11,7 +11,7 @@ const authSlice = createSlice({
         }
     }
 })
-export const {updateAuth} = authSlice.actions;
+export const {updateAuth} = authSlice.actions; */
 
 // Slice to stock message for success and error
 const alertMessageSlice = createSlice({
@@ -145,7 +145,7 @@ export const {updateLoader} = loaderSlice.actions;
 
 export const store = configureStore({
     reducer: {
-        auth: authSlice.reducer,
+        /* auth: authSlice.reducer, */
         alertMessage: alertMessageSlice.reducer,
         modal: modalSlice.reducer,
         answerModalForChangeState: answerModalForChangeStateSlice.reducer,

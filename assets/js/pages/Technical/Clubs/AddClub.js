@@ -66,7 +66,6 @@ export default function AddClub() {
             navigate('/partenaires/' + partner.id + '-' + slugify(partner.name) + '/clubs');
         })
         .catch(error => {
-            console.log(error)
             stockAlertMessageInStore({type: 'error', content: 'L\'ajout du club n\'a pu aboutir, veuillez corriger les erreurs.'});
             setErrors(error.response.data);
         });

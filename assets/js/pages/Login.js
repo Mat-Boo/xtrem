@@ -43,7 +43,7 @@ export default function Login() {
             navigate('/accueil');
         })
         .catch(error => {
-            if (error.response.data.message === 'Invalid credentials.') {
+            if (error.response.data.message === 'Identifiants invalides.') {
                 stockAlertMessageInStore({type: 'error', content: 'Veuillez vérifier votre email et/ou votre mot de passe.'});
             } else if (error.response.data.detail === 'App\\Entity\\User::getPassword(): Return value must be of type string, null returned') {
                 stockAlertMessageInStore({type: 'error', content: 'Votre compte est bien créé mais vous n\'avez pas encore créé votre mot de passe personnel.\nVeuillez vous référer au mail que vous avez reçu de la part de Xtrem.'});

@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class AccountController extends AbstractController
@@ -47,6 +46,10 @@ class AccountController extends AbstractController
         if ($request->get('phone') !== null) {
             $content['phone'] = $request->get('phone');
         }
+
+        $tokenProvider = $this->container->get('security.csrf.token_manager');
+        $token = $tokenProvider->getToken('example')->getValue();
+        dd($token, $request, $this->getUser());
         
         //Application de la fonction de contrôle des champs renseignés dans le formulaire de modification des informations personnelles de l'utilisateur
         $errorsValidation  = new ErrorsValidation($content);
