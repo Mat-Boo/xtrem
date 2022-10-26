@@ -134,6 +134,7 @@ export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub,
         dispatchAnswerModalForChangeState(updateAnswerModalForChangeState(data))
     }
 
+    const alertMessage = useSelector((state) => state.alertMessage);
     const dispatchAlertMessage = useDispatch();
     const stockAlertMessageInStore = (data) => {
         dispatchAlertMessage(updateAlertMessage(data))
@@ -161,20 +162,20 @@ export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub,
                 .then(response => {
                     setStateSwitch(!stateSwitch);
                     if (!stateSwitch) {
-                        stockAlertMessageInStore({type: 'success', content: 'Le partenaire <b>' + answerModal.nameToggle + '</b> a bien été <b>activé</b>.'})
-                        stockAxiosAnswerInStore('success')
+                        stockAlertMessageInStore({type: 'success', content: 'Le partenaire <b>' + answerModal.nameToggle + '</b> a bien été <b>activé</b>.'});
+                        stockAxiosAnswerInStore('success');
                     } else {
-                        stockAlertMessageInStore({type: 'success', content: 'Le partenaire <b>' + answerModal.nameToggle + '</b> ainsi que ses clubs ont bien été <b>désactivés</b>.'})
-                        stockAxiosAnswerInStore('success')
+                        stockAlertMessageInStore({type: 'success', content: 'Le partenaire <b>' + answerModal.nameToggle + '</b> ainsi que ses clubs ont bien été <b>désactivés</b>.'});
+                        stockAxiosAnswerInStore('success');
                     }
                 })
                 .catch(error => {
                     if (!stateSwitch) {
-                        stockAlertMessageInStore({type: 'error', content: 'Le partenaire <b>' + answerModal.nameToggle + '</b> n\'a pu être <b>activé</b>.'})
-                        stockAxiosAnswerInStore('error')
+                        stockAlertMessageInStore({type: 'error', content: 'Le partenaire <b>' + answerModal.nameToggle + '</b> n\'a pu être <b>activé</b>.'});
+                        stockAxiosAnswerInStore('error');
                     } else {
-                        stockAlertMessageInStore({type: 'error', content: 'Le partenaire <b>' + answerModal.nameToggle + '</b> ainsi que ses clubs n\'ont pu être <b>désactivés</b>.'})
-                        stockAxiosAnswerInStore('error')
+                        stockAlertMessageInStore({type: 'error', content: 'Le partenaire <b>' + answerModal.nameToggle + '</b> ainsi que ses clubs n\'ont pu être <b>désactivés</b>.'});
+                        stockAxiosAnswerInStore('error');
                     }
                 });
                 break;
@@ -243,13 +244,15 @@ export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub,
                     }
                 });
                 break;
+            default :
+                null
         }
         stockAnswerModalForChangeStateInStore('');
     }
-    
+
     return (
         <label id={idToggle} className='toggleSwitch' onClick={roles.includes('ROLE_TECHNICAL') && isEnabled ? (e) => clickSwitch(e, idPartner, idClub, idToggle, nameToggle) : null} style={!roles.includes('ROLE_TECHNICAL') || !isEnabled ? {opacity: 0.5, cursor: 'not-allowed'} : null}>
-            <input type="checkbox" id={idToggle} name={typeToggle} onChange={e => handleChange(e)} checked={typeToggle === 'club' ? (!isEnabled ? false : stateSwitch) : stateSwitch} disabled={!roles.includes('ROLE_TECHNICAL') || !isEnabled ? true : false}/>
+            <input type="checkbox" id={idToggle} name={typeToggle} onChange={e => handleChange(e)} checked={stateSwitch} disabled={!roles.includes('ROLE_TECHNICAL') || !isEnabled ? true : false}/>
             <span></span>
         </label>
     )

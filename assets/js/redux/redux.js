@@ -1,18 +1,5 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit'
 
-// Slice to stock User's infos when he's connected
-/* const authSlice = createSlice({
-    name: 'auth',
-    initialState: '',
-    reducers: {
-        updateAuth: (state, action) => {
-            state = action.payload
-            return state
-        }
-    }
-})
-export const {updateAuth} = authSlice.actions; */
-
 // Slice to stock message for success and error
 const alertMessageSlice = createSlice({
     name: 'alertMessage',
@@ -145,7 +132,6 @@ export const {updateLoader} = loaderSlice.actions;
 
 export const store = configureStore({
     reducer: {
-        /* auth: authSlice.reducer, */
         alertMessage: alertMessageSlice.reducer,
         modal: modalSlice.reducer,
         answerModalForChangeState: answerModalForChangeStateSlice.reducer,

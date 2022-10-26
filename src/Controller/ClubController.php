@@ -131,7 +131,7 @@ class ClubController extends AbstractController
             $this->entityManager->flush();
     
             //Création de la réponse pour renvoyer le json contenant les infos du nouveau club
-            $json = $serializer->serialize($club, 'json', ['groups' => 'club:read']);
+            $json = $serializer->serialize($club, 'json', ['groups' => 'club:edit']);
             $response = new Response($json, 200, [
                 'Content-Type' => 'application/json'
             ]);
@@ -263,7 +263,7 @@ class ClubController extends AbstractController
         $this->entityManager->flush();
 
         //Création de la réponse pour renvoyer le json contenant les infos du club modifié
-        $json = $serializer->serialize($club, 'json', ['groups' => 'club:read']);
+        $json = $serializer->serialize($club, 'json', ['groups' => 'club:edit']);
         $response = new Response($json, 200, [
             'Content-Type' => 'application/json'
         ]);
@@ -300,7 +300,7 @@ class ClubController extends AbstractController
         $this->entityManager->flush();
 
         //Création de la réponse pour renvoyer le json contenant les infos du club supprimé
-        $json = $serializer->serialize($club, 'json', ['groups' => 'club:read']);
+        $json = $serializer->serialize($club, 'json', ['groups' => 'club:edit']);
         $response = new Response($json, 200, [
             'Content-Type' => 'application/json'
         ]);

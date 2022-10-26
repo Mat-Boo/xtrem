@@ -21,6 +21,7 @@ export default function ViewPartner() {
         dispatchAxiosAnswer(updateAxiosAnswer(data))
     }
 
+    // Gestion du loader, gif s'affichant pendant l'appel d'Axios avant le retour de sa réponse
     const [loader, setLoader] = useState(true);
     const dispatchLoader = useDispatch();
     const stockLoaderInStore = (data) => {

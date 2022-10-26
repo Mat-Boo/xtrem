@@ -84,7 +84,9 @@ export default function Modal() {
                 stockModalInfosInStore('');
                 stockTypeButtonInStore('');
             }
-        break;
+            break;
+        default :
+            null
     }
 
     return (

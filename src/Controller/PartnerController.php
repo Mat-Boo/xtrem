@@ -69,8 +69,6 @@ class PartnerController extends AbstractController
         $content['lastname'] = $request->get('lastname');
         $content['phone'] = $request->get('phone');
         $content['email'] = $request->get('email');
-        /* $content['password'] = $request->get('password');
-        $content['passwordConfirm'] = $request->get('passwordConfirm'); */
         $content['permissions'] = $request->get('permissions');
 
         //Application de la fonction de contrôle des champs renseignés dans le formulaire de création d'un partenaire
@@ -137,7 +135,7 @@ class PartnerController extends AbstractController
             $this->entityManager->flush();
     
             //Création de la réponse pour renvoyer le json contenant les infos du nouveau partenaire
-            $json = $serializer->serialize($partner, 'json', ['groups' => 'partner:read']);
+            $json = $serializer->serialize($partner, 'json', ['groups' => 'partner:edit']);
             $response = new Response($json, 200, [
                 'Content-Type' => 'application/json'
             ]);
@@ -254,7 +252,7 @@ class PartnerController extends AbstractController
         $this->entityManager->flush();
 
         //Création de la réponse pour renvoyer le json contenant les infos du partenaire modifié
-        $json = $serializer->serialize($partner, 'json', ['groups' => 'partner:read']);
+        $json = $serializer->serialize($partner, 'json', ['groups' => 'partner:edit']);
         $response = new Response($json, 200, [
             'Content-Type' => 'application/json'
         ]);
@@ -310,7 +308,7 @@ class PartnerController extends AbstractController
         $this->entityManager->flush();
 
         //Création de la réponse pour renvoyer le json contenant les infos du partenaire supprimé
-        $json = $serializer->serialize($partner, 'json', ['groups' => 'partner:read']);
+        $json = $serializer->serialize($partner, 'json', ['groups' => 'partner:edit']);
         $response = new Response($json, 200, [
             'Content-Type' => 'application/json'
         ]);

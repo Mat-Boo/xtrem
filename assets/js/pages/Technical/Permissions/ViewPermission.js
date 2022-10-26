@@ -13,6 +13,7 @@ export default function ViewPermission() {
 
     const id = useParams().idSlug.substring(0, useParams().idSlug.indexOf('-', 0));
 
+    // Gestion du loader, gif s'affichant pendant l'appel d'Axios avant le retour de sa réponse
     const [loader, setLoader] = useState(true);
     const dispatchLoader = useDispatch();
     const stockLoaderInStore = (data) => {

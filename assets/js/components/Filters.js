@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAxiosAnswer, updateFilter, updateStateItem } from '../redux/redux';
 
-export default function Filters({ type, all, actives, inactives, displayStates, manageClubs }) {
+export default function Filters({ type, all, actives, inactives, displayStates }) {
 
     const [stateAll, setStateAll] = useState(true);
     const [stateActives, setStateActives] = useState(false);

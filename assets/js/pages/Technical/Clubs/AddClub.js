@@ -18,6 +18,7 @@ export default function AddClub() {
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
 
+    // Gestion du loader, gif s'affichant pendant l'appel d'Axios avant le retour de sa réponse
     const [loader, setLoader] = useState(true);
     const dispatchLoader = useDispatch();
     const stockLoaderInStore = (data) => {

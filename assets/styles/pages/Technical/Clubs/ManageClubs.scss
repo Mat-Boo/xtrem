@@ -50,35 +50,42 @@
             }
         }
     }
-    .messageActivatePartner {
-        background: $switchOffBg;
-        color: #7D1D1D;
-        padding: 10px 20px;
-        margin: 0 0 20px 0;
-        text-align: center;
-    }
-    .addBtnBox {
+    .filtersAndClubs {
         width: 100%;
         max-width: 1340px;
         display: flex;
-        justify-content: flex-end;
-    }
-    .messageNoClub {
-        margin: 30px 0;
-    }
-    .clubsListAndPagination {
-        display: flex;
         flex-direction: column;
-        justify-content: space-between;
         align-items: center;
-        width: 100%;
-        .clubsList {
+        .messageActivatePartner {
+            background: $switchOffBg;
+            color: #7D1D1D;
+            padding: 10px 20px;
+            margin: 0 0 20px 0;
+            text-align: center;
+        }
+        .addBtnBox {
             width: 100%;
-            max-width: 1700px;
+            max-width: 1340px;
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            justify-content: flex-end;
+        }
+        .messageNoClub {
+            margin: 30px 0;
+        }
+        .clubsListAndPagination {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
+            width: 100%;
+            .clubsList {
+                width: 100%;
+                max-width: 1700px;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
+            }
         }
     }
 }
