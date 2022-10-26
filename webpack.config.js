@@ -106,13 +106,14 @@ Encore
     ))
 
     .configureDefinePlugin(options => {
-        const env = dotenv.config();
-  
+        const env = dotenv.config({path: './.env.local'});
+        console.log(env)
         if (env.error) {
             throw env.error;
         }
         
         options['process.env.APP_ENV'] = JSON.stringify(env.parsed.APP_ENV );
     })
+
 
 module.exports = Encore.getWebpackConfig();
