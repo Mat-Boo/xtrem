@@ -53,7 +53,6 @@ export default function ManageClubs() {
         dispatchClickedTypeToggle(updateClickedTypeToggle(data))
     }
     
-    
     useEffect(() => {
         stockLoaderInStore(true);
         Axios.get('/api/partner/' + id)
@@ -74,10 +73,13 @@ export default function ManageClubs() {
             setLengthes(lengthes => ({...lengthes, all: response.data.clubs.length}));
             setLoader(false);
             stockLoaderInStore(false);
+            if ((response.data.clubs.length / paginationParams.clubsPerPage) < currentPage) {
+                setCurrentPage(Math.ceil(response.data.clubs.length / paginationParams.clubsPerPage));
+            } else {
+                setCurrentPage(currentPage);
+            }
         })
-        setCurrentPage(currentPage);
         stockAxiosAnswerInStore('');
-        
         return () => {
             stockFilterInStore({search: '', state: 'all'});
         }

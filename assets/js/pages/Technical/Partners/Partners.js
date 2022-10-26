@@ -9,7 +9,7 @@ import { userServices } from '../../../_services/user_services';
 import { paginationParams } from '../../../_services/paginationParams';
 import { helpers } from '../../../_services/helpers';
 import Loader from '../../../components/Loader';
-import { updateFilter, updateLoader } from '../../../redux/redux';
+import { updateAxiosAnswer, updateFilter, updateLoader } from '../../../redux/redux';
 import {Helmet} from "react-helmet";
 
 export default function Partners() {
@@ -25,6 +25,12 @@ export default function Partners() {
     const stockFilterInStore = (data) => {
         dispatchFilter(updateFilter(data))
     }
+
+    const axiosAnswer = useSelector((state) => state.axiosAnswer);
+    const dispatchAxiosAnswer = useDispatch();
+    const stockAxiosAnswerInStore = (data) => {
+        dispatchAxiosAnswer(updateAxiosAnswer(data))
+    }
     
     // Gestion du loader, gif s'affichant pendant l'appel d'Axios avant le retour de sa réponse
     const [loader, setLoader] = useState(true);
@@ -34,7 +40,7 @@ export default function Partners() {
     }
 
     //Pagination
-    const [currentPage, setCurrentPage] = useState();
+    const [currentPage, setCurrentPage] = useState(1);
     const lastItemIndex = currentPage * paginationParams.partnersPerPage;
     const firstItemIndex = lastItemIndex - paginationParams.partnersPerPage;
 
@@ -54,13 +60,14 @@ export default function Partners() {
             setLoader(false);
             stockLoaderInStore(false);
         })
-        setCurrentPage(1);
+        setCurrentPage(currentPage);
+        stockAxiosAnswerInStore('');
 
         return () => {
             stockFilterInStore({search: '', state: 'all'});
         }
 
-    }, [])    
+    }, [axiosAnswer])    
   
     return (
         <div className='partners'>

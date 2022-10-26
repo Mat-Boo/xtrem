@@ -32,7 +32,7 @@ export default function Modal() {
 
     const dispatchAnswerModalForResetAccess = useDispatch();
     const stockAnswerModalForResetAccessInStore = (data) => {
-        dispatchAnswerModalForDelete(updateAnswerModalForResetAccess(data))
+        dispatchAnswerModalForResetAccess(updateAnswerModalForResetAccess(data))
     }
 
     useEffect(() => {

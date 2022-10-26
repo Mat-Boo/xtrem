@@ -29,7 +29,7 @@ export default function Permissions() {
     }
 
     //Pagination
-    const [currentPage, setCurrentPage] = useState();
+    const [currentPage, setCurrentPage] = useState(1);
     const lastItemIndex = currentPage * paginationParams.permissionsPerPage;
     const firstItemIndex = lastItemIndex - paginationParams.permissionsPerPage;
 
@@ -40,8 +40,12 @@ export default function Permissions() {
             setPermissions(response.data);
             setLoader(false);
             stockLoaderInStore(false);
+            if (response.data.length / paginationParams.permissionsPerPage < currentPage) {
+                setCurrentPage(Math.ceil(response.data.length / paginationParams.permissionsPerPage));
+            } else {
+                setCurrentPage(currentPage);
+            }
         })
-        setCurrentPage(1);
         
         return () => {
             stockFilterInStore({search: '', state: 'all'});
