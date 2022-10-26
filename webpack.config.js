@@ -1,6 +1,7 @@
 const Encore = require('@symfony/webpack-encore');
 require("dotenv").config();
 var dotenv = require('dotenv');
+var fs = require('fs');
 const BrowserSyncPlugin = require("browser-sync-webpack-plugin");
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
@@ -106,13 +107,20 @@ Encore
     ))
 
     .configureDefinePlugin(options => {
-        const env = dotenv.config({path: './.env.local'});
-        console.log(env)
-        if (env.error) {
-            throw env.error;
-        }
         
-        options['process.env.APP_ENV'] = JSON.stringify(env.parsed.APP_ENV );
+        fs.exists('./.env.local', (exists) => {
+            if (exists) {
+                var env = dotenv.config({path: './.env.local'});
+            } else {
+                var env = dotenv.config({path: './.env'});
+            }
+            console.log(env)
+            if (env.error) {
+                throw env.error;
+            }
+            
+            options['process.env.APP_ENV'] = JSON.stringify(env.parsed.APP_ENV );
+        });
     })
 
 
