@@ -11,6 +11,7 @@ import { helpers } from '../../../_services/helpers';
 import Loader from '../../../components/Loader';
 import { updateAxiosAnswer, updateFilter, updateLoader } from '../../../redux/redux';
 import {Helmet} from "react-helmet";
+import { csrf } from '../../../_services/csrf';
 
 export default function Partners() {
     
@@ -43,10 +44,15 @@ export default function Partners() {
     const [currentPage, setCurrentPage] = useState(1);
     const lastItemIndex = currentPage * paginationParams.partnersPerPage;
     const firstItemIndex = lastItemIndex - paginationParams.partnersPerPage;
-
+    
+    console.log(csrf)
     useEffect(() => {
         stockLoaderInStore(true);
-        Axios.get('/api/partners')
+        Axios.get('/api/partners'/* , {
+            headers: {
+                'X-CSRF-TOKEN': csrf.getCsrf()
+            }
+        } */)
         .then((response) => {
             setPartners(response.data);
             response.data.forEach((partner) => {

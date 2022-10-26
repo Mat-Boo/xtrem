@@ -8,6 +8,7 @@ import jwt from 'jwt-decode';
 import { useEffect } from 'react';
 import { userServices } from '../_services/user_services';
 import {Helmet} from "react-helmet";
+import { csrf } from '../_services/csrf';
 
 export default function Login() {
     
@@ -41,6 +42,7 @@ export default function Login() {
             userServices.saveToken(response.data.token);
             stockAlertMessageInStore({type: 'info', content: 'Bienvenue <b>' + jwt(response.data.token).firstname}) + '</b>';
             navigate('/accueil');
+            csrf.getCsrf();
         })
         .catch(error => {
             if (error.response.data.message === 'Identifiants invalides.') {

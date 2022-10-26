@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { 
     updateAlertMessage, updateAnswerModalForChangeState, 
     updateAnswerModalForDelete, updateAnswerModalForResetAccess, 
-    updateAxiosAnswer, updateFilter, updateLoader, 
+    updateAxiosAnswer, updateCsrf, updateFilter, updateLoader, 
     updateModal, updateStateItem, updateTypeButton
 } from '../redux/redux';
 import { userServices } from '../_services/user_services';
@@ -40,6 +40,7 @@ export default function PrivateRoutes() {
     const stockAlertMessageInStore = (data) => {
         dispatchAlertMessage(updateAlertMessage(data))
     }
+
     useEffect(() => {
         if (!userServices.isConnected()) {
             stockAlertMessageInStore({type: 'error', content: 'Veuillez vous connecter pour accéder à cette page.'})
@@ -48,6 +49,7 @@ export default function PrivateRoutes() {
             stockInStore('', {search: '', state: 'all'});
             userServices.logout();
         }
+
     }, [location])
 
     return (

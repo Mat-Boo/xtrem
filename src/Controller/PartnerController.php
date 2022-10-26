@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\Security\Csrf\CsrfToken;
 
 class PartnerController extends AbstractController
 {
@@ -27,7 +28,7 @@ class PartnerController extends AbstractController
     }
 
     #[Route('/api/partners', name: 'partners', methods: ['GET'])]
-    public function getPartners(SerializerInterface $serializer): Response
+    public function getPartners(SerializerInterface $serializer, Request $request): Response
     {
         //Récupération de tous les partenaires en base de données
         $partners = $this->entityManager->getRepository(Partner::class)->findAll();
@@ -156,6 +157,14 @@ class PartnerController extends AbstractController
     #[Route('/api/partner/{id}/edit', name: 'partner_edit', methods: ['POST'])]
     public function editPartner(Request $request, $id, SerializerInterface $serializer, SluggerInterface $slugger)
     {
+
+        /* $csrfToken = new CsrfToken('token_id', $request->headers->get('x-csrf-token'));
+
+        dd($this->container->get('security.csrf.token_manager')->getToken('token_id'),
+            $request->headers->get('x-csrf-token'),
+            $this->container->get('security.csrf.token_manager')->isTokenValid($csrfToken)); */
+
+        
         //Récupération des données issues du formulaire de modification d'un partenaire
         $content = [];
         $content['name'] = $request->get('name');

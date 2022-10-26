@@ -54,6 +54,7 @@ Encore
 
     .configureBabel((config) => {
         config.plugins.push('@babel/plugin-proposal-class-properties');
+        
     })
 
     // enables @babel/preset-env polyfills
@@ -107,21 +108,17 @@ Encore
     ))
 
     .configureDefinePlugin(options => {
-        
         fs.exists('./.env.local', (exists) => {
             if (exists) {
                 var env = dotenv.config({path: './.env.local'});
             } else {
                 var env = dotenv.config({path: './.env'});
             }
-            console.log(env)
             if (env.error) {
                 throw env.error;
             }
-            
             options['process.env.APP_ENV'] = JSON.stringify(env.parsed.APP_ENV );
         });
     })
-
 
 module.exports = Encore.getWebpackConfig();

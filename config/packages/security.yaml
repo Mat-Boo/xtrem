@@ -22,6 +22,7 @@ security:
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
             user_checker: App\Security\UserChecker
+            
         api:
             pattern:   ^/api
             stateless: true
@@ -41,6 +42,7 @@ security:
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
         - { path: ^/api/user/creer-mot-de-passe, roles: PUBLIC_ACCESS }
         - { path: ^/api/user/forgotten-password, roles: PUBLIC_ACCESS }
+        # - { path: ^/api/csrf, roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }

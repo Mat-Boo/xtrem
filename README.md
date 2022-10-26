@@ -59,6 +59,7 @@ De plus, j'utilise un token JWT pour l'authentification mis en place avec le pac
 ### Variables d'environnement:
 - Dans le fichier .env, à la racine du projet, modifiez la variable APP_ENV avec la valeur : dev
 - Créez un fichier .env.local à la racine de votre projet et y ajouter les variables d'environnement suivantes :
+  - APP_ENV=dev
   - Configurez la DATABASE_URL avec vos informations de base de données: Exemple avec mySql : `DATABASE_URL="mysql://identiant:mot-de-passe@url:port/database`
 
 - Création compte MailJet  

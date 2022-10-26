@@ -46,10 +46,6 @@ class AccountController extends AbstractController
         if ($request->get('phone') !== null) {
             $content['phone'] = $request->get('phone');
         }
-
-        $tokenProvider = $this->container->get('security.csrf.token_manager');
-        $token = $tokenProvider->getToken('example')->getValue();
-        dd($token, $request, $this->getUser());
         
         //Application de la fonction de contrôle des champs renseignés dans le formulaire de modification des informations personnelles de l'utilisateur
         $errorsValidation  = new ErrorsValidation($content);
@@ -223,5 +219,20 @@ class AccountController extends AbstractController
 
 
        return $response;
+    }
+
+    #[Route(path: '/api/csrf', name: 'api_csrf', methods: ['GET'])]
+    public function getCsrf(SerializerInterface $serializer): Response
+    {
+        //Génère un token CSRF
+        $tokenProvider = $this->container->get('security.csrf.token_manager');
+        $token = $tokenProvider->getToken('token_id')->getValue();
+
+        //Création de la réponse pour renvoyer le json contenant le token CSRF
+        $json = $serializer->serialize($token, 'json');
+        $response = new Response($json, 200, [
+            'Content-Type' => 'application/json'
+        ]);
+        return $response;
     }
 }
