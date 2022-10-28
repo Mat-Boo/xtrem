@@ -160,7 +160,7 @@ class PermissionController extends AbstractController
         }
     }
 
-    #[Route('/api/permission/{id}/delete', name: 'permission_delete', methods: ['POST'])]
+    #[Route('/api/permission/{id}/delete', name: 'permission_delete', methods: ['DELETE'])]
     public function deletePermission(SerializerInterface $serializer, $id, Request $request, Session $session): Response
     {
         if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {

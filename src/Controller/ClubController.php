@@ -279,7 +279,7 @@ class ClubController extends AbstractController
         }
     }
 
-    #[Route('/api/club/{idClub}/delete', name: 'partner_club_delete', methods: ['POST'])]
+    #[Route('/api/club/{idClub}/delete', name: 'partner_club_delete', methods: ['DELETE'])]
     public function deleteClub(SerializerInterface $serializer, $idClub, Request $request, Session $session): Response
     {
         if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {

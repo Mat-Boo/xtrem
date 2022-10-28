@@ -270,7 +270,7 @@ class PartnerController extends AbstractController
         }
     }
 
-    #[Route('/api/partner/{id}/delete', name: 'partner_delete', methods: ['POST'])]
+    #[Route('/api/partner/{id}/delete', name: 'partner_delete', methods: ['DELETE'])]
     public function deletePartner(SerializerInterface $serializer, $id, Request $request, Session $session): Response
     {
         if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {

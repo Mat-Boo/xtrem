@@ -121,7 +121,7 @@ export default function Button({ idItem, nameItem, typeItem, nameUser, typeBtn, 
             case 'partner':
                 axiosCaller.askCsrf()
                 .then((response) => {
-                    axiosCaller.callAxios('/api/partner/' + answerModalForDelete.idItem + '/delete', 'POST', response.data)
+                    axiosCaller.callAxios('/api/partner/' + answerModalForDelete.idItem + '/delete', 'DELETE', response.data)
                     .then((response) => {
                         stockAlertMessageInStore({type: 'success', content: 'Le partenaire <b>' + answerModalForDelete.nameItem + '</b> a bien été supprimé.'})
                         navigate('/partenaires');
@@ -134,7 +134,7 @@ export default function Button({ idItem, nameItem, typeItem, nameUser, typeBtn, 
             case 'permission':
                 axiosCaller.askCsrf()
                 .then((response) => {
-                    axiosCaller.callAxios('/api/permission/' + answerModalForDelete.idItem + '/delete', 'POST', response.data)
+                    axiosCaller.callAxios('/api/permission/' + answerModalForDelete.idItem + '/delete', 'DELETE', response.data)
                     .then((response) => {
                         stockAlertMessageInStore({type: 'success', content: 'La permission <b>' + answerModalForDelete.nameItem + '</b> a bien été supprimée.'})
                     })
@@ -146,7 +146,7 @@ export default function Button({ idItem, nameItem, typeItem, nameUser, typeBtn, 
             case 'club':
                 axiosCaller.askCsrf()
                 .then((response) => {
-                    axiosCaller.callAxios('/api/club/' + answerModalForDelete.idItem + '/delete', 'POST', response.data)
+                    axiosCaller.callAxios('/api/club/' + answerModalForDelete.idItem + '/delete', 'DELETE', response.data)
                     .then((response) => {
                         stockAlertMessageInStore({type: 'success', content: 'Le club <b>' + answerModalForDelete.nameItem + '</b> a bien été supprimé.'})
                         stockAxiosAnswerInStore('success');
