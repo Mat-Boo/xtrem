@@ -54,7 +54,7 @@ class ClubPermissionController extends AbstractController
                 $clubPermission[0]->getClub()->getPartner()->getcontact()->getFirstname(),
                 $clubPermission[0]->getClub()->getPartner()->getcontact()->getEmail());
             
-            return $response;
+                return $response;
+            }
         }
-    }
 }

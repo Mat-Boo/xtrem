@@ -117,10 +117,10 @@ export default function Button({ idItem, nameItem, typeItem, nameUser, typeBtn, 
     }
     
     if (idItem === answerModalForDelete.idItem && answerModalForDelete.typeButton === 'confirm') {
-        axiosCaller.askCsrf()
-        .then((response) => {
-            switch (answerModalForDelete.typeItem) {
-                case 'partner':
+        switch (answerModalForDelete.typeItem) {
+            case 'partner':
+                axiosCaller.askCsrf()
+                .then((response) => {
                     axiosCaller.callAxios('/api/partner/' + answerModalForDelete.idItem + '/delete', 'POST', response.data)
                     .then((response) => {
                         stockAlertMessageInStore({type: 'success', content: 'Le partenaire <b>' + answerModalForDelete.nameItem + '</b> a bien été supprimé.'})
@@ -129,8 +129,11 @@ export default function Button({ idItem, nameItem, typeItem, nameUser, typeBtn, 
                     .catch((error) => {
                         stockAlertMessageInStore({type: 'error', content: 'La suppression du partenaire <b>' + answerModalForDelete.nameItem + '</b> n\'a pu aboutir, merci de réessayer.'})
                     });
-                    break;
-                case 'permission':
+                })
+                break;
+            case 'permission':
+                axiosCaller.askCsrf()
+                .then((response) => {
                     axiosCaller.callAxios('/api/permission/' + answerModalForDelete.idItem + '/delete', 'POST', response.data)
                     .then((response) => {
                         stockAlertMessageInStore({type: 'success', content: 'La permission <b>' + answerModalForDelete.nameItem + '</b> a bien été supprimée.'})
@@ -138,8 +141,11 @@ export default function Button({ idItem, nameItem, typeItem, nameUser, typeBtn, 
                     .catch(error => {
                         stockAlertMessageInStore({type: 'error', content: 'La suppression de la permission <b>' + answerModalForDelete.nameItem + '</b> n\'a pu aboutir, merci de réessayer.'})
                     });
-                    break;
-                case 'club':
+                })
+                break;
+            case 'club':
+                axiosCaller.askCsrf()
+                .then((response) => {
                     axiosCaller.callAxios('/api/club/' + answerModalForDelete.idItem + '/delete', 'POST', response.data)
                     .then((response) => {
                         stockAlertMessageInStore({type: 'success', content: 'Le club <b>' + answerModalForDelete.nameItem + '</b> a bien été supprimé.'})
@@ -149,10 +155,10 @@ export default function Button({ idItem, nameItem, typeItem, nameUser, typeBtn, 
                         stockAlertMessageInStore({type: 'error', content: 'La suppression du club <b>' + answerModalForDelete.nameItem + '</b> n\'a pu aboutir, merci de réessayer.'})
                         stockAxiosAnswerInStore('error');
                     });
-                    break;
-            }
-            stockAnswerModalForDeleteInStore('');
-        })
+                })
+                break;
+        }
+        stockAnswerModalForDeleteInStore('');
     }
 
     if (idItem === answerModalForResetAccess.idItem && answerModalForResetAccess.typeButton === 'confirm') {

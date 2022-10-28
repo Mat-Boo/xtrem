@@ -154,10 +154,10 @@ export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub,
         const formData = new FormData();
         formData.append('isActive', !stateSwitch ? 1 : 0);
         stockStateItemInStore({type: answerModal.typeToggle, state: !stateSwitch});
-        axiosCaller.askCsrf()
-        .then((response) => {
-            switch (answerModal.typeToggle) {
-                case 'partner':
+        switch (answerModal.typeToggle) {
+            case 'partner':
+                axiosCaller.askCsrf()
+                    .then((response) => {
                     axiosCaller.callAxios('/api/partner/' + answerModal.idToggle + '/edit', 'POST', response.data, formData)
                     .then((response) => {
                         setStateSwitch(!stateSwitch);
@@ -178,9 +178,12 @@ export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub,
                             stockAxiosAnswerInStore('error');
                         }
                     });
-                    break;
-                case 'permission':
-                    if (answerModal.idPartner !== undefined && answerModal.idClub === undefined) {
+                })
+                break;
+            case 'permission':
+                if (answerModal.idPartner !== undefined && answerModal.idClub === undefined) {
+                    axiosCaller.askCsrf()
+                    .then((response) => {
                         axiosCaller.callAxios('/api/partner-permission/' + answerModal.idPartner + '/' + answerModal.idToggle + '/edit', 'POST', response.data, formData)
                         .then((response) => {
                             setStateSwitch(!stateSwitch);
@@ -197,7 +200,10 @@ export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub,
                                 stockAlertMessageInStore({type: 'error', content: 'La permission <b>' + answerModal.nameToggle + '</b> n\'a pu être <b>désactivée</b>.'})
                             }
                         });
-                    } else if (answerModal.idClub !== undefined) {
+                    })
+                } else if (answerModal.idClub !== undefined) {
+                    axiosCaller.askCsrf()
+                    .then((response) => {
                         axiosCaller.callAxios('/api/club-permission/' + answerModal.idClub + '/' + answerModal.idToggle + '/edit', 'POST', response.data, formData)
                         .then((response) => {
                             setStateSwitch(!stateSwitch);
@@ -214,17 +220,20 @@ export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub,
                                 stockAlertMessageInStore({type: 'error', content: 'La permission <b>' + answerModal.nameToggle + '</b> n\'a pu être <b>désactivée</b>.'})
                             }
                         });
-                    }
-                    break;
-                case 'club':
+                    })
+                }
+                break;
+            case 'club':
+                axiosCaller.askCsrf()
+                    .then((response) => {
                     axiosCaller.callAxios('/api/club/' + answerModal.idToggle + '/edit', 'POST', response.data, formData)
                     .then((response) => {
                         setStateSwitch(!stateSwitch);
                         if (!stateSwitch) {
-                            stockAlertMessageInStore({type: 'success', content: 'Le club <b>' + answerModal.nameToggle + '</b> a bien été <b>activé</b>.'})
+                            stockAlertMessageInStore({type: 'success', content: 'Le club <b>' + response.data.name + '</b> a bien été <b>activé</b>.'})
                             stockAxiosAnswerInStore('success')
                         } else {
-                            stockAlertMessageInStore({type: 'success', content: 'Le club <b>' + answerModal.nameToggle + '</b> a bien été <b>désactivé</b>.'})
+                            stockAlertMessageInStore({type: 'success', content: 'Le club <b>' + response.data.name + '</b> a bien été <b>désactivé</b>.'})
                             stockAxiosAnswerInStore('success')
                         }
                     })
@@ -237,12 +246,12 @@ export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub,
                             stockAxiosAnswerInStore('error')
                         }
                     });
-                    break;
-                default :
-                    null
-            }
-            stockAnswerModalForChangeStateInStore('');
-        })
+                })
+                break;
+            default :
+                null
+        }
+        stockAnswerModalForChangeStateInStore('');
     }
 
     return (
