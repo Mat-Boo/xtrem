@@ -1,8 +1,11 @@
 # Xtrem - ECF Studi
 Créé avec Symfony & React
+<br/>
+<br/>
 
 ![Cover](https://github.com/Mat-Boo/xtrem/blob/main/assets/img/logo_horizontal.png)
 
+<br/>
 ### Description
 
 Il s'agit du dépôt Github du projet d'ECF Studi pour la session de décembre 2022.  
