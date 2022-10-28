@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Button from '../../../components/Button';
 import ToggleSwitch from '../../../components/ToggleSwitch';
-import Axios from '../../../_services/caller_service';
 import slugify from 'react-slugify';
 import Filters from '../../../components/Filters';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,9 +10,10 @@ import { userServices } from '../../../_services/user_services';
 import { paginationParams } from '../../../_services/paginationParams';
 import Pagination from '../../../components/Pagination';
 import { helpers } from '../../../_services/helpers';
-import { updateAxiosAnswer, updateClickedTypeToggle, updateFilter, updateLoader } from '../../../redux/redux';
+import { updateAxiosAnswer, updateFilter, updateLoader } from '../../../redux/redux';
 import Loader from '../../../components/Loader';
 import {Helmet} from "react-helmet";
+import { axiosCaller } from '../../../_services/axiosCaller';
 
 export default function ManageClubs() {
 
@@ -47,39 +47,38 @@ export default function ManageClubs() {
     const stockAxiosAnswerInStore = (data) => {
         dispatchAxiosAnswer(updateAxiosAnswer(data))
     }
-
-    const dispatchClickedTypeToggle = useDispatch();
-    const stockClickedTypeToggleInStore = (data) => {
-        dispatchClickedTypeToggle(updateClickedTypeToggle(data))
-    }
     
     useEffect(() => {
         stockLoaderInStore(true);
-        Axios.get('/api/partner/' + id)
+        axiosCaller.askCsrf()
         .then((response) => {
-            setPartner(response.data);
-            setLengthes({
-                all: 0,
-                actives: 0,
-                inactives: 0
-            })
-            response.data.clubs.forEach((club) => {
-                if (club.isActive) {
-                    setLengthes(lengthes => ({...lengthes, actives: lengthes.actives + 1}));
+            axiosCaller.callAxios('/api/partner/' + id, 'GET', response.data)
+            .then((response) => {
+                setPartner(response.data);
+                setLengthes({
+                    all: 0,
+                    actives: 0,
+                    inactives: 0
+                })
+                response.data.clubs.forEach((club) => {
+                    if (club.isActive) {
+                        setLengthes(lengthes => ({...lengthes, actives: lengthes.actives + 1}));
+                    } else {
+                        setLengthes(lengthes => ({...lengthes, inactives: lengthes.inactives + 1}));
+                    }
+                })
+                setLengthes(lengthes => ({...lengthes, all: response.data.clubs.length}));
+                setLoader(false);
+                stockLoaderInStore(false);
+                if ((response.data.clubs.length / paginationParams.clubsPerPage) < currentPage) {
+                    setCurrentPage(Math.ceil(response.data.clubs.length / paginationParams.clubsPerPage));
                 } else {
-                    setLengthes(lengthes => ({...lengthes, inactives: lengthes.inactives + 1}));
+                    setCurrentPage(currentPage);
                 }
             })
-            setLengthes(lengthes => ({...lengthes, all: response.data.clubs.length}));
-            setLoader(false);
-            stockLoaderInStore(false);
-            if ((response.data.clubs.length / paginationParams.clubsPerPage) < currentPage) {
-                setCurrentPage(Math.ceil(response.data.clubs.length / paginationParams.clubsPerPage));
-            } else {
-                setCurrentPage(currentPage);
-            }
+            stockAxiosAnswerInStore('');
         })
-        stockAxiosAnswerInStore('');
+
         return () => {
             stockFilterInStore({search: '', state: 'all'});
         }

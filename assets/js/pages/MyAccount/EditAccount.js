@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../../components/Button';
-import Axios from '../../_services/caller_service';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateAlertMessage, updateLoader } from '../../redux/redux';
 import Loader from '../../components/Loader';
 import {Helmet} from "react-helmet";
+import { axiosCaller } from '../../_services/axiosCaller';
 
 export default function EditAccount() {
     
@@ -28,11 +28,14 @@ export default function EditAccount() {
     
     useEffect(() => {
         stockLoaderInStore(true);
-        Axios.get('/api/user')
+        axiosCaller.askCsrf()
         .then((response) => {
-            setUser(response.data);
-            setLoader(false);
-            stockLoaderInStore(false);
+            axiosCaller.callAxios('/api/user', 'GET', response.data)
+            .then((response) => {
+                setUser(response.data);
+                setLoader(false);
+                stockLoaderInStore(false);
+            })
         })
     }, [])
 
@@ -52,17 +55,19 @@ export default function EditAccount() {
                 formData.append(item.name, item.value);
             }
         }
-        Axios.post('/api/user/edit', formData, {
-            'content-type': 'multipart/form-data',
-          })
-        .then(response => {
-            stockAlertMessageInStore({type: 'success', content: 'Vos informations personnelles ont été modifiées avec succès.'})
-            navigate('/mon-compte');
+
+        axiosCaller.askCsrf()
+        .then((response) => {
+            axiosCaller.callAxios('/api/user/edit', 'POST', response.data, formData)
+            .then(response => {
+                stockAlertMessageInStore({type: 'success', content: 'Vos informations personnelles ont été modifiées avec succès.'})
+                navigate('/mon-compte');
+            })
+            .catch(error => {
+                stockAlertMessageInStore({type: 'error', content: 'La modification de vos informations personnelles n\'a pu aboutir, veuillez corriger les erreurs.'})
+                setErrors(error.response.data);
+            });
         })
-        .catch(error => {
-            stockAlertMessageInStore({type: 'error', content: 'La modification de vos informations personnelles n\'a pu aboutir, veuillez corriger les erreurs.'})
-            setErrors(error.response.data);
-        });
     }
 
     return (

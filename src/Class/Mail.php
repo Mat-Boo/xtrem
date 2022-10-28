@@ -372,4 +372,15 @@ class Mail {
         $contentMail .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
         $this->send(false, $email, $firstname, 'Xtrem | Réinitialisation Accès', $contentMail);
     }
+
+    //Mot de passe oublié
+    public function forgottenPwd($firstname, $email, $uuid)
+    {
+        $contentMail = "Bonjour {$firstname},<br/><br/>";
+        $contentMail .= "Suite à votre demande, vous pouvez recréer votre mot de passe personnel en cliquant sur le lien suivant: <br/>";
+        $contentMail .= "<a href='" . $this->getUrl() . "/{$uuid}/creer-mot-de-passe'>Créer mon mot de passe</a><br/><br/>";
+        $contentMail .= "Pour toute réclamation, vous pouvez nous contacter à l'adresse suivante:<br/>";
+        $contentMail .= "<a href='mailto:contact@xtrem.fr'>contact@xtrem.fr</a><br/>";
+        $this->send(false, $email, $firstname, 'Xtrem | Recréation de mot de passe', $contentMail);
+    }
 }

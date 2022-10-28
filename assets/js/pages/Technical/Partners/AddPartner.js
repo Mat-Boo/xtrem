@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../../../components/Button';
-import Axios from '../../../_services/caller_service';
 import { useDispatch } from 'react-redux'
 import { updateAlertMessage, updateLoader } from '../../../redux/redux';
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +7,7 @@ import ToggleSwitch from '../../../components/ToggleSwitch';
 import { userServices } from '../../../_services/user_services';
 import Loader from '../../../components/Loader';
 import {Helmet} from "react-helmet";
+import { axiosCaller } from '../../../_services/axiosCaller';
 
 export default function AddPartner() {
        
@@ -35,11 +35,14 @@ export default function AddPartner() {
     
     useEffect(() => {
         stockLoaderInStore(true);
-        Axios.get('/api/permissions')
+        axiosCaller.askCsrf()
         .then((response) => {
-            setPermissions(response.data);
-            setLoader(false);
-            stockLoaderInStore(false);
+            axiosCaller.callAxios('/api/permissions', 'GET', response.data)
+            .then((response) => {
+                setPermissions(response.data);
+                setLoader(false);
+                stockLoaderInStore(false);
+            })
         })
       }, [])
 
@@ -57,17 +60,18 @@ export default function AddPartner() {
                 formData.append(item.id, item.value);
             }
         }
-        Axios.post('/api/partner/create', formData, {
-            'content-type': 'multipart/form-data',
-          })
-        .then(response => {
-            stockAlertMessageInStore({type: 'success', content: 'Le nouveau partenaire <b>' + response.data.name + '</b> a été créé avec succès.'})
-            navigate('/partenaires');
+        axiosCaller.askCsrf()
+        .then((response) => {
+            axiosCaller.callAxios('/api/partner/create', 'POST', response.data, formData)
+            .then(response => {
+                stockAlertMessageInStore({type: 'success', content: 'Le nouveau partenaire <b>' + response.data.name + '</b> a été créé avec succès.'})
+                navigate('/partenaires');
+            })
+            .catch(error => {
+                stockAlertMessageInStore({type: 'error', content: 'L\'ajout du partenaire n\'a pu aboutir, veuillez corriger les erreurs.'});
+                setErrors(error.response.data);
+            });
         })
-        .catch(error => {
-            stockAlertMessageInStore({type: 'error', content: 'L\'ajout du partenaire n\'a pu aboutir, veuillez corriger les erreurs.'});
-            setErrors(error.response.data);
-        });
     }
 
     return (

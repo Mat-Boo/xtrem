@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -23,87 +24,89 @@ class PartnerPermissionController extends AbstractController
     }
 
     #[Route('/api/partner-permission/{idPartner}/{idPermission}', name: 'partner-permission', methods: ['GET'])]
-    public function getPartnerPermission(SerializerInterface $serializer, $idPartner, $idPermission): Response
+    public function getPartnerPermission(SerializerInterface $serializer, $idPartner, $idPermission, Request $request, Session $session): Response
     {
-        //Recherche d'une relation partenaire-permissions en fonction de l'id du partenaire et de l'id de la permission
-        $partnerPermission = $this->entityManager->getRepository(PartnerPermission::class)->findOneByIdPartnerAndIdPermission($idPartner, $idPermission);
-
-        //Création de la réponse pour renvoyer le json contenant les infos du partenaire trouvé
-        $json = $serializer->serialize($partnerPermission, 'json', ['groups' => 'partnerPermission:edit']);
-        $response = new Response($json, 200, [
-            'Content-Type' => 'application/json'
-        ]);
-        
-        return $response;
+        if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
+            //Recherche d'une relation partenaire-permissions en fonction de l'id du partenaire et de l'id de la permission
+            $partnerPermission = $this->entityManager->getRepository(PartnerPermission::class)->findOneByIdPartnerAndIdPermission($idPartner, $idPermission);
+    
+            //Création de la réponse pour renvoyer le json contenant les infos du partenaire trouvé
+            $json = $serializer->serialize($partnerPermission, 'json', ['groups' => 'partnerPermission:edit']);
+            $response = new Response($json, 200, [
+                'Content-Type' => 'application/json'
+            ]);
+            
+            return $response;
+        }
     }
 
     #[Route('/api/partner-permission/{idPartner}/{idPermission}/edit', name: 'partner-permission_edit', methods: ['POST'])]
-    public function editPartnerPermission(Request $request, SerializerInterface $serializer, $idPartner, $idPermission): Response
+    public function editPartnerPermission(Request $request, SerializerInterface $serializer, $idPartner, $idPermission, Session $session): Response
     {
-        //Récupération des données issues du formulaire de modification d'un partenaire
-        $content['isActive'] = $request->get('isActive');
-
-        //Recherche d'une relation partenaire-permissions en fonction de l'id du partenaire et de l'id de la permission
-        $partnerPermission = $this->entityManager->getRepository(PartnerPermission::class)->findOneByIdPartnerAndIdPermission($idPartner, $idPermission);
-
-        //Mise à jour de la relation partenaire-permission
-        $partnerPermission[0]->setIsActive($content['isActive']);
-
-        //Envoie d'un mail au contact du partenaire pour lui indiquer l'activation ou la désactivation de la permission
-        (new Mail())->togglePartnerPermission(
-            $content['isActive'],
-            $partnerPermission[0]->getPermission()->getName(),
-            $partnerPermission[0]->getPartner()->getName(),
-            $partnerPermission[0]->getPartner()->getContact()->getFirstname(),
-            $partnerPermission[0]->getPartner()->getContact()->getEmail(),
-            '',
-            '',
-            ''
-        );
-
-        //Impact sur les clubs
-        //Recherche de toutes les relations clubs-permissions contenant la permission modifiée du partenaire concerné
-        $clubsPermissions = $this->entityManager->getRepository(ClubPermission::class)->findByPartnerPermission($partnerPermission);
-
-        $partner = $this->entityManager->getRepository(Partner::class)->findOneById($idPartner);
-
-        if ($clubsPermissions) {
-            foreach($clubsPermissions as $clubPermission) {
-                $this->entityManager->remove($clubPermission);
-                //Envoie d'un mail au manager du club pour lui indiquer la désactivation de la permission
-                if ($clubPermission->getClub()->isIsActive()) {
-                    (new Mail())->togglePartnerPermission(
-                        $content['isActive'],
-                        $partnerPermission[0]->getPermission()->getName(),
-                        '',
-                        '',
-                        '',
-                        $clubPermission->getClub()->getName(),
-                        $clubPermission->getClub()->getManager()->getFirstname(),
-                        $clubPermission->getClub()->getManager()->getEmail()
-                    );
+        if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
+            //Récupération des données issues du formulaire de modification d'un partenaire
+            $content['isActive'] = $request->get('isActive');
+    
+            //Recherche d'une relation partenaire-permissions en fonction de l'id du partenaire et de l'id de la permission
+            $partnerPermission = $this->entityManager->getRepository(PartnerPermission::class)->findOneByIdPartnerAndIdPermission($idPartner, $idPermission);
+    
+            //Mise à jour de la relation partenaire-permission
+            $partnerPermission[0]->setIsActive($content['isActive']);
+    
+            //Envoie d'un mail au contact du partenaire pour lui indiquer l'activation ou la désactivation de la permission
+            (new Mail())->togglePartnerPermission(
+                $content['isActive'],
+                $partnerPermission[0]->getPermission()->getName(),
+                $partnerPermission[0]->getPartner()->getName(),
+                $partnerPermission[0]->getPartner()->getContact()->getFirstname(),
+                $partnerPermission[0]->getPartner()->getContact()->getEmail(),
+                '',
+                '',
+                ''
+            );
+    
+            //Impact sur les clubs
+            //Recherche de toutes les relations clubs-permissions contenant la permission modifiée du partenaire concerné
+            $clubsPermissions = $this->entityManager->getRepository(ClubPermission::class)->findByPartnerPermission($partnerPermission);
+    
+            $partner = $this->entityManager->getRepository(Partner::class)->findOneById($idPartner);
+    
+            if ($clubsPermissions) {
+                foreach($clubsPermissions as $clubPermission) {
+                    $this->entityManager->remove($clubPermission);
+                    //Envoie d'un mail au manager du club pour lui indiquer la désactivation de la permission
+                    if ($clubPermission->getClub()->isIsActive()) {
+                        (new Mail())->togglePartnerPermission(
+                            $content['isActive'],
+                            $partnerPermission[0]->getPermission()->getName(),
+                            '',
+                            '',
+                            '',
+                            $clubPermission->getClub()->getName(),
+                            $clubPermission->getClub()->getManager()->getFirstname(),
+                            $clubPermission->getClub()->getManager()->getEmail()
+                        );
+                    }
+                }
+            } else {
+                foreach($partner->getClubs() as $club) {
+                    $clubPermission = new ClubPermission;
+                    $clubPermission->setClub($club);
+                    $clubPermission->setPartnerPermissions($partnerPermission[0]);
+                    $clubPermission->setIsActive(false);
+                    $this->entityManager->persist($clubPermission);
                 }
             }
-        } else {
-            foreach($partner->getClubs() as $club) {
-                $clubPermission = new ClubPermission;
-                $clubPermission->setClub($club);
-                $clubPermission->setPartnerPermissions($partnerPermission[0]);
-                $clubPermission->setIsActive(false);
-                $this->entityManager->persist($clubPermission);
-            }
+    
+            $this->entityManager->flush();
+    
+            //Création de la réponse pour renvoyer le json contenant les infos du partenaire trouvé
+            $json = $serializer->serialize($partnerPermission, 'json', ['groups' => 'partnerPermission:edit']);
+            $response = new Response($json, 200, [
+                'Content-Type' => 'application/json'
+            ]);
+    
+            return $response;
         }
-
-        $this->entityManager->flush();
-
-        //Création de la réponse pour renvoyer le json contenant les infos du partenaire trouvé
-        $json = $serializer->serialize($partnerPermission, 'json', ['groups' => 'partnerPermission:edit']);
-        $response = new Response($json, 200, [
-            'Content-Type' => 'application/json'
-        ]);
-
-        
-        
-        return $response;
     }
 }

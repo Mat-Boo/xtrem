@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAnswerModalForChangeState, updateAlertMessage, updateModal, updateStateItem, updateAxiosAnswer } from '../redux/redux';
-import Axios from '../_services/caller_service';
+import { axiosCaller } from '../_services/axiosCaller';
 
 export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub, idToggle, nameToggle, typeToggle, isActive, roles, isEnabled }) {
 
@@ -154,100 +154,95 @@ export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub,
         const formData = new FormData();
         formData.append('isActive', !stateSwitch ? 1 : 0);
         stockStateItemInStore({type: answerModal.typeToggle, state: !stateSwitch});
-        switch (answerModal.typeToggle) {
-            case 'partner':
-                Axios.post('/api/partner/' + answerModal.idToggle + '/edit', formData, {
-                    'content-type': 'multipart/form-data',
-                })
-                .then(response => {
-                    setStateSwitch(!stateSwitch);
-                    if (!stateSwitch) {
-                        stockAlertMessageInStore({type: 'success', content: 'Le partenaire <b>' + answerModal.nameToggle + '</b> a bien été <b>activé</b>.'});
-                        stockAxiosAnswerInStore('success');
-                    } else {
-                        stockAlertMessageInStore({type: 'success', content: 'Le partenaire <b>' + answerModal.nameToggle + '</b> ainsi que ses clubs ont bien été <b>désactivés</b>.'});
-                        stockAxiosAnswerInStore('success');
-                    }
-                })
-                .catch(error => {
-                    if (!stateSwitch) {
-                        stockAlertMessageInStore({type: 'error', content: 'Le partenaire <b>' + answerModal.nameToggle + '</b> n\'a pu être <b>activé</b>.'});
-                        stockAxiosAnswerInStore('error');
-                    } else {
-                        stockAlertMessageInStore({type: 'error', content: 'Le partenaire <b>' + answerModal.nameToggle + '</b> ainsi que ses clubs n\'ont pu être <b>désactivés</b>.'});
-                        stockAxiosAnswerInStore('error');
-                    }
-                });
-                break;
-            case 'permission':
-                if (answerModal.idPartner !== undefined && answerModal.idClub === undefined) {
-                    Axios.post('/api/partner-permission/' + answerModal.idPartner + '/' + answerModal.idToggle + '/edit', formData, {
-                        'content-type': 'multipart/form-data',
-                    })
-                    .then(response => {
+        axiosCaller.askCsrf()
+        .then((response) => {
+            switch (answerModal.typeToggle) {
+                case 'partner':
+                    axiosCaller.callAxios('/api/partner/' + answerModal.idToggle + '/edit', 'POST', response.data, formData)
+                    .then((response) => {
                         setStateSwitch(!stateSwitch);
                         if (!stateSwitch) {
-                            stockAlertMessageInStore({type: 'success', content: 'La permission <b>' + answerModal.nameToggle + '</b> a bien été <b>activée</b> pour le partenaire <b>'  + response.data[0].Partner.name + '</b>.'})
+                            stockAlertMessageInStore({type: 'success', content: 'Le partenaire <b>' + answerModal.nameToggle + '</b> a bien été <b>activé</b>.'});
+                            stockAxiosAnswerInStore('success');
                         } else {
-                            stockAlertMessageInStore({type: 'success', content: 'La permission <b>' + answerModal.nameToggle + '</b> a bien été <b>désactivée</b> pour le partenaire <b>'  + response.data[0].Partner.name + '</b> et retirée pour ses clubs.'})
+                            stockAlertMessageInStore({type: 'success', content: 'Le partenaire <b>' + answerModal.nameToggle + '</b> ainsi que ses clubs ont bien été <b>désactivés</b>.'});
+                            stockAxiosAnswerInStore('success');
                         }
                     })
-                    .catch(error => {
+                    .catch((error) => {
                         if (!stateSwitch) {
-                            stockAlertMessageInStore({type: 'error', content: 'La permission <b>' + answerModal.nameToggle + '</b> n\'a pu être <b>activée</b>.'})
+                            stockAlertMessageInStore({type: 'error', content: 'Le partenaire <b>' + answerModal.nameToggle + '</b> n\'a pu être <b>activé</b>.'});
+                            stockAxiosAnswerInStore('error');
                         } else {
-                            stockAlertMessageInStore({type: 'error', content: 'La permission <b>' + answerModal.nameToggle + '</b> n\'a pu être <b>désactivée</b>.'})
+                            stockAlertMessageInStore({type: 'error', content: 'Le partenaire <b>' + answerModal.nameToggle + '</b> ainsi que ses clubs n\'ont pu être <b>désactivés</b>.'});
+                            stockAxiosAnswerInStore('error');
                         }
                     });
-                } else if (answerModal.idClub !== undefined) {
-                    Axios.post('/api/club-permission/' + answerModal.idClub + '/' + answerModal.idToggle + '/edit', formData, {
-                        'content-type': 'multipart/form-data',
-                    })
-                    .then(response => {
+                    break;
+                case 'permission':
+                    if (answerModal.idPartner !== undefined && answerModal.idClub === undefined) {
+                        axiosCaller.callAxios('/api/partner-permission/' + answerModal.idPartner + '/' + answerModal.idToggle + '/edit', 'POST', response.data, formData)
+                        .then((response) => {
+                            setStateSwitch(!stateSwitch);
+                            if (!stateSwitch) {
+                                stockAlertMessageInStore({type: 'success', content: 'La permission <b>' + answerModal.nameToggle + '</b> a bien été <b>activée</b> pour le partenaire <b>'  + response.data[0].Partner.name + '</b>.'})
+                            } else {
+                                stockAlertMessageInStore({type: 'success', content: 'La permission <b>' + answerModal.nameToggle + '</b> a bien été <b>désactivée</b> pour le partenaire <b>'  + response.data[0].Partner.name + '</b> et retirée pour ses clubs.'})
+                            }
+                        })
+                        .catch((error) => {
+                            if (!stateSwitch) {
+                                stockAlertMessageInStore({type: 'error', content: 'La permission <b>' + answerModal.nameToggle + '</b> n\'a pu être <b>activée</b>.'})
+                            } else {
+                                stockAlertMessageInStore({type: 'error', content: 'La permission <b>' + answerModal.nameToggle + '</b> n\'a pu être <b>désactivée</b>.'})
+                            }
+                        });
+                    } else if (answerModal.idClub !== undefined) {
+                        axiosCaller.callAxios('/api/club-permission/' + answerModal.idClub + '/' + answerModal.idToggle + '/edit', 'POST', response.data, formData)
+                        .then((response) => {
+                            setStateSwitch(!stateSwitch);
+                            if (!stateSwitch) {
+                                stockAlertMessageInStore({type: 'success', content: 'La permission <b>' + response.data[0].PartnerPermissions.Permission.name + '</b> a bien été <b>activée</b> pour le club <b>'  + response.data[0].Club.name + '</b>.'})
+                            } else {
+                                stockAlertMessageInStore({type: 'success', content: 'La permission <b>' + response.data[0].PartnerPermissions.Permission.name + '</b> a bien été <b>désactivée</b> pour le club <b>'  + response.data[0].Club.name + '</b>.'})
+                            }
+                        })
+                        .catch((error) => {
+                            if (!stateSwitch) {
+                                stockAlertMessageInStore({type: 'error', content: 'La permission <b>' + answerModal.nameToggle + '</b> n\'a pu être <b>activée</b>.'})
+                            } else {
+                                stockAlertMessageInStore({type: 'error', content: 'La permission <b>' + answerModal.nameToggle + '</b> n\'a pu être <b>désactivée</b>.'})
+                            }
+                        });
+                    }
+                    break;
+                case 'club':
+                    axiosCaller.callAxios('/api/club/' + answerModal.idToggle + '/edit', 'POST', response.data, formData)
+                    .then((response) => {
                         setStateSwitch(!stateSwitch);
                         if (!stateSwitch) {
-                            stockAlertMessageInStore({type: 'success', content: 'La permission <b>' + response.data[0].PartnerPermissions.Permission.name + '</b> a bien été <b>activée</b> pour le club <b>'  + response.data[0].Club.name + '</b>.'})
+                            stockAlertMessageInStore({type: 'success', content: 'Le club <b>' + answerModal.nameToggle + '</b> a bien été <b>activé</b>.'})
+                            stockAxiosAnswerInStore('success')
                         } else {
-                            stockAlertMessageInStore({type: 'success', content: 'La permission <b>' + response.data[0].PartnerPermissions.Permission.name + '</b> a bien été <b>désactivée</b> pour le club <b>'  + response.data[0].Club.name + '</b>.'})
+                            stockAlertMessageInStore({type: 'success', content: 'Le club <b>' + answerModal.nameToggle + '</b> a bien été <b>désactivé</b>.'})
+                            stockAxiosAnswerInStore('success')
                         }
                     })
-                    .catch(error => {
+                    .catch((error) => {
                         if (!stateSwitch) {
-                            stockAlertMessageInStore({type: 'error', content: 'La permission <b>' + answerModal.nameToggle + '</b> n\'a pu être <b>activée</b>.'})
+                            stockAlertMessageInStore({type: 'error', content: 'Le club <b>' + answerModal.nameToggle + '</b> n\'a pu être <b>activé</b>.'})
+                            stockAxiosAnswerInStore('error')
                         } else {
-                            stockAlertMessageInStore({type: 'error', content: 'La permission <b>' + answerModal.nameToggle + '</b> n\'a pu être <b>désactivée</b>.'})
+                            stockAlertMessageInStore({type: 'error', content: 'Le club <b>' + answerModal.nameToggle + '</b> n\'a pu être <b>désactivé</b>.'})
+                            stockAxiosAnswerInStore('error')
                         }
                     });
-                }
-                break;
-            case 'club':
-                Axios.post('/api/club/' + answerModal.idToggle + '/edit', formData, {
-                    'content-type': 'multipart/form-data',
-                })
-                .then(response => {
-                    setStateSwitch(!stateSwitch);
-                    if (!stateSwitch) {
-                        stockAlertMessageInStore({type: 'success', content: 'Le club <b>' + answerModal.nameToggle + '</b> a bien été <b>activé</b>.'})
-                        stockAxiosAnswerInStore('success')
-                    } else {
-                        stockAlertMessageInStore({type: 'success', content: 'Le club <b>' + answerModal.nameToggle + '</b> a bien été <b>désactivé</b>.'})
-                        stockAxiosAnswerInStore('success')
-                    }
-                })
-                .catch(error => {
-                    if (!stateSwitch) {
-                        stockAlertMessageInStore({type: 'error', content: 'Le club <b>' + answerModal.nameToggle + '</b> n\'a pu être <b>activé</b>.'})
-                        stockAxiosAnswerInStore('error')
-                    } else {
-                        stockAlertMessageInStore({type: 'error', content: 'Le club <b>' + answerModal.nameToggle + '</b> n\'a pu être <b>désactivé</b>.'})
-                        stockAxiosAnswerInStore('error')
-                    }
-                });
-                break;
-            default :
-                null
-        }
-        stockAnswerModalForChangeStateInStore('');
+                    break;
+                default :
+                    null
+            }
+            stockAnswerModalForChangeStateInStore('');
+        })
     }
 
     return (

@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import Button from '../../components/Button';
-import Axios from '../../_services/caller_service';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateAlertMessage } from '../../redux/redux';
-import { useEffect } from 'react';
 import {Helmet} from "react-helmet";
+import { axiosCaller } from '../../_services/axiosCaller';
 
 export default function ModifyPassword() {
     
@@ -27,17 +26,18 @@ export default function ModifyPassword() {
                 formData.append(item.name, item.value);
             }
         }
-        Axios.post('/api/user/modify-password', formData, {
-            'content-type': 'multipart/form-data',
-          })
-        .then(response => {
-            stockAlertMessageInStore({type: 'success', content: 'Votre mot de passe a été modifié avec succès.'})
-            navigate('/mon-compte');
+        axiosCaller.askCsrf()
+        .then((response) => {
+            axiosCaller.callAxios('/api/user/modify-password', 'POST', response.data, formData)
+            .then(response => {
+                stockAlertMessageInStore({type: 'success', content: 'Votre mot de passe a été modifié avec succès.'})
+                navigate('/mon-compte');
+            })
+            .catch(error => {
+                stockAlertMessageInStore({type: 'error', content: 'La modification de votre mot de passe n\'a pu aboutir, veuillez corriger les erreurs.'})
+                setErrors(error.response.data);
+            });
         })
-        .catch(error => {
-            stockAlertMessageInStore({type: 'error', content: 'La modification de votre mot de passe n\'a pu aboutir, veuillez corriger les erreurs.'})
-            setErrors(error.response.data);
-        });
     }
 
     return (

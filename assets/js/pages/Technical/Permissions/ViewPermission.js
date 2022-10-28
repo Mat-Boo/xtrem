@@ -1,11 +1,11 @@
 import React, { useState, useEffect }  from 'react';
 import { useParams } from 'react-router-dom';
 import Button from '../../../components/Button';
-import Axios from '../../../_services/caller_service';
 import Loader from '../../../components/Loader';
 import {Helmet} from "react-helmet";
 import { updateLoader } from '../../../redux/redux';
 import { useDispatch } from 'react-redux';
+import { axiosCaller } from '../../../_services/axiosCaller';
 
 export default function ViewPermission() {
 
@@ -22,11 +22,14 @@ export default function ViewPermission() {
     
     useEffect(() => {
         stockLoaderInStore(true);
-        Axios.get('/api/permission/' + id)
+        axiosCaller.askCsrf()
         .then((response) => {
-            setPermission(response.data);
-            setLoader(false);
-            stockLoaderInStore(false);
+            axiosCaller.callAxios('/api/permission/' + id, 'GET', response.data)
+            .then((response) => {
+                setPermission(response.data);
+                setLoader(false);
+                stockLoaderInStore(false);
+            })
         })
     }, [])
 

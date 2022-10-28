@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import Axios from '../../_services/caller_service';
 import { useDispatch, useSelector } from 'react-redux';
 import ClubCard from '../../components/ClubCard';
 import { userServices } from '../../_services/user_services';
 import Loader from '../../components/Loader';
 import {Helmet} from "react-helmet";
 import { updateLoader } from '../../redux/redux';
+import { axiosCaller } from '../../_services/axiosCaller';
 
 export default function MyClub() {
 
@@ -22,11 +22,14 @@ export default function MyClub() {
     useEffect(() => {
         stockLoaderInStore(true);
         if (userServices.isConnected()) {
-            Axios.get('/api/user-club/')
+            axiosCaller.askCsrf()
             .then((response) => {
-                setUser(response.data);
-                setLoader(false);
-                stockLoaderInStore(false);
+                axiosCaller.callAxios('/api/user-club', 'GET', response.data)
+                .then((response) => {
+                    setUser(response.data);
+                    setLoader(false);
+                    stockLoaderInStore(false);
+                })
             })
         }
     }, [alertMessage])

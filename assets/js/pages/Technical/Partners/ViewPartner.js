@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Button from '../../../components/Button';
 import ToggleSwitch from '../../../components/ToggleSwitch';
-import Axios from '../../../_services/caller_service';
 import { userServices } from '../../../_services/user_services';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAxiosAnswer, updateLoader } from '../../../redux/redux';
 import Loader from '../../../components/Loader';
 import {Helmet} from "react-helmet";
+import { axiosCaller } from '../../../_services/axiosCaller';
 
 export default function ViewPartner() {
     
@@ -30,13 +30,16 @@ export default function ViewPartner() {
 
     useEffect(() => {
         stockLoaderInStore(true);
-        Axios.get('/api/partner/' + id)
+        axiosCaller.askCsrf()
         .then((response) => {
-            setPartner(response.data);
-            setLoader(false);
-            stockLoaderInStore(false);
+            axiosCaller.callAxios('/api/partner/' + id, 'GET', response.data)
+            .then((response) => {
+                setPartner(response.data);
+                setLoader(false);
+                stockLoaderInStore(false);
+            })
+            stockAxiosAnswerInStore('');
         })
-        stockAxiosAnswerInStore('');
     }, [axiosAnswer])
 
     return (

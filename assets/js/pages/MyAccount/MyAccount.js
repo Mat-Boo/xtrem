@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../components/Button';
-import Axios from '../../_services/caller_service';
 import Loader from '../../components/Loader';
 import {Helmet} from "react-helmet";
 import { updateLoader } from '../../redux/redux';
+import { axiosCaller } from '../../_services/axiosCaller';
 
 export default function MyAccount() {
     
@@ -20,11 +20,14 @@ export default function MyAccount() {
     
     useEffect(() => {
         stockLoaderInStore(true);
-        Axios.get('/api/user')
+        axiosCaller.askCsrf()
         .then((response) => {
-            setUser(response.data);
-            setLoader(false);
-            stockLoaderInStore(false);
+            axiosCaller.callAxios('/api/user', 'GET', response.data)
+            .then((response) => {
+                setUser(response.data);
+                setLoader(false);
+                stockLoaderInStore(false);
+            })
         })
     }, [alertMessage])
 

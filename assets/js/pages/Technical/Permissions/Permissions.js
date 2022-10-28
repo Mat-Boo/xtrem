@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Axios from '../../../_services/caller_service';
 import PermissionCard from '../../../components/PermissionCard';
 import Button from '../../../components/Button';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,7 +8,8 @@ import { paginationParams } from '../../../_services/paginationParams';
 import { helpers } from '../../../_services/helpers';
 import Loader from '../../../components/Loader';
 import { updateFilter, updateLoader } from '../../../redux/redux';
-import {Helmet} from "react-helmet";
+import { Helmet } from "react-helmet";
+import { axiosCaller } from '../../../_services/axiosCaller';
 
 export default function Permissions() {
 
@@ -33,27 +33,33 @@ export default function Permissions() {
     const lastItemIndex = currentPage * paginationParams.permissionsPerPage;
     const firstItemIndex = lastItemIndex - paginationParams.permissionsPerPage;
 
+
+    const [response, setResponse] = useState('');
+
     useEffect(() => {
         stockLoaderInStore(true);
-        Axios.get('/api/permissions')
+        axiosCaller.askCsrf()
         .then((response) => {
-            setPermissions(response.data);
-            setLoader(false);
-            stockLoaderInStore(false);
-            if (response.data.length / paginationParams.permissionsPerPage < currentPage) {
-                setCurrentPage(Math.ceil(response.data.length / paginationParams.permissionsPerPage));
-            } else {
-                setCurrentPage(currentPage);
-            }
+            axiosCaller.callAxios('/api/permissions', 'GET', response.data)
+            .then ((response) => {
+                setPermissions(response.data);
+                setLoader(false);
+                stockLoaderInStore(false);
+                if (response.data.length / paginationParams.permissionsPerPage < currentPage) {
+                    setCurrentPage(Math.ceil(response.data.length / paginationParams.permissionsPerPage));
+                    } else {
+                        setCurrentPage(currentPage);
+                    }
+            })
         })
-        
+               
         return () => {
-            stockFilterInStore({search: '', state: 'all'});
+            stockFilterInStore({ search: '', state: 'all' });
         }
+                
+    }, [alertMessage, response])
+            
 
-    }, [alertMessage])
-
-    
     return (
         <div className='permissions'>
             <Helmet>
@@ -73,64 +79,64 @@ export default function Permissions() {
                 />
             </div>
             {
-                loader ? 
+                loader ?
                     <Loader /> :
                     permissions.length === 0 ?
-                    <p className='messageNoPermission'>Il n'existe aucune permission.</p> :
-                    <div className='filterAndPermissions'>
-                        <Filters displayStates={false} />
-                        <div className='permissionsListAndPagination'>
-                            {
-                                permissions
-                                .filter((permission) => (
-                                    permission.id.toString().includes(filter.search.toString()) || 
-                                    helpers.replaceAccent(permission.name).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) || 
-                                    helpers.replaceAccent(permission.description).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase())
-                                )).length === 0 ?
-                                <p className='messageNoPermission'>Aucune permission ne correspond à votre recherche.</p> :
-                                <ul className='permissionsList'>
-                                    {
-                                        permissions
-                                            .filter((permission) => (
-                                                permission.id.toString().includes(filter.search.toString()) || 
-                                                helpers.replaceAccent(permission.name).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) || 
-                                                helpers.replaceAccent(permission.description).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase())
-                                            ))
-                                            .map((permission) => (
-                                                <PermissionCard 
-                                                    key={permission.id}
-                                                    id={permission.id}
-                                                    name={permission.name}
-                                                    description={permission.description}
-                                                />
-                                            ))
-                                            .slice(firstItemIndex, lastItemIndex)
-                                    }
-                                </ul>
-                            }
-                            {
-                                permissions
-                                .filter((permission) => (
-                                    permission.id.toString().includes(filter.search.toString()) || 
-                                    helpers.replaceAccent(permission.name).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) || 
-                                    helpers.replaceAccent(permission.description).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase())
-                                )).length > paginationParams.permissionsPerPage ?
-                                <Pagination
-                                    totalItems={
-                                        permissions
-                                            .filter((permission) => (
-                                                permission.id.toString().includes(filter.search.toString()) || 
-                                                helpers.replaceAccent(permission.name).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) || 
-                                                helpers.replaceAccent(permission.description).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase())
-                                            )).length
-                                        }
-                                    itemsPerPage={paginationParams.permissionsPerPage}
-                                    setCurrentPage={setCurrentPage}
-                                    currentPage={currentPage}/> : null
-                            }
+                        <p className='messageNoPermission'>Il n'existe aucune permission.</p> :
+                        <div className='filterAndPermissions'>
+                            <Filters displayStates={false} />
+                            <div className='permissionsListAndPagination'>
+                                {
+                                    permissions
+                                        .filter((permission) => (
+                                            permission.id.toString().includes(filter.search.toString()) ||
+                                            helpers.replaceAccent(permission.name).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) ||
+                                            helpers.replaceAccent(permission.description).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase())
+                                        )).length === 0 ?
+                                        <p className='messageNoPermission'>Aucune permission ne correspond à votre recherche.</p> :
+                                        <ul className='permissionsList'>
+                                            {
+                                                permissions
+                                                    .filter((permission) => (
+                                                        permission.id.toString().includes(filter.search.toString()) ||
+                                                        helpers.replaceAccent(permission.name).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) ||
+                                                        helpers.replaceAccent(permission.description).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase())
+                                                    ))
+                                                    .map((permission) => (
+                                                        <PermissionCard
+                                                            key={permission.id}
+                                                            id={permission.id}
+                                                            name={permission.name}
+                                                            description={permission.description}
+                                                        />
+                                                    ))
+                                                    .slice(firstItemIndex, lastItemIndex)
+                                            }
+                                        </ul>
+                                }
+                                {
+                                    permissions
+                                        .filter((permission) => (
+                                            permission.id.toString().includes(filter.search.toString()) ||
+                                            helpers.replaceAccent(permission.name).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) ||
+                                            helpers.replaceAccent(permission.description).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase())
+                                        )).length > paginationParams.permissionsPerPage ?
+                                        <Pagination
+                                            totalItems={
+                                                permissions
+                                                    .filter((permission) => (
+                                                        permission.id.toString().includes(filter.search.toString()) ||
+                                                        helpers.replaceAccent(permission.name).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase()) ||
+                                                        helpers.replaceAccent(permission.description).toLowerCase().includes(helpers.replaceAccent(filter.search).toString().toLowerCase())
+                                                    )).length
+                                            }
+                                            itemsPerPage={paginationParams.permissionsPerPage}
+                                            setCurrentPage={setCurrentPage}
+                                            currentPage={currentPage} /> : null
+                                }
+                            </div>
                         </div>
-                    </div>
-            }  
+            }
         </div>
     )
 }

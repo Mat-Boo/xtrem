@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Axios from '../../../_services/caller_service';
 import PartnerCard from '../../../components/PartnerCard';
 import Button from '../../../components/Button';
 import Filters from '../../../components/Filters';
@@ -11,7 +10,7 @@ import { helpers } from '../../../_services/helpers';
 import Loader from '../../../components/Loader';
 import { updateAxiosAnswer, updateFilter, updateLoader } from '../../../redux/redux';
 import {Helmet} from "react-helmet";
-import { csrf } from '../../../_services/csrf';
+import { axiosCaller } from '../../../_services/axiosCaller';
 
 export default function Partners() {
     
@@ -39,35 +38,37 @@ export default function Partners() {
     const stockLoaderInStore = (data) => {
         dispatchLoader(updateLoader(data))
     }
-
+    
     //Pagination
     const [currentPage, setCurrentPage] = useState(1);
     const lastItemIndex = currentPage * paginationParams.partnersPerPage;
     const firstItemIndex = lastItemIndex - paginationParams.partnersPerPage;
-    
-    console.log(csrf)
+
     useEffect(() => {
         stockLoaderInStore(true);
-        Axios.get('/api/partners'/* , {
-            headers: {
-                'X-CSRF-TOKEN': csrf.getCsrf()
-            }
-        } */)
+        axiosCaller.askCsrf()
         .then((response) => {
-            setPartners(response.data);
-            response.data.forEach((partner) => {
-                if (partner.isActive) {
-                    setLengthes(lengthes => ({...lengthes, actives: lengthes.actives + 1}));
-                } else {
-                    setLengthes(lengthes => ({...lengthes, inactives: lengthes.inactives + 1}));
-                }
+            axiosCaller.callAxios('/api/partners', 'GET', response.data)
+            .then((response) => {
+                setPartners(response.data);
+                response.data.forEach((partner) => {
+                    if (partner.isActive) {
+                        setLengthes(lengthes => ({...lengthes, actives: lengthes.actives + 1}));
+                    } else {
+                        setLengthes(lengthes => ({...lengthes, inactives: lengthes.inactives + 1}));
+                    }
+                })
+                setLengthes(lengthes => ({...lengthes, all: response.data.length}));
+                setLoader(false);
+                stockLoaderInStore(false);
             })
-            setLengthes(lengthes => ({...lengthes, all: response.data.length}));
-            setLoader(false);
-            stockLoaderInStore(false);
+            .catch((error) => {
+                console.log(error)
+            })
+            setCurrentPage(currentPage);
+            stockAxiosAnswerInStore('');
         })
-        setCurrentPage(currentPage);
-        stockAxiosAnswerInStore('');
+        
 
         return () => {
             stockFilterInStore({search: '', state: 'all'});

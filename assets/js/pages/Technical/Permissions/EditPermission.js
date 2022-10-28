@@ -1,11 +1,11 @@
 import React, { useState, useEffect }  from 'react';
 import Button from '../../../components/Button';
-import Axios from '../../../_services/caller_service';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateAlertMessage, updateLoader } from '../../../redux/redux';
 import Loader from '../../../components/Loader';
 import {Helmet} from "react-helmet";
+import { axiosCaller } from '../../../_services/axiosCaller';
 
 export default function AddPermission() {
     
@@ -28,13 +28,19 @@ export default function AddPermission() {
     }
     
     useEffect(() => {
-            stockLoaderInStore(true);
-            Axios.get('/api/permission/' + id)
+        stockLoaderInStore(true);
+        axiosCaller.askCsrf()
+        .then((response) => {
+            axiosCaller.callAxios('/api/permission/' + id, 'GET', response.data)
             .then((response) => {
                 setPermission(response.data);
                 setLoader(false);
                 stockLoaderInStore(false);
             })
+            .catch((error) => {
+                console.log(error);
+            })
+        })
     }, [])
 
     const handleChange = (e) => {
@@ -53,17 +59,19 @@ export default function AddPermission() {
                 formData.append(item.name, item.value);
             }
         }
-        Axios.post('/api/permission/' + id + '/edit', formData, {
-            'content-type': 'multipart/form-data',
-          })
-        .then(response => {
-            stockAlertMessageInStore({type: 'success', content: 'La permission <b>' + response.data.name + '</b> a été modifiée avec succès.'})
-            navigate('/permissions');
+
+        axiosCaller.askCsrf()
+        .then((response) => {
+            axiosCaller.callAxios('/api/permission/' + id + '/edit', 'POST', response.data, formData)
+            .then(response => {
+                stockAlertMessageInStore({type: 'success', content: 'La permission <b>' + response.data.name + '</b> a été modifiée avec succès.'})
+                navigate('/permissions');
+            })
+            .catch(error => {
+                stockAlertMessageInStore({type: 'error', content: 'La modification de la permission n\'a pu aboutir, veuillez corriger les erreurs.'})
+                setErrors(error.response.data);
+            });
         })
-        .catch(error => {
-            stockAlertMessageInStore({type: 'error', content: 'La modification de la permission n\'a pu aboutir, veuillez corriger les erreurs.'})
-            setErrors(error.response.data);
-        });
     }
 
     return (

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Button from '../../../components/Button';
-import Axios from '../../../_services/caller_service';
 import { useDispatch } from 'react-redux'
 import { updateAlertMessage } from '../../../redux/redux';
 import { useNavigate } from 'react-router-dom';
 import {Helmet} from "react-helmet";
+import { axiosCaller } from '../../../_services/axiosCaller';
 
 export default function AddPermission() {
     
@@ -26,17 +26,19 @@ export default function AddPermission() {
                 formData.append(item.name, item.value);
             }
         }
-        Axios.post('/api/permission/create', formData, {
-            'content-type': 'multipart/form-data',
-          })
-        .then(response => {
-            stockAlertMessageInStore({type: 'success', content: 'La nouvelle permission <b>' + response.data.name + '</b> a été créée avec succès.\nElle apparaîtra inactive sur l\'ensemble des partenaires.\nIl faudra l\'activer sur le partenaire pour qu\'elle soit disponible sur ses clubs.'})
-            navigate('/permissions');
+
+        axiosCaller.askCsrf()
+        .then((response) => {
+            axiosCaller.callAxios('/api/permission/create', 'POST', response.data, formData)
+            .then(response => {
+                stockAlertMessageInStore({type: 'success', content: 'La nouvelle permission <b>' + response.data.name + '</b> a été créée avec succès.\nElle apparaîtra inactive sur l\'ensemble des partenaires.\nIl faudra l\'activer sur le partenaire pour qu\'elle soit disponible sur ses clubs.'})
+                navigate('/permissions');
+            })
+            .catch(error => {
+                stockAlertMessageInStore({type: 'error', content: 'L\'ajout de la permission n\'a pu aboutir, veuillez corriger les erreurs.'})
+                setErrors(error.response.data);
+            });
         })
-        .catch(error => {
-            stockAlertMessageInStore({type: 'error', content: 'L\'ajout de la permission n\'a pu aboutir, veuillez corriger les erreurs.'})
-            setErrors(error.response.data);
-        });
     }
 
     return (

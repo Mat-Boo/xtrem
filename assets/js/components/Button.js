@@ -3,8 +3,8 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAnswerModalForDelete, updateAlertMessage, updateModal, updateTypeButton, updateAxiosAnswer, updateAnswerModalForResetAccess } from '../redux/redux';
-import Axios from '../_services/caller_service';
 import { useEffect } from 'react';
+import { axiosCaller } from '../_services/axiosCaller';
 
 export default function Button({ idItem, nameItem, typeItem, nameUser, typeBtn, btnSvg, btnTitle, btnUrl, isActive }) {
 
@@ -117,50 +117,56 @@ export default function Button({ idItem, nameItem, typeItem, nameUser, typeBtn, 
     }
     
     if (idItem === answerModalForDelete.idItem && answerModalForDelete.typeButton === 'confirm') {
-        switch (answerModalForDelete.typeItem) {
-            case 'partner':
-                Axios.post('/api/partner/' + answerModalForDelete.idItem + '/delete')
-                .then(response => {
-                    stockAlertMessageInStore({type: 'success', content: 'Le partenaire <b>' + answerModalForDelete.nameItem + '</b> a bien été supprimé.'})
-                    navigate('/partenaires');
-                })
-                .catch(error => {
-                    stockAlertMessageInStore({type: 'error', content: 'La suppression du partenaire <b>' + answerModalForDelete.nameItem + '</b> n\'a pu aboutir, merci de réessayer.'})
-                });
-                break;
-            case 'permission':
-                Axios.post('/api/permission/' + answerModalForDelete.idItem + '/delete')
-                .then(response => {
-                    stockAlertMessageInStore({type: 'success', content: 'La permission <b>' + answerModalForDelete.nameItem + '</b> a bien été supprimée.'})
-                })
-                .catch(error => {
-                    stockAlertMessageInStore({type: 'error', content: 'La suppression de la permission <b>' + answerModalForDelete.nameItem + '</b> n\'a pu aboutir, merci de réessayer.'})
-                });
-                break;
-            case 'club':
-                Axios.post('/api/club/' + answerModalForDelete.idItem + '/delete')
-                .then(response => {
-                    stockAlertMessageInStore({type: 'success', content: 'Le club <b>' + answerModalForDelete.nameItem + '</b> a bien été supprimé.'})
-                    stockAxiosAnswerInStore('success');
-                })
-                .catch(error => {
-                    stockAlertMessageInStore({type: 'error', content: 'La suppression du club <b>' + answerModalForDelete.nameItem + '</b> n\'a pu aboutir, merci de réessayer.'})
-                    stockAxiosAnswerInStore('error');
-                });
-                break;
-        }
-        stockAnswerModalForDeleteInStore('');
+        axiosCaller.askCsrf()
+        .then((response) => {
+            switch (answerModalForDelete.typeItem) {
+                case 'partner':
+                    axiosCaller.callAxios('/api/partner/' + answerModalForDelete.idItem + '/delete', 'POST', response.data)
+                    .then((response) => {
+                        stockAlertMessageInStore({type: 'success', content: 'Le partenaire <b>' + answerModalForDelete.nameItem + '</b> a bien été supprimé.'})
+                        navigate('/partenaires');
+                    })
+                    .catch((error) => {
+                        stockAlertMessageInStore({type: 'error', content: 'La suppression du partenaire <b>' + answerModalForDelete.nameItem + '</b> n\'a pu aboutir, merci de réessayer.'})
+                    });
+                    break;
+                case 'permission':
+                    axiosCaller.callAxios('/api/permission/' + answerModalForDelete.idItem + '/delete', 'POST', response.data)
+                    .then((response) => {
+                        stockAlertMessageInStore({type: 'success', content: 'La permission <b>' + answerModalForDelete.nameItem + '</b> a bien été supprimée.'})
+                    })
+                    .catch(error => {
+                        stockAlertMessageInStore({type: 'error', content: 'La suppression de la permission <b>' + answerModalForDelete.nameItem + '</b> n\'a pu aboutir, merci de réessayer.'})
+                    });
+                    break;
+                case 'club':
+                    axiosCaller.callAxios('/api/club/' + answerModalForDelete.idItem + '/delete', 'POST', response.data)
+                    .then((response) => {
+                        stockAlertMessageInStore({type: 'success', content: 'Le club <b>' + answerModalForDelete.nameItem + '</b> a bien été supprimé.'})
+                        stockAxiosAnswerInStore('success');
+                    })
+                    .catch((error) => {
+                        stockAlertMessageInStore({type: 'error', content: 'La suppression du club <b>' + answerModalForDelete.nameItem + '</b> n\'a pu aboutir, merci de réessayer.'})
+                        stockAxiosAnswerInStore('error');
+                    });
+                    break;
+            }
+            stockAnswerModalForDeleteInStore('');
+        })
     }
 
     if (idItem === answerModalForResetAccess.idItem && answerModalForResetAccess.typeButton === 'confirm') {
-                Axios.post('/api/user/' + answerModalForResetAccess.idItem + '/reset')
-                .then(response => {
-                    stockAlertMessageInStore({type: 'success', content: 'L\'accès de <b>' + response.data.firstname + ' ' + response.data.lastname + '</b> a bien été réinitialisé.'})
-                })
-                .catch(error => {
-                    stockAlertMessageInStore({type: 'error', content: 'La réinitialisation de l\'accès de  <b>' + response.data.firstname + ' ' + response.data.lastname + '</b> n\'a pu aboutir, merci de réessayer.'})
-                });
-        stockAnswerModalForResetAccessInStore('');
+        axiosCaller.askCsrf()
+        .then((response) => {
+            axiosCaller.callAxios('/api/user/' + answerModalForResetAccess.idItem + '/reset', 'POST', response.data)
+            .then(response => {
+                stockAlertMessageInStore({type: 'success', content: 'L\'accès de <b>' + response.data.firstname + ' ' + response.data.lastname + '</b> a bien été réinitialisé.'})
+            })
+            .catch(error => {
+                stockAlertMessageInStore({type: 'error', content: 'La réinitialisation de l\'accès de  <b>' + response.data.firstname + ' ' + response.data.lastname + '</b> n\'a pu aboutir, merci de réessayer.'})
+            });
+            stockAnswerModalForResetAccessInStore('');
+        })
     }  
 
     return (

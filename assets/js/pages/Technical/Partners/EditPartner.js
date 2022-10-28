@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../../../components/Button';
-import Axios from '../../../_services/caller_service';
 import { useDispatch } from 'react-redux'
 import { updateAlertMessage, updateLoader } from '../../../redux/redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import Loader from '../../../components/Loader';
 import {Helmet} from "react-helmet";
+import { axiosCaller } from '../../../_services/axiosCaller';
 
 export default function EditPartner() {
     
@@ -32,11 +32,14 @@ export default function EditPartner() {
     
     useEffect(() => {
         stockLoaderInStore(true);
-        Axios.get('/api/partner/' + id)
+        axiosCaller.askCsrf()
         .then((response) => {
-            setPartner(response.data);
-            setLoader(false);
-            stockLoaderInStore(false);
+            axiosCaller.callAxios('/api/partner/' + id, 'GET', response.data)
+            .then((response) => {
+                setPartner(response.data);
+                setLoader(false);
+                stockLoaderInStore(false);
+            })
         })
     }, [])
 
@@ -77,17 +80,19 @@ export default function EditPartner() {
         if (displayLogo) {
             formData.append('displayedLogo', displayLogo)
         }
-        Axios.post('/api/partner/' + id + '/edit', formData, {
-            'content-type': 'multipart/form-data',
-          })
-          .then(response => {
-            stockAlertMessageInStore({type: 'success', content: 'Le partenaire <b>' + response.data.name + '</b> a été modifié avec succès.'})
-            navigate('/partenaires/' + partner.id + '-' + partner.name);
+
+        axiosCaller.askCsrf()
+        .then((response) => {
+            axiosCaller.callAxios('/api/partner/' + id + '/edit', 'POST', response.data, formData)
+            .then(response => {
+                stockAlertMessageInStore({type: 'success', content: 'Le partenaire <b>' + response.data.name + '</b> a été modifié avec succès.'})
+                navigate('/partenaires/' + partner.id + '-' + partner.name);
+            })
+            .catch(error => {
+                stockAlertMessageInStore({type: 'error', content: 'La modification du partenaire n\'a pu aboutir, veuillez corriger les erreurs.'})
+                setErrors(error.response.data);
+            });
         })
-        .catch(error => {
-            stockAlertMessageInStore({type: 'error', content: 'La modification du partenaire n\'a pu aboutir, veuillez corriger les erreurs.'})
-            setErrors(error.response.data);
-        });
     }
 
     return (

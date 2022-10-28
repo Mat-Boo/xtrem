@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Axios from '../../_services/caller_service';
 import Filters from '../../components/Filters';
 import { useDispatch, useSelector } from 'react-redux';
 import ClubCard from '../../components/ClubCard';
@@ -10,6 +9,7 @@ import ToggleSwitch from '../../components/ToggleSwitch';
 import Loader from '../../components/Loader';
 import {Helmet} from "react-helmet";
 import { updateLoader } from '../../redux/redux';
+import { axiosCaller } from '../../_services/axiosCaller';
 
 export default function MyClubs() {
     
@@ -40,24 +40,30 @@ export default function MyClubs() {
     useEffect(() => {
         stockLoaderInStore(true);
         if (userServices.isConnected()) {
-            Axios.get('/api/user-partner/')
+            axiosCaller.askCsrf()
             .then((response) => {
-                setUser(response.data);
-                setLengthes({
-                    all: 0,
-                    actives: 0,
-                    inactives: 0
+                axiosCaller.callAxios('/api/user-partner/', 'GET', response.data)
+                .then((response) => {
+                    setUser(response.data);
+                    setLengthes({
+                        all: 0,
+                        actives: 0,
+                        inactives: 0
+                    })
+                    response.data.partner.clubs.forEach((club) => {
+                        if (club.isActive) {
+                            setLengthes(lengthes => ({...lengthes, actives: lengthes.actives + 1}));
+                        } else {
+                            setLengthes(lengthes => ({...lengthes, inactives: lengthes.inactives + 1}));
+                        }
+                    })
+                    setLengthes(lengthes => ({...lengthes, all: response.data.partner.clubs.length}));
+                    setLoader(false);
+                    stockLoaderInStore(false);
                 })
-                response.data.partner.clubs.forEach((club) => {
-                    if (club.isActive) {
-                        setLengthes(lengthes => ({...lengthes, actives: lengthes.actives + 1}));
-                    } else {
-                        setLengthes(lengthes => ({...lengthes, inactives: lengthes.inactives + 1}));
-                    }
+                .catch((error) => {
+                    console.log(error)
                 })
-                setLengthes(lengthes => ({...lengthes, all: response.data.partner.clubs.length}));
-                setLoader(false);
-                stockLoaderInStore(false);
             })
         }
         setCurrentPage(1);
