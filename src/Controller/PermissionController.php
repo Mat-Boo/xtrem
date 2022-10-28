@@ -121,9 +121,6 @@ class PermissionController extends AbstractController
     #[Route('/api/permission/{id}/edit', name: 'permission_edit', methods: ['POST'])]
     public function editPermission(Request $request, SerializerInterface $serializer, $id, Session $session): Response
     {
-        
-        /* dd($request->headers->get('x-csrf-token'), $session->get('csrf_token'), $_SERVER); */
-
         if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
             //Récupération des données issues du formulaire de création d'une permission
             $content = [];

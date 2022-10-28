@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from '../../img/logo_horizontal.png';
 import { useDispatch } from 'react-redux'
-import { updateAlertMessage, updateCsrf } from '../redux/redux';
+import { updateAlertMessage } from '../redux/redux';
 import { useNavigate } from 'react-router-dom';
 import jwt from 'jwt-decode';
 import { useEffect } from 'react';
@@ -18,18 +18,13 @@ export default function Login() {
         dispatchAlertMessage(updateAlertMessage(data))
     }
 
-    const dispatchCsrf = useDispatch();
-    const stockCsrfInStore = (data) => {
-        dispatchCsrf(updateCsrf(data))
-    }
-
     useEffect(() => {
         if (userServices.isConnected()) {
             navigate('/accueil');
         }
     }, [])
 
-    // Valid Form and send values to api
+    // Validation du formulaire et envoi des valeurs vers l'API
     const validForm = (e) => {
         e.preventDefault();
         let formValues = {};

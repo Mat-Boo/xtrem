@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Button from '../components/Button';
 import logo from '../../img/logo_horizontal.png';
 import {Helmet} from "react-helmet";

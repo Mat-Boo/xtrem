@@ -24,7 +24,6 @@ class ClubPermissionController extends AbstractController
     #[Route('/api/club-permission/{idClub}/{idPartnerPermission}/edit', name: 'club-permission_edit', methods: ['POST'])]
     public function editClubPermission(Request $request, SerializerInterface $serializer, $idClub, $idPartnerPermission, Session $session): Response
     {
-        dd($request);
         if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
             //Récupération des données issues du formulaire de modification d'un club
             $content['isActive'] = $request->get('isActive');

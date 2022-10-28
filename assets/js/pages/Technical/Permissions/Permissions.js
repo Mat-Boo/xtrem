@@ -33,9 +33,6 @@ export default function Permissions() {
     const lastItemIndex = currentPage * paginationParams.permissionsPerPage;
     const firstItemIndex = lastItemIndex - paginationParams.permissionsPerPage;
 
-
-    const [response, setResponse] = useState('');
-
     useEffect(() => {
         stockLoaderInStore(true);
         axiosCaller.askCsrf()
@@ -57,7 +54,7 @@ export default function Permissions() {
             stockFilterInStore({ search: '', state: 'all' });
         }
                 
-    }, [alertMessage, response])
+    }, [alertMessage])
             
 
     return (

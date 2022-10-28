@@ -37,9 +37,6 @@ export default function AddPermission() {
                 setLoader(false);
                 stockLoaderInStore(false);
             })
-            .catch((error) => {
-                console.log(error);
-            })
         })
     }, [])
 
@@ -50,7 +47,7 @@ export default function AddPermission() {
         });
     }
 
-    // Valid Form and send values to api
+    // Validation du formulaire et envoi des valeurs vers l'API
     const validForm = (e) => {
         e.preventDefault();
         const formData = new FormData();

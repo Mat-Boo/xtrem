@@ -62,9 +62,6 @@ export default function Partners() {
                 setLoader(false);
                 stockLoaderInStore(false);
             })
-            .catch((error) => {
-                console.log(error)
-            })
             setCurrentPage(currentPage);
             stockAxiosAnswerInStore('');
         })

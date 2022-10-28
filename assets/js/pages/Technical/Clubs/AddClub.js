@@ -48,7 +48,7 @@ export default function AddClub() {
         })
     }, [])
 
-    //Validate Form and send to api
+    // Validation du formulaire et envoi des valeurs vers l'API
     const validForm = (e) => {
         e.preventDefault();
         const formData = new FormData();

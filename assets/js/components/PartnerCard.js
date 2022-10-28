@@ -1,7 +1,6 @@
 import React from 'react';
 import slugify from 'react-slugify';
 import Button from '../components/Button';
-import { userServices } from '../_services/user_services';
 import ToggleSwitch from './ToggleSwitch';
 
 export default function PartnerCard({ id, logo, name, description, isActive, roles, nbClubs }) {

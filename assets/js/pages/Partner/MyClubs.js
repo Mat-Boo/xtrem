@@ -61,9 +61,6 @@ export default function MyClubs() {
                     setLoader(false);
                     stockLoaderInStore(false);
                 })
-                .catch((error) => {
-                    console.log(error)
-                })
             })
         }
         setCurrentPage(1);

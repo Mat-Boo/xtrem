@@ -15,7 +15,7 @@ class Club
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups([/* 'partners:read',  */'club:read', 'club:edit', 'partner:read', 'clubPermission:edit', 'userPartner:read', 'userClub:read'])]
+    #[Groups(['club:read', 'club:edit', 'partner:read', 'clubPermission:edit', 'userPartner:read', 'userClub:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
