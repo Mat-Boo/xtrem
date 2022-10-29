@@ -1,7 +1,7 @@
 import axios from "axios";
 import { userServices } from './user_services';
 
-let baseUrl = process.env.APP_ENV === 'dev' ? 'http://127.0.0.1:8000' : /* 'https://xtrem-studi.fly.dev' */'https://xtrem-studi.herokuapp.com';
+let baseUrl = process.env.APP_ENV === 'dev' ? 'http://127.0.0.1:8000' : 'https://xtrem-studi.fly.dev';
 
 const callAxiosDisconnect = (path, method, formData) => {
     return axios(baseUrl + path, {
