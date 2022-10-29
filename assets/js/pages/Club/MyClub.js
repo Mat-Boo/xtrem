@@ -24,7 +24,7 @@ export default function MyClub() {
         if (userServices.isConnected()) {
             axiosCaller.askCsrf()
             .then((response) => {
-                axiosCaller.callAxios('/api/user-club', 'GET', response.data)
+                axiosCaller.callAxios('/api/user-club/', 'GET', response.data)
                 .then((response) => {
                     setUser(response.data);
                     setLoader(false);
@@ -39,7 +39,6 @@ export default function MyClub() {
             <Helmet>
                 <title>Mon club | Xtrem</title>
                 <meta name="description" content="Xtrem, visualisation du club et ses permissions." />
-                <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
             </Helmet>
             {
                 loader ? 
