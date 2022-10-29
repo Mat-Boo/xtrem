@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Class\CsrfToken;
 use App\Class\ErrorsValidation;
 use App\Class\Mail;
 use App\Entity\User;

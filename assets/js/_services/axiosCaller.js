@@ -22,6 +22,7 @@ const askCsrf = () => {
 }
 
 const callAxios = (path, method, csrfToken, formData) => {
+    console.log(baseUrl);
     return axios(baseUrl + path, {
         method: method,
         headers: {
