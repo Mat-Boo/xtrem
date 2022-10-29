@@ -6,6 +6,8 @@ import { updateAlertMessage, updateLoader } from '../../redux/redux';
 import Loader from '../../components/Loader';
 import {Helmet} from "react-helmet";
 import { axiosCaller } from '../../_services/axiosCaller';
+import { checkToken } from '../../_services/checkToken';
+import { userServices } from '../../_services/user_services';
 
 export default function EditAccount() {
     
@@ -49,25 +51,31 @@ export default function EditAccount() {
     // Validation du formulaire et envoi des valeurs vers l'API
     const validForm = (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        for (let item of e.target) {
-            if (item.name !== '') {
-                formData.append(item.name, item.value);
+        if (checkToken.expired()) {
+            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
+            userServices.logout();
+            navigate('/');
+        } else {
+            const formData = new FormData();
+            for (let item of e.target) {
+                if (item.name !== '') {
+                    formData.append(item.name, item.value);
+                }
             }
-        }
-
-        axiosCaller.askCsrf()
-        .then((response) => {
-            axiosCaller.callAxios('/api/user/edit', 'POST', response.data, formData)
-            .then(response => {
-                stockAlertMessageInStore({type: 'success', content: 'Vos informations personnelles ont été modifiées avec succès.'})
-                navigate('/mon-compte');
+    
+            axiosCaller.askCsrf()
+            .then((response) => {
+                axiosCaller.callAxios('/api/user/edit', 'POST', response.data, formData)
+                .then(response => {
+                    stockAlertMessageInStore({type: 'success', content: 'Vos informations personnelles ont été modifiées avec succès.'})
+                    navigate('/mon-compte');
+                })
+                .catch(error => {
+                    stockAlertMessageInStore({type: 'error', content: 'La modification de vos informations personnelles n\'a pu aboutir, veuillez corriger les erreurs.'})
+                    setErrors(error.response.data);
+                });
             })
-            .catch(error => {
-                stockAlertMessageInStore({type: 'error', content: 'La modification de vos informations personnelles n\'a pu aboutir, veuillez corriger les erreurs.'})
-                setErrors(error.response.data);
-            });
-        })
+        }
     }
 
     return (

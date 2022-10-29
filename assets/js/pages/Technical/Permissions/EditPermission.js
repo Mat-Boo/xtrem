@@ -6,6 +6,8 @@ import { updateAlertMessage, updateLoader } from '../../../redux/redux';
 import Loader from '../../../components/Loader';
 import {Helmet} from "react-helmet";
 import { axiosCaller } from '../../../_services/axiosCaller';
+import { userServices } from '../../../_services/user_services';
+import { checkToken } from '../../../_services/checkToken';
 
 export default function AddPermission() {
     
@@ -50,25 +52,30 @@ export default function AddPermission() {
     // Validation du formulaire et envoi des valeurs vers l'API
     const validForm = (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        for (let item of e.target) {
-            if (item.name !== '') {
-                formData.append(item.name, item.value);
+        if (checkToken.expired()) {
+            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
+            userServices.logout();
+            navigate('/');
+        } else {
+            const formData = new FormData();
+            for (let item of e.target) {
+                if (item.name !== '') {
+                    formData.append(item.name, item.value);
+                }
             }
-        }
-
-        axiosCaller.askCsrf()
-        .then((response) => {
-            axiosCaller.callAxios('/api/permission/' + id + '/edit', 'POST', response.data, formData)
-            .then(response => {
-                stockAlertMessageInStore({type: 'success', content: 'La permission <b>' + response.data.name + '</b> a été modifiée avec succès.'})
-                navigate('/permissions');
+            axiosCaller.askCsrf()
+            .then((response) => {
+                axiosCaller.callAxios('/api/permission/' + id + '/edit', 'POST', response.data, formData)
+                .then(response => {
+                    stockAlertMessageInStore({type: 'success', content: 'La permission <b>' + response.data.name + '</b> a été modifiée avec succès.'})
+                    navigate('/permissions');
+                })
+                .catch(error => {
+                    stockAlertMessageInStore({type: 'error', content: 'La modification de la permission n\'a pu aboutir, veuillez corriger les erreurs.'})
+                    setErrors(error.response.data);
+                });
             })
-            .catch(error => {
-                stockAlertMessageInStore({type: 'error', content: 'La modification de la permission n\'a pu aboutir, veuillez corriger les erreurs.'})
-                setErrors(error.response.data);
-            });
-        })
+        }
     }
 
     return (

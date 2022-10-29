@@ -5,6 +5,8 @@ import { useDispatch } from 'react-redux';
 import { updateAlertMessage } from '../../redux/redux';
 import {Helmet} from "react-helmet";
 import { axiosCaller } from '../../_services/axiosCaller';
+import { checkToken } from '../../_services/checkToken';
+import { userServices } from '../../_services/user_services';
 
 export default function ModifyPassword() {
     
@@ -19,24 +21,30 @@ export default function ModifyPassword() {
     // Validation du formulaire et envoi des valeurs vers l'API
     const validForm = (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        for (let item of e.target) {
-            if (item.name !== '') {
-                formData.append(item.name, item.value);
+        if (checkToken.expired()) {
+            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
+            userServices.logout();
+            navigate('/');
+        } else {
+            const formData = new FormData();
+            for (let item of e.target) {
+                if (item.name !== '') {
+                    formData.append(item.name, item.value);
+                }
             }
-        }
-        axiosCaller.askCsrf()
-        .then((response) => {
-            axiosCaller.callAxios('/api/user/modify-password', 'POST', response.data, formData)
-            .then(response => {
-                stockAlertMessageInStore({type: 'success', content: 'Votre mot de passe a été modifié avec succès.'})
-                navigate('/mon-compte');
+            axiosCaller.askCsrf()
+            .then((response) => {
+                axiosCaller.callAxios('/api/user/modify-password', 'POST', response.data, formData)
+                .then(response => {
+                    stockAlertMessageInStore({type: 'success', content: 'Votre mot de passe a été modifié avec succès.'})
+                    navigate('/mon-compte');
+                })
+                .catch(error => {
+                    stockAlertMessageInStore({type: 'error', content: 'La modification de votre mot de passe n\'a pu aboutir, veuillez corriger les erreurs.'})
+                    setErrors(error.response.data);
+                });
             })
-            .catch(error => {
-                stockAlertMessageInStore({type: 'error', content: 'La modification de votre mot de passe n\'a pu aboutir, veuillez corriger les erreurs.'})
-                setErrors(error.response.data);
-            });
-        })
+        }
     }
 
     return (

@@ -8,6 +8,7 @@ import { userServices } from '../../../_services/user_services';
 import Loader from '../../../components/Loader';
 import {Helmet} from "react-helmet";
 import { axiosCaller } from '../../../_services/axiosCaller';
+import { checkToken } from '../../../_services/checkToken';
 
 export default function AddPartner() {
        
@@ -49,29 +50,35 @@ export default function AddPartner() {
     // Validation du formulaire et envoi des valeurs vers l'API
     const validForm = (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        for (let item of e.target) {
-            if (item.name === 'logo' && logoFile) {
-                formData.append('logoFile', logoFile);
-                formData.append('logoFileName', logoFile.name);
-            } else if (item.name === 'permission') {
-                formData.append('permissions[' + item.id + ']', item.checked ? 1 : 0);
-            } else if (item.id !== '') {
-                formData.append(item.id, item.value);
+        if (checkToken.expired()) {
+            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
+            userServices.logout();
+            navigate('/');
+        } else {
+            const formData = new FormData();
+            for (let item of e.target) {
+                if (item.name === 'logo' && logoFile) {
+                    formData.append('logoFile', logoFile);
+                    formData.append('logoFileName', logoFile.name);
+                } else if (item.name === 'permission') {
+                    formData.append('permissions[' + item.id + ']', item.checked ? 1 : 0);
+                } else if (item.id !== '') {
+                    formData.append(item.id, item.value);
+                }
             }
-        }
-        axiosCaller.askCsrf()
-        .then((response) => {
-            axiosCaller.callAxios('/api/partner/create', 'POST', response.data, formData)
-            .then(response => {
-                stockAlertMessageInStore({type: 'success', content: 'Le nouveau partenaire <b>' + response.data.name + '</b> a été créé avec succès.'})
-                navigate('/partenaires');
+            axiosCaller.askCsrf()
+            .then((response) => {
+                axiosCaller.callAxios('/api/partner/create', 'POST', response.data, formData)
+                .then(response => {
+                    stockAlertMessageInStore({type: 'success', content: 'Le nouveau partenaire <b>' + response.data.name + '</b> a été créé avec succès.'})
+                    navigate('/partenaires');
+                })
+                .catch(error => {
+                    stockAlertMessageInStore({type: 'error', content: 'L\'ajout du partenaire n\'a pu aboutir, veuillez corriger les erreurs.'});
+                    setErrors(error.response.data);
+                });
             })
-            .catch(error => {
-                stockAlertMessageInStore({type: 'error', content: 'L\'ajout du partenaire n\'a pu aboutir, veuillez corriger les erreurs.'});
-                setErrors(error.response.data);
-            });
-        })
+        }
     }
 
     return (

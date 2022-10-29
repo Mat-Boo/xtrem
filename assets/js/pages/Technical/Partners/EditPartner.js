@@ -6,6 +6,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Loader from '../../../components/Loader';
 import {Helmet} from "react-helmet";
 import { axiosCaller } from '../../../_services/axiosCaller';
+import { userServices } from '../../../_services/user_services';
+import { checkToken } from '../../../_services/checkToken';
 
 export default function EditPartner() {
     
@@ -68,31 +70,37 @@ export default function EditPartner() {
     // Validation du formulaire et envoi des valeurs vers l'API
     const validForm = (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        for (let item of e.target) {
-            if (item.name === 'logo' && logoFile) {
-                formData.append('logoFile', logoFile);
-                formData.append('logoFileName', logoFile.name);
-            } else if (item.id !== '') {
-                formData.append(item.id, item.value);
+        if (checkToken.expired()) {
+            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
+            userServices.logout();
+            navigate('/');
+        } else {
+            const formData = new FormData();
+            for (let item of e.target) {
+                if (item.name === 'logo' && logoFile) {
+                    formData.append('logoFile', logoFile);
+                    formData.append('logoFileName', logoFile.name);
+                } else if (item.id !== '') {
+                    formData.append(item.id, item.value);
+                }
             }
-        }
-        if (displayLogo) {
-            formData.append('displayedLogo', displayLogo)
-        }
-
-        axiosCaller.askCsrf()
-        .then((response) => {
-            axiosCaller.callAxios('/api/partner/' + id + '/edit', 'POST', response.data, formData)
-            .then(response => {
-                stockAlertMessageInStore({type: 'success', content: 'Le partenaire <b>' + response.data.name + '</b> a été modifié avec succès.'})
-                navigate('/partenaires/' + partner.id + '-' + partner.name);
+            if (displayLogo) {
+                formData.append('displayedLogo', displayLogo)
+            }
+    
+            axiosCaller.askCsrf()
+            .then((response) => {
+                axiosCaller.callAxios('/api/partner/' + id + '/edit', 'POST', response.data, formData)
+                .then(response => {
+                    stockAlertMessageInStore({type: 'success', content: 'Le partenaire <b>' + response.data.name + '</b> a été modifié avec succès.'})
+                    navigate('/partenaires/' + partner.id + '-' + partner.name);
+                })
+                .catch(error => {
+                    stockAlertMessageInStore({type: 'error', content: 'La modification du partenaire n\'a pu aboutir, veuillez corriger les erreurs.'})
+                    setErrors(error.response.data);
+                });
             })
-            .catch(error => {
-                stockAlertMessageInStore({type: 'error', content: 'La modification du partenaire n\'a pu aboutir, veuillez corriger les erreurs.'})
-                setErrors(error.response.data);
-            });
-        })
+        }
     }
 
     return (

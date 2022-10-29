@@ -5,6 +5,8 @@ import { updateAlertMessage } from '../../../redux/redux';
 import { useNavigate } from 'react-router-dom';
 import {Helmet} from "react-helmet";
 import { axiosCaller } from '../../../_services/axiosCaller';
+import { userServices } from '../../../_services/user_services';
+import { checkToken } from '../../../_services/checkToken';
 
 export default function AddPermission() {
     
@@ -19,25 +21,31 @@ export default function AddPermission() {
     // Validation du formulaire et envoi des valeurs vers l'API
     const validForm = (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        for (let item of e.target) {
-            if (item.name !== '') {
-                formData.append(item.name, item.value);
+        if (checkToken.expired()) {
+            stockAlertMessageInStore({type: 'error', content: 'Votre session a expirée, veuillez vous reconnecter.'})
+            userServices.logout();
+            navigate('/');
+        } else {
+            const formData = new FormData();
+            for (let item of e.target) {
+                if (item.name !== '') {
+                    formData.append(item.name, item.value);
+                }
             }
-        }
-
-        axiosCaller.askCsrf()
-        .then((response) => {
-            axiosCaller.callAxios('/api/permission/create', 'POST', response.data, formData)
-            .then(response => {
-                stockAlertMessageInStore({type: 'success', content: 'La nouvelle permission <b>' + response.data.name + '</b> a été créée avec succès.\nElle apparaîtra inactive sur l\'ensemble des partenaires.\nIl faudra l\'activer sur le partenaire pour qu\'elle soit disponible sur ses clubs.'})
-                navigate('/permissions');
+    
+            axiosCaller.askCsrf()
+            .then((response) => {
+                axiosCaller.callAxios('/api/permission/create', 'POST', response.data, formData)
+                .then(response => {
+                    stockAlertMessageInStore({type: 'success', content: 'La nouvelle permission <b>' + response.data.name + '</b> a été créée avec succès.\nElle apparaîtra inactive sur l\'ensemble des partenaires.\nIl faudra l\'activer sur le partenaire pour qu\'elle soit disponible sur ses clubs.'})
+                    navigate('/permissions');
+                })
+                .catch(error => {
+                    stockAlertMessageInStore({type: 'error', content: 'L\'ajout de la permission n\'a pu aboutir, veuillez corriger les erreurs.'})
+                    setErrors(error.response.data);
+                });
             })
-            .catch(error => {
-                stockAlertMessageInStore({type: 'error', content: 'L\'ajout de la permission n\'a pu aboutir, veuillez corriger les erreurs.'})
-                setErrors(error.response.data);
-            });
-        })
+        }
     }
 
     return (
