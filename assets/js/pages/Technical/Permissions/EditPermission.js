@@ -73,15 +73,15 @@ export default function AddPermission() {
 
     return (
         <>
+            <Helmet>
+                <title>Modification permission | Xtrem</title>
+                <meta name="description" content="Xtrem, modification des informations d'une permission globale." />
+            </Helmet>
             {
                 loader ? 
                     <Loader /> :
                 permission.name &&
                     <div className='editPermission'>
-                        <Helmet>
-                            <title>Modification permission | Xtrem</title>
-                            <meta name="description" content="Xtrem, modification des informations d'une permission globale." />
-                        </Helmet>
                         <div className='header'>
                             <h1>Edition de la permission {permission.id}</h1>
                         </div>

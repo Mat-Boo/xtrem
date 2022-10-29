@@ -44,15 +44,15 @@ export default function ViewPartner() {
 
     return (
         <>
+            <Helmet>
+                <title>Partenaire | Xtrem</title>
+                <meta name="description" content="Xtrem, visualisation des information d'un partenaire avec la possibilité de gérer ses permissions globales." />
+            </Helmet>
             {
                 loader ? 
                     <Loader /> :
                     partner.partnerPermissions &&
                         <div className='viewPartner'>
-                            <Helmet>
-                                <title>Partenaire | Xtrem</title>
-                                <meta name="description" content="Xtrem, visualisation des information d'un partenaire avec la possibilité de gérer ses permissions globales." />
-                            </Helmet>
                             <div className='header'>
                                 <Button 
                                     typeBtn='back'

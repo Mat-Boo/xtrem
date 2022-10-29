@@ -72,15 +72,15 @@ export default function EditAccount() {
 
     return (
         <>
+            <Helmet>
+                <title>Mon compte | Xtrem</title>
+                <meta name="description" content="Xtrem, modification des informations personnelles." />
+            </Helmet>
             {
                 loader ? 
                     <Loader /> :
                     user &&
                         <div className='editAccount'>
-                            <Helmet>
-                                <title>Mon compte | Xtrem</title>
-                                <meta name="description" content="Xtrem, modification des informations personnelles." />
-                            </Helmet>
                             <div className='header'>
                                 <h1>Modification de mes informations personnelles</h1>
                             </div>

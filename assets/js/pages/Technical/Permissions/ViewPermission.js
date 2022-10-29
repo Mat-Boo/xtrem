@@ -36,15 +36,15 @@ export default function ViewPermission() {
 
     return (
         <>
+            <Helmet>
+                <title>Permission | Xtrem</title>
+                <meta name="description" content="Xtrem, visualisation des informations d'une permission." />
+            </Helmet>
             {
                 loader ? 
                     <Loader /> :
                 permission.name &&
                     <div className='viewPermission'>
-                        <Helmet>
-                            <title>Permission | Xtrem</title>
-                            <meta name="description" content="Xtrem, visualisation des informations d'une permission." />
-                        </Helmet>
                         <div className='header'>
                             <h1>{permission.id} | {permission.name}</h1>
                         </div>

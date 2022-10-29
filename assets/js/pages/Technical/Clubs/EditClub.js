@@ -96,15 +96,15 @@ export default function EditClub() {
 
     return (
         <>
+            <Helmet>
+                <title>Partenaires | Xtrem</title>
+                <meta name="description" content="Xtrem, modification des informations liées à un club." />
+            </Helmet>
             {
                 loader ? 
                     <Loader /> :
                     club.manager &&
                         <div className='editClub'>
-                            <Helmet>
-                                <title>Partenaires | Xtrem</title>
-                                <meta name="description" content="Xtrem, modification des informations liées à un club." />
-                            </Helmet>
                             <div className='header'>
                                 <h1>Edition du club {club.id}</h1>
                             </div>

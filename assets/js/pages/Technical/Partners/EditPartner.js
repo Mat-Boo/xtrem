@@ -97,15 +97,15 @@ export default function EditPartner() {
 
     return (
         <>
+            <Helmet>
+                <title>Modification partenaires | Xtrem</title>
+                <meta name="description" content="Xtrem, modification des informations liées à un partenaire." />
+            </Helmet>
             {
                 loader ? 
                     <Loader /> :
                     partner.contact &&
                         <div className='editPartner'>
-                            <Helmet>
-                                <title>Modification partenaires | Xtrem</title>
-                                <meta name="description" content="Xtrem, modification des informations liées à un partenaire." />
-                            </Helmet>
                             <div className='header'>
                                 <h1>Edition du partenaire {partner.id}</h1>
                             </div>

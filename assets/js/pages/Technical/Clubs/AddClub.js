@@ -78,15 +78,15 @@ export default function AddClub() {
 
     return (
         <>
+            <Helmet>
+                <title>Ajout club | Xtrem</title>
+                <meta name="description" content="Xtrem, création d'un nouveau club avec affectation des permissions." />
+            </Helmet>
             {
                 loader ? 
                     <Loader /> :
                     partner.partnerPermissions &&
                         <div className='addClub'>
-                            <Helmet>
-                                <title>Ajout club | Xtrem</title>
-                                <meta name="description" content="Xtrem, création d'un nouveau club avec affectation des permissions." />
-                            </Helmet>
                             <div className='header'>
                                 <h1>Nouveau club</h1>
                             </div>

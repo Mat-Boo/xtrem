@@ -92,15 +92,15 @@ export default function MyClubs() {
 
     return (
         <>
+            <Helmet>
+                <title>Mes clubs | Xtrem</title>
+                <meta name="description" content="Xtrem, visualisation des clubs du partenaire avec leurs permissions." />
+            </Helmet>
             {
                 loader ? 
                     <Loader /> :
                     user.partner &&
                     <div className='myClubs'>
-                        <Helmet>
-                            <title>Mes clubs | Xtrem</title>
-                            <meta name="description" content="Xtrem, visualisation des clubs du partenaire avec leurs permissions." />
-                        </Helmet>
                         <div className='header'>
                             <h1>Mes clubs</h1>
                         </div>

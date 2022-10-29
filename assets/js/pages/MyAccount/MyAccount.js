@@ -33,15 +33,15 @@ export default function MyAccount() {
 
     return (
         <>
+            <Helmet>
+                <title>Mon compte | Xtrem</title>
+                <meta name="description" content="Xtrem, visualisation des informations personnelles." />
+            </Helmet>
             {
                 loader ? 
                     <Loader /> :
                     user &&
                         <div className='myAccount'>
-                            <Helmet>
-                                <title>Mon compte | Xtrem</title>
-                                <meta name="description" content="Xtrem, visualisation des informations personnelles." />
-                            </Helmet>
                             <div className='header'>
                                 <h1>Mes informations personnelles</h1>
                             </div>

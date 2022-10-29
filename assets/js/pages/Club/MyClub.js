@@ -36,16 +36,15 @@ export default function MyClub() {
 
     return (
         <>
+            <Helmet>
+                <title>Mon club | Xtrem</title>
+                <meta name="description" content="Xtrem, visualisation du club et ses permissions." />
+            </Helmet>
             {
                 loader ? 
                     <Loader /> :
                     user.club &&
                     <div className='myClub'>
-                        <Helmet>
-                            <title>Mon club | Xtrem</title>
-                            <meta name="description" content="Xtrem, visualisation du club et ses permissions." />
-                            <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
-                        </Helmet>
                         <div className='header'>
                             <h1>Mon club</h1>
                         </div>

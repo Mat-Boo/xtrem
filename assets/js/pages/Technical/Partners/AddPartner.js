@@ -76,15 +76,15 @@ export default function AddPartner() {
 
     return (
         <>
+            <Helmet>
+                <title>Ajout partenaires | Xtrem</title>
+                <meta name="description" content="Xtrem, création d'un partenaire avec affectations des permissions globales." />
+            </Helmet>
             {
                 loader ? 
                     <Loader /> :
                     permissions[0] &&
                         <div className='addPartner'>
-                            <Helmet>
-                                <title>Ajout partenaires | Xtrem</title>
-                                <meta name="description" content="Xtrem, création d'un partenaire avec affectations des permissions globales." />
-                            </Helmet>
                             <div className='header'>
                                 <h1>Nouveau partenaire</h1>
                             </div>

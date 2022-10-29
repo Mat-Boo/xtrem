@@ -89,15 +89,15 @@ export default function ManageClubs() {
 
     return (
         <>
+            <Helmet>
+                <title>Gestion des clubs | Xtrem</title>
+                <meta name="description" content="Xtrem, gestion des clubs avec possibilité d'activer et de désactiver un club, modifier les informations d'un club, réinitialiser l'accès d'un manager, supprimer un club et gérer les permissions d'un club." />
+            </Helmet>
             {
                 loader ? 
                     <Loader /> :
                     partner.clubs &&
                     <div className='manageClubs'>
-                        <Helmet>
-                            <title>Gestion des clubs | Xtrem</title>
-                            <meta name="description" content="Xtrem, gestion des clubs avec possibilité d'activer et de désactiver un club, modifier les informations d'un club, réinitialiser l'accès d'un manager, supprimer un club et gérer les permissions d'un club." />
-                        </Helmet>
                         <div className='header'>
                             <Button 
                                 typeBtn='back'

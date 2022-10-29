@@ -38,12 +38,12 @@ export default function ForgottenPassword() {
 
     return (
         <>
+            <Helmet>
+                <title>Mot de passe oublié | Xtrem</title>
+                <meta name="description" content="Xtrem, page de récupération de mot de passe avec l'email." />
+            </Helmet>
             {
                 <div className='forgottenPassword'>
-                    <Helmet>
-                        <title>Mot de passe oublié | Xtrem</title>
-                        <meta name="description" content="Xtrem, page de récupération de mot de passe avec l'email." />
-                    </Helmet>
                     <div className='header'>
                         <h1>Mot de passe oublié</h1>
                     </div>
