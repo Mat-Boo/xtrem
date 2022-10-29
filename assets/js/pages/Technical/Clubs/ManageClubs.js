@@ -48,6 +48,8 @@ export default function ManageClubs() {
         dispatchAxiosAnswer(updateAxiosAnswer(data))
     }
     
+    const alertMessage = useSelector((state) => state.alertMessage);
+    
     useEffect(() => {
         stockLoaderInStore(true);
         axiosCaller.askCsrf()
@@ -82,7 +84,7 @@ export default function ManageClubs() {
         return () => {
             stockFilterInStore({search: '', state: 'all'});
         }
-    }, [axiosAnswer])
+    }, [alertMessage])
 
 
     return (

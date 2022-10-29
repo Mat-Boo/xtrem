@@ -34,6 +34,7 @@ import MyClub from './pages/Club/MyClub';
 import E404 from './pages/E404';
 import CreatePwd from './pages/CreatePwd';
 import ForgottenPassword from './pages/ForgottenPassword';
+import Policy from './pages/Policy';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <>
@@ -73,6 +74,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                             <Route path="/mon-club/" element={<MyClub />} />
                         </Route>
                     </Route>
+                    <Route path="/mentions-legales" element={<Policy />} />
                     <Route path="*" element={<E404 />} />
                 </Routes>
                 <Footer />

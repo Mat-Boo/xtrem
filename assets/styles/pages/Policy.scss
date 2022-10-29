@@ -1,0 +1,27 @@
+.policy {
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 95%;
+    max-width: 1720px;
+    margin: 0 auto;
+    animation: fadein linear 500ms;
+    #policyContent {
+
+        h2 {
+            font-size: 28px;
+        }
+        h3 {
+            font-size: 26px;
+        }
+        a {
+            color: $mainBlue;
+            font-weight: 700;
+            &:hover {
+                color: none;
+                opacity: 0.4;
+            }
+        }
+    }
+}

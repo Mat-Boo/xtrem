@@ -43,7 +43,7 @@ Dans le dossier Annexes de ce dépot se trouvent :
 
 - Pour une meilleure expérience utilisateur, je voulais impérativement mettre en place une SPA, je me suis donc tourné vers la librairie REACT pour la partie frontend avec les styles gérés avec le pré-processeur SASS.
 
-- Pour la sécurité, les mots de passe sont cryptés, les requêtes effectuées via doctrine sont préparées et les formulaires sont contrôlés à la validation.  
+- Pour la sécurité, les mots de passe sont cryptés, les requêtes effectuées via doctrine sont préparées et les formulaires sont contrôlés à la validation avec untoken CSRF.  
 De plus, j'utilise un token JWT pour l'authentification mis en place avec le package Lexik qui nécessite qu'OpenSSL soit présent sur votre machine. Installation possible avec la commande : `choco install openssl`
 
 ---
@@ -63,7 +63,6 @@ De plus, j'utilise un token JWT pour l'authentification mis en place avec le pac
 <br/>
 
 ### Variables d'environnement:
-- Dans le fichier .env, à la racine du projet, modifiez la variable APP_ENV avec la valeur : dev
 - Créez un fichier .env.local à la racine de votre projet et y ajouter les variables d'environnement suivantes :
   - APP_ENV=dev
   - Configurez la DATABASE_URL avec vos informations de base de données: Exemple avec mySql : `DATABASE_URL="mysql://identiant:mot-de-passe@url:port/database`

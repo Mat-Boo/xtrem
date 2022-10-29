@@ -44,6 +44,8 @@ export default function Partners() {
     const lastItemIndex = currentPage * paginationParams.partnersPerPage;
     const firstItemIndex = lastItemIndex - paginationParams.partnersPerPage;
 
+    const alertMessage = useSelector((state) => state.alertMessage);
+
     useEffect(() => {
         stockLoaderInStore(true);
         axiosCaller.askCsrf()
@@ -66,12 +68,11 @@ export default function Partners() {
             stockAxiosAnswerInStore('');
         })
         
-
         return () => {
             stockFilterInStore({search: '', state: 'all'});
         }
 
-    }, [axiosAnswer])    
+    }, [alertMessage])    
   
     return (
         <div className='partners'>
