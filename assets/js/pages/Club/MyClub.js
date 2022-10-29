@@ -39,6 +39,7 @@ export default function MyClub() {
             <Helmet>
                 <title>Mon club | Xtrem</title>
                 <meta name="description" content="Xtrem, visualisation du club et ses permissions." />
+                <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
             </Helmet>
             {
                 loader ? 
