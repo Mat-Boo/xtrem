@@ -40,7 +40,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
-        - { path: ^/api/user/creer-mot-de-passe, roles: PUBLIC_ACCESS }
+        - { path: ^/api/user/create-password, roles: PUBLIC_ACCESS }
         - { path: ^/api/user/forgotten-password, roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
         # - { path: ^/admin, roles: ROLE_ADMIN }

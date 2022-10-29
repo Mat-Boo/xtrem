@@ -30,7 +30,7 @@ export default function CreatePwd() {
                 password = item.value;
             }
         }
-        axiosCaller.callAxiosDisconnect('/api/user/creer-mot-de-passe/' + uuid, 'POST', formData)
+        axiosCaller.callAxiosDisconnect('/api/user/create-password/' + uuid, 'POST', formData)
         .then(response => {
             stockAlertMessageInStore({ type: 'success', content: 'Votre nouveau mot de passe a été créé avec succès.\nVous pouvez vous connecter' });
             navigate('/');

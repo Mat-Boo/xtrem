@@ -15,7 +15,7 @@ class UserController extends AbstractController
     public function getUserPartner(SerializerSerializerInterface $serializer, Request $request, Session $session): Response
     {
         if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
-            /** @var $user User */
+            
             $user = $this->getUser();
     
             //Création de la réponse pour renvoyer le json contenant le partenaire associé à l'utilisateur connecté
@@ -32,7 +32,7 @@ class UserController extends AbstractController
     public function getUserClub(SerializerSerializerInterface $serializer, Request $request, Session $session): Response
     {
         if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
-            /** @var $user User */
+            
             $user = $this->getUser();
     
             //Création de la réponse pour renvoyer le json contenant le club associé à l'utilisateur connecté

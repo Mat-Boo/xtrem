@@ -136,7 +136,7 @@ class AccountController extends AbstractController
         }
     }
 
-    #[Route(path: '/api/user/creer-mot-de-passe/{uuid}', name: 'api_user_create_password', methods: ['POST'])]
+    #[Route(path: '/api/user/create-password/{uuid}', name: 'api_user_create_password', methods: ['POST'])]
     public function createPassword(Request $request, SerializerInterface $serializer, UserPasswordHasherInterface $hasher, $uuid): Response
     {
         //Récupération des données issues du formulaire de modification de mot de passe

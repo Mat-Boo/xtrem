@@ -29,7 +29,7 @@ export default function MyAccount() {
                 stockLoaderInStore(false);
             })
         })
-    }, [alertMessage])
+    }, [])
 
     return (
         <>
