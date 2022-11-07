@@ -82,7 +82,7 @@ export default function Permissions() {
                         permissions.length === 0 ?
                             <p className='messageNoPermission'>Il n'existe aucune permission.</p> :
                             <div className='filterAndPermissions'>
-                                <Filters displayStates={false} />
+                                <Filters displayStates={false}  setCurrentPage={setCurrentPage}/>
                                 <div className='permissionsListAndPagination'>
                                     {
                                         permissions
