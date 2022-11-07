@@ -38,7 +38,7 @@ export default function Policy() {
                     <strong>Responsable publication</strong> : Bouthors – mathieubouthors@hotmail.com<br/>
                     Le responsable publication est une personne physique ou une personne morale.<br/>
                     <strong>Webmaster</strong> : Bouthors – mathieubouthors@hotmail.com<br/>
-                    <strong>Hébergeur</strong> : FLY.IO – Rue d'ici 75000 PAris 012345678<br/>
+                    <strong>Hébergeur</strong> : FLY.IO – Rue d'ici 75000 Paris 012345678<br/>
                     <strong>Délégué à la protection des données</strong> : Bouthors – mathieubouthors@hotmail.com<br/>
                     </p>
 
