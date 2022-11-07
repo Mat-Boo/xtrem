@@ -167,7 +167,7 @@ export default function MyClubs() {
                                 </div>
                             </div>
                         </div>
-                        <Filters all={lengthes.all} actives={lengthes.actives} inactives={lengthes.inactives} displayStates={true} />
+                        <Filters all={lengthes.all} actives={lengthes.actives} inactives={lengthes.inactives} displayStates={true} setCurrentPage={setCurrentPage} />
                         {
                             user.partner.clubs.length === 0 ?
                                 <p className='messageNoClub'>Aucun club ne vous est assigné ou il sont en cours de création.</p> :

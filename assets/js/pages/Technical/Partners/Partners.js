@@ -99,8 +99,8 @@ export default function Partners() {
                         partners.length === 0 ?
                         <p className='messageNoPartner'>Il n'existe aucun partenaire.</p> :
                         <div className='filterAndPartners'>
-                            <Filters type='partner' all={lengthes.all} actives={lengthes.actives} inactives={lengthes.inactives} displayStates={true} />
-                            <div className='partnersListAndPagination'>
+                            <Filters type='partner' all={lengthes.all} actives={lengthes.actives} inactives={lengthes.inactives} displayStates={true} setCurrentPage={setCurrentPage}/>
+                            <div id={filter} className='partnersListAndPagination'>
                                 {
                                     partners
                                     .filter((partner) => (

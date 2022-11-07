@@ -142,7 +142,7 @@ export default function ManageClubs() {
                             </div>
                         </div>
                         <div className='filtersAndClubs' key={partner.isActive}>
-                            <Filters key={partner.clubs.length} type='club' all={lengthes.all} actives={lengthes.actives} inactives={lengthes.inactives} displayStates={true} />
+                            <Filters key={partner.clubs.length} type='club' all={lengthes.all} actives={lengthes.actives} inactives={lengthes.inactives} displayStates={true} setCurrentPage={setCurrentPage}/>
                             {
                                 !partner.isActive &&
                                     <p className='messageActivatePartner'>Le partenaire doit être activé pour pouvoir gérer ses clubs.</p>
