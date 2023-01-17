@@ -58,7 +58,9 @@ export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub,
                                 typeToggle: typeToggle,
                                 action: 'changeState',
                                 title: 'Désactivation de la permission <b>' + nameToggle + '</b>',
-                                message: 'Voulez-vous vraiment désactiver la permission <b>' + nameToggle + '</b> pour le partenaire <b>' + namePartner + '</b> ?\nSes clubs n\'auront plus accès à cette permission.'
+                                message: 'Voulez-vous vraiment désactiver la permission <b>' + nameToggle + 
+                                    '</b> pour le partenaire <b>' + namePartner + 
+                                    '</b> ?\nSes clubs n\'auront plus accès à cette permission.'
                             })
                         } else {
                             stockModalInfosInStore({
@@ -69,7 +71,9 @@ export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub,
                                 typeToggle: typeToggle,
                                 action: 'changeState',
                                 title: 'Activation de la permission <b>' + nameToggle + '</b>',
-                                message: 'Voulez-vous vraiment activer la permission <b>' + nameToggle + '</b> pour le partenaire <b>' + namePartner + '</b> ?\nIl vous sera possible d\'activer cette permission pour les clubs de ce partenaire.'
+                                message: 'Voulez-vous vraiment activer la permission <b>' + nameToggle + 
+                                '</b> pour le partenaire <b>' + namePartner + 
+                                '</b> ?\nIl vous sera possible d\'activer cette permission pour les clubs de ce partenaire.'
                             })
                         }
                     }
@@ -184,20 +188,29 @@ export default function ToggleSwitch({ idPartner, namePartner, idClub, nameClub,
                 if (answerModal.idPartner !== undefined && answerModal.idClub === undefined) {
                     axiosCaller.askCsrf()
                     .then((response) => {
-                        axiosCaller.callAxios('/api/partner-permission/' + answerModal.idPartner + '/' + answerModal.idToggle + '/edit', 'POST', response.data, formData)
+                        axiosCaller.callAxios('/api/partner-permission/' + answerModal.idPartner + '/' 
+                        + answerModal.idToggle + '/edit', 'POST', response.data, formData)
                         .then((response) => {
                             setStateSwitch(!stateSwitch);
                             if (!stateSwitch) {
-                                stockAlertMessageInStore({type: 'success', content: 'La permission <b>' + answerModal.nameToggle + '</b> a bien été <b>activée</b> pour le partenaire <b>'  + response.data[0].Partner.name + '</b>.'})
+                                stockAlertMessageInStore({type: 'success', content: 'La permission <b>' 
+                                + answerModal.nameToggle + 
+                                '</b> a bien été <b>activée</b> pour le partenaire <b>'  + 
+                                response.data[0].Partner.name + '</b>.'})
                             } else {
-                                stockAlertMessageInStore({type: 'success', content: 'La permission <b>' + answerModal.nameToggle + '</b> a bien été <b>désactivée</b> pour le partenaire <b>'  + response.data[0].Partner.name + '</b> et retirée pour ses clubs.'})
+                                stockAlertMessageInStore({type: 'success', content: 'La permission <b>' + 
+                                answerModal.nameToggle + 
+                                '</b> a bien été <b>désactivée</b> pour le partenaire <b>'  + 
+                                response.data[0].Partner.name + '</b> et retirée pour ses clubs.'})
                             }
                         })
                         .catch((error) => {
                             if (!stateSwitch) {
-                                stockAlertMessageInStore({type: 'error', content: 'La permission <b>' + answerModal.nameToggle + '</b> n\'a pu être <b>activée</b>.'})
+                                stockAlertMessageInStore({type: 'error', content: 'La permission <b>' + 
+                                answerModal.nameToggle + '</b> n\'a pu être <b>activée</b>.'})
                             } else {
-                                stockAlertMessageInStore({type: 'error', content: 'La permission <b>' + answerModal.nameToggle + '</b> n\'a pu être <b>désactivée</b>.'})
+                                stockAlertMessageInStore({type: 'error', content: 'La permission <b>' + 
+                                answerModal.nameToggle + '</b> n\'a pu être <b>désactivée</b>.'})
                             }
                         });
                     })

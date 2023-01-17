@@ -78,7 +78,8 @@ export default function Partners() {
         <>
             <Helmet>
                 <title>Partenaires | Xtrem</title>
-                <meta name="description" content="Xtrem, gestion des partenaires avec possibilité d'activer et de désactiver un partenaire, visualisé un partenaire et gérer ses clubs." />
+                <meta name="description" content="Xtrem, gestion des partenaires avec possibilité 
+                d'activer et de désactiver un partenaire, visualiser un partenaire et gérer ses clubs." />
             </Helmet>
             <div className='partners'>
                 <div className='header'>

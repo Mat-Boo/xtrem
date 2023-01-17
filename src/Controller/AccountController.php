@@ -26,7 +26,7 @@ class AccountController extends AbstractController
     #[Route(path: '/api/user', name: 'api_user', methods: ['GET'])]
     public function getConnectedUser(SerializerInterface $serializer, Request $request, Session $session): Response
     {
-        if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
+        if ($request->headers->get('x-csrf-token') && $request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
             $user = $this->getUser();
     
             //Création de la réponse pour renvoyer le json contenant les infos de l'utilisateur connecté
@@ -41,8 +41,8 @@ class AccountController extends AbstractController
     #[Route(path: '/api/user/edit', name: 'api_user_edit', methods: ['POST'])]
     public function editConnectedUser(Request $request, SerializerInterface $serializer, Session $session): Response
     {
-        if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
-            //Récupération des données issues du formulaire de création d'une permission
+        if ($request->headers->get('x-csrf-token') && $request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
+            //Récupération des données issues du formulaire de modification d'un utilisateur
             $content = [];
             $content['firstname'] = $request->get('firstname');
             $content['lastname'] = $request->get('lastname');
@@ -94,7 +94,7 @@ class AccountController extends AbstractController
     #[Route(path: '/api/user/modify-password', name: 'api_user_modify_password', methods: ['POST'])]
     public function modifyPassword(Request $request, SerializerInterface $serializer, UserPasswordHasherInterface $hasher, Session $session): Response
     {
-        if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
+        if ($request->headers->get('x-csrf-token') && $request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
             //Récupération des données issues du formulaire de modification de mot de passe
             $content = [];
             $content['actualPassword'] = $request->get('actualPassword');
@@ -175,10 +175,11 @@ class AccountController extends AbstractController
     #[Route(path: '/api/user/{id}/reset', name: 'api_user_reset', methods: ['POST'])]
     public function resetAccess(SerializerInterface $serializer, $id, Request $request, Session $session): Response
     {
-        if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
+        if ($request->headers->get('x-csrf-token') && $request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
             //Recherche de l'utilisateur concerné
             $user = $this->entityManager->getRepository(User::class)->findOneById($id);
         
+            //Mise à blanc du mot de passe
             $user->setHasCreatedPwd(0);
             $user->setPassword('');
             $this->entityManager->flush();

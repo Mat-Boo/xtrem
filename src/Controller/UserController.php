@@ -14,7 +14,7 @@ class UserController extends AbstractController
     #[Route('/api/user-partner/', name: 'user_partner', methods: ['GET'])]
     public function getUserPartner(SerializerInterface $serializer, Request $request, Session $session): Response
     {
-        if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
+        if ($request->headers->get('x-csrf-token') && $request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
             
             $user = $this->getUser();
     
@@ -31,7 +31,7 @@ class UserController extends AbstractController
     #[Route('/api/user-club/', name: 'user_club', methods: ['GET'])]
     public function getUserClub(SerializerInterface $serializer, Request $request, Session $session): Response
     {
-        if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
+        if ($request->headers->get('x-csrf-token') && $request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
             
             $user = $this->getUser();
     

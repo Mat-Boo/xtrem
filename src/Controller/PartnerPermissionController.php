@@ -26,7 +26,7 @@ class PartnerPermissionController extends AbstractController
     #[Route('/api/partner-permission/{idPartner}/{idPermission}', name: 'partner-permission', methods: ['GET'])]
     public function getPartnerPermission(SerializerInterface $serializer, $idPartner, $idPermission, Request $request, Session $session): Response
     {
-        if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
+        if ($request->headers->get('x-csrf-token') && $request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
             //Recherche d'une relation partenaire-permissions en fonction de l'id du partenaire et de l'id de la permission
             $partnerPermission = $this->entityManager->getRepository(PartnerPermission::class)->findOneByIdPartnerAndIdPermission($idPartner, $idPermission);
     
@@ -43,7 +43,7 @@ class PartnerPermissionController extends AbstractController
     #[Route('/api/partner-permission/{idPartner}/{idPermission}/edit', name: 'partner-permission_edit', methods: ['POST'])]
     public function editPartnerPermission(Request $request, SerializerInterface $serializer, $idPartner, $idPermission, Session $session): Response
     {
-        if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
+        if ($request->headers->get('x-csrf-token') && $request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
             //Récupération des données issues du formulaire de modification d'un partenaire
             $content['isActive'] = $request->get('isActive');
     

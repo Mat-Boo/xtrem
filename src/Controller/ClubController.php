@@ -31,7 +31,7 @@ class ClubController extends AbstractController
     #[Route('/api/club/{id}', name: 'club', methods: ['GET'])]
     public function getClub(SerializerInterface $serializer, $id, Request $request, Session $session): Response
     {
-        if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
+        if ($request->headers->get('x-csrf-token') && $request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
             //Recherche d'un partenaire en fonction de l'id
             $club = $this->entityManager->getRepository(Club::class)->findOneById($id);
     
@@ -48,7 +48,7 @@ class ClubController extends AbstractController
     #[Route('/api/partner/{id}/club/create', name: 'partner_club_create', methods: ['POST'])]
     public function createClub(Request $request, SerializerInterface $serializer, SluggerInterface $slugger, $id, Session $session): Response
     {
-        if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
+        if ($request->headers->get('x-csrf-token') && $request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
             //Récupération des données issues du formulaire de création d'un club
             $content = [];
             $content['name'] = $request->get('name');
@@ -164,7 +164,7 @@ class ClubController extends AbstractController
     #[Route('/api/club/{idClub}/edit', name: 'partner_club_edit', methods: ['POST'])]
     public function editClub(Request $request, SerializerInterface $serializer, SluggerInterface $slugger, $idClub, Session $session): Response
     {
-        if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
+        if ($request->headers->get('x-csrf-token') && $request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
             //Récupération des données issues du formulaire de modification d'un club
             $content = [];
             $content['name'] = $request->get('name');
@@ -282,7 +282,7 @@ class ClubController extends AbstractController
     #[Route('/api/club/{idClub}/delete', name: 'partner_club_delete', methods: ['DELETE'])]
     public function deleteClub(SerializerInterface $serializer, $idClub, Request $request, Session $session): Response
     {
-        if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
+        if ($request->headers->get('x-csrf-token') && $request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
             //Recherche du club concerné par la suppression en fonction de l'id
             $club = $this->entityManager->getRepository(Club::class)->findOneById($idClub);
     

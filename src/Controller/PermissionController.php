@@ -28,7 +28,7 @@ class PermissionController extends AbstractController
     #[Route('/api/permissions', name: 'permissions', methods: ['GET'])]
     public function getPermissions(SerializerInterface $serializer, Request $request, Session $session): Response
     {
-        if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
+        if ($request->headers->get('x-csrf-token') && $request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
             //Récupération de toutes les permissions en base de données
             $permissions = $this->entityManager->getRepository(Permission::class)->findAll();
 
@@ -45,7 +45,7 @@ class PermissionController extends AbstractController
     #[Route('/api/permission/{id}', name: 'permission', methods: ['GET'])]
     public function getPermission(SerializerInterface $serializer, $id, Request $request, Session $session): Response
     {
-        if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
+        if ($request->headers->get('x-csrf-token') && $request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
             //Recherche d'une permission en fonction de l'id
             $permission = $this->entityManager->getRepository(Permission::class)->findOneById($id);
     
@@ -62,7 +62,7 @@ class PermissionController extends AbstractController
     #[Route('/api/permission/create', name: 'permission_create', methods: ['POST'])]
     public function createPermission(Request $request, SerializerInterface $serializer, Session $session): Response
     {
-        if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
+        if ($request->headers->get('x-csrf-token') && $request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
             //Récupération des données issues du formulaire de création d'une permission
             $content = [];
             $content['name'] = $request->get('name');
@@ -121,7 +121,7 @@ class PermissionController extends AbstractController
     #[Route('/api/permission/{id}/edit', name: 'permission_edit', methods: ['POST'])]
     public function editPermission(Request $request, SerializerInterface $serializer, $id, Session $session): Response
     {
-        if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
+        if ($request->headers->get('x-csrf-token') && $request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
             //Récupération des données issues du formulaire de création d'une permission
             $content = [];
             $content['name'] = $request->get('name');
@@ -160,7 +160,7 @@ class PermissionController extends AbstractController
     #[Route('/api/permission/{id}/delete', name: 'permission_delete', methods: ['DELETE'])]
     public function deletePermission(SerializerInterface $serializer, $id, Request $request, Session $session): Response
     {
-        if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
+        if ($request->headers->get('x-csrf-token') && $request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
             //Recherche de la permission concernée par la suppression en fonction de l'id
             $permission = $this->entityManager->getRepository(Permission::class)->findOneById($id);
     

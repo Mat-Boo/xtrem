@@ -30,7 +30,8 @@ class PartnerController extends AbstractController
     #[Route('/api/partners', name: 'partners', methods: ['GET'])]
     public function getPartners(SerializerInterface $serializer, Request $request, Session $session): Response
     {           
-        if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
+        if ($request->headers->get('x-csrf-token') && $request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
+
             //Récupération de tous les partenaires en base de données
             $partners = $this->entityManager->getRepository(Partner::class)->findAll();
             
@@ -47,7 +48,7 @@ class PartnerController extends AbstractController
     #[Route('/api/partner/{id}', name: 'partner', methods: ['GET'])]
     public function getPartner(SerializerInterface $serializer, $id, Request $request, Session $session): Response
     {
-        if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
+        if ($request->headers->get('x-csrf-token') && $request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
             //Recherche d'un partenaire en fonction de l'id
             $partner = $this->entityManager->getRepository(Partner::class)->findOneById($id);
     
@@ -64,7 +65,7 @@ class PartnerController extends AbstractController
     #[Route('/api/partner/create', name: 'partner_create', methods: ['POST'])]
     public function createPartner(Request $request, SerializerInterface $serializer, SluggerInterface $slugger, Session $session): Response
     {
-        if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
+        if ($request->headers->get('x-csrf-token') && $request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
             //Récupération des données issues du formulaire de création d'un partenaire
             $content = [];
             $content['name'] = $request->get('name');
@@ -163,7 +164,7 @@ class PartnerController extends AbstractController
     #[Route('/api/partner/{id}/edit', name: 'partner_edit', methods: ['POST'])]
     public function editPartner(Request $request, $id, SerializerInterface $serializer, SluggerInterface $slugger, Session $session)
     {
-        if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
+        if ($request->headers->get('x-csrf-token') && $request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
             //Récupération des données issues du formulaire de modification d'un partenaire
             $content = [];
             $content['name'] = $request->get('name');
@@ -181,6 +182,8 @@ class PartnerController extends AbstractController
             $content['phone'] = $request->get('phone');
             $content['email'] = $request->get('email');
             $content['isActive'] = $request->get('isActive');
+
+            
             
             //Recherche du partenaire concerné par la modification en fonction de l'id
             $partner = $this->entityManager->getRepository(Partner::class)->findOneById($id);
@@ -273,7 +276,7 @@ class PartnerController extends AbstractController
     #[Route('/api/partner/{id}/delete', name: 'partner_delete', methods: ['DELETE'])]
     public function deletePartner(SerializerInterface $serializer, $id, Request $request, Session $session): Response
     {
-        if ($request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
+        if ($request->headers->get('x-csrf-token') && $request->headers->get('x-csrf-token') === $session->get('csrf_token')) {
             //Recherche du partenaire concerné par la suppression en fonction de l'id
             $partner = $this->entityManager->getRepository(Partner::class)->findOneById($id);
     

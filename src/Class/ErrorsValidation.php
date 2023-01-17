@@ -69,7 +69,8 @@ class ErrorsValidation
                     if ($valueItem === '') {
                         $errors['password'] = 'Le mot de passe est obligatoire';
                     } else if (!preg_match('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{0,999})$/', $valueItem)) {
-                        $errors['password'] = 'Le mot de passe doit contenir au moins 1 chiffre, 1 lettre minuscule, 1 lettre majuscule, 1 caractère spécial et ne doit contenir aucun espace';
+                        $errors['password'] = 'Le mot de passe doit contenir au moins 1 chiffre, 1 lettre minuscule, 
+                        1 lettre majuscule, 1 caractère spécial et ne doit contenir aucun espace';
                     } else if (strlen($valueItem) < 8) {
                         $errors['password'] = 'Le mot de passe doit comporter au minimum 8 caractères';
                     } else if (strlen($valueItem) > 20) {

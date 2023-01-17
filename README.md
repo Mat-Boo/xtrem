@@ -135,7 +135,7 @@ Le déploiement a été effectué sur Heroku et récupéré sur Fly.io car Herok
 
 - Liez votre dépôt GitHub (créé au préalable)
 
-- Ajouter la dépendance suivante afin de créer automatiqument les fichiers necessaires au déploiement d'un projet symfony sur Heroku : `composer remove nat/deploy`
+- Ajouter la dépendance suivante afin de créer automatiqument les fichiers necessaires au déploiement d'un projet symfony sur Heroku : `composer install nat/deploy`
 
 - Executez la commande : `php bin/console nat:heroku`
 

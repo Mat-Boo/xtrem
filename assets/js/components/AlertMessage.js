@@ -7,6 +7,7 @@ import { helpers } from '../_services/helpers';
 export default function AlertMessage() {
 
     const alertMessage = useSelector((state) => state.alertMessage);
+    
     const dispatchAlertMessage = useDispatch();
     const stockAlertMessageInStore = (data) => {
         dispatchAlertMessage(updateAlertMessage(data))
