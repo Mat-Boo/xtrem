@@ -40,7 +40,7 @@ class Mail {
         if ($_ENV['APP_ENV'] === 'dev') {
             $url = 'http://127.0.0.1:8000';
         } else {
-            $url = 'https://xtrem.studi.auxseen.com';
+            $url = 'https://xtrem-studi.fly.dev';
         }
 
         return $url;
